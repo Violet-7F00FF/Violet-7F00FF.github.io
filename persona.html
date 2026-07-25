@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>페르소나 · 해바라기의 방</title>
+<meta name="description" content="AI챗에서 사용하는 페르소나 설정과 프롬프트 모음.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="menubar">
+  <a class="menubar__home" href="index.html">✿ 해바라기의 방</a>
+  <ul class="menubar__links">
+    <li><a href="index.html">홈</a></li>
+    <li><a href="persona.html" aria-current="page">페르소나</a></li>
+    <li><a href="prompts.html">프롬프트</a></li>
+    <li><a href="widgets.html">위젯</a></li>
+    <li><a href="guestbook.html">방명록</a></li>
+  </ul>
+</nav>
+
+<main class="shell">
+
+  <header class="pagehead">
+    <p class="pagehead__eyebrow">persona</p>
+    <h1 class="pagehead__title">페르소나 설정</h1>
+    <p class="pagehead__lede">
+      제가 쓰는 페르소나와 그때 넣는 프롬프트를 같이 적어둡니다.
+      그대로 써도 되고, 이름만 바꿔서 써도 됩니다.
+    </p>
+  </header>
+
+  <section class="win">
+    <div class="win__bar">
+      <span class="win__dots"><i></i><i></i><i></i></span>
+      <span class="win__name">persona_01</span>
+    </div>
+    <div class="win__body">
+      <h2 class="sec">기본 페르소나</h2>
+
+      <dl class="traits">
+        <div class="traits__row">
+          <dt>이름</dt>
+          <dd>이름을 적어주세요</dd>
+        </div>
+        <div class="traits__row">
+          <dt>나이 / 성별</dt>
+          <dd>여기에 적어주세요</dd>
+        </div>
+        <div class="traits__row">
+          <dt>관계 설정</dt>
+          <dd>캐릭터와의 관계를 적어주세요</dd>
+        </div>
+        <div class="traits__row">
+          <dt>말투</dt>
+          <dd>
+            <ul class="tags">
+              <li class="tag">차분함</li>
+              <li class="tag">존댓말</li>
+              <li class="tag">감정 표현 적음</li>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+
+      <h3 class="sub">프롬프트</h3>
+      <div class="prompt">
+        <div class="prompt__head">
+          <p class="prompt__title">페르소나 입력용</p>
+          <button class="btn" type="button" data-copy="p-persona-01" data-label="복사">복사</button>
+        </div>
+        <pre id="p-persona-01">이름: (이름)
+나이: (나이) / 성별: (성별)
+외형: (키, 체형, 머리색, 눈색, 인상적인 특징)
+성격: (핵심 성격 3~4개. 모순되는 면도 하나쯤 넣으면 좋습니다)
+말투: (존댓말/반말, 문장 길이, 자주 쓰는 표현)
+관계: (캐릭터와 어떤 관계인지, 어디까지 알고 있는지)
+현재 상황: (첫 장면에서 어디에 있고 무엇을 하는 중인지)
+
+주의사항:
+- 이 페르소나의 대사와 행동은 유저가 직접 씁니다. 대신 작성하지 마세요.
+- 페르소나가 모르는 정보를 아는 것처럼 서술하지 마세요.</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="win win--sky">
+    <div class="win__bar">
+      <span class="win__dots"><i></i><i></i><i></i></span>
+      <span class="win__name">persona_02</span>
+    </div>
+    <div class="win__body">
+      <h2 class="sec">두 번째 페르소나</h2>
+      <p class="card__desc">
+        분위기가 다른 챗을 돌릴 때 쓰는 버전입니다. 위 틀을 그대로 쓰되
+        말투와 관계 설정만 바꿨습니다.
+      </p>
+
+      <details>
+        <summary>설정 펼쳐보기</summary>
+        <p>여기에 두 번째 페르소나의 설정을 적어주세요.</p>
+      </details>
+
+      <div class="prompt">
+        <div class="prompt__head">
+          <p class="prompt__title">페르소나 입력용</p>
+          <button class="btn" type="button" data-copy="p-persona-02" data-label="복사">복사</button>
+        </div>
+        <pre id="p-persona-02">여기에 프롬프트를 붙여넣어 주세요.</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="win win--leaf">
+    <div class="win__bar">
+      <span class="win__dots"><i></i><i></i><i></i></span>
+      <span class="win__name">tips.md</span>
+    </div>
+    <div class="win__body">
+      <h2 class="sec">페르소나 쓸 때 챙기는 것</h2>
+      <details>
+        <summary>외형보다 관계를 먼저 정합니다</summary>
+        <p>
+          외형 묘사가 길어도 캐릭터 반응은 크게 안 바뀝니다. 대신 "언제부터
+          알던 사이인지", "서로 뭘 숨기고 있는지"를 한 줄 넣으면 첫 응답부터
+          결이 달라집니다.
+        </p>
+      </details>
+      <details>
+        <summary>모순 하나를 일부러 넣습니다</summary>
+        <p>
+          겉으론 무심한데 남 챙기는 건 잘한다든가. 이런 틈이 있으면 캐릭터가
+          페르소나를 대할 때 해석의 여지가 생깁니다.
+        </p>
+      </details>
+      <details>
+        <summary>금지사항은 짧고 분명하게</summary>
+        <p>
+          길게 나열하면 오히려 잘 안 지켜집니다. 정말 중요한 두세 개만
+          명령문으로 적습니다.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <p class="foot">© 해바라기의 방 · built with github pages</p>
+
+</main>
+<script src="copy.js"></script>
+</body>
+</html>

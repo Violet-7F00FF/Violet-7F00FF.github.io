@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>해바라기의 방</title>
+<meta name="description" content="AI챗 취향, 페르소나 프롬프트, 위젯을 모아두는 방입니다.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="menubar">
+  <a class="menubar__home" href="index.html">✿ 해바라기의 방</a>
+  <ul class="menubar__links">
+    <li><a href="index.html" aria-current="page">홈</a></li>
+    <li><a href="persona.html">페르소나</a></li>
+    <li><a href="prompts.html">프롬프트</a></li>
+    <li><a href="widgets.html">위젯</a></li>
+    <li><a href="guestbook.html">방명록</a></li>
+  </ul>
+</nav>
+
+<main class="shell">
+
+  <header class="pagehead">
+    <p class="pagehead__eyebrow">welcome to my room</p>
+    <h1 class="pagehead__title">취향이 맞는 사람만<br>오래 머무는 방</h1>
+    <p class="pagehead__lede">
+      AI챗으로 노는 기록을 모아둡니다. 페르소나 프롬프트, 출력 정리,
+      직접 만든 위젯까지 — 마음에 드는 건 그냥 가져가세요.
+    </p>
+  </header>
+
+  <!-- 시그니처: 성향 카드 -->
+  <section class="win">
+    <div class="win__bar">
+      <span class="win__dots"><i></i><i></i><i></i></span>
+      <span class="win__name">taste_profile.txt</span>
+    </div>
+    <div class="win__body">
+      <h2 class="sec">내 성향 한눈에</h2>
+      <dl class="traits">
+
+        <div class="traits__row">
+          <dt>서사 비중</dt>
+          <dd>
+            <span class="meter" role="img" aria-label="5점 중 5점">
+              <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span>
+            </span>
+            <span class="meter__label">플롯 없으면 못 버팀</span>
+          </dd>
+        </div>
+
+        <div class="traits__row">
+          <dt>감정선 속도</dt>
+          <dd>
+            <span class="meter" role="img" aria-label="5점 중 2점">
+              <span class="on"></span><span class="on"></span><span></span><span></span><span></span>
+            </span>
+            <span class="meter__label">느리게, 아주 느리게</span>
+          </dd>
+        </div>
+
+        <div class="traits__row">
+          <dt>답변 길이</dt>
+          <dd>
+            <span class="meter" role="img" aria-label="5점 중 4점">
+              <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span>
+            </span>
+            <span class="meter__label">3~5문단 선호</span>
+          </dd>
+        </div>
+
+        <div class="traits__row">
+          <dt>OOC 사용</dt>
+          <dd>
+            <span class="meter" role="img" aria-label="5점 중 3점">
+              <span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span>
+            </span>
+            <span class="meter__label">필요할 때만, 짧게</span>
+          </dd>
+        </div>
+
+        <div class="traits__row">
+          <dt>좋아하는 톤</dt>
+          <dd>
+            <ul class="tags">
+              <li class="tag">잔잔한 일상</li>
+              <li class="tag">긴 호흡 로맨스</li>
+              <li class="tag">현대 판타지</li>
+              <li class="tag">쌍방 짝사랑</li>
+            </ul>
+          </dd>
+        </div>
+
+        <div class="traits__row">
+          <dt>이건 좋아요</dt>
+          <dd>
+            <ul class="tags">
+              <li class="tag tag--yes">캐릭터 일관성</li>
+              <li class="tag tag--yes">묘사 디테일</li>
+              <li class="tag tag--yes">기억 잘 챙기기</li>
+            </ul>
+          </dd>
+        </div>
+
+        <div class="traits__row">
+          <dt>이건 안 맞아요</dt>
+          <dd>
+            <ul class="tags">
+              <li class="tag tag--no">갑작스러운 전개</li>
+              <li class="tag tag--no">유저 대사 대신 쓰기</li>
+              <li class="tag tag--no">설정 무시</li>
+            </ul>
+          </dd>
+        </div>
+
+      </dl>
+      <p class="note">※ 수치는 취향 정도일 뿐, 절대 기준은 아닙니다. 편하게 참고만 해주세요.</p>
+    </div>
+  </section>
+
+  <!-- 바로가기 -->
+  <section class="win win--sky">
+    <div class="win__bar">
+      <span class="win__dots"><i></i><i></i><i></i></span>
+      <span class="win__name">shortcuts</span>
+    </div>
+    <div class="win__body">
+      <h2 class="sec">어디로 갈까요</h2>
+      <ul class="grid">
+        <li class="card">
+          <h3 class="card__name">페르소나</h3>
+          <p class="card__meta">persona</p>
+          <p class="card__desc">제가 쓰는 페르소나 설정과 프롬프트를 정리해 뒀습니다.</p>
+          <a href="persona.html">보러 가기 →</a>
+        </li>
+        <li class="card">
+          <h3 class="card__name">프롬프트 &amp; 출력</h3>
+          <p class="card__meta">prompts</p>
+          <p class="card__desc">공유했던 OOC 지시문, 출력 예시, 상황별 프롬프트 모음.</p>
+          <a href="prompts.html">보러 가기 →</a>
+        </li>
+        <li class="card">
+          <h3 class="card__name">위젯</h3>
+          <p class="card__meta">widgets</p>
+          <p class="card__desc">직접 만든 HTML 위젯. 코드 복사해서 바로 쓰세요.</p>
+          <a href="widgets.html">보러 가기 →</a>
+        </li>
+        <li class="card">
+          <h3 class="card__name">방명록</h3>
+          <p class="card__meta">guestbook</p>
+          <p class="card__desc">인사, 후기, 요청 다 환영합니다. 편하게 남겨주세요.</p>
+          <a href="guestbook.html">보러 가기 →</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 요즘 -->
+  <section class="win win--butter">
+    <div class="win__bar">
+      <span class="win__dots"><i></i><i></i><i></i></span>
+      <span class="win__name">now.log</span>
+    </div>
+    <div class="win__body">
+      <h2 class="sec">요즘 파는 것</h2>
+      <p>
+        지금은 오리지널 커플 서사를 굴리는 중입니다. 위젯도 계속 다듬고 있어요.
+        새로 올라오는 건 <a href="prompts.html">프롬프트</a> 쪽부터 쌓입니다.
+      </p>
+      <p class="note">마지막 업데이트: 2026.07</p>
+    </div>
+  </section>
+
+  <p class="foot">© 해바라기의 방 · built with github pages</p>
+
+</main>
+</body>
+</html>
