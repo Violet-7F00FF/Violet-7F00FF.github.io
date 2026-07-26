@@ -1,37 +1,51 @@
 {
+  "top_label": "",
   "intro": "",
   "blocks": [
     {
       "type": "label",
-      "text": "C:\\HEART\\prompt\\ooc\\"
+      "text": "C:\\HEART\\prompt\\",
+      "tag": ""
     },
     {
       "type": "code",
-      "heading": "OOC — 서술 길이 조절",
+      "tag": "!출력",
+      "heading": "출력 지시문 견본",
+      "filename": "output.txt",
+      "code": "!출력\n(여기에 자주 쓰는 출력 지시문을 적어주세요)"
+    },
+    {
+      "type": "code",
+      "tag": "OOC",
+      "heading": "서술 길이 조절",
       "filename": "length.txt",
       "code": "(OOC: 지금부터 응답을 3~4문단으로 유지해 주세요.\n한 문단은 3~5문장 정도가 좋습니다.\n장면 요약 대신 그 순간의 감각과 대화에 집중해 주세요.)"
     },
     {
       "type": "code",
-      "heading": "OOC — 유저 대사 대신 쓰지 않기",
+      "tag": "OOC",
+      "heading": "유저 대사 대신 쓰지 않기",
       "filename": "no_user.txt",
       "code": "(OOC: 제 페르소나의 대사, 속마음, 행동은 제가 직접 씁니다.\n캐릭터의 반응까지만 작성하고 거기서 멈춰 주세요.\n제 반응을 예상해서 미리 서술하지 말아 주세요.)"
     },
     {
       "type": "code",
-      "heading": "OOC — 전개 속도 늦추기",
+      "tag": "OOC",
+      "heading": "전개 속도 늦추기",
       "filename": "pace.txt",
       "code": "(OOC: 전개를 조금 늦춰 주세요.\n한 응답에서 시간이나 장소를 건너뛰지 말고,\n지금 이 장면 안에서만 움직여 주세요.\n관계 변화도 한 번에 한 단계씩만 진행해 주세요.)"
     },
     {
       "type": "code",
-      "heading": "SCENE — 첫 만남 장면 열기",
+      "tag": "프롬프트",
+      "heading": "첫 만남 장면 열기",
       "filename": "first_scene.txt",
       "code": "장소: (구체적인 공간 하나)\n시간: (계절, 시각, 날씨)\n분위기: (소리, 냄새, 빛 중 두 가지만)\n\n캐릭터는 이 자리에 먼저 와 있습니다.\n제 페르소나가 들어오는 순간부터 시작해 주세요.\n첫 응답은 캐릭터의 시선과 첫 한마디로 끝내 주세요."
     },
     {
       "type": "folds",
-      "heading": "OUTPUT LOG",
+      "tag": "프롬프트",
+      "heading": "출력 기록",
       "items": [
         {
           "title": "첫 만남 — 출력 1",
