@@ -452,10 +452,22 @@ h3.sub {
 
 .cp__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 7px;
   margin-bottom: 8px;
+}
+
+/* 페어명 (네모 박스) */
+.cp__pair {
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
 }
 
 .cp__name {
@@ -467,6 +479,7 @@ h3.sub {
 
 .cp__badge {
   flex: none;
+  margin-left: auto;
   font-family: var(--mini);
   font-size: 9px;
   letter-spacing: 0.06em;
@@ -479,6 +492,7 @@ h3.sub {
 .cp__badge--sub { background: var(--cyan); color: var(--outline); }
 
 .cp__note { font-size: 12.5px; color: var(--sub); margin: 8px 0 0; }
+.cp__note--top { margin: 0 0 10px; color: var(--ink); }
 
 .gauge__top {
   display: flex;
@@ -1345,7 +1359,7 @@ details[open] { padding-bottom: 12px; }
       <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-bubble"/></svg></span>NOTICE
     </button>
     <button type="button" class="dockbtn" data-open="profile">
-      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>TASTE
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>LOVE
     </button>
     <button type="button" class="dockbtn" data-open="persona">
       <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-ribbon"/></svg></span>PERSONA
@@ -1374,7 +1388,7 @@ details[open] { padding-bottom: 12px; }
   <section class="win win--pink" data-win="profile" style="--x:530px; --y:96px; --w:462px;">
     <header class="win__bar">
       <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>
-      <h2 class="win__title">NOW SELLING</h2>
+      <h2 class="win__title">LOVE AND DESTRUCTION</h2>
       <div class="win__btns">
         <button type="button" data-min aria-label="최소화"><svg viewBox="0 0 10 10" aria-hidden="true"><rect x="1" y="4" width="8" height="2"/></svg></button>
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
@@ -2676,14 +2690,15 @@ function toHTML(md) {
         return heading(b.heading) + (b.items || []).map(function (c) {
           var badgeCls = (c.badge === 'MAIN') ? 'cp__badge' : 'cp__badge cp__badge--sub';
           return '<div class="cp' + (c.color ? ' cp--' + c.color : '') + '">' +
-            '<div class="cp__head"><h4 class="cp__name">' + esc(c.name) + '</h4>' +
+            '<div class="cp__head">' +
+            '<h4 class="cp__name">' + esc(c.name) + '</h4>' +
+            (c.pair ? '<span class="cp__pair">' + esc(c.pair) + '</span>' : '') +
             (c.badge ? '<span class="' + badgeCls + '">' + esc(c.badge) + '</span>' : '') +
             '</div>' +
+            (c.note ? '<p class="cp__note cp__note--top">' + nl2br(c.note) + '</p>' : '') +
             (c.work ? '<p class="label" style="margin:0 0 8px">' + esc(c.work) + '</p>' : '') +
             tagList(c.tags) +
             imageRow(c.images) +
-            gauge(c.level, c.color) +
-            (c.note ? '<p class="cp__note">' + nl2br(c.note) + '</p>' : '') +
             '</div>';
         }).join('');
 
@@ -2726,6 +2741,17 @@ function toHTML(md) {
       if (!d || !el) return;
 
       var h = '';
+
+      // 맨 위 작은 라벨 (안 적으면 WELCOME, 빈칸으로 두면 안 나옴)
+      var topLabel = (d.top_label === undefined) ? 'WELCOME' : d.top_label;
+      if (topLabel) h += '<p class="label">' + esc(topLabel) + '</p>';
+
+      // 프로필 소제목 (안 적으면 프로필, 빈칸으로 두면 안 나옴)
+      if (d.intro || d.twitter_url) {
+        var introHeading = (d.intro_heading === undefined) ? '프로필' : d.intro_heading;
+        if (introHeading) h += heading(introHeading);
+      }
+
       if (d.intro) h += '<p class="lede">' + nl2br(d.intro) + '</p>';
 
       // 트위터 링크 (공지 창)
