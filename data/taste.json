@@ -16,10 +16,10 @@
       "items": [
         {
           "name": "바이브 x 베타",
-          "work": "",
-          "pair": "바벨탑",
+          "work": "ARCH",
+          "pair": "",
           "badge": "MAIN",
-          "color": "pink",
+          "color": "mint",
           "tags": "의도치 않은 보호자 연하 X 세상물정 하나도 몰라 연상, (가끔 불)안정형 X 안정형, 영원히 내 각시 X 영원히 내 거!",
           "images": [
             {
@@ -29,16 +29,28 @@
           ],
           "note": "85% 싱크로율의 파트너가 알고 보니 복제 인간에 인공 가이드?!",
           "level": 100
-        },
+        }
+      ]
+    },
+    {
+      "type": "cps",
+      "tag": "",
+      "heading": "해저화산",
+      "items": [
         {
-          "name": "C × D",
-          "work": "작품 이름",
+          "name": "신드롬 x 라피스",
+          "work": "ARCH",
           "pair": "",
           "badge": "SUB",
           "color": "cyan",
-          "tags": "역방향도 OK, AU 환영",
-          "note": "한두 줄 적어주세요.",
-          "level": 70
+          "tags": "",
+          "images": [
+            {
+              "image": "/media/해저화산.webp",
+              "caption": "개새끼와 미친 살쾡이"
+            }
+          ],
+          "note": "천상천하 유아독존과 미친 살쾡이의 애증 관계♡"
         }
       ]
     }
