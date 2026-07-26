@@ -877,6 +877,16 @@ details[open] { padding-bottom: 12px; }
 
 .blk { margin: 0; }
 
+/* ---------- 라벨 줄 (아래 나눔선) ---------- */
+
+.labelrow {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+.labelrow .label { margin: 0; }
+
 /* ---------- 프롬프트 카드 ---------- */
 
 .pmt {
@@ -2832,7 +2842,7 @@ function toHTML(md) {
 
     switch (b.type) {
       case 'label':
-        return '<p class="label">' + esc(b.text) + '</p>';
+        return '<div class="labelrow"><span class="label">' + esc(b.text) + '</span></div>';
 
       case 'text':
         return heading(b.heading) + toHTML(b.body);
@@ -2944,16 +2954,17 @@ function toHTML(md) {
         block(b) + '</div>';
     }).join('');
 
-    if (!tags.length) return body;
+    var bar = '';
+    if (tags.length) {
+      bar = '<div class="tabs">' +
+        '<button type="button" class="tab on" data-tab="">전체</button>' +
+        tags.map(function (t) {
+          return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
+            esc(t) + '</button>';
+        }).join('') + '</div>';
+    }
 
-    var bar = '<div class="tabs">' +
-      '<button type="button" class="tab on" data-tab="">전체</button>' +
-      tags.map(function (t) {
-        return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
-          esc(t) + '</button>';
-      }).join('') + '</div>';
-
-    return bar + body;
+    return { bar: bar, body: body };
   }
 
   /* ---------- 창별로 붙이기 ---------- */
@@ -2973,12 +2984,13 @@ function toHTML(md) {
 
       var isNotice = (id === 'noticeBody');
       var h = '';
+      var head = '';
 
       // 맨 위 작은 라벨 + 그 옆 도트 글씨 (공지 창만 기본값 WELCOME)
       var topLabel = d.top_label;
       if (topLabel === undefined && isNotice) topLabel = 'WELCOME';
       if (topLabel || d.top_note) {
-        h += '<div class="toprow">' +
+        head += '<div class="toprow">' +
           (topLabel ? '<span class="label">' + esc(topLabel) + '</span>' : '') +
           (d.top_note ? '<span class="topnote">' + esc(d.top_note) + '</span>' : '') +
           '</div>';
@@ -2987,13 +2999,13 @@ function toHTML(md) {
       // 소제목 (공지 창만 기본값 '프로필')
       var introHeading = d.intro_heading;
       if (introHeading === undefined && isNotice) introHeading = '프로필';
-      if (introHeading && (d.intro || d.twitter_url)) h += heading(introHeading);
+      if (introHeading && (d.intro || d.twitter_url)) head += heading(introHeading);
 
-      if (d.intro) h += '<p class="lede">' + nl2br(d.intro) + '</p>';
+      if (d.intro) head += '<p class="lede">' + nl2br(d.intro) + '</p>';
 
       // 트위터 링크 (공지 창)
       if (d.twitter_url) {
-        h += '<ul class="linkrow"><li><a class="linkbtn" href="' + esc(d.twitter_url) +
+        head += '<ul class="linkrow"><li><a class="linkbtn" href="' + esc(d.twitter_url) +
           '" target="_blank" rel="noopener">' +
           '<svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg>' +
           esc(d.twitter_id || '트위터') + '</a></li></ul>';
@@ -3006,7 +3018,9 @@ function toHTML(md) {
           return { type: 'text', heading: s.heading, body: s.body };
         });
       }
-      h += renderTabbed(blocks);
+      var out = renderTabbed(blocks);
+      // 태그 버튼은 창 맨 위에
+      h = out.bar + head + out.body;
 
       if (id === 'guestBody') {
         // 방명록은 입력칸과 목록을 그대로 두고, 아래에만 붙입니다
