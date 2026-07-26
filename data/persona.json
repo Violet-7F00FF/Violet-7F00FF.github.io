@@ -136,7 +136,7 @@
         },
         {
           "name": "브라이어",
-          "tags": "싸가지 없음, 고고한, 권위적인, 말수 적은, 이성적인",
+          "tags": "싸가지 없음, 고고한, 권위적인, 말 수 적은, 이성적인",
           "images": [
             {
               "image": "/media/브라이어4.webp",
@@ -253,6 +253,86 @@
           "spec": "#마녀 #가이드 #바람",
           "spec_color": "cyan",
           "prompt": "1 girl, 2::pale skin::, dark blue hair, hime cut, long hair, black eyes, tsurime, expressionless, close mouth, medium breasts, white suit, dark blue dress shirt, white necktie, 2::shoulder board::, 3::white lapel, simple lapel, no decor on lapel::, double-breasted, black buttons, white gored long skirt, dark blue heel,"
+        },
+        {
+          "name": "베라",
+          "tags": "#혼돈 악 #광적인 #불충한 #공격적인 #비판적인",
+          "images": [
+            {
+              "image": "/media/베라1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/베라2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "전장의 고통을 잇는 잔혹한 칼날",
+          "realname": "아수라",
+          "quote": "고통은 전장을 잇는 축복이다.",
+          "spec": "#전쟁의_현신 #가이드 #무속성",
+          "spec_color": "pink",
+          "prompt": "1 girl, evil grin, close mouth, dark red hair, low-braided long hair, bangs, messy hair, white eyes, tsurime, shining eyes, medium breasts, white suit Jacket, Jacket on shoulders, white dress shirt, 3::shoulder board::, 2::simple lapel, no decor on lapel::, white suit pants, white socks, white formal shoes,"
+        },
+        {
+          "name": "테디베어",
+          "tags": "중립, 말 수 적은, 무심한, 현실적인, 효율적인,",
+          "images": [
+            {
+              "image": "/media/테디베어1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/테디베어2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "차가운 데이터로 이뤄진 따뜻한 곰의 품",
+          "realname": "미유",
+          "quote": "스테이지 활성화. 버그 발견, 침입 개시.",
+          "spec": "#천재_엔지니어 #센티넬 #무속성",
+          "spec_color": "pink",
+          "prompt": "1 girl, pale skin, expressionless, close mouth, pastel pink hair, long hair, bangs, crossed bangs, light purple eyes, tsurime, medium breasts, glossy light purple bear ear headset, holographic ear accents, white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,"
+        },
+        {
+          "name": "매드 해터",
+          "tags": "중립_악, 자유분방한, 매력적인, 알 수 없는, 협상에 능한",
+          "images": [
+            {
+              "image": "/media/매드-해터1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/매드-해터3.webp",
+              "caption": ""
+            }
+          ],
+          "note": "미치광이의 티파티 속 모자장수",
+          "realname": "신이안",
+          "quote": "그대는 어리석은 도마뱀 빌인가? 아니면 잠꾸러기 산쥐인가!",
+          "spec": "#미치광이_모자장수 #센티넬 #무속성",
+          "spec_color": "yellow",
+          "prompt": "1 girl, 1.5::aged up::, pale skin, close mouth, smile, calm, silver hair, short hair, bob cut, messy hair, 1.5::parted bangs::, black eyes, tsurime, empty eyes, large breasts, black fedora, white dress shirt, black necktie, black suit Jacket, Jacket on shoulders, 3::shoulder board::, 2::simple lapel, no decor on lapel::, black suit pants, black belt, black socks, formal shoes,"
+        },
+        {
+          "name": "뮤즐",
+          "tags": "",
+          "images": [
+            {
+              "image": "/media/뮤즐1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/뮤즐2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "독특하고 발랄한 괴수의 지배자",
+          "realname": "백유이",
+          "quote": "펜리르, 시르카, 바실! 다들 준비 됐어? 좋아, 출발이야~!!",
+          "spec": "#괴수_조련사 #센티넬 #무속성",
+          "spec_color": "pink",
+          "prompt": "1 girl, pale skin, smail, grin, pastel red hair, teal_inner_hair, short hair, bangs, single hair intake, 1.5::front braid::, teal eyes, tareme, gentle eyes, huge breasts, techwear, teal ribbon hairpin, black leather oversized coat, teal lining, white crop top dress shirt, cleavage cutout, black chest harness, black necktie between breasts, black belt, black leather shorts, black knee boots"
         }
       ]
     }
