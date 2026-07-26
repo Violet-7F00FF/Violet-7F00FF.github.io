@@ -9,6 +9,23 @@ backend:
 media_folder: /media
 public_folder: /media
 
+# 사진 올릴 때 자동 처리
+media_libraries:
+  all:
+    # 파일 이름을 영문/숫자로 정리
+    slugify_filename: true
+    # 한 파일 최대 8MB
+    max_file_size: 8000000
+    transformations:
+      # 사진을 webp 로 다시 저장 → EXIF(위치·기기 정보)가 모두 사라집니다
+      raster_image:
+        format: webp
+        quality: 82
+        width: 1800
+        height: 1800
+      svg:
+        optimize: true
+
 collections:
   # ---------- 글 ----------
   - name: blog
@@ -27,7 +44,7 @@ collections:
             fields:
               - { name: title, label: 제목, widget: string }
               - { name: date, label: 날짜, widget: datetime, type: date }
-              - { name: tag, label: 태그, widget: string, required: false, hint: '예) 잡담, 후기' }
+              - { name: tag, label: 태그, widget: string, required: false }
               - { name: cover, label: 대표 이미지, widget: image, required: false }
               - { name: body, label: 본문, widget: richtext }
 
@@ -66,8 +83,8 @@ collections:
             fields:
               - { name: title, label: 제목, widget: string }
               - { name: artist, label: 아티스트, widget: string, required: false }
-              - { name: youtube, label: 유튜브 주소, widget: string, required: false, hint: '유튜브 주소를 그대로 붙여넣으세요. 이걸 넣으면 아래 파일은 안 써도 됩니다' }
-              - { name: file, label: 음악 파일 (mp3), widget: file, required: false, media_library: { config: { max_file_size: 20000000 } } }
+              - { name: youtube, label: 유튜브 주소, widget: string, required: false, hint: '주소를 그대로 붙여넣으세요. 이걸 넣으면 아래 파일은 안 써도 됩니다' }
+              - { name: file, label: 음악 파일 (mp3), widget: file, required: false }
 
   # ---------- 공지 ----------
   - name: notice
@@ -75,21 +92,123 @@ collections:
     icon: campaign
     files:
       - name: notice
-        label: 공지 내용
+        label: 공지 창
         file: data/notice.json
         fields:
-          - { name: intro, label: 인사말, widget: text }
-          - { name: twitter_id, label: 트위터 아이디, widget: string, required: false, hint: '예) @myid' }
-          - { name: twitter_url, label: 트위터 주소, widget: string, required: false, hint: 'https://x.com/myid' }
-          - name: sections
+          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - &blocks
+            name: blocks
             label: 항목
             label_singular: 항목
             widget: list
-            summary: '{{fields.heading}}'
-            required: false
-            fields:
-              - { name: heading, label: 소제목, widget: string }
-              - { name: body, label: 내용, widget: richtext }
+            hint: '+ 를 눌러 원하는 종류의 항목을 추가하세요. 손잡이를 끌면 순서가 바뀝니다.'
+            types:
+              - name: text
+                label: 글
+                summary: '글 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - { name: body, label: 내용, widget: richtext }
+              - name: tags
+                label: 태그 묶음
+                summary: '태그 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - { name: tags, label: 태그, widget: string, hint: '쉼표로 구분. 예) 현대물, 학원물' }
+                  - { name: color, label: 색, widget: select, required: false, options: [pink, cyan, mint, yellow, peach, grape] }
+              - name: label
+                label: 작은 라벨
+                summary: '라벨 · {{fields.text}}'
+                fields:
+                  - { name: text, label: 내용, widget: string }
+              - name: code
+                label: 복사되는 상자
+                summary: '상자 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - { name: filename, label: 상자 이름, widget: string, required: false }
+                  - { name: code, label: 내용, widget: text }
+              - name: folds
+                label: 접히는 목록
+                summary: '접기 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - name: items
+                    label: 항목
+                    label_singular: 항목
+                    widget: list
+                    summary: '{{fields.title}}'
+                    fields:
+                      - { name: title, label: 제목, widget: string }
+                      - { name: body, label: 내용, widget: richtext }
+              - name: cards
+                label: 작은 카드
+                summary: '카드 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - name: items
+                    label: 카드
+                    label_singular: 카드
+                    widget: list
+                    summary: '{{fields.name}}'
+                    fields:
+                      - { name: name, label: 이름, widget: string }
+                      - { name: meta, label: 부가 정보, widget: string, required: false }
+                      - { name: desc, label: 설명, widget: string, required: false }
+              - name: cps
+                label: CP 카드
+                summary: 'CP · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - name: items
+                    label: CP
+                    label_singular: CP
+                    widget: list
+                    summary: '{{fields.name}}'
+                    fields:
+                      - { name: name, label: CP 이름, widget: string }
+                      - { name: work, label: 작품 이름, widget: string, required: false }
+                      - { name: badge, label: 배지, widget: select, options: [MAIN, SUB, 관심], default: SUB }
+                      - { name: color, label: 카드 색, widget: select, options: [pink, cyan, mint, peach], default: pink }
+                      - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
+                      - { name: level, label: 파는 정도 (0~100), widget: number, value_type: int, min: 0, max: 100, default: 100 }
+                      - { name: note, label: 한 줄 소개, widget: text, required: false }
+              - name: images
+                label: 사진 나열
+                summary: '사진 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - name: items
+                    label: 사진
+                    label_singular: 사진
+                    widget: list
+                    fields:
+                      - { name: image, label: 사진, widget: image }
+                      - { name: caption, label: 설명, widget: string, required: false }
+              - name: personas
+                label: 페르소나 카드
+                summary: '페르소나 · {{fields.heading}}'
+                fields:
+                  - { name: heading, label: 소제목, widget: string, required: false }
+                  - name: items
+                    label: 페르소나
+                    label_singular: 페르소나
+                    widget: list
+                    summary: '{{fields.name}}'
+                    fields:
+                      - { name: name, label: 이름, widget: string }
+                      - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
+                      - name: images
+                        label: 사진 (최대 3장)
+                        label_singular: 사진
+                        widget: list
+                        required: false
+                        max: 3
+                        fields:
+                          - { name: image, label: 사진, widget: image }
+                          - { name: caption, label: 설명, widget: string, required: false }
+                      - { name: note, label: 설명, widget: text, required: false }
+                      - { name: prompt, label: 프롬프트, widget: text, required: false }
 
   # ---------- 파는 CP ----------
   - name: taste
@@ -97,26 +216,11 @@ collections:
     icon: favorite
     files:
       - name: taste
-        label: CP와 장르
+        label: 파는 CP 창
         file: data/taste.json
         fields:
-          - { name: intro, label: 소개글, widget: text }
-          - name: cps
-            label: CP 목록
-            label_singular: CP
-            widget: list
-            summary: '{{fields.name}}'
-            fields:
-              - { name: name, label: CP 이름, widget: string, hint: '예) A × B' }
-              - { name: work, label: 작품 이름, widget: string, required: false }
-              - { name: badge, label: 배지, widget: select, options: [MAIN, SUB, 관심], default: SUB }
-              - { name: color, label: 카드 색, widget: select, options: [pink, cyan, mint, peach], default: pink }
-              - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분. 예) 고정 CP, 리버 ✕' }
-              - { name: level, label: 파는 정도 (0~100), widget: number, value_type: int, min: 0, max: 100, default: 100 }
-              - { name: note, label: 한 줄 소개, widget: text, required: false }
-          - { name: genres, label: 장르, widget: string, required: false, hint: '쉼표로 구분' }
-          - { name: likes, label: 좋아하는 것, widget: string, required: false, hint: '쉼표로 구분' }
-          - { name: dislikes, label: 안 맞는 것, widget: string, required: false, hint: '쉼표로 구분' }
+          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - *blocks
 
   # ---------- 페르소나 ----------
   - name: persona
@@ -124,28 +228,11 @@ collections:
     icon: person
     files:
       - name: persona
-        label: 페르소나 설정
+        label: 페르소나 창
         file: data/persona.json
         fields:
-          - { name: intro, label: 소개글, widget: text }
-          - name: personas
-            label: 페르소나 목록
-            label_singular: 페르소나
-            widget: list
-            summary: '{{fields.name}}'
-            fields:
-              - { name: name, label: 이름, widget: string }
-              - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
-              - { name: prompt, label: 프롬프트, widget: text }
-          - name: tips
-            label: 팁
-            label_singular: 팁
-            widget: list
-            summary: '{{fields.title}}'
-            required: false
-            fields:
-              - { name: title, label: 제목, widget: string }
-              - { name: body, label: 내용, widget: richtext }
+          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - *blocks
 
   # ---------- 프롬프트 ----------
   - name: promptarchive
@@ -153,36 +240,11 @@ collections:
     icon: save
     files:
       - name: prompts
-        label: 프롬프트 모음
+        label: 프롬프트 창
         file: data/prompts.json
         fields:
-          - name: ooc
-            label: OOC 지시문
-            label_singular: OOC
-            widget: list
-            summary: '{{fields.name}}'
-            required: false
-            fields:
-              - { name: name, label: 이름, widget: string }
-              - { name: text, label: 내용, widget: text }
-          - name: scenes
-            label: 상황별 프롬프트
-            label_singular: 프롬프트
-            widget: list
-            summary: '{{fields.name}}'
-            required: false
-            fields:
-              - { name: name, label: 이름, widget: string }
-              - { name: text, label: 내용, widget: text }
-          - name: outputs
-            label: 출력 기록
-            label_singular: 기록
-            widget: list
-            summary: '{{fields.title}}'
-            required: false
-            fields:
-              - { name: title, label: 제목, widget: string }
-              - { name: body, label: 내용, widget: richtext }
+          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - *blocks
 
   # ---------- 위젯 ----------
   - name: widgets
@@ -190,26 +252,20 @@ collections:
     icon: widgets
     files:
       - name: widgets
-        label: 위젯 목록
+        label: 위젯 창
         file: data/widgets.json
         fields:
-          - { name: intro, label: 소개글, widget: text }
-          - name: items
-            label: 위젯
-            label_singular: 위젯
-            widget: list
-            summary: '{{fields.name}}'
-            fields:
-              - { name: name, label: 이름, widget: string }
-              - { name: meta, label: 부가 정보, widget: string, required: false, hint: '예) 2026.07 · 8색' }
-              - { name: desc, label: 설명, widget: string, required: false }
-              - { name: code, label: 코드, widget: text }
-          - name: notes
-            label: 안내
-            label_singular: 안내
-            widget: list
-            summary: '{{fields.title}}'
-            required: false
-            fields:
-              - { name: title, label: 제목, widget: string }
-              - { name: body, label: 내용, widget: richtext }
+          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - *blocks
+
+  # ---------- 방명록 안내 ----------
+  - name: guest
+    label: 방명록 안내
+    icon: edit_note
+    files:
+      - name: guest
+        label: 방명록 창 아래 내용
+        file: data/guest.json
+        fields:
+          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - *blocks
