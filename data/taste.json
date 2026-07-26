@@ -1,35 +1,51 @@
 {
   "intro": "요즘 파고 있는 CP와 장르입니다. 겹치는 게 있으면 정말 반가워요.",
-  "cps": [
+  "blocks": [
     {
-      "name": "A × B",
-      "work": "작품 이름",
-      "badge": "MAIN",
-      "color": "pink",
-      "tags": "고정 CP, 리버 ✕, 원작 기반",
-      "level": 100,
-      "note": "여기에 이 CP를 어떻게 보는지 한두 줄 적어주세요."
+      "type": "label",
+      "text": "파는 CP"
     },
     {
-      "name": "C × D",
-      "work": "작품 이름",
-      "badge": "SUB",
-      "color": "cyan",
-      "tags": "역방향도 OK, AU 환영",
-      "level": 70,
-      "note": "한두 줄 적어주세요."
+      "type": "cps",
+      "heading": "",
+      "items": [
+        {
+          "name": "A × B",
+          "work": "작품 이름",
+          "badge": "MAIN",
+          "color": "pink",
+          "tags": "고정 CP, 리버 ✕, 원작 기반",
+          "level": 100,
+          "note": "여기에 이 CP를 어떻게 보는지 한두 줄 적어주세요."
+        },
+        {
+          "name": "C × D",
+          "work": "작품 이름",
+          "badge": "SUB",
+          "color": "cyan",
+          "tags": "역방향도 OK, AU 환영",
+          "level": 70,
+          "note": "한두 줄 적어주세요."
+        }
+      ]
     },
     {
-      "name": "E × F",
-      "work": "작품 이름",
-      "badge": "관심",
+      "type": "tags",
+      "heading": "GENRE",
+      "color": "grape",
+      "tags": "현대물, 학원물, 판타지, 일상, 느린 연애"
+    },
+    {
+      "type": "tags",
+      "heading": "이런 거 좋아해요",
       "color": "mint",
-      "tags": "입문 중",
-      "level": 40,
-      "note": "한두 줄 적어주세요."
+      "tags": "쌍방 짝사랑, 오래 알고 지낸 사이, 서사 있는 관계, 캐붕 없는 대사"
+    },
+    {
+      "type": "tags",
+      "heading": "이건 안 맞아요",
+      "color": "peach",
+      "tags": "리버, 원작 설정 무시, 갑작스러운 전개"
     }
-  ],
-  "genres": "현대물, 학원물, 판타지, 일상, 느린 연애",
-  "likes": "쌍방 짝사랑, 오래 알고 지낸 사이, 서사 있는 관계, 캐붕 없는 대사",
-  "dislikes": "리버, 원작 설정 무시, 갑작스러운 전개"
+  ]
 }
