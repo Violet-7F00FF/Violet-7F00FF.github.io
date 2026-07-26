@@ -877,8 +877,27 @@ details[open] { padding-bottom: 12px; }
 
 .blk { margin: 0; }
 
-/* ---------- 라벨 줄 (아래 나눔선) ---------- */
+/* ---------- 맨 윗줄 (라벨 + 태그 버튼) ---------- */
 
+.headrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 10px;
+  margin: 0 0 15px;
+  padding-bottom: 12px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+.headrow .label { margin: 0; }
+
+.headrow .tabs {
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+
+/* 항목 목록 중간에 넣은 라벨 */
 .labelrow {
   margin: 0 0 14px;
   padding-bottom: 12px;
@@ -886,6 +905,12 @@ details[open] { padding-bottom: 12px; }
 }
 
 .labelrow .label { margin: 0; }
+
+/* 나눔선 */
+.hr {
+  margin: 0 0 16px;
+  border-bottom: 3px dotted var(--grape-l);
+}
 
 /* ---------- 프롬프트 카드 ---------- */
 
@@ -2956,21 +2981,31 @@ function toHTML(md) {
       }).join('');
     }
 
-    // 태그가 하나도 없으면 탭 없이 그대로
-    if (!tags.length) return { lead: '', bar: '', body: wrap(blocks) };
+    var bar = '';
+    if (tags.length) {
+      bar = '<div class="tabs">' +
+        '<button type="button" class="tab on" data-tab="">전체</button>' +
+        tags.map(function (t) {
+          return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
+            esc(t) + '</button>';
+        }).join('') + '</div>';
+    }
 
-    // 목록 맨 앞의 태그 없는 항목들은 탭보다 위에 놓습니다
-    var i = 0;
-    while (i < blocks.length && !tagOf(blocks[i])) i++;
+    // 목록 맨 앞의 '작은 라벨' 은 창 맨 윗줄로 올립니다 (태그 버튼과 나란히)
+    var labels = [];
+    var k = 0;
+    while (k < blocks.length && blocks[k] && blocks[k].type === 'label' && !tagOf(blocks[k])) {
+      labels.push('<span class="label">' + esc(blocks[k].text) + '</span>');
+      k += 1;
+    }
+    var rest = blocks.slice(k);
 
-    var bar = '<div class="tabs">' +
-      '<button type="button" class="tab on" data-tab="">전체</button>' +
-      tags.map(function (t) {
-        return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
-          esc(t) + '</button>';
-      }).join('') + '</div>';
+    var row = '';
+    if (labels.length || bar) {
+      row = '<div class="headrow">' + labels.join('') + bar + '</div>';
+    }
 
-    return { lead: wrap(blocks.slice(0, i)), bar: bar, body: wrap(blocks.slice(i)) };
+    return { row: row, body: wrap(rest) };
   }
 
   /* ---------- 창별로 붙이기 ---------- */
@@ -2991,6 +3026,8 @@ function toHTML(md) {
       var isNotice = (id === 'noticeBody');
       var h = '';
       var head = '';
+      var out = null;
+      var out_hasBody = false;
 
       // 맨 위 작은 라벨 + 그 옆 도트 글씨 (공지 창만 기본값 WELCOME)
       var topLabel = d.top_label;
@@ -3024,9 +3061,13 @@ function toHTML(md) {
           return { type: 'text', heading: s.heading, body: s.body };
         });
       }
-      var out = renderTabbed(blocks);
-      // 맨 앞의 태그 없는 항목 → 태그 버튼 → 소개글 → 나머지 항목
-      h = out.lead + out.bar + head + out.body;
+      out = renderTabbed(blocks);
+      out_hasBody = !!out.body;
+
+      // 소개글과 본문 사이 나눔선
+      if (head && out_hasBody) head += '<div class="hr"></div>';
+
+      h = out.row + head + out.body;
 
       if (id === 'guestBody') {
         // 방명록은 입력칸과 목록을 그대로 두고, 아래에만 붙입니다
