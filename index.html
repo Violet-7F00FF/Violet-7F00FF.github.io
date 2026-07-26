@@ -1029,10 +1029,30 @@ details[open] { padding-bottom: 12px; }
   box-shadow: 4px 4px 0 rgba(43,30,82,0.22);
 }
 
+.pcard__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
 .pcard__name {
   font-family: var(--pixel);
   font-size: 12px;
-  margin: 0 0 8px;
+  margin: 0;
+}
+
+/* 본명 (네모 박스) */
+.pcard__real {
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
 }
 
 /* ---------- 방명록 ---------- */
@@ -2952,10 +2972,13 @@ function toHTML(md) {
       case 'personas':
         return heading(b.heading) + (b.items || []).map(function (p) {
           return '<div class="pcard">' +
+            '<div class="pcard__head">' +
             '<h4 class="pcard__name">' + esc(p.name) + '</h4>' +
+            (p.realname ? '<span class="pcard__real">' + esc(p.realname) + '</span>' : '') +
+            '</div>' +
+            (p.note ? '<p class="cp__note cp__note--top">' + nl2br(p.note) + '</p>' : '') +
             tagList(p.tags, 'peach') +
             imageRow(p.images) +
-            (p.note ? '<p class="cp__note">' + nl2br(p.note) + '</p>' : '') +
             (p.prompt ? snip((p.name || 'persona') + '.txt', p.prompt) : '') +
             '</div>';
         }).join('');
