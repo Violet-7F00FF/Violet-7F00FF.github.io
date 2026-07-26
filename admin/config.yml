@@ -254,8 +254,11 @@ collections:
                     summary: '{{fields.name}}'
                     fields:
                       - { name: name, label: 이름, widget: string }
-                      - { name: realname, label: 본명, widget: string, required: false, hint: '이름 옆 네모 박스에 들어갑니다' }
+                      - { name: realname, label: 본명, widget: string, required: false, hint: '이름 옆에 작은 기울임 글씨로 나옵니다' }
+                      - { name: quote, label: 캐릭터의 한 마디, widget: string, required: false, hint: '본명 옆에 따옴표로 나옵니다' }
                       - { name: note, label: 설명 (이름 아래), widget: text, required: false }
+                      - { name: spec, label: 간단 설정, widget: text, required: false, hint: '태그 위 색 네모 칸에 들어갑니다' }
+                      - { name: spec_color, label: 간단 설정 색, widget: select, required: false, options: [mint, pink, cyan, yellow], default: mint }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
                       - name: images
                         label: 사진 (최대 3장)
