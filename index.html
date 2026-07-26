@@ -820,6 +820,87 @@ details[open] { padding-bottom: 12px; }
 .startmenu__sym { display: grid; place-items: center; width: 22px; height: 22px; }
 .startmenu__sym svg { width: 19px; height: 19px; }
 
+/* ---------- 맨 위 라벨 줄 ---------- */
+
+.toprow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.toprow .label { margin: 0; }
+
+.topnote {
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* ---------- 태그 탭 ---------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+.tab {
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+}
+
+.tab:hover { background: var(--yellow-l); }
+
+.tab.on {
+  background: var(--pink);
+  color: #fff;
+  box-shadow: inset 2px 2px 0 rgba(43,30,82,0.18);
+}
+
+.blk { margin: 0; }
+
+/* ---------- 위젯 카드 ---------- */
+
+.wcard {
+  margin-bottom: 14px;
+  padding: 13px 14px 14px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.22);
+}
+
+.wcard__name {
+  font-family: var(--pixel);
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+
+.wcard__shot {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+  border: 3px solid var(--outline);
+}
+
+.wcard__desc {
+  font-size: 13px;
+  color: var(--sub);
+  margin: 0 0 11px;
+  line-height: 1.75;
+}
+
 /* ---------- 이미지 나열 ---------- */
 
 .shots {
@@ -2005,6 +2086,7 @@ var SUPABASE_KEY = '';
     if (!w.task) addTask(key);
     focusWin(key);
     if (isMobile()) w.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    saveState();
   }
 
   function closeWin(key) {
@@ -2013,6 +2095,7 @@ var SUPABASE_KEY = '';
     w.el.classList.remove('open');
     if (w.task) { w.task.remove(); w.task = null; }
     syncDock();
+    saveState();
   }
 
   /* ---------- 클릭 ---------- */
@@ -2057,7 +2140,10 @@ var SUPABASE_KEY = '';
     drag.el.style.setProperty('--y', y + 'px');
   });
 
-  function endDrag() { drag = null; }
+  function endDrag() {
+    if (drag) saveState();
+    drag = null;
+  }
   document.addEventListener('pointerup', endDrag);
   document.addEventListener('pointercancel', endDrag);
 
@@ -2093,8 +2179,13 @@ var SUPABASE_KEY = '';
     if (h12 === 0) h12 = 12;
     clockEl.textContent = ampm + ' ' + h12 + ':' + String(d.getMinutes()).padStart(2, '0');
   }
-  tick();
-  setInterval(tick, 20000);
+  function scheduleTick() {
+    tick();
+    var d = new Date();
+    var wait = (60 - d.getSeconds()) * 1000 - d.getMilliseconds();
+    setTimeout(scheduleTick, Math.max(wait, 200));
+  }
+  scheduleTick();
 
   /* ---------- 방문자 수 ---------- */
 
@@ -2170,6 +2261,34 @@ var SUPABASE_KEY = '';
     }
   });
 
+  /* ---------- 열려 있던 창 기억하기 ---------- */
+
+  var STORE = 'violet-os-windows';
+  var restoring = false;
+
+  function saveState() {
+    if (restoring) return;
+    try {
+      var st = {};
+      Object.keys(wins).forEach(function (k) {
+        var el = wins[k].el;
+        if (!el.classList.contains('open')) return;
+        st[k] = {
+          x: el.style.getPropertyValue('--x'),
+          y: el.style.getPropertyValue('--y'),
+          z: el.style.zIndex || ''
+        };
+      });
+      localStorage.setItem(STORE, JSON.stringify(st));
+    } catch (e) { /* 저장이 막힌 환경 */ }
+  }
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORE) || 'null');
+    } catch (e) { return null; }
+  }
+
   /* ---------- 오른쪽에 붙는 창 ---------- */
 
   if (!isMobile()) {
@@ -2182,9 +2301,27 @@ var SUPABASE_KEY = '';
 
   /* ---------- 첫 화면 ---------- */
 
-  (desk.dataset.boot ? desk.dataset.boot.split(',') : []).forEach(function (k) {
-    openWin(k.trim());
-  });
+  var saved = loadState();
+
+  if (saved && Object.keys(saved).length) {
+    restoring = true;
+    // 미리 열려 있던 창을 모두 닫고 저장된 것만 복원
+    Object.keys(wins).forEach(function (k) { wins[k].el.classList.remove('open'); });
+
+    Object.keys(saved).forEach(function (k) {
+      if (!wins[k]) return;
+      var s = saved[k] || {};
+      if (s.x) wins[k].el.style.setProperty('--x', s.x);
+      if (s.y) wins[k].el.style.setProperty('--y', s.y);
+      openWin(k, false);
+      if (s.z) wins[k].el.style.zIndex = s.z;
+    });
+    restoring = false;
+  } else {
+    (desk.dataset.boot ? desk.dataset.boot.split(',') : []).forEach(function (k) {
+      openWin(k.trim(), false);
+    });
+  }
 
 }());
 
@@ -2705,6 +2842,19 @@ function toHTML(md) {
       case 'images':
         return heading(b.heading) + imageRow(b.items);
 
+      case 'widget':
+        return '<div class="wcard">' +
+          '<h4 class="wcard__name">' + esc(b.name) + '</h4>' +
+          (b.meta ? '<p class="file__meta">' + esc(b.meta) + '</p>' : '') +
+          (b.image ? '<img class="wcard__shot" src="' + esc(b.image) +
+            '" alt="' + esc(b.name) + ' 미리보기" loading="lazy">' : '') +
+          (b.desc ? '<p class="wcard__desc">' + nl2br(b.desc) + '</p>' : '') +
+          (b.link ? '<a class="linkbtn" href="' + esc(b.link) +
+            '" target="_blank" rel="noopener">' +
+            '<svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-monitor"/></svg>' +
+            '가져가기</a>' : '') +
+          '</div>';
+
       case 'personas':
         return heading(b.heading) + (b.items || []).map(function (p) {
           return '<div class="pcard">' +
@@ -2725,6 +2875,41 @@ function toHTML(md) {
     return (blocks || []).map(block).join('');
   }
 
+  /* ---------- 태그 탭 ---------- */
+
+  function tagOf(b) {
+    if (!b) return '';
+    if (b.tag) return String(b.tag).trim();
+    if (b.type === 'widget' && b.name) return String(b.name).trim();
+    return '';
+  }
+
+  function renderTabbed(blocks) {
+    blocks = blocks || [];
+    var tags = [];
+    blocks.forEach(function (b) {
+      var t = tagOf(b);
+      if (t && tags.indexOf(t) < 0) tags.push(t);
+    });
+
+    var body = blocks.map(function (b) {
+      var t = tagOf(b);
+      return '<div class="blk"' + (t ? ' data-tag="' + esc(t) + '"' : '') + '>' +
+        block(b) + '</div>';
+    }).join('');
+
+    if (!tags.length) return body;
+
+    var bar = '<div class="tabs">' +
+      '<button type="button" class="tab on" data-tab="">전체</button>' +
+      tags.map(function (t) {
+        return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
+          esc(t) + '</button>';
+      }).join('') + '</div>';
+
+    return bar + body;
+  }
+
   /* ---------- 창별로 붙이기 ---------- */
 
   function build(file, id) {
@@ -2740,17 +2925,23 @@ function toHTML(md) {
       if (el) el.removeAttribute('data-pending');
       if (!d || !el) return;
 
+      var isNotice = (id === 'noticeBody');
       var h = '';
 
-      // 맨 위 작은 라벨 (안 적으면 WELCOME, 빈칸으로 두면 안 나옴)
-      var topLabel = (d.top_label === undefined) ? 'WELCOME' : d.top_label;
-      if (topLabel) h += '<p class="label">' + esc(topLabel) + '</p>';
-
-      // 프로필 소제목 (안 적으면 프로필, 빈칸으로 두면 안 나옴)
-      if (d.intro || d.twitter_url) {
-        var introHeading = (d.intro_heading === undefined) ? '프로필' : d.intro_heading;
-        if (introHeading) h += heading(introHeading);
+      // 맨 위 작은 라벨 + 그 옆 도트 글씨 (공지 창만 기본값 WELCOME)
+      var topLabel = d.top_label;
+      if (topLabel === undefined && isNotice) topLabel = 'WELCOME';
+      if (topLabel || d.top_note) {
+        h += '<div class="toprow">' +
+          (topLabel ? '<span class="label">' + esc(topLabel) + '</span>' : '') +
+          (d.top_note ? '<span class="topnote">' + esc(d.top_note) + '</span>' : '') +
+          '</div>';
       }
+
+      // 소제목 (공지 창만 기본값 '프로필')
+      var introHeading = d.intro_heading;
+      if (introHeading === undefined && isNotice) introHeading = '프로필';
+      if (introHeading && (d.intro || d.twitter_url)) h += heading(introHeading);
 
       if (d.intro) h += '<p class="lede">' + nl2br(d.intro) + '</p>';
 
@@ -2769,7 +2960,7 @@ function toHTML(md) {
           return { type: 'text', heading: s.heading, body: s.body };
         });
       }
-      h += renderBlocks(blocks);
+      h += renderTabbed(blocks);
 
       if (id === 'guestBody') {
         // 방명록은 입력칸과 목록을 그대로 두고, 아래에만 붙입니다
@@ -2790,6 +2981,29 @@ function toHTML(md) {
   build('guest', 'guestBody');
 
 }());
+
+
+/* ==========================================================
+   태그 탭 누르기
+   ========================================================== */
+
+document.addEventListener('click', function (e) {
+  var tab = e.target.closest('.tab');
+  if (!tab) return;
+
+  var box = tab.closest('.win__body');
+  if (!box) return;
+
+  var sel = tab.dataset.tab || '';
+
+  Array.prototype.forEach.call(box.querySelectorAll('.tab'), function (t) {
+    t.classList.toggle('on', t === tab);
+  });
+
+  Array.prototype.forEach.call(box.querySelectorAll('.blk[data-tag]'), function (blk) {
+    blk.style.display = (!sel || blk.dataset.tag === sel) ? '' : 'none';
+  });
+});
 
 </script>
 
