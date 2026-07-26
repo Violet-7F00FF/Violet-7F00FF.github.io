@@ -2948,23 +2948,29 @@ function toHTML(md) {
       if (t && tags.indexOf(t) < 0) tags.push(t);
     });
 
-    var body = blocks.map(function (b) {
-      var t = tagOf(b);
-      return '<div class="blk"' + (t ? ' data-tag="' + esc(t) + '"' : '') + '>' +
-        block(b) + '</div>';
-    }).join('');
-
-    var bar = '';
-    if (tags.length) {
-      bar = '<div class="tabs">' +
-        '<button type="button" class="tab on" data-tab="">전체</button>' +
-        tags.map(function (t) {
-          return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
-            esc(t) + '</button>';
-        }).join('') + '</div>';
+    function wrap(list) {
+      return list.map(function (b) {
+        var t = tagOf(b);
+        return '<div class="blk"' + (t ? ' data-tag="' + esc(t) + '"' : '') + '>' +
+          block(b) + '</div>';
+      }).join('');
     }
 
-    return { bar: bar, body: body };
+    // 태그가 하나도 없으면 탭 없이 그대로
+    if (!tags.length) return { lead: '', bar: '', body: wrap(blocks) };
+
+    // 목록 맨 앞의 태그 없는 항목들은 탭보다 위에 놓습니다
+    var i = 0;
+    while (i < blocks.length && !tagOf(blocks[i])) i++;
+
+    var bar = '<div class="tabs">' +
+      '<button type="button" class="tab on" data-tab="">전체</button>' +
+      tags.map(function (t) {
+        return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
+          esc(t) + '</button>';
+      }).join('') + '</div>';
+
+    return { lead: wrap(blocks.slice(0, i)), bar: bar, body: wrap(blocks.slice(i)) };
   }
 
   /* ---------- 창별로 붙이기 ---------- */
@@ -3019,8 +3025,8 @@ function toHTML(md) {
         });
       }
       var out = renderTabbed(blocks);
-      // 태그 버튼은 창 맨 위에
-      h = out.bar + head + out.body;
+      // 맨 앞의 태그 없는 항목 → 태그 버튼 → 소개글 → 나머지 항목
+      h = out.lead + out.bar + head + out.body;
 
       if (id === 'guestBody') {
         // 방명록은 입력칸과 목록을 그대로 두고, 아래에만 붙입니다
