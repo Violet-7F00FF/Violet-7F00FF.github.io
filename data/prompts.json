@@ -13,28 +13,28 @@
       "type": "code",
       "tag": "!출력",
       "heading": "🎡PC와 NPC의 하루 데이트 계획",
-      "filename": "txt",
+      "filename": "",
       "code": "!출력 pc와 npc의 하루 데이트 계획을 귀여운 ui로 깔끔하게 정리한다. 중요한 부분에는 형광펜도 칠한다. 어떤 것이 재밌었고, 어떤 것이 좋았는지, 어떤 것이 인상에 남았는지 등 여러 가지 각자의 반응과 마지막에는 각자의 하루 총평을 작성하여 출력한다."
     },
     {
       "type": "code",
       "tag": "!출력",
       "heading": "🕶️✨PC와 NPC의 관찰 일지",
-      "filename": "txt",
+      "filename": "",
       "code": "!출력 「 pc와 npc의 관찰 일지 」 각자 서로의 하루를 살펴보고, 상대방이 어떤 하루를 보냈는지 깔끔한 보고서를 작성한다. 보고서에는 각자의 생각과 평가를 본인의 성격과 말투에 따라 자연스럽게 작성한다. 중요한 부분은 형광펜 표시를 한다. 마지막에는 각자 서로의 총평을 작성하여 보고서 형식으로 출력한다..)"
     },
     {
       "type": "code",
       "tag": "!출력",
       "heading": "🎁깜짝 선물 대작전 ver. PC",
-      "filename": "txt",
+      "filename": "",
       "code": "(OOC: 제 페르소나의 대사, 속마음, 행동은 제가 직접 씁니다.\n캐릭터의 반응까지만 작성하고 거기서 멈춰 주세요.\n제 반응을 예상해서 미리 서술하지 말아 주세요.)"
     },
     {
       "type": "code",
       "tag": "!출력",
       "heading": "🎁깜짝 선물 대작전 ver. NPC",
-      "filename": "txt",
+      "filename": "",
       "code": "!출력 「 npc의 깜짝 선물 대작전 」 npc는 pc에게 깜짝 선물을 주기 위해 온종일 고군분투한다. 그러나 그 과정에서 pc에게 쌀쌀하게 대했다. 그 결과 pc는 상처를 받아버리고 말았다. 결국 둘은 사소한 싸움을 하게 되었다. npc는 깜짝 선물에 대해 실토한다. 이 과정을 깔끔한 ui의 일기 형식으로 작성하고 중요한 부분에는 형광펜으로 칠한다. 마지막에 npc의 깜짝 선물을 받은 pc의 감정과 생각, 평가를 깔끔한 ui의 일기 형식으로 출력한다."
     },
     {
@@ -45,15 +45,13 @@
       "code": "!출력 「pc의 단독 임무」 어느 날 pc는 단독 임무를 받게 되어 3일간 npc와 떨어지게 되었다. 3일간의 둘이 주고 받은 연락을 깔끔한 ui 형태의 메시지 형식으로 출력한다. 마지막에는 pc가 돌아온 날, 각자의 감정, 생각, 총평에 대해 중요한 부분에는 형광펜을 칠하고 보고서를 출력한다."
     },
     {
-      "type": "folds",
+      "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🍦일단 어린이 손에 아이스크림부터 쥐어주죠 → 녹앗는데요??",
-      "items": [
-        {
-          "title": "🍦일단 어린이 손에 아이스크림부터 쥐어주죠 → 녹앗는데요??",
-          "body": "![](/media/%EB%B2%A0%ED%83%80_55.webp)\n\nclose-up, side view, child, aged down, oversized white dress shirt, holding melting ice cream, 3::melting lce cream::, tearing up, sad expression, teary eyes, tearful face, blush, closed mouth, white background, simple background"
-        }
-      ]
+      "filename": "",
+      "code": "close-up, side view, child, aged down, oversized white dress shirt, holding melting ice cream, 3::melting lce cream::, tearing up, sad expression, teary eyes, tearful face, blush, closed mouth, white background, simple background",
+      "desc": "![](/media/베타_55.webp)",
+      "images": []
     }
   ]
 }
