@@ -1,8 +1,8 @@
 {
   "top_label": "",
   "top_note": "",
-  "intro_heading": "",
-  "intro": "",
+  "intro_heading": "Notion",
+  "intro": "♡ 저는 주로 젬이오(Gemini 2.5 Pro)를 사용하여 출력하였습니다.\n♡ NPC랑 PC를 뒤바꾸는 것 정도의 수정은 괜찮습니다. 다들 재밌게 놀아요~!!~!~~!!\n\n✕ 안 뽑힌다고 제게 화내지 마십시오..\n✕ 캐해 제대로 반영 안된다고 제게 화내지 마십씨오..\n✕ 자작 발언? 그냥.. 재밌게 다들 쓰시면 좋겠어요ㅜㅜ",
   "blocks": [
     {
       "type": "label",
@@ -13,28 +13,28 @@
       "type": "code",
       "tag": "!출력",
       "heading": "🎡PC와 NPC의 하루 데이트 계획",
-      "filename": "",
+      "filename": "txt",
       "code": "!출력 pc와 npc의 하루 데이트 계획을 귀여운 ui로 깔끔하게 정리한다. 중요한 부분에는 형광펜도 칠한다. 어떤 것이 재밌었고, 어떤 것이 좋았는지, 어떤 것이 인상에 남았는지 등 여러 가지 각자의 반응과 마지막에는 각자의 하루 총평을 작성하여 출력한다."
     },
     {
       "type": "code",
       "tag": "!출력",
       "heading": "🕶️✨PC와 NPC의 관찰 일지",
-      "filename": "",
+      "filename": "txt",
       "code": "!출력 「 pc와 npc의 관찰 일지 」 각자 서로의 하루를 살펴보고, 상대방이 어떤 하루를 보냈는지 깔끔한 보고서를 작성한다. 보고서에는 각자의 생각과 평가를 본인의 성격과 말투에 따라 자연스럽게 작성한다. 중요한 부분은 형광펜 표시를 한다. 마지막에는 각자 서로의 총평을 작성하여 보고서 형식으로 출력한다..)"
     },
     {
       "type": "code",
       "tag": "!출력",
       "heading": "🎁깜짝 선물 대작전 ver. PC",
-      "filename": "",
+      "filename": "txt",
       "code": "(OOC: 제 페르소나의 대사, 속마음, 행동은 제가 직접 씁니다.\n캐릭터의 반응까지만 작성하고 거기서 멈춰 주세요.\n제 반응을 예상해서 미리 서술하지 말아 주세요.)"
     },
     {
       "type": "code",
       "tag": "!출력",
       "heading": "🎁깜짝 선물 대작전 ver. NPC",
-      "filename": "",
+      "filename": "txt",
       "code": "!출력 「 npc의 깜짝 선물 대작전 」 npc는 pc에게 깜짝 선물을 주기 위해 온종일 고군분투한다. 그러나 그 과정에서 pc에게 쌀쌀하게 대했다. 그 결과 pc는 상처를 받아버리고 말았다. 결국 둘은 사소한 싸움을 하게 되었다. npc는 깜짝 선물에 대해 실토한다. 이 과정을 깔끔한 ui의 일기 형식으로 작성하고 중요한 부분에는 형광펜으로 칠한다. 마지막에 npc의 깜짝 선물을 받은 pc의 감정과 생각, 평가를 깔끔한 ui의 일기 형식으로 출력한다."
     },
     {
@@ -48,7 +48,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🍦일단 어린이 손에 아이스크림부터 쥐어주죠 → 녹앗는데요??",
-      "filename": "",
+      "filename": "txt",
       "code": "close-up, side view, child, aged down, oversized white dress shirt, holding melting ice cream, 3::melting lce cream::, tearing up, sad expression, teary eyes, tearful face, blush, closed mouth, white background, simple background",
       "desc": "![](/media/베타_55.webp)",
       "images": []
