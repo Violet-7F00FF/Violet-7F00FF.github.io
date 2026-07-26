@@ -1,9 +1,9 @@
 {
-  "intro": "요즘 파고 있는 CP와 장르입니다. 겹치는 게 있으면 정말 반가워요.",
+  "intro": "쿠키의 애호 쿠키 세트 모음",
   "blocks": [
     {
       "type": "label",
-      "text": "파는 CP"
+      "text": "CP"
     },
     {
       "type": "cps",
@@ -28,24 +28,6 @@
           "note": "한두 줄 적어주세요."
         }
       ]
-    },
-    {
-      "type": "tags",
-      "heading": "GENRE",
-      "color": "grape",
-      "tags": "현대물, 학원물, 판타지, 일상, 느린 연애"
-    },
-    {
-      "type": "tags",
-      "heading": "이런 거 좋아해요",
-      "color": "mint",
-      "tags": "쌍방 짝사랑, 오래 알고 지낸 사이, 서사 있는 관계, 캐붕 없는 대사"
-    },
-    {
-      "type": "tags",
-      "heading": "이건 안 맞아요",
-      "color": "peach",
-      "tags": "리버, 원작 설정 무시, 갑작스러운 전개"
     }
   ]
 }
