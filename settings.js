@@ -11,8 +11,8 @@
    Supabase → Settings → Data API 의 Project URL
    두 값을 따옴표 사이에 붙여넣으세요.                        */
 
-window.SUPABASE_URL = '';
-window.SUPABASE_KEY = '';
+window.SUPABASE_URL = 'https://mqnuwwrfqfzenzxthygo.supabase.co/rest/v1/';
+window.SUPABASE_KEY = 'sb_publishable_kIYwQNK2-Ml0H2mx1hwgNA_gZLr4oA_';
 
 
 /* ---------- 음악 ----------
