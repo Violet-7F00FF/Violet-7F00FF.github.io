@@ -66,7 +66,8 @@ collections:
             fields:
               - { name: title, label: 제목, widget: string }
               - { name: artist, label: 아티스트, widget: string, required: false }
-              - { name: file, label: 음악 파일, widget: file, media_library: { config: { max_file_size: 20000000 } } }
+              - { name: youtube, label: 유튜브 주소, widget: string, required: false, hint: '유튜브 주소를 그대로 붙여넣으세요. 이걸 넣으면 아래 파일은 안 써도 됩니다' }
+              - { name: file, label: 음악 파일 (mp3), widget: file, required: false, media_library: { config: { max_file_size: 20000000 } } }
 
   # ---------- 공지 ----------
   - name: notice
