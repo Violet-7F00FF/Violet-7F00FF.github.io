@@ -95,7 +95,9 @@ collections:
         label: 공지 창
         file: data/notice.json
         fields:
-          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, default: WELCOME, hint: '비워두면 안 나옵니다' }
+          - { name: intro_heading, label: 프로필 소제목, widget: string, required: false, default: 프로필 }
+          - { name: intro, label: 프로필 소개글, widget: text, required: false }
           - { name: twitter_id, label: 트위터 아이디, widget: string, required: false, hint: '예) @Cookie_B_A' }
           - { name: twitter_url, label: 트위터 주소, widget: string, required: false, hint: 'https://x.com/아이디' }
           - &blocks
@@ -176,6 +178,7 @@ collections:
                     fields:
                       - { name: name, label: CP 이름, widget: string }
                       - { name: work, label: 작품 이름, widget: string, required: false }
+                      - { name: pair, label: 페어명, widget: string, required: false, hint: 'CP 이름 옆 네모 박스에 들어갑니다' }
                       - { name: badge, label: 배지, widget: select, options: [MAIN, SUB, 관심], default: SUB }
                       - { name: color, label: 카드 색, widget: select, options: [pink, cyan, mint, peach], default: pink }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
@@ -188,8 +191,7 @@ collections:
                         fields:
                           - { name: image, label: 사진, widget: image }
                           - { name: caption, label: 설명, widget: string, required: false }
-                      - { name: level, label: 파는 정도 (0~100), widget: number, value_type: int, min: 0, max: 100, default: 100 }
-                      - { name: note, label: 한 줄 소개, widget: text, required: false }
+                      - { name: note, label: 설명 (CP 이름 아래), widget: text, required: false }
               - name: images
                 label: 사진 나열
                 summary: '사진 · {{fields.heading}}'
