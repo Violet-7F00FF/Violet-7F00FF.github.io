@@ -1,15 +1,22 @@
 {
-  "intro": "트위터에서 오셨나요? 반갑습니다.\n여기는 제가 파는 CP와 AI챗 기록을 모아둔 방입니다.",
+  "intro": "20个 | 복제인간 번개 ⚡ 남매의 바람잡이",
+  "twitter_id": "@Cookie_B_A",
+  "twitter_url": "https://x.com/Cookie_B_A",
   "blocks": [
     {
       "type": "text",
-      "heading": "멘션 / 상호",
-      "body": "여기에 상호 관련 안내를 적어주세요.\n(예: 무언 상호 환영, 성인만, 멘션 편하게 등)"
+      "heading": "이 방에 있는 것",
+      "body": "- **BLOG** — 글\n- **NOW SELLING** — 파는 CP와 장르\n- **PERSONA** — 페르소나 설정\n- **PROMPT** — OOC, 상황별 프롬프트\n- **WIDGET** — 위젯 코드\n- **GALLERY** — 그림\n- **MUSIC** — 배경 음악\n- **GUESTBOOK** — 방명록"
+    },
+    {
+      "type": "callout",
+      "heading": "",
+      "body": "왼쪽 아이콘이나 아래 START 메뉴를 누르면 창이 열려요. 제목줄을 잡고 끌면 창이 움직입니다."
     },
     {
       "type": "text",
-      "heading": "가져갈 때",
-      "body": "프롬프트와 위젯은 자유롭게 쓰셔도 됩니다. 재배포할 때만 출처 한 줄 남겨주세요."
+      "heading": "멘션 / 상호",
+      "body": "📌 성인 | 여성 | ARCH\n📌 바이브 케바케 only | 그 외 전부 오픈 | 배려 요청 OK\n🚫 계정주 미성년·남성 | 매우 잦은 우울트·욕설트 | 의미 없는 분쟁트·저격트 | 배려 강요\n🚫 제 CP 리버스만 안 하시면 괜찮습니다."
     }
   ]
 }
