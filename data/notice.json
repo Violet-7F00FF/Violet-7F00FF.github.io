@@ -1,13 +1,10 @@
 {
+  "top_label": "냐냐냥",
+  "intro_heading": "우냐냥",
   "intro": "20个 | 복제인간 번개 ⚡ 남매의 바람잡이",
   "twitter_id": "@Cookie_B_A",
   "twitter_url": "https://x.com/Cookie_B_A",
   "blocks": [
-    {
-      "type": "text",
-      "heading": "이 방에 있는 것",
-      "body": "- **BLOG** — 글\n- **TASTE** — CP\n- **PERSONA** — 페르소나\n- **PROMPT** — !출력, OOC, 프롬프트\n- **WIDGET** — 케이브덕 위젯\n- **GALLERY** — 갤러리\n- **MUSIC** — 배경 음악\n- **GUESTBOOK** — 방명록"
-    },
     {
       "type": "callout",
       "heading": "",
@@ -17,6 +14,11 @@
       "type": "text",
       "heading": "공지",
       "body": "📌 성인 | 여성 | ARCH\n📌 바이브 케바케 only | 그 외 전부 오픈 | 배려 요청 OK\n🚫 계정주 미성년·남성 | 매우 잦은 우울트·욕설트 | 의미 없는 분쟁트·저격트 | 배려 강요\n🚫 제 CP 리버스만 안 하시면 괜찮습니다."
+    },
+    {
+      "type": "text",
+      "heading": "이 방에 있는 것",
+      "body": "- **BLOG** — 글\n- **TASTE** — CP\n- **PERSONA** — 페르소나\n- **PROMPT** — !출력, OOC, 프롬프트\n- **WIDGET** — 케이브덕 위젯\n- **GALLERY** — 갤러리\n- **MUSIC** — 배경 음악\n- **GUESTBOOK** — 방명록"
     }
   ]
 }
