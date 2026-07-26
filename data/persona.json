@@ -1,18 +1,22 @@
 {
+  "top_label": "",
+  "top_note": "",
+  "intro_heading": "📢",
   "intro": "쿠키의 페르소나 목록입니다! 예전부터 애정해왔던 자캐들을 페르소나로 사용하고 있는 만큼, 제 페르소나의 영향을 받아 비슷한 캐릭터를 만들어주시지는 않으셨으면 좋겠습니다.. 부디 주의 부탁드립니다!",
   "blocks": [
     {
       "type": "label",
+      "tag": "",
       "text": "C:\\HEART\\persona\\"
     },
     {
       "type": "personas",
+      "tag": "",
       "heading": "",
       "items": [
         {
           "name": "베타",
           "tags": "차분함, 존댓말, 감정 표현 적음",
-          "note": "",
           "images": [
             {
               "image": "/media/베타_4.webp",
@@ -23,6 +27,7 @@
               "caption": ""
             }
           ],
+          "note": "",
           "prompt": "1 girl, closed_mouth, expressionless, yellow hair, 2::very low-tied::, twintails, very long hair, straight hair, crossed bangs, purple eyes, sharp cat-eyes, dark eyelashes, small medium breasts, white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, balck boots"
         }
       ]
