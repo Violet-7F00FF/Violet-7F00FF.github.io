@@ -387,6 +387,9 @@ a.dockbtn { text-decoration: none; }
   overscroll-behavior: contain;
 }
 
+/* 자료를 불러오는 동안 잠깐 감춤 */
+.win__body[data-pending] { opacity: 0; }
+
 .win__body > :first-child { margin-top: 0; }
 .win__body > :last-child  { margin-bottom: 0; }
 
@@ -1377,7 +1380,7 @@ details[open] { padding-bottom: 12px; }
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
     </header>
-    <div class="win__body" id="tasteBody">
+    <div class="win__body" id="tasteBody" data-pending="1">
       <p class="label">파는 CP</p>
       <p class="lede">요즘 파고 있는 CP와 장르입니다. 겹치는 게 있으면 정말 반가워요.</p>
 
@@ -1471,7 +1474,7 @@ details[open] { padding-bottom: 12px; }
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
     </header>
-    <div class="win__body" id="noticeBody">
+    <div class="win__body" id="noticeBody" data-pending="1">
       <p class="label">WELCOME</p>
       <p class="lede">
         트위터에서 오셨나요? 반갑습니다.
@@ -1525,7 +1528,7 @@ details[open] { padding-bottom: 12px; }
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
     </header>
-    <div class="win__body" id="personaBody">
+    <div class="win__body" id="personaBody" data-pending="1">
       <p class="label">C:\HEART\persona\</p>
       <p class="lede">제가 쓰는 페르소나와 그때 넣는 프롬프트입니다. 이름만 바꿔서 쓰셔도 돼요.</p>
 
@@ -1591,7 +1594,7 @@ details[open] { padding-bottom: 12px; }
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
     </header>
-    <div class="win__body" id="promptsBody">
+    <div class="win__body" id="promptsBody" data-pending="1">
       <p class="label">C:\HEART\prompt\ooc\</p>
 
       <h3 class="sub">OOC</h3>
@@ -1677,7 +1680,7 @@ details[open] { padding-bottom: 12px; }
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
     </header>
-    <div class="win__body" id="widgetsBody">
+    <div class="win__body" id="widgetsBody" data-pending="1">
       <p class="label">C:\HEART\widget\</p>
       <p class="lede">직접 만든 위젯입니다. 색이나 문구는 자유롭게 바꿔주세요.</p>
 
@@ -1739,7 +1742,7 @@ details[open] { padding-bottom: 12px; }
         <button type="button" data-close aria-label="닫기"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
     </header>
-    <div class="win__body" id="guestBody">
+    <div class="win__body" id="guestBody" data-pending="1">
       <p class="label">NEW MESSAGE</p>
       <p class="lede">인사도, 위젯 요청도, CP 이야기도 다 환영합니다.</p>
 
@@ -1809,8 +1812,8 @@ details[open] { padding-bottom: 12px; }
       <div class="player">
         <div class="lp" id="lp" aria-hidden="true"><span class="lp__disc"></span><span class="lp__arm"></span></div>
         <div class="player__info">
-          <p class="track" id="trackTitle">노래를 넣어주세요</p>
-          <p class="track__sub" id="trackArtist">index.html 의 PLAYLIST 목록</p>
+          <p class="track" id="trackTitle">&nbsp;</p>
+          <p class="track__sub" id="trackArtist">&nbsp;</p>
           <div class="mctrl">
             <button type="button" id="mPrev" aria-label="이전 곡">◀◀</button>
             <button type="button" id="mPlay" class="play" aria-label="재생">▶</button>
@@ -1845,7 +1848,7 @@ details[open] { padding-bottom: 12px; }
     <ul>
       <li><button type="button" data-open="blog"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-note"/></svg></span>글</button></li>
       <li><button type="button" data-open="notice"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-bubble"/></svg></span>공지</button></li>
-      <li><button type="button" data-open="profile"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>파는 CP</button></li>
+      <li><button type="button" data-open="profile"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>CP</button></li>
       <li><button type="button" data-open="persona"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-ribbon"/></svg></span>페르소나</button></li>
       <li><button type="button" data-open="prompts"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-floppy"/></svg></span>프롬프트</button></li>
       <li><button type="button" data-open="widgets"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-monitor"/></svg></span>위젯</button></li>
@@ -2678,6 +2681,7 @@ function toHTML(md) {
             '</div>' +
             (c.work ? '<p class="label" style="margin:0 0 8px">' + esc(c.work) + '</p>' : '') +
             tagList(c.tags) +
+            imageRow(c.images) +
             gauge(c.level, c.color) +
             (c.note ? '<p class="cp__note">' + nl2br(c.note) + '</p>' : '') +
             '</div>';
@@ -2709,10 +2713,17 @@ function toHTML(md) {
   /* ---------- 창별로 붙이기 ---------- */
 
   function build(file, id) {
+    var el0 = document.getElementById(id);
+    // 자료를 못 불러와도 2초 뒤에는 원래 내용을 보여줍니다
+    var timer = setTimeout(function () {
+      if (el0) el0.removeAttribute('data-pending');
+    }, 2000);
+
     loadJSON('data/' + file + '.json').then(function (d) {
-      if (!d) return;
       var el = document.getElementById(id);
-      if (!el) return;
+      clearTimeout(timer);
+      if (el) el.removeAttribute('data-pending');
+      if (!d || !el) return;
 
       var h = '';
       if (d.intro) h += '<p class="lede">' + nl2br(d.intro) + '</p>';
