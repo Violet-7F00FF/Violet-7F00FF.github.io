@@ -1072,6 +1072,15 @@ details[open] { padding-bottom: 12px; }
 
 .gblist .empty { display: block; }
 
+.tiny {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--faint);
+  word-break: break-all;
+}
+
 .gb {
   margin-bottom: 9px;
   padding: 11px 13px;
@@ -3149,7 +3158,13 @@ document.addEventListener('click', function (e) {
     return;
   }
 
-  var API = SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/guestbook';
+  // Supabase 가 보여주는 주소는 뒤에 /rest/v1/ 이 붙어 있습니다.
+  // 어느 쪽을 넣어도 되게 정리합니다.
+  var base = SUPABASE_URL.trim()
+    .replace(/\/+$/, '')
+    .replace(/\/rest\/v1$/, '')
+    .replace(/\/+$/, '');
+  var API = base + '/rest/v1/guestbook';
   var HEAD = {
     'apikey': SUPABASE_KEY,
     'Content-Type': 'application/json'
@@ -3168,7 +3183,9 @@ document.addEventListener('click', function (e) {
     if (status === 404 || code === '42P01' || code === 'PGRST205' ||
         /does not exist/i.test(msg)) {
       return '표(guestbook)를 찾을 수 없습니다.<br>' +
-        'Supabase → SQL Editor 에서 설정 안내 2단계 코드를 실행해 주세요.';
+        'Supabase → SQL Editor 에서 <b>notify pgrst, \'reload schema\';</b> 를 실행해 보세요.' +
+        '<br><span class="tiny">' + esc(API) + '</span>' +
+        (msg ? '<br><span class="tiny">' + esc(msg).slice(0, 100) + '</span>' : '');
     }
     if (/row-level security/i.test(msg) || code === '42501') {
       return '쓰기 권한이 없습니다.<br>' +
