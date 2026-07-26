@@ -179,6 +179,15 @@ collections:
                       - { name: badge, label: 배지, widget: select, options: [MAIN, SUB, 관심], default: SUB }
                       - { name: color, label: 카드 색, widget: select, options: [pink, cyan, mint, peach], default: pink }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
+                      - name: images
+                        label: 사진 (최대 3장)
+                        label_singular: 사진
+                        widget: list
+                        required: false
+                        max: 3
+                        fields:
+                          - { name: image, label: 사진, widget: image }
+                          - { name: caption, label: 설명, widget: string, required: false }
                       - { name: level, label: 파는 정도 (0~100), widget: number, value_type: int, min: 0, max: 100, default: 100 }
                       - { name: note, label: 한 줄 소개, widget: text, required: false }
               - name: images
