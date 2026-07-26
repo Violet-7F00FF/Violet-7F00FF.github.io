@@ -27,8 +27,40 @@
               "caption": ""
             }
           ],
-          "note": "",
+          "note": "신이 되고자 한 인간들의 완벽한 실패작",
           "prompt": "1 girl, closed_mouth, expressionless, yellow hair, 2::very low-tied::, twintails, very long hair, straight hair, crossed bangs, purple eyes, sharp cat-eyes, dark eyelashes, small medium breasts, white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, balck boots"
+        },
+        {
+          "name": "알파",
+          "tags": "혼돈 중립, 담담한, 대담한, 조용한, 알 수 없는",
+          "images": [
+            {
+              "image": "/media/알파_8-1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/알파_18.webp",
+              "caption": ""
+            }
+          ],
+          "note": "신이 되고자 한 인간들의 실패작",
+          "prompt": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes, thin_lips, black suit, black suit pants, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, white shirt, black tie, formal shoes, waist belt, thick black belt, black socks,"
+        },
+        {
+          "name": "라피스",
+          "tags": "얌전해 보이는, 장난꾸러기, 활기찬, 성질있는, 기분파",
+          "images": [
+            {
+              "image": "/media/라피스4-3.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/라피스27.webp",
+              "caption": ""
+            }
+          ],
+          "note": "심연을 삼킨 심해의 공포",
+          "prompt": "1 girl, silver-ash hair, vivid blue left streaked bangs, bangs, vivid blue_inner_hair, heart ahoge, straight hair, long hair, 2::high hair ring::, vivid blue eyes, slit pupils, sharp cat-eyes, dark eyelashes, cat-like smile, upturned mouth corners, small mole below the left side of mouth, small medium breast, white turtleneck suit, white pants, black buttons, double-breasted, waist black belt, black boots"
         }
       ]
     }
