@@ -1045,6 +1045,31 @@ details[open] { padding-bottom: 12px; }
   margin: 0;
 }
 
+/* 캐릭터의 한 마디 */
+.pcard__quote {
+  font-family: var(--body);
+  font-size: 12px;
+  font-style: italic;
+  color: #c2317c;
+  letter-spacing: 0;
+}
+
+/* 간단 설정 (색 네모 칸) */
+.spec {
+  margin: 0 0 12px;
+  padding: 11px 13px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
+}
+
+.spec--mint { background: var(--mint-l); }
+.spec--pink { background: var(--pink-l); }
+.spec--cyan { background: var(--cyan-l); }
+.spec--yellow { background: var(--yellow-l); }
+
 /* 본명 (작은 기울임 글씨) */
 .pcard__real {
   font-family: var(--body);
@@ -2975,8 +3000,11 @@ function toHTML(md) {
             '<div class="pcard__head">' +
             '<h4 class="pcard__name">' + esc(p.name) + '</h4>' +
             (p.realname ? '<span class="pcard__real">' + esc(p.realname) + '</span>' : '') +
+            (p.quote ? '<span class="pcard__quote">\u201C' + esc(p.quote) + '\u201D</span>' : '') +
             '</div>' +
             (p.note ? '<p class="cp__note cp__note--top">' + nl2br(p.note) + '</p>' : '') +
+            (p.spec ? '<div class="spec spec--' + esc(p.spec_color || 'mint') + '">' +
+              nl2br(p.spec) + '</div>' : '') +
             tagList(p.tags, 'peach') +
             imageRow(p.images) +
             (p.prompt ? snip((p.name || 'persona') + '.txt', p.prompt) : '') +
