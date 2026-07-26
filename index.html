@@ -1070,6 +1070,8 @@ details[open] { padding-bottom: 12px; }
 
 .gblist { list-style: none; margin: 0; padding: 0; }
 
+.gblist .empty { display: block; }
+
 .gb {
   margin-bottom: 9px;
   padding: 11px 13px;
@@ -3129,6 +3131,155 @@ document.addEventListener('click', function (e) {
     blk.style.display = (!sel || blk.dataset.tag === sel) ? '' : 'none';
   });
 });
+
+
+/* ==========================================================
+   방명록 (Supabase)
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var listEl = document.getElementById('gbList');
+  var formEl = document.getElementById('gbForm');
+  var nameEl = document.getElementById('gbName');
+  var msgEl = document.getElementById('gbMsg');
+  var sendEl = document.getElementById('gbSend');
+  var noteEl = document.getElementById('gbNote');
+  if (!listEl || !sendEl) return;
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function say(html) { listEl.innerHTML = '<li class="empty">' + html + '</li>'; }
+
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    if (formEl) formEl.hidden = true;
+    say('방명록이 아직 연결되지 않았습니다.<br>GUESTBOOK-설정.md 를 보고 연결해 주세요.');
+    return;
+  }
+
+  var API = SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/guestbook';
+  var HEAD = {
+    'apikey': SUPABASE_KEY,
+    'Content-Type': 'application/json'
+  };
+  // 예전 형식(eyJ... 로 시작하는 키)은 Authorization 헤더도 함께 보냅니다
+  if (SUPABASE_KEY.indexOf('eyJ') === 0) {
+    HEAD['Authorization'] = 'Bearer ' + SUPABASE_KEY;
+  }
+
+  /* 오류를 사람이 읽을 수 있게 풀어줍니다 */
+  function explain(status, body) {
+    var msg = (body && (body.message || body.msg || body.error_description ||
+      body.error || body.hint)) || '';
+    var code = (body && body.code) || '';
+
+    if (status === 404 || code === '42P01' || code === 'PGRST205' ||
+        /does not exist/i.test(msg)) {
+      return '표(guestbook)를 찾을 수 없습니다.<br>' +
+        'Supabase → SQL Editor 에서 설정 안내 2단계 코드를 실행해 주세요.';
+    }
+    if (/row-level security/i.test(msg) || code === '42501') {
+      return '쓰기 권한이 없습니다.<br>' +
+        '2단계 코드의 policy(read_all / insert_all) 부분이 빠졌습니다.';
+    }
+    if (status === 401 || status === 403 || /api key/i.test(msg)) {
+      return '열쇠가 맞지 않습니다.<br>' +
+        'Publishable key 를 다시 복사해 넣어주세요. (Secret key 아님)';
+    }
+    if (status === 400 && /check constraint/i.test(msg)) {
+      return '닉네임은 20자, 내용은 500자까지 쓸 수 있어요.';
+    }
+    return '문제가 생겼어요. (' + status + (code ? ' / ' + code : '') + ')<br>' +
+      esc(msg).slice(0, 140);
+  }
+
+  function req(method, url, body) {
+    return fetch(url, {
+      method: method,
+      headers: HEAD,
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (r) {
+      return r.text().then(function (txt) {
+        var json = null;
+        try { json = txt ? JSON.parse(txt) : null; } catch (e) { json = null; }
+        return { ok: r.ok, status: r.status, body: json };
+      });
+    });
+  }
+
+  function when(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.getFullYear() + '.' +
+      String(d.getMonth() + 1).padStart(2, '0') + '.' +
+      String(d.getDate()).padStart(2, '0') + ' ' +
+      String(d.getHours()).padStart(2, '0') + ':' +
+      String(d.getMinutes()).padStart(2, '0');
+  }
+
+  function render(rows) {
+    if (!rows.length) {
+      say('아직 남겨진 글이 없어요.<br>첫 번째로 인사를 남겨주세요!');
+      return;
+    }
+    listEl.innerHTML = rows.map(function (r) {
+      return '<li class="gb"><div class="gb__top">' +
+        '<span class="gb__name">' + esc(r.name || '익명') + '</span>' +
+        '<span class="gb__date">' + when(r.created_at) + '</span></div>' +
+        '<p class="gb__msg">' + esc(r.message).replace(/\n/g, '<br>') + '</p></li>';
+    }).join('');
+  }
+
+  function load() {
+    say('불러오는 중...');
+    req('GET', API + '?select=name,message,created_at&order=created_at.desc&limit=100')
+      .then(function (res) {
+        if (!res.ok) { say(explain(res.status, res.body)); return; }
+        render(Array.isArray(res.body) ? res.body : []);
+      })
+      .catch(function () { say('인터넷 연결을 확인해 주세요.'); });
+  }
+
+  var sending = false;
+
+  function submit() {
+    if (sending) return;
+    var name = nameEl.value.trim().slice(0, 20);
+    var msg = msgEl.value.trim().slice(0, 500);
+
+    if (!name) { noteEl.textContent = '닉네임을 적어주세요.'; nameEl.focus(); return; }
+    if (!msg) { noteEl.textContent = '내용을 적어주세요.'; msgEl.focus(); return; }
+
+    sending = true;
+    sendEl.disabled = true;
+    noteEl.textContent = '남기는 중...';
+
+    req('POST', API, { name: name, message: msg })
+      .then(function (res) {
+        if (!res.ok) {
+          noteEl.textContent = '남기지 못했어요.';
+          say(explain(res.status, res.body));
+          return;
+        }
+        msgEl.value = '';
+        noteEl.textContent = '남겨졌어요. 고마워요!';
+        load();
+      })
+      .catch(function () { noteEl.textContent = '인터넷 연결을 확인해 주세요.'; })
+      .then(function () {
+        sending = false;
+        sendEl.disabled = false;
+      });
+  }
+
+  sendEl.addEventListener('click', submit);
+  load();
+
+}());
 
 </script>
 
