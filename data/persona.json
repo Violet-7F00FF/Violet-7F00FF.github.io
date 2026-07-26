@@ -12,9 +12,18 @@
         {
           "name": "PERSONA 01",
           "tags": "차분함, 존댓말, 감정 표현 적음",
-          "images": [],
           "note": "",
-          "prompt": "이름: (이름)\n나이: (나이) / 성별: (성별)\n외형: (키, 체형, 머리색, 눈색, 인상적인 특징)\n성격: (핵심 성격 3~4개. 모순되는 면도 하나쯤)\n말투: (존댓말/반말, 문장 길이, 자주 쓰는 표현)\n관계: (캐릭터와 어떤 사이인지, 어디까지 알고 있는지)\n현재 상황: (첫 장면에서 어디에 있고 뭘 하는 중인지)\n\n주의사항:\n- 이 페르소나의 대사와 행동은 유저가 직접 씁니다. 대신 쓰지 마세요.\n- 페르소나가 모르는 정보를 아는 것처럼 서술하지 마세요."
+          "images": [
+            {
+              "image": "/media/베타_4.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/베타_38.webp",
+              "caption": ""
+            }
+          ],
+          "prompt": "1 girl, closed_mouth, expressionless, yellow hair, 2::very low-tied::, twintails, very long hair, straight hair, crossed bangs, purple eyes, sharp cat-eyes, dark eyelashes, small medium breasts, white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, balck boots"
         }
       ]
     },
