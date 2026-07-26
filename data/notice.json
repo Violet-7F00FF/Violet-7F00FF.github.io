@@ -1,22 +1,26 @@
 {
   "top_label": "",
+  "top_note": "",
   "intro_heading": "프로필",
   "intro": "20个 | 복제인간 번개 ⚡ 남매의 바람잡이",
   "twitter_id": "@Cookie_B_A",
   "twitter_url": "https://x.com/Cookie_B_A",
   "blocks": [
     {
+      "type": "text",
+      "tag": "",
+      "heading": "공지",
+      "body": "📌 성인 | 여성 | ARCH\n📌 바이브 케바케 only | 그 외 전부 오픈 | 배려 요청 OK\n🚫 계정주 미성년·남성 | 매우 잦은 우울트·욕설트 | 의미 없는 분쟁트·저격트 | 배려 강요\n🚫 제 CP 리버스만 안 하시면 괜찮습니다. 이건 제 여자의 권위에 도전하는 것으로 봅니다."
+    },
+    {
       "type": "callout",
+      "tag": "",
       "heading": "",
       "body": "왼쪽 아이콘이나 아래 START 메뉴를 누르면 창이 열려요. 제목 줄을 잡고 끌면 창이 움직입니다."
     },
     {
       "type": "text",
-      "heading": "공지",
-      "body": "📌 성인 | 여성 | ARCH\n📌 바이브 케바케 only | 그 외 전부 오픈 | 배려 요청 OK\n🚫 계정주 미성년·남성 | 매우 잦은 우울트·욕설트 | 의미 없는 분쟁트·저격트 | 배려 강요\n🚫 제 CP 리버스만 안 하시면 괜찮습니다. 이건 제 여자의 권위에 도전하는 것으로 봅니다."
-    },
-    {
-      "type": "text",
+      "tag": "",
       "heading": "이 방에 있는 것",
       "body": "- **BLOG** — 글\n- **TASTE** — CP\n- **PERSONA** — 페르소나\n- **PROMPT** — !출력, OOC, 프롬프트\n- **WIDGET** — 케이브덕 위젯\n- **GALLERY** — 갤러리\n- **MUSIC** — 배경 음악\n- **GUESTBOOK** — 방명록"
     }
