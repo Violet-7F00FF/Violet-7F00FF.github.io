@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: Violet-7F00FF/Violet-7F00FF.github.io
+  branch: main
+
+# 올린 사진과 음악이 저장되는 곳
+media_folder: /media
+public_folder: /media
+
+collections:
+  # ---------- 글 ----------
+  - name: blog
+    label: 글
+    icon: article
+    files:
+      - name: posts
+        label: 글 목록
+        file: data/posts.json
+        fields:
+          - name: posts
+            label: 글
+            label_singular: 글
+            widget: list
+            summary: '{{fields.date}}  {{fields.title}}'
+            fields:
+              - { name: title, label: 제목, widget: string }
+              - { name: date, label: 날짜, widget: datetime, type: date }
+              - { name: tag, label: 태그, widget: string, required: false, hint: '예) 잡담, 후기' }
+              - { name: cover, label: 대표 이미지, widget: image, required: false }
+              - { name: body, label: 본문, widget: richtext }
+
+  # ---------- 갤러리 ----------
+  - name: gallery
+    label: 갤러리
+    icon: image
+    files:
+      - name: items
+        label: 그림 목록
+        file: data/gallery.json
+        fields:
+          - name: items
+            label: 그림
+            label_singular: 그림
+            widget: list
+            summary: '{{fields.caption}}'
+            fields:
+              - { name: image, label: 그림, widget: image }
+              - { name: caption, label: 설명, widget: string, required: false }
+
+  # ---------- 음악 ----------
+  - name: music
+    label: 음악
+    icon: music_note
+    files:
+      - name: tracks
+        label: 재생 목록
+        file: data/music.json
+        fields:
+          - name: tracks
+            label: 노래
+            label_singular: 노래
+            widget: list
+            summary: '{{fields.title}}'
+            fields:
+              - { name: title, label: 제목, widget: string }
+              - { name: artist, label: 아티스트, widget: string, required: false }
+              - { name: file, label: 음악 파일, widget: file, media_library: { config: { max_file_size: 20000000 } } }
