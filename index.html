@@ -355,22 +355,25 @@ a.dockbtn { text-decoration: none; }
 .win__btns { display: flex; gap: 3px; }
 
 .win__btns button {
-  width: 21px;
-  height: 21px;
-  display: grid;
-  place-items: center;
-  font-size: 10px;
-  line-height: 1;
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  padding: 0;          /* 브라우저 기본 여백 제거 */
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  font-size: 0;
   color: var(--outline);
   background: #fff;
   border: 2px solid var(--outline);
-  box-shadow: inset -2px -2px 0 rgba(43,30,82,0.14);
 }
 
 .win__btns button svg {
   display: block;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   fill: currentColor;
 }
 
@@ -2642,6 +2645,9 @@ function toHTML(md) {
       case 'text':
         return heading(b.heading) + toHTML(b.body);
 
+      case 'callout':
+        return heading(b.heading) + '<div class="callout">' + toHTML(b.body) + '</div>';
+
       case 'tags':
         return heading(b.heading) + tagList(b.tags, b.color);
 
@@ -2710,7 +2716,23 @@ function toHTML(md) {
 
       var h = '';
       if (d.intro) h += '<p class="lede">' + nl2br(d.intro) + '</p>';
-      h += renderBlocks(d.blocks);
+
+      // 트위터 링크 (공지 창)
+      if (d.twitter_url) {
+        h += '<ul class="linkrow"><li><a class="linkbtn" href="' + esc(d.twitter_url) +
+          '" target="_blank" rel="noopener">' +
+          '<svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg>' +
+          esc(d.twitter_id || '트위터') + '</a></li></ul>';
+      }
+
+      var blocks = d.blocks;
+      // 예전 형식(sections)으로 저장된 내용도 그대로 보여줍니다
+      if (!blocks && d.sections) {
+        blocks = d.sections.map(function (s) {
+          return { type: 'text', heading: s.heading, body: s.body };
+        });
+      }
+      h += renderBlocks(blocks);
 
       if (id === 'guestBody') {
         // 방명록은 입력칸과 목록을 그대로 두고, 아래에만 붙입니다
