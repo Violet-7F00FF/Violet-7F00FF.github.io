@@ -845,35 +845,52 @@ details[open] { padding-bottom: 12px; }
   color: var(--ink);
 }
 
-/* ---------- 태그 탭 ---------- */
+/* ---------- 다이어리 탭 ---------- */
 
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin: 0 0 16px;
-  padding-bottom: 12px;
-  border-bottom: 3px dotted var(--grape-l);
+  gap: 4px;
+  margin: 0 0 0 6px;
+  padding: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .tab {
+  position: relative;
+  top: 3px;
   font-family: var(--mini);
   font-size: 10px;
   letter-spacing: 0.04em;
-  padding: 6px 12px;
+  padding: 7px 13px 8px;
   color: var(--ink);
-  background: #fff;
+  background: var(--grape-l);
   border: 3px solid var(--outline);
-  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+  border-bottom: 3px solid var(--outline);
 }
 
 .tab:hover { background: var(--yellow-l); }
 
+/* 선택된 탭은 아래 종이와 이어집니다 */
 .tab.on {
-  background: var(--pink);
-  color: #fff;
-  box-shadow: inset 2px 2px 0 rgba(43,30,82,0.18);
+  background: #fff;
+  border-bottom-color: #fff;
+  padding-bottom: 11px;
+  z-index: 3;
 }
+
+/* 탭 아래 종이 한 장 */
+.pane {
+  position: relative;
+  z-index: 1;
+  padding: 18px 17px 6px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.22);
+}
+
+.pane > :first-child { margin-top: 0; }
 
 .blk { margin: 0; }
 
@@ -891,10 +908,10 @@ details[open] { padding-bottom: 12px; }
 
 .headrow .label { margin: 0; }
 
-.headrow .tabs {
-  margin: 0;
-  padding: 0;
+.headrow--plain {
   border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 11px;
 }
 
 /* 항목 목록 중간에 넣은 라벨 */
@@ -1911,8 +1928,7 @@ details[open] { padding-bottom: 12px; }
       </div>
     </header>
     <div class="win__body" id="guestBody" data-pending="1">
-      <p class="label">NEW MESSAGE</p>
-      <p class="lede">인사도, 위젯 요청도, CP 이야기도 다 환영합니다.</p>
+      <div id="gbExtra"></div>
 
       <div class="gbform" id="gbForm">
         <input type="text" id="gbName" class="gbin" maxlength="20" placeholder="닉네임">
@@ -1925,8 +1941,6 @@ details[open] { padding-bottom: 12px; }
       </div>
 
       <ul class="gblist" id="gbList"></ul>
-
-      <div id="gbExtra"></div>
     </div>
   </section>
 
@@ -2981,17 +2995,7 @@ function toHTML(md) {
       }).join('');
     }
 
-    var bar = '';
-    if (tags.length) {
-      bar = '<div class="tabs">' +
-        '<button type="button" class="tab on" data-tab="">전체</button>' +
-        tags.map(function (t) {
-          return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
-            esc(t) + '</button>';
-        }).join('') + '</div>';
-    }
-
-    // 목록 맨 앞의 '작은 라벨' 은 창 맨 윗줄로 올립니다 (태그 버튼과 나란히)
+    // 목록 맨 앞의 '작은 라벨' 은 창 맨 윗줄로
     var labels = [];
     var k = 0;
     while (k < blocks.length && blocks[k] && blocks[k].type === 'label' && !tagOf(blocks[k])) {
@@ -3000,12 +3004,23 @@ function toHTML(md) {
     }
     var rest = blocks.slice(k);
 
-    var row = '';
-    if (labels.length || bar) {
-      row = '<div class="headrow">' + labels.join('') + bar + '</div>';
+    var tabsHtml = '';
+    if (tags.length) {
+      tabsHtml = '<div class="tabs">' +
+        '<button type="button" class="tab on" data-tab="">전체</button>' +
+        tags.map(function (t) {
+          return '<button type="button" class="tab" data-tab="' + esc(t) + '">' +
+            esc(t) + '</button>';
+        }).join('') + '</div>';
     }
 
-    return { row: row, body: wrap(rest) };
+    var row = '';
+    if (labels.length) {
+      row = '<div class="headrow' + (tags.length ? ' headrow--plain' : '') + '">' +
+        labels.join('') + '</div>';
+    }
+
+    return { row: row, tabs: tabsHtml, hasTabs: !!tags.length, body: wrap(rest) };
   }
 
   /* ---------- 창별로 붙이기 ---------- */
@@ -3064,15 +3079,18 @@ function toHTML(md) {
       out = renderTabbed(blocks);
       out_hasBody = !!out.body;
 
-      // 소개글과 본문 사이 나눔선
-      if (head && out_hasBody) head += '<div class="hr"></div>';
-
-      h = out.row + head + out.body;
+      if (out.hasTabs) {
+        // 다이어리 탭 + 종이 한 장
+        h = out.row + out.tabs +
+            '<div class="pane">' + head + out.body + '</div>';
+      } else {
+        h = out.row + head + out.body;
+      }
 
       if (id === 'guestBody') {
-        // 방명록은 입력칸과 목록을 그대로 두고, 아래에만 붙입니다
+        // 방명록은 입력칸 위에 붙입니다
         var extra = document.getElementById('gbExtra');
-        if (extra && h) extra.innerHTML = h;
+        if (extra) extra.innerHTML = h;
         return;
       }
 
