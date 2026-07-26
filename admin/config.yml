@@ -96,6 +96,7 @@ collections:
         file: data/notice.json
         fields:
           - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, default: WELCOME, hint: '비워두면 안 나옵니다' }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
           - { name: intro_heading, label: 프로필 소제목, widget: string, required: false, default: 프로필 }
           - { name: intro, label: 프로필 소개글, widget: text, required: false }
           - { name: twitter_id, label: 트위터 아이디, widget: string, required: false, hint: '예) @Cookie_B_A' }
@@ -111,12 +112,14 @@ collections:
                 label: 글
                 summary: '글 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - { name: body, label: 내용, widget: richtext }
               - name: tags
                 label: 태그 묶음
                 summary: '태그 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - { name: tags, label: 태그, widget: string, hint: '쉼표로 구분. 예) 현대물, 학원물' }
                   - { name: color, label: 색, widget: select, required: false, options: [pink, cyan, mint, yellow, peach, grape] }
@@ -124,17 +127,20 @@ collections:
                 label: 노란 상자
                 summary: '상자 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - { name: body, label: 내용, widget: richtext }
               - name: label
                 label: 작은 라벨
                 summary: '라벨 · {{fields.text}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: text, label: 내용, widget: string }
               - name: code
                 label: 복사되는 상자
                 summary: '상자 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - { name: filename, label: 상자 이름, widget: string, required: false }
                   - { name: code, label: 내용, widget: text }
@@ -142,6 +148,7 @@ collections:
                 label: 접히는 목록
                 summary: '접기 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - name: items
                     label: 항목
@@ -155,6 +162,7 @@ collections:
                 label: 작은 카드
                 summary: '카드 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - name: items
                     label: 카드
@@ -169,6 +177,7 @@ collections:
                 label: CP 카드
                 summary: 'CP · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - name: items
                     label: CP
@@ -196,6 +205,7 @@ collections:
                 label: 사진 나열
                 summary: '사진 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - name: items
                     label: 사진
@@ -204,10 +214,20 @@ collections:
                     fields:
                       - { name: image, label: 사진, widget: image }
                       - { name: caption, label: 설명, widget: string, required: false }
+              - name: widget
+                label: 위젯 (미리보기 + 링크)
+                summary: '위젯 · {{fields.name}}'
+                fields:
+                  - { name: name, label: 위젯 이름, widget: string, hint: '위쪽 태그 버튼 이름이 됩니다' }
+                  - { name: meta, label: 부가 정보, widget: string, required: false, hint: '예) 2026.07 · 8색' }
+                  - { name: image, label: 미리보기 사진, widget: image, required: false }
+                  - { name: desc, label: 설명, widget: text, required: false }
+                  - { name: link, label: 공유 링크, widget: string, required: false }
               - name: personas
                 label: 페르소나 카드
                 summary: '페르소나 · {{fields.heading}}'
                 fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - name: items
                     label: 페르소나
@@ -238,7 +258,10 @@ collections:
         label: 파는 CP 창
         file: data/taste.json
         fields:
-          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, hint: '비워두면 안 나옵니다' }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
+          - { name: intro_heading, label: 소개글 소제목, widget: string, required: false }
+          - { name: intro, label: 소개글, widget: text, required: false }
           - *blocks
 
   # ---------- 페르소나 ----------
@@ -250,7 +273,10 @@ collections:
         label: 페르소나 창
         file: data/persona.json
         fields:
-          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, hint: '비워두면 안 나옵니다' }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
+          - { name: intro_heading, label: 소개글 소제목, widget: string, required: false }
+          - { name: intro, label: 소개글, widget: text, required: false }
           - *blocks
 
   # ---------- 프롬프트 ----------
@@ -262,7 +288,10 @@ collections:
         label: 프롬프트 창
         file: data/prompts.json
         fields:
-          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, hint: '비워두면 안 나옵니다' }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
+          - { name: intro_heading, label: 소개글 소제목, widget: string, required: false }
+          - { name: intro, label: 소개글, widget: text, required: false }
           - *blocks
 
   # ---------- 위젯 ----------
@@ -274,7 +303,10 @@ collections:
         label: 위젯 창
         file: data/widgets.json
         fields:
-          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, hint: '비워두면 안 나옵니다' }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
+          - { name: intro_heading, label: 소개글 소제목, widget: string, required: false }
+          - { name: intro, label: 소개글, widget: text, required: false }
           - *blocks
 
   # ---------- 방명록 안내 ----------
@@ -286,5 +318,8 @@ collections:
         label: 방명록 창 아래 내용
         file: data/guest.json
         fields:
-          - { name: intro, label: 맨 위 인사말, widget: text, required: false }
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false, hint: '비워두면 안 나옵니다' }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
+          - { name: intro_heading, label: 소개글 소제목, widget: string, required: false }
+          - { name: intro, label: 소개글, widget: text, required: false }
           - *blocks
