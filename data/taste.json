@@ -1,12 +1,17 @@
 {
+  "top_label": "",
+  "top_note": "",
+  "intro_heading": "COOKIE",
   "intro": "쿠키의 애호 쿠키 세트 모음",
   "blocks": [
     {
       "type": "label",
+      "tag": "",
       "text": "CP"
     },
     {
       "type": "cps",
+      "tag": "",
       "heading": "바벨탑",
       "items": [
         {
