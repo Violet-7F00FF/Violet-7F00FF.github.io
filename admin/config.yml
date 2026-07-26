@@ -214,6 +214,24 @@ collections:
                     fields:
                       - { name: image, label: 사진, widget: image }
                       - { name: caption, label: 설명, widget: string, required: false }
+              - name: promptcard
+                label: 프롬프트 카드 (사진 + 복사)
+                summary: '프롬프트 · {{fields.heading}}'
+                fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
+                  - { name: heading, label: 제목, widget: string }
+                  - { name: desc, label: 설명, widget: richtext, required: false }
+                  - name: images
+                    label: 사진 (최대 3장)
+                    label_singular: 사진
+                    widget: list
+                    required: false
+                    max: 3
+                    fields:
+                      - { name: image, label: 사진, widget: image }
+                      - { name: caption, label: 설명, widget: string, required: false }
+                  - { name: filename, label: 복사 상자 이름, widget: string, required: false }
+                  - { name: code, label: 프롬프트 내용 (복사됨), widget: text }
               - name: widget
                 label: 위젯 (미리보기 + 링크)
                 summary: '위젯 · {{fields.name}}'
