@@ -49,8 +49,9 @@
           ],
           "note": "신이 되고자 한 인간들의 실패작",
           "realname": "무 한",
-          "quote": "",
-          "spec": "",
+          "quote": "신들의 오만을, 끌어내리겠다.",
+          "spec": "#복제_인간 #인공_센티넬 #번개",
+          "spec_color": "yellow",
           "prompt": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes, thin_lips, black suit, black suit pants, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, white shirt, black tie, formal shoes, waist belt, thick black belt, black socks,"
         },
         {
@@ -68,6 +69,9 @@
           ],
           "note": "심연을 삼킨 심해의 공포",
           "realname": "청하",
+          "quote": "네 녀석들의 미래는 네 손에 있는 거다!",
+          "spec": "#미친_살쾡이 #가이드 #물",
+          "spec_color": "cyan",
           "prompt": "1 girl, silver-ash hair, vivid blue left streaked bangs, bangs, vivid blue_inner_hair, heart ahoge, straight hair, long hair, 2::high hair ring::, vivid blue eyes, slit pupils, sharp cat-eyes, dark eyelashes, cat-like smile, upturned mouth corners, small mole below the left side of mouth, small medium breast, white turtleneck suit, white pants, black buttons, double-breasted, waist black belt, black boots"
         },
         {
@@ -85,7 +89,170 @@
           ],
           "note": "바람이 속삭이는 천공의 협주곡",
           "realname": "아리",
+          "quote": "조율 완료.. 지휘자님, 지휘를.",
+          "spec": "#첼리스트 #센티넬 #바람",
+          "spec_color": "mint",
           "prompt": "1 girl, closed_mouth, brown hair, dark green_inner_hair, long hair, half up half down braid, blunt ends, asymmetrical bangs, dark green eyes, tareme, expressionless, medium breasts, black suit, black shirt, mermaid line black skirt, long skirt, balck wedge_heels, green ribbon tie, simple gold epaulettes, gold buttons, double-breasted, black belt, pantyhose, holding cello upright beside her, holding a bow in her right hand"
+        },
+        {
+          "name": "레이븐",
+          "tags": "중립, 침착함, 손익을 중요시 하는, 상황을 다루는데 능숙한",
+          "images": [
+            {
+              "image": "/media/레이븐2.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/레이븐3.webp",
+              "caption": ""
+            }
+          ],
+          "note": "비밀을 감춘 검은 재의 기록자",
+          "realname": "정의온(그레이)",
+          "quote": "그레이는 흥정 같은 거 안 받아. 그 정도는 알지?",
+          "spec": "#정보상 #센티넬 #불",
+          "spec_color": "pink",
+          "prompt": "1 girl, close mouth,expressionless, gray hair, low twintails, long hair, hair between eyes, black thin hair tie, 3::heterochromia(((deep yellow eye, deep pink eye)))::, tsurime, upturned eyes, medium breasts, 2:: V-neck black suit::, 2::black turtleneck shirt::, black suit pants, 2::simple gold epaulettes::, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots"
+        },
+        {
+          "name": "써드",
+          "tags": "칼날 같은, 무심함, 이익 따짐, 자기 말고는 관심 없음, 권태로운",
+          "images": [
+            {
+              "image": "/media/써드3.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/써드22.webp",
+              "caption": ""
+            }
+          ],
+          "note": "하데스의 세번째 아귀",
+          "realname": "초현",
+          "quote": "빠를 때는 달이 가깝지. 그러나 늦을 때는 달은 멀 뿐이다.",
+          "spec": "#암살자 #센티넬 #얼음",
+          "spec_color": "pink",
+          "prompt": "1 girl, black hair, wolf cut, short hair, red eyes, tsurime, dog mouth mask, large breast, black suit, black drees shirt, red tie, black suit pants, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots, Black leather fingerless gloves, black nails"
+        },
+        {
+          "name": "브라이어",
+          "tags": "싸가지 없음, 고고한, 권위적인, 말수 적은, 이성적인",
+          "images": [
+            {
+              "image": "/media/브라이어4.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/브라이어2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "고고한 장미의 무덤 속 가시",
+          "realname": "한도연",
+          "quote": "네 존재가 어리석음이야. 그것도 몰라?",
+          "spec": "#고고한_장미 #가이드 #불",
+          "spec_color": "pink",
+          "prompt": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::fipped hair::, 2::dark pink eyes::, half-closed eyes, white eyelashes, white suit, white pants, 2::white dress shirt::, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, 2::gold buttons::, double-breasted, ear piercing,"
+        },
+        {
+          "name": "마리포사",
+          "tags": "혼돈, 냉혹한, 신비한, 알 수 없는, 잔혹한",
+          "images": [
+            {
+              "image": "/media/마리포사-10.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/마리포사-13.webp",
+              "caption": ""
+            }
+          ],
+          "note": "바늘에 꽂힌 꽃잎, 숨이 멎은 날개",
+          "realname": "비나리",
+          "quote": "오늘은.. 어떤 꽃이 있으려나.",
+          "spec": "#나비_박제사 #센티넬 #풀",
+          "spec_color": "cyan",
+          "prompt": "1 girl, 2::pale white skin::, sitting, black wheelchair, midnight blue hair, cyan inner hair, 1.5::twintails::, hair between eyes, long hair, crossed bangs, black eyes, 1.5::cyan shining pupil::, hair between eyes, tareme, 2::cyan butterfly on eye::, cover one eye, upturned eyes, seductive smile, close mouth, large breast, 1.5::cyan rose both hair tie::, 1.5::black nail::, off-shoulder black dress, mermaid line dress, bare shoulders, halter neck, see-through, mesh panel, rose race overlay, ruffle sleeve, gold butterfly choker, black heel,"
+        },
+        {
+          "name": "글레이시아",
+          "tags": "질서 선, 엉성한, 엉뚱한, 예의 바른, 허둥거리는",
+          "images": [
+            {
+              "image": "/media/글레이시아1-복사.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/글레이시아4.webp",
+              "caption": ""
+            }
+          ],
+          "note": "우당탕, 시끄러운 소리와 함께하는 죽음의 한기",
+          "realname": "연화",
+          "quote": "에헤헤.. 이번에는 제대로 할 수 있을 거예요. 아마도요!",
+          "spec": "#덜렁이_사신님 #가이드 #얼음",
+          "spec_color": "mint",
+          "prompt": "1 girl, smile, white hair, bluish hair, wispy bangs, long hair, 2::soft wave hair::, light sky eyes, tareme, 2::short eyebrows::, large breast, white suit, 2::white dress shirt::, light sky necktie, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, gold button, 3::white long pleated skirt::, white combat boots\n\n스트레이 한정 - 센티넬.ver\nblack suit, 2::white dress shirt::, light sky necktie, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, gold button, 3::black long pleated skirt::, black combat boots"
+        },
+        {
+          "name": "아메시스트",
+          "tags": "섬세함, 공감적인, 조금 무심한, 세심한, 눈치 빠른",
+          "images": [
+            {
+              "image": "/media/아메시스트1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/아메시스트5-복사.webp",
+              "caption": ""
+            }
+          ],
+          "note": "포용하는 밤하늘의 부드러움",
+          "realname": "서자운",
+          "quote": "ウチ는 아메시스트, 잘 부탁해.",
+          "spec": "#모두의_언니 #가이드 #풀",
+          "spec_color": "yellow",
+          "prompt": "1 male, 0.3::muscular::, close mouth, gentle smile, drak purple hair, wolf cut, long hair, side part bangs, blunt bangs, light pink eyes, tareme, gentle eyes, upturned eyes, prominent eyelashes, thick eyebrows, white suit, white dress shirt, dark purple tie, 3::simple lapel, no decor on lapel::, 2::black buttons::, double-breasted, white pants, balck formal shoes,"
+        },
+        {
+          "name": "헬레나",
+          "tags": "우아한, 싱그러운, 다정한, 강인한, 혼돈",
+          "images": [
+            {
+              "image": "/media/헬레나1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/헬레나2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "천사의 가면 아래 드리워진 심연의 존재",
+          "realname": "서연아",
+          "quote": "네 멍청함을 탓해, 보잘 것 없는 삶이잖아.",
+          "spec": "#심연 #센티넬 #물",
+          "spec_color": "mint",
+          "prompt": "1 girl, smile, gentle face, gray hair, 0.4::green hair::, short hair, swept bangs, single low right side small bun, gray eyes, 0.4::green eyes::, tareme, large breast, black suit, white dress shirt, gray necktie, 2::shoulder board::, 3::simple lapel, no decor on lapel::, black A-line  short skirt, double-breasted, black buttons, balck formal shoes,"
+        },
+        {
+          "name": "발푸르기스",
+          "tags": "조용한, 차가운, 신중한, 독립적인, 무관심한",
+          "images": [
+            {
+              "image": "/media/발푸르기스1_2.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/발푸르기스2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "저주받은 마녀의 고독한 불행",
+          "realname": "메데아",
+          "quote": "...마녀의 밤은 끝나지 않아.",
+          "spec": "#마녀 #가이드 #바람",
+          "spec_color": "cyan",
+          "prompt": "1 girl, 2::pale skin::, dark blue hair, hime cut, long hair, black eyes, tsurime, expressionless, close mouth, medium breasts, white suit, dark blue dress shirt, white necktie, 2::shoulder board::, 3::white lapel, simple lapel, no decor on lapel::, double-breasted, black buttons, white gored long skirt, dark blue heel,"
         }
       ]
     }
