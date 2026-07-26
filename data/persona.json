@@ -64,6 +64,23 @@
           "note": "심연을 삼킨 심해의 공포",
           "realname": "청하",
           "prompt": "1 girl, silver-ash hair, vivid blue left streaked bangs, bangs, vivid blue_inner_hair, heart ahoge, straight hair, long hair, 2::high hair ring::, vivid blue eyes, slit pupils, sharp cat-eyes, dark eyelashes, cat-like smile, upturned mouth corners, small mole below the left side of mouth, small medium breast, white turtleneck suit, white pants, black buttons, double-breasted, waist black belt, black boots"
+        },
+        {
+          "name": "피네",
+          "tags": "질서 선, 조용한, 매력적인, 우아한, 예의 바른",
+          "images": [
+            {
+              "image": "/media/피네3-3.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/피네44.webp",
+              "caption": ""
+            }
+          ],
+          "note": "바람이 속삭이는 천공의 협주곡",
+          "realname": "아리",
+          "prompt": "1 girl, closed_mouth, brown hair, dark green_inner_hair, long hair, half up half down braid, blunt ends, asymmetrical bangs, dark green eyes, tareme, expressionless, medium breasts, black suit, black shirt, mermaid line black skirt, long skirt, balck wedge_heels, green ribbon tie, simple gold epaulettes, gold buttons, double-breasted, black belt, pantyhose, holding cello upright beside her, holding a bow in her right hand"
         }
       ]
     }
