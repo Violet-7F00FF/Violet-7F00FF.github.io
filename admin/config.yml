@@ -254,6 +254,8 @@ collections:
                     summary: '{{fields.name}}'
                     fields:
                       - { name: name, label: 이름, widget: string }
+                      - { name: realname, label: 본명, widget: string, required: false, hint: '이름 옆 네모 박스에 들어갑니다' }
+                      - { name: note, label: 설명 (이름 아래), widget: text, required: false }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
                       - name: images
                         label: 사진 (최대 3장)
@@ -264,7 +266,6 @@ collections:
                         fields:
                           - { name: image, label: 사진, widget: image }
                           - { name: caption, label: 설명, widget: string, required: false }
-                      - { name: note, label: 설명, widget: text, required: false }
                       - { name: prompt, label: 프롬프트, widget: text, required: false }
 
   # ---------- 파는 CP ----------
