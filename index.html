@@ -390,6 +390,12 @@ a.dockbtn { text-decoration: none; }
 /* 자료를 불러오는 동안 잠깐 감춤 */
 .win__body[data-pending] { opacity: 0; }
 
+/* 창 안 모든 사진은 창 너비를 넘지 않습니다 */
+.win__body img {
+  max-width: 100%;
+  height: auto;
+}
+
 .win__body > :first-child { margin-top: 0; }
 .win__body > :last-child  { margin-bottom: 0; }
 
@@ -870,6 +876,38 @@ details[open] { padding-bottom: 12px; }
 }
 
 .blk { margin: 0; }
+
+/* ---------- 프롬프트 카드 ---------- */
+
+.pmt {
+  margin-bottom: 16px;
+  padding: 13px 14px 14px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.22);
+}
+
+.pmt__name {
+  font-family: var(--pixel);
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0 0 9px;
+  padding-bottom: 8px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+.pmt__desc {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+
+.pmt__desc > :first-child { margin-top: 0; }
+.pmt__desc > :last-child { margin-bottom: 0; }
+
+.pmt .shots { margin-top: 0; }
+.pmt .snip { margin-bottom: 0; }
 
 /* ---------- 위젯 카드 ---------- */
 
@@ -2841,6 +2879,14 @@ function toHTML(md) {
 
       case 'images':
         return heading(b.heading) + imageRow(b.items);
+
+      case 'promptcard':
+        return '<div class="pmt">' +
+          (b.heading ? '<h4 class="pmt__name">' + esc(b.heading) + '</h4>' : '') +
+          (b.desc ? '<div class="pmt__desc">' + toHTML(b.desc) + '</div>' : '') +
+          imageRow(b.images) +
+          (b.code ? snip(b.filename || b.heading || 'prompt', b.code) : '') +
+          '</div>';
 
       case 'widget':
         return '<div class="wcard">' +
