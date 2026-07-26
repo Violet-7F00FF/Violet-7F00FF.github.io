@@ -3,181 +3,2402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>해바라기의 방</title>
-<meta name="description" content="AI챗 취향, 페르소나 프롬프트, 위젯을 모아두는 방입니다.">
+<title>VIOLET OS</title>
+<meta name="description" content="파는 CP와 장르, 페르소나 프롬프트, 위젯을 모아둔 방입니다.">
+<meta name="theme-color" content="#b98af2">
+<meta property="og:title" content="VIOLET OS">
+<meta property="og:description" content="파는 CP와 장르, 페르소나 프롬프트, 위젯을 모아둔 방입니다.">
+<meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<style>
+/* ==========================================================
+   VIOLET OS v3 — 밝은 바이올렛 + 캔디 팝
+   ========================================================== */
+
+:root {
+  --outline: #2b1e52;
+
+  --wall:  #8079f0;
+  --paper: #ffffff;
+  --soft:  #f6f1ff;
+  --soft2: #ece3ff;
+
+  --pink:   #ff5fa8;  --pink-l:   #ffd6ea;
+  --cyan:   #3fd3e8;  --cyan-l:   #ccf4fa;
+  --yellow: #ffd93d;  --yellow-l: #fff5c2;
+  --mint:   #4ddcb4;  --mint-l:   #d0f8ec;
+  --grape:  #9b6cf5;  --grape-l:  #e6dbff;
+  --peach:  #ff9a5c;  --peach-l:  #ffe1cc;
+
+  --ink:   #2b1e52;
+  --sub:   #7565a8;
+  --faint: #a496cc;
+
+  --bar-h:  32px;
+  --task-h: 48px;
+
+  --pixel: 'Galmuri11', 'Galmuri9', 'DungGeunMo', monospace;
+  --mini:  'Galmuri9', 'Galmuri11', monospace;
+  --body:  'Pretendard Variable', Pretendard, -apple-system,
+           'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+
+/* ---------- 마우스 커서 ---------- */
+/* Purple Angel Wing Heart — https://www.cursors-4u.com/cursor/purple-angel-wing-heart
+   앞의 주소가 안 불러와지면 뒤의 내장 도트 그림으로 넘어갑니다 */
+* {
+  cursor:
+    url('https://cdn.cursors-4u.net/previews/purple-angel-wing-heart-a260d23e-32.webp') 4 4,
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR42mNgGOmAEV1AWy7oPwMDA8PVR+sYsYnDALo8serQzWca6BBgQXfZlYdrGRgYGBh05INRfFLgtxhF44RNDCg+genHpQ4G0M0f8BBgRPc5DOjIB2P1OTqYsCmWJHXo9gzeECA1JAiBlMlcWMUHPhfAUjEsVeIKCXIBLO5TJmNPYwOfBnCVZEj5lQFfeUDI51jyP8OgKgkZcUkQqhNwhQTM54TqgMFTDpCrET0kcPmcEBjwEKAYaMsF/UdvA4ysEBgFo2AUjIJRMOQBAEzfaW9UVoGlAAAAAElFTkSuQmCC') 6 6,
+    auto !important;
+}
+
+/* ---------- 물방울 커서 효과 ---------- */
+
+.bubbles {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bub {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  border-top: 1px solid #aa66ff;
+  border-left: 1px solid #aa66ff;
+  border-right: 1px solid #6600ff;
+  border-bottom: 1px solid #6600ff;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; overflow: hidden; }
+
+body {
+  font-family: var(--body);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.7;
+  background-color: var(--wall);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.55) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.55) 2px, transparent 2px),
+    linear-gradient(rgba(255,255,255,0.28) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.28) 1px, transparent 1px);
+  background-size: 148px 148px, 148px 148px, 37px 37px, 37px 37px;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: var(--pixel); cursor: pointer; }
+
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+
+svg { shape-rendering: crispEdges; }
+
+/* ---------- 데스크톱 ---------- */
+
+#desk { position: relative; width: 100%; height: 100%; }
+
+/* ---------- 큼직한 배경 장식 ---------- */
+
+.bg {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bg svg { display: block; width: 100%; height: 100%; shape-rendering: geometricPrecision; }
+
+/* 반짝이 */
+.sparkle svg { fill: var(--pink-l); stroke: var(--outline); stroke-width: 5; }
+.sparkle--w svg { fill: #ffffff; }
+
+/* 스티커 (네모 안에 기호) */
+.sticker {
+  display: grid;
+  place-items: center;
+  background: var(--grape);
+  border: 4px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.25);
+}
+.sticker svg { width: 66%; height: 66%; fill: var(--pink-l); stroke: none; }
+.sticker--pink { background: var(--pink); }
+.sticker--cyan { background: var(--cyan); }
+
+/* 동그란 얼굴 */
+.face {
+  border-radius: 50%;
+  background: var(--pink-l);
+  border: 4px solid var(--outline);
+}
+.face--blue { background: #9db4f5; }
+.face svg { fill: none; stroke: var(--outline); stroke-width: 7; stroke-linecap: round; }
+.face svg .eye { fill: var(--outline); stroke: none; }
+
+/* 색상 팔레트 */
+.palette {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 7px;
+  background: #fff;
+  border: 4px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.25);
+}
+.palette i { display: block; aspect-ratio: 1; border: 2px solid var(--outline); }
+
+/* 행성 */
+.planet {
+  border-radius: 50%;
+  background: var(--pink);
+  border: 4px solid var(--outline);
+  overflow: hidden;
+}
+.planet svg { fill: none; stroke: var(--outline); stroke-width: 6; }
+
+/* 위치 */
+.bg--1  { top: 5%;    left: 21%;  width: 62px; height: 62px; }
+.bg--2  { top: 30%;   right: 4%;  width: 96px; height: 96px; }
+.bg--3  { bottom: 8%; left: 34%;  width: 54px; height: 54px; }
+.bg--4  { top: 62%;   left: 15%;  width: 46px; height: 46px; }
+.bg--5  { top: 12%;   right: 26%; width: 40px; height: 40px; }
+.bg--6  { bottom: 26%; right: 15%; width: 58px; height: 58px; }
+.bg--7  { top: 46%;   left: 44%;  width: 44px; height: 44px; }
+.bg--8  { top: 8%;    right: 9%;  width: 86px; height: 86px; }
+.bg--9  { bottom: 12%; right: 5%; width: 92px; height: 92px; }
+.bg--10 { top: 70%;   right: 33%; width: 76px; height: 76px; }
+.bg--11 { top: 20%;   left: 52%;  width: 50px; height: 50px; }
+.bg--12 { bottom: 30%; left: 8%;  width: 86px; height: 212px; }
+.bg--13 { top: 84%;   left: 62%;  width: 42px; height: 42px; }
+
+/* ---------- 상단 티커 ---------- */
+
+.ticker {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px 18px;
+  max-width: calc(100% - 40px);
+  padding: 8px 18px;
+  font-family: var(--mini);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.35);
+}
+
+.ticker b { color: var(--pink); font-weight: normal; }
+.ticker .ok { color: #17a883; }
+
+/* ---------- 아이콘 독 (상자 없음) ---------- */
+
+.dock {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+  z-index: 6;
+  width: 86px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dockbtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 3px 5px;
+  background: transparent;
+  border: 2px dotted transparent;
+  color: #fff;
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 var(--outline), -1px 1px 0 var(--outline),
+               1px -1px 0 var(--outline), -1px -1px 0 var(--outline);
+}
+
+.dockbtn .ico {
+  display: block;
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(2px 3px 0 rgba(43,30,82,0.35));
+}
+
+.dockbtn:hover,
+.dockbtn.active {
+  background: rgba(43, 30, 82, 0.28);
+  border-color: #fff;
+}
+
+/* ---------- 창 ---------- */
+
+.win {
+  --bar: var(--grape);
+  --bar-ink: #ffffff;
+  position: absolute;
+  left: var(--x, 200px);
+  top: var(--y, 90px);
+  width: var(--w, 460px);
+  max-width: calc(100vw - 28px);
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  background: var(--paper);
+  border: 3px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.38);
+}
+
+.win.open { display: flex; }
+
+.win--pink   { --bar: var(--pink); }
+.win--cyan   { --bar: var(--cyan); }
+.win--mint   { --bar: var(--mint); }
+.win--peach  { --bar: var(--peach); }
+.win--yellow { --bar: var(--yellow); --bar-ink: #4a3708; }
+
+.win__bar {
+  flex: none;
+  height: var(--bar-h);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 3px 3px 0;
+  padding: 0 3px 0 7px;
+  background-color: var(--bar);
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.win__bar:active { cursor: grabbing; }
+
+.win__glyph { flex: none; display: grid; place-items: center; }
+.win__glyph svg { width: 17px; height: 17px; }
+
+.win__title {
+  flex: 1;
+  margin: 0;
+  font-family: var(--pixel);
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 0.07em;
+  color: var(--bar-ink);
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.win__btns { display: flex; gap: 3px; }
+
+.win__btns button {
+  width: 21px;
+  height: 21px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--outline);
+  background: #fff;
+  border: 2px solid var(--outline);
+  box-shadow: inset -2px -2px 0 rgba(43,30,82,0.14);
+}
+
+.win__btns button:hover { background: var(--yellow); }
+.win__btns button:active { box-shadow: inset 2px 2px 0 rgba(43,30,82,0.2); }
+
+.win__body {
+  padding: 16px 18px 18px;
+  max-height: 60vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.win__body > :first-child { margin-top: 0; }
+.win__body > :last-child  { margin-bottom: 0; }
+
+.win__body::-webkit-scrollbar { width: 16px; }
+.win__body::-webkit-scrollbar-track {
+  background-color: var(--soft2);
+  border-left: 2px solid var(--outline);
+}
+.win__body::-webkit-scrollbar-thumb {
+  background-color: var(--grape);
+  border: 2px solid var(--outline);
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.55);
+}
+.win__body::-webkit-scrollbar-button {
+  height: 16px;
+  background-color: var(--grape-l);
+  border: 2px solid var(--outline);
+}
+
+/* ---------- 본문 요소 ---------- */
+
+.lede { color: var(--sub); margin: 0 0 14px; }
+
+.label {
+  display: inline-block;
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin: 0 0 12px;
+  padding: 4px 9px;
+  background: var(--grape-l);
+  border: 2px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.25);
+}
+
+h3.sub {
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  margin: 20px 0 9px;
+  padding-bottom: 6px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+/* ---------- CP 카드 (시그니처) ---------- */
+
+.cp {
+  margin-bottom: 12px;
+  padding: 12px 13px 13px;
+  background: var(--soft);
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.25);
+}
+
+.cp--pink  { background: var(--pink-l); }
+.cp--cyan  { background: var(--cyan-l); }
+.cp--mint  { background: var(--mint-l); }
+.cp--peach { background: var(--peach-l); }
+
+.cp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cp__name {
+  font-family: var(--pixel);
+  font-size: 13px;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.cp__badge {
+  flex: none;
+  font-family: var(--mini);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  color: #fff;
+  background: var(--pink);
+  border: 2px solid var(--outline);
+}
+
+.cp__badge--sub { background: var(--cyan); color: var(--outline); }
+
+.cp__note { font-size: 12.5px; color: var(--sub); margin: 8px 0 0; }
+
+.gauge__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  margin: 10px 0 4px;
+  color: var(--sub);
+}
+
+.gauge__val { color: var(--ink); }
+
+.bar {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+  padding: 2px;
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+
+.bar i { flex: 1; background: var(--soft2); }
+.bar i.on { background: var(--pink); }
+.bar--cyan i.on   { background: var(--cyan); }
+.bar--mint i.on   { background: var(--mint); }
+.bar--yellow i.on { background: var(--yellow); }
+.bar--grape i.on  { background: var(--grape); }
+
+/* ---------- 태그 ---------- */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  list-style: none;
+  margin: 0 0 4px;
+  padding: 0;
+}
+
+.tag {
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  background: #fff;
+  border: 2px solid var(--outline);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+}
+
+.tag--pink   { background: var(--pink-l); }
+.tag--cyan   { background: var(--cyan-l); }
+.tag--mint   { background: var(--mint-l); }
+.tag--yellow { background: var(--yellow-l); }
+.tag--peach  { background: var(--peach-l); }
+.tag--grape  { background: var(--grape-l); }
+
+/* ---------- 링크 ---------- */
+
+a { color: #c2317c; font-weight: 600; }
+a:hover { color: #8e1f5a; }
+
+.linkrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.linkbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mini);
+  font-size: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 7px 12px;
+  background: var(--cyan-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+
+.linkbtn:hover { background: var(--yellow); color: var(--ink); }
+.linkbtn:active { transform: translate(3px,3px); box-shadow: none; }
+.linkbtn svg { width: 15px; height: 15px; }
+
+/* ---------- 파일 그리드 ---------- */
+
+.files {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 11px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.file {
+  padding: 10px 11px 12px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.25);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.file:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(43,30,82,0.32); }
+
+.file__name { font-family: var(--pixel); font-size: 11px; margin: 0 0 4px; }
+.file__meta { font-family: var(--mini); font-size: 9px; color: var(--faint); margin: 0 0 8px; }
+.file__desc { font-size: 12px; color: var(--sub); margin: 0; }
+
+/* ---------- 코드 상자 ---------- */
+
+.snip { margin: 0 0 16px; }
+
+.snip__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.snip__name { font-family: var(--pixel); font-size: 11px; margin: 0; }
+
+.snip pre {
+  margin: 0;
+  padding: 12px 13px;
+  max-height: 220px;
+  overflow: auto;
+  background: #2b1e52;
+  border: 3px solid var(--outline);
+  color: #eae3ff;
+  font-family: var(--pixel);
+  font-size: 11px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.snip pre::-webkit-scrollbar { width: 12px; }
+.snip pre::-webkit-scrollbar-track { background: #3d2d72; }
+.snip pre::-webkit-scrollbar-thumb { background: var(--grape); border: 2px solid #2b1e52; }
+
+/* ---------- 버튼 ---------- */
+
+.btn {
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 6px 13px;
+  color: var(--outline);
+  background: var(--yellow);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+
+.btn:hover { background: var(--cyan); }
+.btn:active { transform: translate(3px,3px); box-shadow: none; }
+.btn.done { background: var(--mint); }
+
+/* ---------- 접기 ---------- */
+
+details {
+  margin-bottom: 8px;
+  padding: 0 12px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+}
+
+summary { cursor: pointer; padding: 9px 0; font-family: var(--pixel); font-size: 11px; }
+summary::marker { color: var(--pink); }
+details[open] { padding-bottom: 12px; }
+
+/* ---------- 알림 상자 ---------- */
+
+.callout {
+  padding: 11px 13px;
+  background: var(--yellow-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.25);
+  font-size: 13px;
+}
+
+/* ---------- 작업 표시줄 ---------- */
+
+.taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  height: var(--task-h);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  background-color: var(--grape);
+  border-top: 3px solid var(--outline);
+  box-shadow: inset 0 3px 0 rgba(255,255,255,0.45);
+}
+
+.start {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--outline);
+  background: var(--yellow);
+  border: 3px solid var(--outline);
+  box-shadow: inset -2px -2px 0 rgba(43,30,82,0.16);
+}
+
+.start svg { width: 15px; height: 15px; }
+.start:hover { background: var(--cyan); }
+.start[aria-expanded='true'] { box-shadow: inset 2px 2px 0 rgba(43,30,82,0.22); }
+
+#tasks { flex: 1; display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+#tasks::-webkit-scrollbar { display: none; }
+
+.taskbtn {
+  flex: none;
+  max-width: 150px;
+  padding: 6px 11px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #fff;
+  background: rgba(43,30,82,0.32);
+  border: 2px solid #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskbtn.on {
+  background: #fff;
+  color: var(--outline);
+  box-shadow: inset 2px 2px 0 rgba(43,30,82,0.18);
+}
+
+.tray {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  font-family: var(--mini);
+  font-size: 11px;
+  color: var(--outline);
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+
+.tray svg { width: 14px; height: 14px; }
+
+/* ---------- 시작 메뉴 ---------- */
+
+.startmenu {
+  position: absolute;
+  left: 8px;
+  bottom: calc(var(--task-h) + 6px);
+  z-index: 45;
+  width: 236px;
+  display: none;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.4);
+}
+
+.startmenu.open { display: block; }
+
+.startmenu__head {
+  margin: 3px 3px 0;
+  padding: 9px 11px;
+  font-family: var(--pixel);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: #fff;
+  background-color: var(--pink);
+  border: 2px solid var(--outline);
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.4);
+}
+
+.startmenu ul { list-style: none; margin: 0; padding: 5px; }
+
+.startmenu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px;
+  font-size: 11px;
+  text-align: left;
+  color: var(--ink);
+  background: none;
+  border: 2px solid transparent;
+}
+
+.startmenu button:hover { background: var(--grape-l); border-color: var(--outline); }
+.startmenu__sym { display: grid; place-items: center; width: 22px; height: 22px; }
+.startmenu__sym svg { width: 19px; height: 19px; }
+
+/* ---------- 방명록 ---------- */
+
+.guestbox { min-height: 100px; }
+
+/* ---------- 글 목록 ---------- */
+
+.postlist { list-style: none; margin: 0; padding: 0; }
+.postlist li { margin-bottom: 7px; }
+
+.postbtn {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 11px 13px;
+  font-family: var(--body);
+  text-align: left;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+}
+
+.postbtn:hover { background: var(--yellow-l); }
+.postbtn:active { transform: translate(3px,3px); box-shadow: none; }
+
+.postbtn__date {
+  flex: none;
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+}
+
+.postbtn__title { flex: 1; font-size: 13.5px; }
+
+.postbtn__tag {
+  flex: none;
+  font-family: var(--mini);
+  font-size: 9px;
+  padding: 3px 7px;
+  background: var(--pink-l);
+  border: 2px solid var(--outline);
+}
+
+.post__title {
+  font-family: var(--pixel);
+  font-size: 14px;
+  margin: 16px 0 5px;
+}
+
+.post__meta {
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+.post__cover {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 14px;
+  border: 3px solid var(--outline);
+}
+
+.post__body { font-size: 14px; line-height: 1.85; }
+.post__body img { max-width: 100%; border: 3px solid var(--outline); }
+.post__body h1, .post__body h2, .post__body h3 {
+  font-family: var(--pixel);
+  font-size: 13px;
+  margin: 22px 0 8px;
+}
+.post__body blockquote {
+  margin: 12px 0;
+  padding: 8px 14px;
+  border-left: 5px solid var(--pink);
+  background: var(--soft);
+}
+.post__body pre {
+  padding: 12px;
+  overflow: auto;
+  background: #2b1e52;
+  color: #eae3ff;
+  border: 3px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 11px;
+}
+.post__body code { font-family: var(--pixel); font-size: 12px; }
+.post__body hr { border: none; border-top: 3px dotted var(--grape-l); margin: 20px 0; }
+
+.empty {
+  font-family: var(--mini);
+  font-size: 11px;
+  line-height: 2.1;
+  color: var(--sub);
+  text-align: center;
+  padding: 26px 10px;
+  background: var(--grape-l);
+  border: 3px dashed var(--outline);
+}
+
+.empty b { color: var(--pink); }
+
+/* ---------- 갤러리 ---------- */
+
+.gview {
+  display: grid;
+  place-items: center;
+  min-height: 170px;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: var(--grape-l);
+  border: 3px solid var(--outline);
+}
+
+.gview img {
+  display: block;
+  max-width: 100%;
+  max-height: 260px;
+  border: 3px solid var(--outline);
+}
+
+.gview__empty {
+  font-family: var(--mini);
+  font-size: 11px;
+  color: var(--sub);
+  text-align: center;
+  line-height: 2;
+}
+
+.gcap {
+  font-size: 12.5px;
+  color: var(--sub);
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.gthumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gthumbs button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+}
+
+.gthumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gthumbs button:hover { box-shadow: 5px 5px 0 rgba(43,30,82,0.3); }
+.gthumbs button.on { border-color: var(--pink); }
+
+/* ---------- 음악 플레이어 ---------- */
+
+.player { display: flex; gap: 16px; align-items: center; margin-bottom: 14px; }
+
+.lp {
+  flex: none;
+  position: relative;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  border: 4px solid var(--outline);
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      #3f3178 0 4px, #2b1e52 4px 8px);
+  animation: spin 3.2s linear infinite;
+  animation-play-state: paused;
+}
+
+.lp.spinning { animation-play-state: running; }
+
+.lp::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: 3px solid var(--outline);
+}
+
+.lp::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--outline);
+  z-index: 1;
+}
+
+/* 바늘 */
+.lp__arm {
+  position: absolute;
+  top: -6px;
+  right: -14px;
+  width: 8px;
+  height: 62px;
+  background: var(--cyan);
+  border: 3px solid var(--outline);
+  transform-origin: 50% 0;
+  transform: rotate(28deg);
+  transition: transform 0.3s;
+}
+
+.lp.spinning .lp__arm { transform: rotate(8deg); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.player__info { flex: 1; min-width: 0; }
+
+.track {
+  font-family: var(--pixel);
+  font-size: 13px;
+  margin: 0 0 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track__sub {
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+  margin: 0 0 12px;
+}
+
+.mctrl { display: flex; gap: 5px; margin-bottom: 10px; }
+
+.mctrl button {
+  min-width: 38px;
+  padding: 7px 9px;
+  font-size: 11px;
+  color: var(--outline);
+  background: var(--cyan-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.28);
+}
+
+.mctrl button:hover { background: var(--yellow); }
+.mctrl button:active { transform: translate(3px,3px); box-shadow: none; }
+.mctrl button.play { background: var(--pink); color: #fff; }
+
+.vol { display: flex; align-items: center; gap: 8px; }
+.vol input { flex: 1; accent-color: var(--pink); }
+
+.vol__label { font-family: var(--mini); font-size: 10px; color: var(--sub); }
+
+.plist { list-style: none; margin: 0; padding: 0; }
+
+.plist li { margin-bottom: 5px; }
+
+.plist button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  text-align: left;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
+}
+
+.plist button:hover { background: var(--yellow-l); }
+.plist button.on { background: var(--pink-l); }
+
+.plist__no {
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--faint);
+  flex: none;
+}
+
+.mnote {
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--faint);
+  margin: 10px 0 0;
+  line-height: 1.9;
+}
+
+/* ---------- 서명 ---------- */
+
+.made {
+  position: absolute;
+  right: 16px;
+  bottom: calc(var(--task-h) + 12px);
+  z-index: 4;
+  padding: 7px 13px;
+  font-family: var(--mini);
+  font-size: 11px;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.3);
+}
+
+.made b { color: var(--pink); font-weight: normal; }
+
+/* ---------- 모바일 ---------- */
+
+@media (max-width: 820px) {
+  html, body { overflow: auto; height: auto; }
+  body { padding-bottom: calc(var(--task-h) + 10px); }
+
+  .bg { display: none; }
+  .made { position: static; margin: 0 8px 14px; text-align: center; }
+
+  .ticker {
+    position: static;
+    transform: none;
+    max-width: none;
+    border-width: 0 0 3px;
+    box-shadow: none;
+  }
+
+  .dock {
+    position: static;
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 14px 6px;
+  }
+
+  .dockbtn { width: 76px; }
+  .dockbtn .ico { width: 38px; height: 38px; }
+
+  .win {
+    position: static;
+    width: auto;
+    max-width: none;
+    margin: 0 8px 12px;
+    box-shadow: 4px 4px 0 rgba(43,30,82,0.38);
+  }
+
+  .win__bar { cursor: default; }
+  .win__body { max-height: none; }
+
+  .taskbar { position: fixed; }
+  .startmenu { position: fixed; }
+  .player { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+</style>
 </head>
 <body>
 
-<nav class="menubar">
-  <a class="menubar__home" href="index.html">✿ 해바라기의 방</a>
-  <ul class="menubar__links">
-    <li><a href="index.html" aria-current="page">홈</a></li>
-    <li><a href="persona.html">페르소나</a></li>
-    <li><a href="prompts.html">프롬프트</a></li>
-    <li><a href="widgets.html">위젯</a></li>
-    <li><a href="guestbook.html">방명록</a></li>
-  </ul>
-</nav>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-mail" viewBox="0 0 16 16"><rect x="1" y="2" width="14" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="12" height="1" fill="#ffffff"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="4" width="2" height="1" fill="#2b1e52"/><rect x="5" y="4" width="6" height="1" fill="#4ee0f0"/><rect x="11" y="4" width="2" height="1" fill="#2b1e52"/><rect x="13" y="4" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="2" height="1" fill="#4ee0f0"/><rect x="4" y="5" width="2" height="1" fill="#2b1e52"/><rect x="6" y="5" width="4" height="1" fill="#4ee0f0"/><rect x="10" y="5" width="2" height="1" fill="#2b1e52"/><rect x="12" y="5" width="2" height="1" fill="#4ee0f0"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="4" height="1" fill="#4ee0f0"/><rect x="6" y="6" width="4" height="1" fill="#2b1e52"/><rect x="10" y="6" width="4" height="1" fill="#4ee0f0"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="12" height="1" fill="#4ee0f0"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="4" height="1" fill="#4ee0f0"/><rect x="6" y="8" width="2" height="1" fill="#ff5fa8"/><rect x="8" y="8" width="1" height="1" fill="#4ee0f0"/><rect x="9" y="8" width="2" height="1" fill="#ff5fa8"/><rect x="11" y="8" width="3" height="1" fill="#4ee0f0"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="3" height="1" fill="#4ee0f0"/><rect x="5" y="9" width="7" height="1" fill="#ff5fa8"/><rect x="12" y="9" width="2" height="1" fill="#4ee0f0"/><rect x="14" y="9" width="1" height="1" fill="#2b1e52"/><rect x="1" y="10" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="4" height="1" fill="#4ee0f0"/><rect x="6" y="10" width="5" height="1" fill="#ff5fa8"/><rect x="11" y="10" width="3" height="1" fill="#4ee0f0"/><rect x="14" y="10" width="1" height="1" fill="#2b1e52"/><rect x="1" y="11" width="1" height="1" fill="#2b1e52"/><rect x="2" y="11" width="5" height="1" fill="#4ee0f0"/><rect x="7" y="11" width="3" height="1" fill="#ff5fa8"/><rect x="10" y="11" width="4" height="1" fill="#4ee0f0"/><rect x="14" y="11" width="1" height="1" fill="#2b1e52"/><rect x="1" y="12" width="1" height="1" fill="#2b1e52"/><rect x="2" y="12" width="6" height="1" fill="#4ee0f0"/><rect x="8" y="12" width="1" height="1" fill="#ff5fa8"/><rect x="9" y="12" width="5" height="1" fill="#4ee0f0"/><rect x="14" y="12" width="1" height="1" fill="#2b1e52"/><rect x="1" y="13" width="14" height="1" fill="#2b1e52"/></symbol><symbol id="i-heart" viewBox="0 0 16 16"><rect x="3" y="2" width="3" height="1" fill="#2b1e52"/><rect x="10" y="2" width="3" height="1" fill="#2b1e52"/><rect x="2" y="3" width="1" height="1" fill="#2b1e52"/><rect x="3" y="3" width="3" height="1" fill="#ff5fa8"/><rect x="6" y="3" width="1" height="1" fill="#2b1e52"/><rect x="9" y="3" width="1" height="1" fill="#2b1e52"/><rect x="10" y="3" width="3" height="1" fill="#ff5fa8"/><rect x="13" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="4" width="2" height="1" fill="#ffffff"/><rect x="5" y="4" width="2" height="1" fill="#ff5fa8"/><rect x="7" y="4" width="2" height="1" fill="#2b1e52"/><rect x="9" y="4" width="5" height="1" fill="#ff5fa8"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="5" width="2" height="1" fill="#ffffff"/><rect x="5" y="5" width="9" height="1" fill="#ff5fa8"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="12" height="1" fill="#ff5fa8"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#2b1e52"/><rect x="3" y="7" width="10" height="1" fill="#ff5fa8"/><rect x="13" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="1" height="1" fill="#2b1e52"/><rect x="3" y="8" width="1" height="1" fill="#e83a8a"/><rect x="4" y="8" width="8" height="1" fill="#ff5fa8"/><rect x="12" y="8" width="1" height="1" fill="#e83a8a"/><rect x="13" y="8" width="1" height="1" fill="#2b1e52"/><rect x="3" y="9" width="1" height="1" fill="#2b1e52"/><rect x="4" y="9" width="1" height="1" fill="#e83a8a"/><rect x="5" y="9" width="6" height="1" fill="#ff5fa8"/><rect x="11" y="9" width="1" height="1" fill="#e83a8a"/><rect x="12" y="9" width="1" height="1" fill="#2b1e52"/><rect x="4" y="10" width="1" height="1" fill="#2b1e52"/><rect x="5" y="10" width="1" height="1" fill="#e83a8a"/><rect x="6" y="10" width="4" height="1" fill="#ff5fa8"/><rect x="10" y="10" width="1" height="1" fill="#e83a8a"/><rect x="11" y="10" width="1" height="1" fill="#2b1e52"/><rect x="5" y="11" width="1" height="1" fill="#2b1e52"/><rect x="6" y="11" width="1" height="1" fill="#e83a8a"/><rect x="7" y="11" width="2" height="1" fill="#ff5fa8"/><rect x="9" y="11" width="1" height="1" fill="#e83a8a"/><rect x="10" y="11" width="1" height="1" fill="#2b1e52"/><rect x="6" y="12" width="1" height="1" fill="#2b1e52"/><rect x="7" y="12" width="2" height="1" fill="#e83a8a"/><rect x="9" y="12" width="1" height="1" fill="#2b1e52"/><rect x="7" y="13" width="2" height="1" fill="#2b1e52"/></symbol><symbol id="i-face" viewBox="0 0 16 16"><rect x="4" y="2" width="8" height="1" fill="#2b1e52"/><rect x="3" y="3" width="1" height="1" fill="#2b1e52"/><rect x="4" y="3" width="8" height="1" fill="#ffdcb8"/><rect x="12" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#2b1e52"/><rect x="3" y="4" width="10" height="1" fill="#ffdcb8"/><rect x="13" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#2b1e52"/><rect x="3" y="5" width="10" height="1" fill="#ffdcb8"/><rect x="13" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="1" height="1" fill="#2b1e52"/><rect x="3" y="6" width="1" height="1" fill="#ffdcb8"/><rect x="4" y="6" width="2" height="1" fill="#2b1e52"/><rect x="6" y="6" width="3" height="1" fill="#ffdcb8"/><rect x="9" y="6" width="2" height="1" fill="#2b1e52"/><rect x="11" y="6" width="2" height="1" fill="#ffdcb8"/><rect x="13" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#2b1e52"/><rect x="3" y="7" width="1" height="1" fill="#ffdcb8"/><rect x="4" y="7" width="2" height="1" fill="#2b1e52"/><rect x="6" y="7" width="3" height="1" fill="#ffdcb8"/><rect x="9" y="7" width="2" height="1" fill="#2b1e52"/><rect x="11" y="7" width="2" height="1" fill="#ffdcb8"/><rect x="13" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="1" height="1" fill="#2b1e52"/><rect x="3" y="8" width="10" height="1" fill="#ffdcb8"/><rect x="13" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="1" height="1" fill="#2b1e52"/><rect x="3" y="9" width="2" height="1" fill="#ffdcb8"/><rect x="5" y="9" width="1" height="1" fill="#ff5fa8"/><rect x="6" y="9" width="4" height="1" fill="#ffdcb8"/><rect x="10" y="9" width="1" height="1" fill="#ff5fa8"/><rect x="11" y="9" width="2" height="1" fill="#ffdcb8"/><rect x="13" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="10" width="3" height="1" fill="#ffdcb8"/><rect x="6" y="10" width="5" height="1" fill="#ff5fa8"/><rect x="11" y="10" width="2" height="1" fill="#ffdcb8"/><rect x="13" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="11" width="1" height="1" fill="#2b1e52"/><rect x="4" y="11" width="8" height="1" fill="#ffdcb8"/><rect x="12" y="11" width="1" height="1" fill="#2b1e52"/><rect x="4" y="12" width="8" height="1" fill="#2b1e52"/><rect x="3" y="13" width="1" height="1" fill="#2b1e52"/><rect x="4" y="13" width="8" height="1" fill="#9b6cf5"/><rect x="12" y="13" width="1" height="1" fill="#2b1e52"/><rect x="2" y="14" width="1" height="1" fill="#2b1e52"/><rect x="3" y="14" width="10" height="1" fill="#9b6cf5"/><rect x="13" y="14" width="1" height="1" fill="#2b1e52"/><rect x="2" y="15" width="12" height="1" fill="#2b1e52"/></symbol><symbol id="i-floppy" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="1" fill="#2b1e52"/><rect x="1" y="2" width="1" height="1" fill="#2b1e52"/><rect x="2" y="2" width="12" height="1" fill="#ff5fa8"/><rect x="14" y="2" width="1" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="3" width="10" height="1" fill="#2b1e52"/><rect x="13" y="3" width="1" height="1" fill="#ff5fa8"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="4" width="1" height="1" fill="#2b1e52"/><rect x="4" y="4" width="8" height="1" fill="#ffffff"/><rect x="12" y="4" width="1" height="1" fill="#2b1e52"/><rect x="13" y="4" width="1" height="1" fill="#ff5fa8"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="5" width="1" height="1" fill="#2b1e52"/><rect x="4" y="5" width="8" height="1" fill="#ffffff"/><rect x="12" y="5" width="1" height="1" fill="#2b1e52"/><rect x="13" y="5" width="1" height="1" fill="#ff5fa8"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="6" width="1" height="1" fill="#2b1e52"/><rect x="4" y="6" width="8" height="1" fill="#ffffff"/><rect x="12" y="6" width="1" height="1" fill="#2b1e52"/><rect x="13" y="6" width="1" height="1" fill="#ff5fa8"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#ff5fa8"/><rect x="3" y="7" width="10" height="1" fill="#2b1e52"/><rect x="13" y="7" width="1" height="1" fill="#ff5fa8"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="12" height="1" fill="#ff5fa8"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="2" height="1" fill="#ff5fa8"/><rect x="4" y="9" width="8" height="1" fill="#2b1e52"/><rect x="12" y="9" width="2" height="1" fill="#ff5fa8"/><rect x="14" y="9" width="1" height="1" fill="#2b1e52"/><rect x="1" y="10" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="2" height="1" fill="#ff5fa8"/><rect x="4" y="10" width="1" height="1" fill="#2b1e52"/><rect x="5" y="10" width="6" height="1" fill="#ffffff"/><rect x="11" y="10" width="1" height="1" fill="#2b1e52"/><rect x="12" y="10" width="2" height="1" fill="#ff5fa8"/><rect x="14" y="10" width="1" height="1" fill="#2b1e52"/><rect x="1" y="11" width="1" height="1" fill="#2b1e52"/><rect x="2" y="11" width="2" height="1" fill="#ff5fa8"/><rect x="4" y="11" width="1" height="1" fill="#2b1e52"/><rect x="5" y="11" width="1" height="1" fill="#ffffff"/><rect x="6" y="11" width="4" height="1" fill="#2b1e52"/><rect x="10" y="11" width="1" height="1" fill="#ffffff"/><rect x="11" y="11" width="1" height="1" fill="#2b1e52"/><rect x="12" y="11" width="2" height="1" fill="#ff5fa8"/><rect x="14" y="11" width="1" height="1" fill="#2b1e52"/><rect x="1" y="12" width="1" height="1" fill="#2b1e52"/><rect x="2" y="12" width="2" height="1" fill="#ff5fa8"/><rect x="4" y="12" width="1" height="1" fill="#2b1e52"/><rect x="5" y="12" width="1" height="1" fill="#ffffff"/><rect x="6" y="12" width="4" height="1" fill="#2b1e52"/><rect x="10" y="12" width="1" height="1" fill="#ffffff"/><rect x="11" y="12" width="1" height="1" fill="#2b1e52"/><rect x="12" y="12" width="2" height="1" fill="#ff5fa8"/><rect x="14" y="12" width="1" height="1" fill="#2b1e52"/><rect x="1" y="13" width="1" height="1" fill="#2b1e52"/><rect x="2" y="13" width="2" height="1" fill="#ff5fa8"/><rect x="4" y="13" width="1" height="1" fill="#2b1e52"/><rect x="5" y="13" width="6" height="1" fill="#ffffff"/><rect x="11" y="13" width="1" height="1" fill="#2b1e52"/><rect x="12" y="13" width="2" height="1" fill="#ff5fa8"/><rect x="14" y="13" width="1" height="1" fill="#2b1e52"/><rect x="1" y="14" width="14" height="1" fill="#2b1e52"/></symbol><symbol id="i-monitor" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="1" fill="#2b1e52"/><rect x="1" y="2" width="1" height="1" fill="#2b1e52"/><rect x="2" y="2" width="12" height="1" fill="#4ee0f0"/><rect x="14" y="2" width="1" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="3" width="10" height="1" fill="#ff5fa8"/><rect x="13" y="3" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="4" width="3" height="1" fill="#ff5fa8"/><rect x="6" y="4" width="2" height="1" fill="#ffe45e"/><rect x="8" y="4" width="5" height="1" fill="#ff5fa8"/><rect x="13" y="4" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="5" width="3" height="1" fill="#ff5fa8"/><rect x="6" y="5" width="2" height="1" fill="#ffe45e"/><rect x="8" y="5" width="5" height="1" fill="#ff5fa8"/><rect x="13" y="5" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="6" width="10" height="1" fill="#ff5fa8"/><rect x="13" y="6" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="7" width="10" height="1" fill="#ff5fa8"/><rect x="13" y="7" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="1" height="1" fill="#4ee0f0"/><rect x="3" y="8" width="10" height="1" fill="#ff5fa8"/><rect x="13" y="8" width="1" height="1" fill="#4ee0f0"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="12" height="1" fill="#4ee0f0"/><rect x="14" y="9" width="1" height="1" fill="#2b1e52"/><rect x="1" y="10" width="14" height="1" fill="#2b1e52"/><rect x="5" y="11" width="1" height="1" fill="#2b1e52"/><rect x="6" y="11" width="4" height="1" fill="#4ee0f0"/><rect x="10" y="11" width="1" height="1" fill="#2b1e52"/><rect x="5" y="12" width="1" height="1" fill="#2b1e52"/><rect x="6" y="12" width="4" height="1" fill="#4ee0f0"/><rect x="10" y="12" width="1" height="1" fill="#2b1e52"/><rect x="3" y="13" width="10" height="1" fill="#2b1e52"/><rect x="3" y="14" width="1" height="1" fill="#2b1e52"/><rect x="4" y="14" width="8" height="1" fill="#4ee0f0"/><rect x="12" y="14" width="1" height="1" fill="#2b1e52"/><rect x="3" y="15" width="10" height="1" fill="#2b1e52"/></symbol><symbol id="i-pencil" viewBox="0 0 16 16"><rect x="11" y="1" width="3" height="1" fill="#2b1e52"/><rect x="10" y="2" width="2" height="1" fill="#2b1e52"/><rect x="12" y="2" width="2" height="1" fill="#fff7cc"/><rect x="14" y="2" width="1" height="1" fill="#2b1e52"/><rect x="9" y="3" width="2" height="1" fill="#2b1e52"/><rect x="11" y="3" width="2" height="1" fill="#ffe45e"/><rect x="13" y="3" width="1" height="1" fill="#fff7cc"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="8" y="4" width="2" height="1" fill="#2b1e52"/><rect x="10" y="4" width="3" height="1" fill="#ffe45e"/><rect x="13" y="4" width="2" height="1" fill="#2b1e52"/><rect x="7" y="5" width="2" height="1" fill="#2b1e52"/><rect x="9" y="5" width="3" height="1" fill="#ffe45e"/><rect x="12" y="5" width="2" height="1" fill="#2b1e52"/><rect x="6" y="6" width="2" height="1" fill="#2b1e52"/><rect x="8" y="6" width="3" height="1" fill="#ffe45e"/><rect x="11" y="6" width="2" height="1" fill="#2b1e52"/><rect x="5" y="7" width="2" height="1" fill="#2b1e52"/><rect x="7" y="7" width="3" height="1" fill="#ffe45e"/><rect x="10" y="7" width="2" height="1" fill="#2b1e52"/><rect x="4" y="8" width="2" height="1" fill="#2b1e52"/><rect x="6" y="8" width="3" height="1" fill="#ffe45e"/><rect x="9" y="8" width="2" height="1" fill="#2b1e52"/><rect x="3" y="9" width="2" height="1" fill="#2b1e52"/><rect x="5" y="9" width="3" height="1" fill="#ffe45e"/><rect x="8" y="9" width="2" height="1" fill="#2b1e52"/><rect x="2" y="10" width="2" height="1" fill="#2b1e52"/><rect x="4" y="10" width="3" height="1" fill="#ffe45e"/><rect x="7" y="10" width="2" height="1" fill="#2b1e52"/><rect x="2" y="11" width="1" height="1" fill="#2b1e52"/><rect x="3" y="11" width="3" height="1" fill="#ffe45e"/><rect x="6" y="11" width="2" height="1" fill="#2b1e52"/><rect x="2" y="12" width="1" height="1" fill="#2b1e52"/><rect x="3" y="12" width="2" height="1" fill="#fff7cc"/><rect x="5" y="12" width="2" height="1" fill="#2b1e52"/><rect x="2" y="13" width="1" height="1" fill="#2b1e52"/><rect x="3" y="13" width="1" height="1" fill="#fff7cc"/><rect x="4" y="13" width="2" height="1" fill="#2b1e52"/><rect x="2" y="14" width="3" height="1" fill="#2b1e52"/></symbol><symbol id="i-star" viewBox="0 0 16 16"><rect x="7" y="1" width="2" height="1" fill="#2b1e52"/><rect x="7" y="2" width="2" height="1" fill="#2b1e52"/><rect x="6" y="3" width="1" height="1" fill="#2b1e52"/><rect x="7" y="3" width="2" height="1" fill="#ffe45e"/><rect x="9" y="3" width="1" height="1" fill="#2b1e52"/><rect x="6" y="4" width="1" height="1" fill="#2b1e52"/><rect x="7" y="4" width="2" height="1" fill="#ffe45e"/><rect x="9" y="4" width="1" height="1" fill="#2b1e52"/><rect x="5" y="5" width="1" height="1" fill="#2b1e52"/><rect x="6" y="5" width="4" height="1" fill="#ffe45e"/><rect x="10" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="4" height="1" fill="#2b1e52"/><rect x="6" y="6" width="4" height="1" fill="#ffe45e"/><rect x="10" y="6" width="4" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#2b1e52"/><rect x="3" y="7" width="11" height="1" fill="#ffe45e"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="1" height="1" fill="#2b1e52"/><rect x="3" y="8" width="11" height="1" fill="#ffe45e"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="4" height="1" fill="#2b1e52"/><rect x="6" y="9" width="4" height="1" fill="#ffe45e"/><rect x="10" y="9" width="4" height="1" fill="#2b1e52"/><rect x="5" y="10" width="1" height="1" fill="#2b1e52"/><rect x="6" y="10" width="4" height="1" fill="#ffe45e"/><rect x="10" y="10" width="1" height="1" fill="#2b1e52"/><rect x="6" y="11" width="1" height="1" fill="#2b1e52"/><rect x="7" y="11" width="2" height="1" fill="#ffe45e"/><rect x="9" y="11" width="1" height="1" fill="#2b1e52"/><rect x="6" y="12" width="1" height="1" fill="#2b1e52"/><rect x="7" y="12" width="2" height="1" fill="#ffe45e"/><rect x="9" y="12" width="1" height="1" fill="#2b1e52"/><rect x="7" y="13" width="2" height="1" fill="#2b1e52"/><rect x="7" y="14" width="2" height="1" fill="#2b1e52"/></symbol><symbol id="i-card" viewBox="0 0 16 16"><rect x="1" y="2" width="14" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="12" height="1" fill="#ffffff"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#ffffff"/><rect x="3" y="4" width="5" height="1" fill="#2b1e52"/><rect x="8" y="4" width="6" height="1" fill="#ffffff"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#ffffff"/><rect x="3" y="5" width="1" height="1" fill="#2b1e52"/><rect x="4" y="5" width="3" height="1" fill="#ffdcb8"/><rect x="7" y="5" width="1" height="1" fill="#2b1e52"/><rect x="8" y="5" width="1" height="1" fill="#ffffff"/><rect x="9" y="5" width="4" height="1" fill="#c0aef5"/><rect x="13" y="5" width="1" height="1" fill="#ffffff"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="1" height="1" fill="#ffffff"/><rect x="3" y="6" width="1" height="1" fill="#2b1e52"/><rect x="4" y="6" width="3" height="1" fill="#ffdcb8"/><rect x="7" y="6" width="1" height="1" fill="#2b1e52"/><rect x="8" y="6" width="6" height="1" fill="#ffffff"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#ffffff"/><rect x="3" y="7" width="1" height="1" fill="#2b1e52"/><rect x="4" y="7" width="3" height="1" fill="#4ee0f0"/><rect x="7" y="7" width="1" height="1" fill="#2b1e52"/><rect x="8" y="7" width="1" height="1" fill="#ffffff"/><rect x="9" y="7" width="4" height="1" fill="#c0aef5"/><rect x="13" y="7" width="1" height="1" fill="#ffffff"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="1" height="1" fill="#ffffff"/><rect x="3" y="8" width="1" height="1" fill="#2b1e52"/><rect x="4" y="8" width="3" height="1" fill="#4ee0f0"/><rect x="7" y="8" width="1" height="1" fill="#2b1e52"/><rect x="8" y="8" width="6" height="1" fill="#ffffff"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="1" height="1" fill="#ffffff"/><rect x="3" y="9" width="5" height="1" fill="#2b1e52"/><rect x="8" y="9" width="1" height="1" fill="#ffffff"/><rect x="9" y="9" width="4" height="1" fill="#c0aef5"/><rect x="13" y="9" width="1" height="1" fill="#ffffff"/><rect x="14" y="9" width="1" height="1" fill="#2b1e52"/><rect x="1" y="10" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="12" height="1" fill="#ffffff"/><rect x="14" y="10" width="1" height="1" fill="#2b1e52"/><rect x="1" y="11" width="14" height="1" fill="#2b1e52"/></symbol><symbol id="i-smiley" viewBox="0 0 16 16"><rect x="5" y="1" width="6" height="1" fill="#2b1e52"/><rect x="3" y="2" width="2" height="1" fill="#2b1e52"/><rect x="5" y="2" width="6" height="1" fill="#ff9fd0"/><rect x="11" y="2" width="2" height="1" fill="#2b1e52"/><rect x="2" y="3" width="1" height="1" fill="#2b1e52"/><rect x="3" y="3" width="10" height="1" fill="#ff9fd0"/><rect x="13" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="12" height="1" fill="#ff9fd0"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="2" height="1" fill="#ff9fd0"/><rect x="4" y="5" width="2" height="1" fill="#2b1e52"/><rect x="6" y="5" width="4" height="1" fill="#ff9fd0"/><rect x="10" y="5" width="2" height="1" fill="#2b1e52"/><rect x="12" y="5" width="2" height="1" fill="#ff9fd0"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="2" height="1" fill="#ff9fd0"/><rect x="4" y="6" width="2" height="1" fill="#2b1e52"/><rect x="6" y="6" width="4" height="1" fill="#ff9fd0"/><rect x="10" y="6" width="2" height="1" fill="#2b1e52"/><rect x="12" y="6" width="2" height="1" fill="#ff9fd0"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="12" height="1" fill="#ff9fd0"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="2" height="1" fill="#ff9fd0"/><rect x="4" y="8" width="1" height="1" fill="#2b1e52"/><rect x="5" y="8" width="6" height="1" fill="#ff9fd0"/><rect x="11" y="8" width="1" height="1" fill="#2b1e52"/><rect x="12" y="8" width="2" height="1" fill="#ff9fd0"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="3" height="1" fill="#ff9fd0"/><rect x="5" y="9" width="6" height="1" fill="#2b1e52"/><rect x="11" y="9" width="3" height="1" fill="#ff9fd0"/><rect x="14" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="10" width="10" height="1" fill="#ff9fd0"/><rect x="13" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="11" width="2" height="1" fill="#2b1e52"/><rect x="5" y="11" width="6" height="1" fill="#ff9fd0"/><rect x="11" y="11" width="2" height="1" fill="#2b1e52"/><rect x="5" y="12" width="6" height="1" fill="#2b1e52"/></symbol><symbol id="i-ribbon" viewBox="0 0 16 16"><rect x="2" y="2" width="4" height="1" fill="#2b1e52"/><rect x="10" y="2" width="4" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="4" height="1" fill="#9b6cf5"/><rect x="6" y="3" width="1" height="1" fill="#2b1e52"/><rect x="9" y="3" width="1" height="1" fill="#2b1e52"/><rect x="10" y="3" width="4" height="1" fill="#9b6cf5"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="0" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="5" height="1" fill="#9b6cf5"/><rect x="6" y="4" width="4" height="1" fill="#2b1e52"/><rect x="10" y="4" width="5" height="1" fill="#9b6cf5"/><rect x="15" y="4" width="1" height="1" fill="#2b1e52"/><rect x="0" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="4" height="1" fill="#9b6cf5"/><rect x="5" y="5" width="1" height="1" fill="#2b1e52"/><rect x="6" y="5" width="4" height="1" fill="#d9c9ff"/><rect x="10" y="5" width="1" height="1" fill="#2b1e52"/><rect x="11" y="5" width="4" height="1" fill="#9b6cf5"/><rect x="15" y="5" width="1" height="1" fill="#2b1e52"/><rect x="0" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="3" height="1" fill="#9b6cf5"/><rect x="4" y="6" width="2" height="1" fill="#2b1e52"/><rect x="6" y="6" width="4" height="1" fill="#d9c9ff"/><rect x="10" y="6" width="2" height="1" fill="#2b1e52"/><rect x="12" y="6" width="3" height="1" fill="#9b6cf5"/><rect x="15" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#9b6cf5"/><rect x="3" y="7" width="3" height="1" fill="#2b1e52"/><rect x="6" y="7" width="4" height="1" fill="#d9c9ff"/><rect x="10" y="7" width="3" height="1" fill="#2b1e52"/><rect x="13" y="7" width="1" height="1" fill="#9b6cf5"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="5" height="1" fill="#2b1e52"/><rect x="7" y="8" width="2" height="1" fill="#d9c9ff"/><rect x="9" y="8" width="5" height="1" fill="#2b1e52"/><rect x="5" y="9" width="1" height="1" fill="#2b1e52"/><rect x="6" y="9" width="4" height="1" fill="#9b6cf5"/><rect x="10" y="9" width="1" height="1" fill="#2b1e52"/><rect x="4" y="10" width="1" height="1" fill="#2b1e52"/><rect x="5" y="10" width="2" height="1" fill="#9b6cf5"/><rect x="7" y="10" width="2" height="1" fill="#2b1e52"/><rect x="9" y="10" width="2" height="1" fill="#9b6cf5"/><rect x="11" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="11" width="1" height="1" fill="#2b1e52"/><rect x="4" y="11" width="2" height="1" fill="#9b6cf5"/><rect x="6" y="11" width="1" height="1" fill="#2b1e52"/><rect x="9" y="11" width="1" height="1" fill="#2b1e52"/><rect x="10" y="11" width="2" height="1" fill="#9b6cf5"/><rect x="12" y="11" width="1" height="1" fill="#2b1e52"/><rect x="3" y="12" width="1" height="1" fill="#2b1e52"/><rect x="4" y="12" width="1" height="1" fill="#9b6cf5"/><rect x="5" y="12" width="1" height="1" fill="#2b1e52"/><rect x="10" y="12" width="1" height="1" fill="#2b1e52"/><rect x="11" y="12" width="1" height="1" fill="#9b6cf5"/><rect x="12" y="12" width="1" height="1" fill="#2b1e52"/><rect x="3" y="13" width="2" height="1" fill="#2b1e52"/><rect x="11" y="13" width="2" height="1" fill="#2b1e52"/></symbol><symbol id="i-cloud" viewBox="0 0 16 16"><rect x="5" y="3" width="4" height="1" fill="#2b1e52"/><rect x="4" y="4" width="1" height="1" fill="#2b1e52"/><rect x="5" y="4" width="4" height="1" fill="#ffffff"/><rect x="9" y="4" width="1" height="1" fill="#2b1e52"/><rect x="3" y="5" width="1" height="1" fill="#2b1e52"/><rect x="4" y="5" width="6" height="1" fill="#ffffff"/><rect x="10" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="3" height="1" fill="#2b1e52"/><rect x="4" y="6" width="7" height="1" fill="#ffffff"/><rect x="11" y="6" width="3" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="11" height="1" fill="#ffffff"/><rect x="13" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="11" height="1" fill="#ffffff"/><rect x="13" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="13" height="1" fill="#2b1e52"/></symbol><symbol id="i-flower" viewBox="0 0 16 16"><rect x="6" y="2" width="3" height="1" fill="#2b1e52"/><rect x="5" y="3" width="1" height="1" fill="#2b1e52"/><rect x="6" y="3" width="3" height="1" fill="#ff9fd0"/><rect x="9" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="4" height="1" fill="#2b1e52"/><rect x="6" y="4" width="3" height="1" fill="#ff9fd0"/><rect x="9" y="4" width="4" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="3" height="1" fill="#ff9fd0"/><rect x="5" y="5" width="1" height="1" fill="#2b1e52"/><rect x="6" y="5" width="3" height="1" fill="#ffd93d"/><rect x="9" y="5" width="1" height="1" fill="#2b1e52"/><rect x="10" y="5" width="3" height="1" fill="#ff9fd0"/><rect x="13" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="3" height="1" fill="#ff9fd0"/><rect x="5" y="6" width="1" height="1" fill="#2b1e52"/><rect x="6" y="6" width="3" height="1" fill="#ffd93d"/><rect x="9" y="6" width="1" height="1" fill="#2b1e52"/><rect x="10" y="6" width="3" height="1" fill="#ff9fd0"/><rect x="13" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="4" height="1" fill="#2b1e52"/><rect x="6" y="7" width="3" height="1" fill="#ffd93d"/><rect x="9" y="7" width="4" height="1" fill="#2b1e52"/><rect x="5" y="8" width="1" height="1" fill="#2b1e52"/><rect x="6" y="8" width="3" height="1" fill="#ff9fd0"/><rect x="9" y="8" width="1" height="1" fill="#2b1e52"/><rect x="6" y="9" width="3" height="1" fill="#2b1e52"/></symbol><symbol id="i-bubble" viewBox="0 0 16 16"><rect x="1" y="1" width="13" height="1" fill="#2b1e52"/><rect x="1" y="2" width="1" height="1" fill="#2b1e52"/><rect x="2" y="2" width="11" height="1" fill="#ffffff"/><rect x="13" y="2" width="1" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="1" height="1" fill="#ffffff"/><rect x="3" y="3" width="8" height="1" fill="#3fd3e8"/><rect x="11" y="3" width="2" height="1" fill="#ffffff"/><rect x="13" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="11" height="1" fill="#ffffff"/><rect x="13" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#ffffff"/><rect x="3" y="5" width="6" height="1" fill="#3fd3e8"/><rect x="9" y="5" width="4" height="1" fill="#ffffff"/><rect x="13" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="11" height="1" fill="#ffffff"/><rect x="13" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#ffffff"/><rect x="3" y="7" width="8" height="1" fill="#3fd3e8"/><rect x="11" y="7" width="2" height="1" fill="#ffffff"/><rect x="13" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="11" height="1" fill="#ffffff"/><rect x="13" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="13" height="1" fill="#2b1e52"/><rect x="2" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="10" width="2" height="1" fill="#ffffff"/><rect x="5" y="10" width="2" height="1" fill="#2b1e52"/><rect x="2" y="11" width="1" height="1" fill="#2b1e52"/><rect x="3" y="11" width="1" height="1" fill="#ffffff"/><rect x="4" y="11" width="2" height="1" fill="#2b1e52"/><rect x="2" y="12" width="3" height="1" fill="#2b1e52"/></symbol><symbol id="i-photo" viewBox="0 0 16 16"><rect x="1" y="2" width="14" height="1" fill="#2b1e52"/><rect x="1" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="3" width="12" height="1" fill="#ffffff"/><rect x="14" y="3" width="1" height="1" fill="#2b1e52"/><rect x="1" y="4" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="5" height="1" fill="#ffffff"/><rect x="7" y="4" width="2" height="1" fill="#ffd93d"/><rect x="9" y="4" width="5" height="1" fill="#ffffff"/><rect x="14" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="5" height="1" fill="#ffffff"/><rect x="7" y="5" width="2" height="1" fill="#ffd93d"/><rect x="9" y="5" width="5" height="1" fill="#ffffff"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="12" height="1" fill="#ffffff"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="7" height="1" fill="#ffffff"/><rect x="9" y="7" width="2" height="1" fill="#4ddcb4"/><rect x="11" y="7" width="3" height="1" fill="#ffffff"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="6" height="1" fill="#ffffff"/><rect x="8" y="8" width="4" height="1" fill="#4ddcb4"/><rect x="12" y="8" width="2" height="1" fill="#ffffff"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="1" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="2" height="1" fill="#ffffff"/><rect x="4" y="9" width="2" height="1" fill="#4ddcb4"/><rect x="6" y="9" width="1" height="1" fill="#ffffff"/><rect x="7" y="9" width="6" height="1" fill="#4ddcb4"/><rect x="13" y="9" width="1" height="1" fill="#ffffff"/><rect x="14" y="9" width="1" height="1" fill="#2b1e52"/><rect x="1" y="10" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="1" height="1" fill="#ffffff"/><rect x="3" y="10" width="10" height="1" fill="#4ddcb4"/><rect x="13" y="10" width="1" height="1" fill="#ffffff"/><rect x="14" y="10" width="1" height="1" fill="#2b1e52"/><rect x="1" y="11" width="1" height="1" fill="#2b1e52"/><rect x="2" y="11" width="12" height="1" fill="#4ddcb4"/><rect x="14" y="11" width="1" height="1" fill="#2b1e52"/><rect x="1" y="12" width="14" height="1" fill="#2b1e52"/></symbol><symbol id="i-disc" viewBox="0 0 16 16"><rect x="5" y="2" width="6" height="1" fill="#2b1e52"/><rect x="3" y="3" width="2" height="1" fill="#2b1e52"/><rect x="5" y="3" width="6" height="1" fill="#3f3178"/><rect x="11" y="3" width="2" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#2b1e52"/><rect x="3" y="4" width="10" height="1" fill="#3f3178"/><rect x="13" y="4" width="1" height="1" fill="#2b1e52"/><rect x="1" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="5" width="4" height="1" fill="#3f3178"/><rect x="6" y="5" width="4" height="1" fill="#ff5fa8"/><rect x="10" y="5" width="4" height="1" fill="#3f3178"/><rect x="14" y="5" width="1" height="1" fill="#2b1e52"/><rect x="1" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="3" height="1" fill="#3f3178"/><rect x="5" y="6" width="2" height="1" fill="#ff5fa8"/><rect x="7" y="6" width="2" height="1" fill="#ffffff"/><rect x="9" y="6" width="2" height="1" fill="#ff5fa8"/><rect x="11" y="6" width="3" height="1" fill="#3f3178"/><rect x="14" y="6" width="1" height="1" fill="#2b1e52"/><rect x="1" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="3" height="1" fill="#3f3178"/><rect x="5" y="7" width="2" height="1" fill="#ff5fa8"/><rect x="7" y="7" width="2" height="1" fill="#ffffff"/><rect x="9" y="7" width="2" height="1" fill="#ff5fa8"/><rect x="11" y="7" width="3" height="1" fill="#3f3178"/><rect x="14" y="7" width="1" height="1" fill="#2b1e52"/><rect x="1" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="4" height="1" fill="#3f3178"/><rect x="6" y="8" width="4" height="1" fill="#ff5fa8"/><rect x="10" y="8" width="4" height="1" fill="#3f3178"/><rect x="14" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="1" height="1" fill="#2b1e52"/><rect x="3" y="9" width="10" height="1" fill="#3f3178"/><rect x="13" y="9" width="1" height="1" fill="#2b1e52"/><rect x="3" y="10" width="2" height="1" fill="#2b1e52"/><rect x="5" y="10" width="6" height="1" fill="#3f3178"/><rect x="11" y="10" width="2" height="1" fill="#2b1e52"/><rect x="5" y="11" width="6" height="1" fill="#2b1e52"/></symbol><symbol id="i-note" viewBox="0 0 16 16"><rect x="2" y="1" width="10" height="1" fill="#2b1e52"/><rect x="2" y="2" width="1" height="1" fill="#2b1e52"/><rect x="3" y="2" width="8" height="1" fill="#ffffff"/><rect x="11" y="2" width="2" height="1" fill="#2b1e52"/><rect x="2" y="3" width="1" height="1" fill="#2b1e52"/><rect x="3" y="3" width="8" height="1" fill="#ffffff"/><rect x="11" y="3" width="1" height="1" fill="#2b1e52"/><rect x="12" y="3" width="1" height="1" fill="#ffffff"/><rect x="13" y="3" width="1" height="1" fill="#2b1e52"/><rect x="2" y="4" width="1" height="1" fill="#2b1e52"/><rect x="3" y="4" width="8" height="1" fill="#ffffff"/><rect x="11" y="4" width="3" height="1" fill="#2b1e52"/><rect x="2" y="5" width="1" height="1" fill="#2b1e52"/><rect x="3" y="5" width="1" height="1" fill="#ffffff"/><rect x="4" y="5" width="6" height="1" fill="#9b6cf5"/><rect x="10" y="5" width="3" height="1" fill="#ffffff"/><rect x="13" y="5" width="1" height="1" fill="#2b1e52"/><rect x="2" y="6" width="1" height="1" fill="#2b1e52"/><rect x="3" y="6" width="10" height="1" fill="#ffffff"/><rect x="13" y="6" width="1" height="1" fill="#2b1e52"/><rect x="2" y="7" width="1" height="1" fill="#2b1e52"/><rect x="3" y="7" width="1" height="1" fill="#ffffff"/><rect x="4" y="7" width="8" height="1" fill="#9b6cf5"/><rect x="12" y="7" width="1" height="1" fill="#ffffff"/><rect x="13" y="7" width="1" height="1" fill="#2b1e52"/><rect x="2" y="8" width="1" height="1" fill="#2b1e52"/><rect x="3" y="8" width="10" height="1" fill="#ffffff"/><rect x="13" y="8" width="1" height="1" fill="#2b1e52"/><rect x="2" y="9" width="1" height="1" fill="#2b1e52"/><rect x="3" y="9" width="1" height="1" fill="#ffffff"/><rect x="4" y="9" width="8" height="1" fill="#9b6cf5"/><rect x="12" y="9" width="1" height="1" fill="#ffffff"/><rect x="13" y="9" width="1" height="1" fill="#2b1e52"/><rect x="2" y="10" width="1" height="1" fill="#2b1e52"/><rect x="3" y="10" width="10" height="1" fill="#ffffff"/><rect x="13" y="10" width="1" height="1" fill="#2b1e52"/><rect x="2" y="11" width="1" height="1" fill="#2b1e52"/><rect x="3" y="11" width="1" height="1" fill="#ffffff"/><rect x="4" y="11" width="6" height="1" fill="#9b6cf5"/><rect x="10" y="11" width="3" height="1" fill="#ffffff"/><rect x="13" y="11" width="1" height="1" fill="#2b1e52"/><rect x="2" y="12" width="1" height="1" fill="#2b1e52"/><rect x="3" y="12" width="10" height="1" fill="#ffffff"/><rect x="13" y="12" width="1" height="1" fill="#2b1e52"/><rect x="2" y="13" width="12" height="1" fill="#2b1e52"/></symbol></svg>
 
-<main class="shell">
+<div id="desk" data-boot="profile,notice">
 
-  <header class="pagehead">
-    <p class="pagehead__eyebrow">welcome to my room</p>
-    <h1 class="pagehead__title">취향이 맞는 사람만<br>오래 머무는 방</h1>
-    <p class="pagehead__lede">
-      AI챗으로 노는 기록을 모아둡니다. 페르소나 프롬프트, 출력 정리,
-      직접 만든 위젯까지 — 마음에 드는 건 그냥 가져가세요.
-    </p>
-  </header>
+  <!-- ===== 큼직한 배경 장식 ===== -->
+  <span class="bg sparkle bg--1"><svg viewBox="0 0 100 100"><path d="M50 2 C56 38 62 44 98 50 C62 56 56 62 50 98 C44 62 38 56 2 50 C38 44 44 38 50 2 Z"/></svg></span>
+  <span class="bg face bg--2"><svg viewBox="0 0 100 100"><circle class="eye" cx="35" cy="40" r="6"/><circle class="eye" cx="65" cy="40" r="6"/><path d="M32 62 Q50 78 68 62"/></svg></span>
+  <span class="bg sparkle sparkle--w bg--3"><svg viewBox="0 0 100 100"><path d="M50 2 C56 38 62 44 98 50 C62 56 56 62 50 98 C44 62 38 56 2 50 C38 44 44 38 50 2 Z"/></svg></span>
+  <span class="bg sparkle bg--4"><svg viewBox="0 0 100 100"><path d="M50 2 C56 38 62 44 98 50 C62 56 56 62 50 98 C44 62 38 56 2 50 C38 44 44 38 50 2 Z"/></svg></span>
+  <span class="bg sparkle sparkle--w bg--5"><svg viewBox="0 0 100 100"><path d="M50 2 C56 38 62 44 98 50 C62 56 56 62 50 98 C44 62 38 56 2 50 C38 44 44 38 50 2 Z"/></svg></span>
+  <span class="bg sticker bg--6"><svg viewBox="0 0 100 100"><path d="M50 8 L62 38 L94 41 L69 61 L78 93 L50 75 L22 93 L31 61 L6 41 L38 38 Z"/></svg></span>
+  <span class="bg sparkle bg--7"><svg viewBox="0 0 100 100"><path d="M50 2 C56 38 62 44 98 50 C62 56 56 62 50 98 C44 62 38 56 2 50 C38 44 44 38 50 2 Z"/></svg></span>
+  <span class="bg face face--blue bg--8"><svg viewBox="0 0 100 100"><circle class="eye" cx="35" cy="42" r="6"/><circle class="eye" cx="65" cy="42" r="6"/><path d="M32 74 Q50 58 68 74"/></svg></span>
+  <span class="bg planet bg--9"><svg viewBox="0 0 100 100"><path d="M-5 28 Q25 13 50 30 T105 26"/><path d="M-5 54 Q30 40 56 57 T105 50"/><path d="M-5 79 Q25 66 52 83 T105 76"/></svg></span>
+  <span class="bg sticker sticker--cyan sticker--line bg--10"><svg viewBox="0 0 100 100"><path d="M18 52 L40 76 L84 24"/></svg></span>
+  <span class="bg sticker sticker--pink sticker--line bg--11"><svg viewBox="0 0 100 100"><path d="M24 24 L76 76 M76 24 L24 76"/></svg></span>
+  <span class="bg palette bg--12"><i style="background:#ffd6ea"></i><i style="background:#9db4f5"></i><i style="background:#ff5fa8"></i><i style="background:#fff0f7"></i><i style="background:#9b6cf5"></i><i style="background:#ffd6ea"></i><i style="background:#c9aeff"></i><i style="background:#ff5fa8"></i><i style="background:#fff5c2"></i><i style="background:#c9aeff"></i><i style="background:#9db4f5"></i><i style="background:#9b6cf5"></i><i style="background:#3fd3e8"></i><i style="background:#4ddcb4"></i></span>
+  <span class="bg sparkle sparkle--w bg--13"><svg viewBox="0 0 100 100"><path d="M50 2 C56 38 62 44 98 50 C62 56 56 62 50 98 C44 62 38 56 2 50 C38 44 44 38 50 2 Z"/></svg></span>
 
-  <!-- 시그니처: 성향 카드 -->
-  <section class="win">
-    <div class="win__bar">
-      <span class="win__dots"><i></i><i></i><i></i></span>
-      <span class="win__name">taste_profile.txt</span>
-    </div>
+  <!-- ===== 상단 티커 ===== -->
+  <div class="ticker">
+    <span>CONNECTION: <span class="ok">STABLE</span></span>
+    <span>UNREAD FEELINGS: <b>99+</b></span>
+    <span>HEART MEMORY: <b>ALMOST FULL</b></span>
+  </div>
+
+  <!-- ===== 아이콘 독 ===== -->
+  <nav class="dock" aria-label="바로가기">
+    <button type="button" class="dockbtn" data-open="blog">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-note"/></svg></span>BLOG
+    </button>
+    <button type="button" class="dockbtn" data-open="notice">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-bubble"/></svg></span>NOTICE
+    </button>
+    <button type="button" class="dockbtn" data-open="profile">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>TASTE
+    </button>
+    <button type="button" class="dockbtn" data-open="persona">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-ribbon"/></svg></span>PERSONA
+    </button>
+    <button type="button" class="dockbtn" data-open="prompts">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-floppy"/></svg></span>PROMPT
+    </button>
+    <button type="button" class="dockbtn" data-open="widgets">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-monitor"/></svg></span>WIDGET
+    </button>
+    <button type="button" class="dockbtn" data-open="gallery">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-photo"/></svg></span>GALLERY
+    </button>
+    <button type="button" class="dockbtn" data-open="music">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-disc"/></svg></span>MUSIC
+    </button>
+    <button type="button" class="dockbtn" data-open="guest">
+      <span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-pencil"/></svg></span>GUEST
+    </button>
+  </nav>
+
+  <!-- ===== TASTE — 파는 CP와 장르 ===== -->
+  <section class="win win--pink open" data-win="profile" style="--x:530px; --y:96px; --w:462px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>
+      <h2 class="win__title">NOW SELLING</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
     <div class="win__body">
-      <h2 class="sec">내 성향 한눈에</h2>
-      <dl class="traits">
+      <p class="label">파는 CP</p>
+      <p class="lede">요즘 파고 있는 CP와 장르입니다. 겹치는 게 있으면 정말 반가워요.</p>
 
-        <div class="traits__row">
-          <dt>서사 비중</dt>
-          <dd>
-            <span class="meter" role="img" aria-label="5점 중 5점">
-              <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span>
-            </span>
-            <span class="meter__label">플롯 없으면 못 버팀</span>
-          </dd>
+      <div class="cp cp--pink">
+        <div class="cp__head">
+          <h3 class="cp__name">A × B</h3>
+          <span class="cp__badge">MAIN</span>
         </div>
-
-        <div class="traits__row">
-          <dt>감정선 속도</dt>
-          <dd>
-            <span class="meter" role="img" aria-label="5점 중 2점">
-              <span class="on"></span><span class="on"></span><span></span><span></span><span></span>
-            </span>
-            <span class="meter__label">느리게, 아주 느리게</span>
-          </dd>
+        <p class="label" style="margin:0 0 8px">작품 이름</p>
+        <ul class="tags">
+          <li class="tag">고정 CP</li>
+          <li class="tag">리버 ✕</li>
+          <li class="tag">원작 기반</li>
+        </ul>
+        <div class="gauge__top"><span>파는 정도</span><span class="gauge__val">100%</span></div>
+        <div class="bar" role="img" aria-label="파는 정도 100퍼센트">
+          <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
         </div>
+        <p class="cp__note">여기에 이 CP를 어떻게 보는지 한두 줄 적어주세요.</p>
+      </div>
 
-        <div class="traits__row">
-          <dt>답변 길이</dt>
-          <dd>
-            <span class="meter" role="img" aria-label="5점 중 4점">
-              <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span>
-            </span>
-            <span class="meter__label">3~5문단 선호</span>
-          </dd>
+      <div class="cp cp--cyan">
+        <div class="cp__head">
+          <h3 class="cp__name">C × D</h3>
+          <span class="cp__badge cp__badge--sub">SUB</span>
         </div>
-
-        <div class="traits__row">
-          <dt>OOC 사용</dt>
-          <dd>
-            <span class="meter" role="img" aria-label="5점 중 3점">
-              <span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span>
-            </span>
-            <span class="meter__label">필요할 때만, 짧게</span>
-          </dd>
+        <p class="label" style="margin:0 0 8px">작품 이름</p>
+        <ul class="tags">
+          <li class="tag">역방향도 OK</li>
+          <li class="tag">AU 환영</li>
+        </ul>
+        <div class="gauge__top"><span>파는 정도</span><span class="gauge__val">70%</span></div>
+        <div class="bar bar--cyan" role="img" aria-label="파는 정도 70퍼센트">
+          <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          <i class="on"></i><i class="on"></i><i></i><i></i><i></i>
         </div>
+        <p class="cp__note">한두 줄 적어주세요.</p>
+      </div>
 
-        <div class="traits__row">
-          <dt>좋아하는 톤</dt>
-          <dd>
-            <ul class="tags">
-              <li class="tag">잔잔한 일상</li>
-              <li class="tag">긴 호흡 로맨스</li>
-              <li class="tag">현대 판타지</li>
-              <li class="tag">쌍방 짝사랑</li>
-            </ul>
-          </dd>
+      <div class="cp cp--mint">
+        <div class="cp__head">
+          <h3 class="cp__name">E × F</h3>
+          <span class="cp__badge cp__badge--sub">관심</span>
         </div>
-
-        <div class="traits__row">
-          <dt>이건 좋아요</dt>
-          <dd>
-            <ul class="tags">
-              <li class="tag tag--yes">캐릭터 일관성</li>
-              <li class="tag tag--yes">묘사 디테일</li>
-              <li class="tag tag--yes">기억 잘 챙기기</li>
-            </ul>
-          </dd>
+        <p class="label" style="margin:0 0 8px">작품 이름</p>
+        <ul class="tags">
+          <li class="tag">입문 중</li>
+        </ul>
+        <div class="gauge__top"><span>파는 정도</span><span class="gauge__val">40%</span></div>
+        <div class="bar bar--mint" role="img" aria-label="파는 정도 40퍼센트">
+          <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i>
         </div>
+        <p class="cp__note">한두 줄 적어주세요.</p>
+      </div>
 
-        <div class="traits__row">
-          <dt>이건 안 맞아요</dt>
-          <dd>
-            <ul class="tags">
-              <li class="tag tag--no">갑작스러운 전개</li>
-              <li class="tag tag--no">유저 대사 대신 쓰기</li>
-              <li class="tag tag--no">설정 무시</li>
-            </ul>
-          </dd>
-        </div>
+      <h3 class="sub">GENRE</h3>
+      <ul class="tags">
+        <li class="tag tag--grape">현대물</li>
+        <li class="tag tag--grape">학원물</li>
+        <li class="tag tag--grape">판타지</li>
+        <li class="tag tag--grape">일상</li>
+        <li class="tag tag--grape">느린 연애</li>
+      </ul>
 
-      </dl>
-      <p class="note">※ 수치는 취향 정도일 뿐, 절대 기준은 아닙니다. 편하게 참고만 해주세요.</p>
-    </div>
-  </section>
+      <h3 class="sub">이런 거 좋아해요</h3>
+      <ul class="tags">
+        <li class="tag tag--mint">쌍방 짝사랑</li>
+        <li class="tag tag--mint">오래 알고 지낸 사이</li>
+        <li class="tag tag--mint">서사 있는 관계</li>
+        <li class="tag tag--mint">캐붕 없는 대사</li>
+      </ul>
 
-  <!-- 바로가기 -->
-  <section class="win win--sky">
-    <div class="win__bar">
-      <span class="win__dots"><i></i><i></i><i></i></span>
-      <span class="win__name">shortcuts</span>
-    </div>
-    <div class="win__body">
-      <h2 class="sec">어디로 갈까요</h2>
-      <ul class="grid">
-        <li class="card">
-          <h3 class="card__name">페르소나</h3>
-          <p class="card__meta">persona</p>
-          <p class="card__desc">제가 쓰는 페르소나 설정과 프롬프트를 정리해 뒀습니다.</p>
-          <a href="persona.html">보러 가기 →</a>
-        </li>
-        <li class="card">
-          <h3 class="card__name">프롬프트 &amp; 출력</h3>
-          <p class="card__meta">prompts</p>
-          <p class="card__desc">공유했던 OOC 지시문, 출력 예시, 상황별 프롬프트 모음.</p>
-          <a href="prompts.html">보러 가기 →</a>
-        </li>
-        <li class="card">
-          <h3 class="card__name">위젯</h3>
-          <p class="card__meta">widgets</p>
-          <p class="card__desc">직접 만든 HTML 위젯. 코드 복사해서 바로 쓰세요.</p>
-          <a href="widgets.html">보러 가기 →</a>
-        </li>
-        <li class="card">
-          <h3 class="card__name">방명록</h3>
-          <p class="card__meta">guestbook</p>
-          <p class="card__desc">인사, 후기, 요청 다 환영합니다. 편하게 남겨주세요.</p>
-          <a href="guestbook.html">보러 가기 →</a>
-        </li>
+      <h3 class="sub">이건 안 맞아요</h3>
+      <ul class="tags">
+        <li class="tag tag--peach">리버</li>
+        <li class="tag tag--peach">원작 설정 무시</li>
+        <li class="tag tag--peach">갑작스러운 전개</li>
       </ul>
     </div>
   </section>
 
-  <!-- 요즘 -->
-  <section class="win win--butter">
-    <div class="win__bar">
-      <span class="win__dots"><i></i><i></i><i></i></span>
-      <span class="win__name">now.log</span>
-    </div>
+  <!-- ===== ABOUT — 트위터에서 온 사람 대상 ===== -->
+  <section class="win win--cyan open" data-win="notice" style="--x:130px; --y:262px; --w:400px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-bubble"/></svg></span>
+      <h2 class="win__title">NOTICE</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
     <div class="win__body">
-      <h2 class="sec">요즘 파는 것</h2>
-      <p>
-        지금은 오리지널 커플 서사를 굴리는 중입니다. 위젯도 계속 다듬고 있어요.
-        새로 올라오는 건 <a href="prompts.html">프롬프트</a> 쪽부터 쌓입니다.
+      <p class="label">WELCOME</p>
+      <p class="lede">
+        트위터에서 오셨나요? 반갑습니다.
+        여기는 제가 파는 CP와 AI챗 기록을 모아둔 방입니다.
       </p>
-      <p class="note">마지막 업데이트: 2026.07</p>
+
+      <ul class="linkrow">
+        <li>
+          <a class="linkbtn" href="https://x.com/여기에_아이디" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg>@아이디
+          </a>
+        </li>
+      </ul>
+
+      <h3 class="sub">이 방에 있는 것</h3>
+      <ul>
+        <li><b>BLOG</b> — 글</li>
+        <li><b>NOTICE</b> — 공지와 소개</li>
+        <li><b>NOW SELLING</b> — 파는 CP와 장르</li>
+        <li><b>PERSONA</b> — 제가 쓰는 페르소나 설정</li>
+        <li><b>PROMPT</b> — OOC 지시문, 상황별 프롬프트</li>
+        <li><b>WIDGET</b> — 직접 만든 위젯 코드</li>
+        <li><b>GALLERY</b> — 그림과 출력 이미지</li>
+        <li><b>MUSIC</b> — 배경 음악</li>
+        <li><b>GUESTBOOK</b> — 하고 싶은 말 남기는 곳</li>
+      </ul>
+
+      <div class="callout">
+        왼쪽 아이콘이나 아래 START를 누르면 창이 열려요.
+        제목줄을 잡고 끌면 창이 움직입니다.
+      </div>
+
+      <h3 class="sub">멘션 / 상호</h3>
+      <p>
+        여기에 상호 관련 안내를 적어주세요.
+        (예: 무언 상호 환영, 성인만, 멘션 편하게 등)
+      </p>
+
+      <h3 class="sub">가져갈 때</h3>
+      <p>프롬프트와 위젯은 자유롭게 쓰셔도 됩니다. 재배포할 때만 출처 한 줄 남겨주세요.</p>
     </div>
   </section>
 
-  <p class="foot">© 해바라기의 방 · built with github pages</p>
+  <!-- ===== 페르소나 ===== -->
+  <section class="win win--peach" data-win="persona" style="--x:190px; --y:128px; --w:450px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-ribbon"/></svg></span>
+      <h2 class="win__title">PERSONA</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <p class="label">C:\HEART\persona\</p>
+      <p class="lede">제가 쓰는 페르소나와 그때 넣는 프롬프트입니다. 이름만 바꿔서 쓰셔도 돼요.</p>
 
-</main>
+      <h3 class="sub">PERSONA 01</h3>
+      <ul class="tags">
+        <li class="tag tag--peach">차분함</li>
+        <li class="tag tag--peach">존댓말</li>
+        <li class="tag tag--peach">감정 표현 적음</li>
+      </ul>
+
+      <div class="snip" style="margin-top:12px">
+        <div class="snip__top">
+          <p class="snip__name">persona_01.txt</p>
+          <button type="button" class="btn" data-copy="p-persona-01">COPY</button>
+        </div>
+        <pre id="p-persona-01">이름: (이름)
+나이: (나이) / 성별: (성별)
+외형: (키, 체형, 머리색, 눈색, 인상적인 특징)
+성격: (핵심 성격 3~4개. 모순되는 면도 하나쯤)
+말투: (존댓말/반말, 문장 길이, 자주 쓰는 표현)
+관계: (캐릭터와 어떤 사이인지, 어디까지 알고 있는지)
+현재 상황: (첫 장면에서 어디에 있고 뭘 하는 중인지)
+
+주의사항:
+- 이 페르소나의 대사와 행동은 유저가 직접 씁니다. 대신 쓰지 마세요.
+- 페르소나가 모르는 정보를 아는 것처럼 서술하지 마세요.</pre>
+      </div>
+
+      <h3 class="sub">PERSONA 02</h3>
+      <p class="lede">분위기가 다른 챗을 돌릴 때 쓰는 버전입니다.</p>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">persona_02.txt</p>
+          <button type="button" class="btn" data-copy="p-persona-02">COPY</button>
+        </div>
+        <pre id="p-persona-02">여기에 두 번째 페르소나를 적어주세요.</pre>
+      </div>
+
+      <h3 class="sub">TIPS</h3>
+      <details>
+        <summary>외형보다 관계를 먼저</summary>
+        <p>외형 묘사가 길어도 반응은 크게 안 바뀝니다. "언제부터 알던 사이인지", "서로 뭘 숨기는지"를 한 줄 넣으면 첫 응답부터 결이 달라집니다.</p>
+      </details>
+      <details>
+        <summary>모순 하나를 일부러 넣기</summary>
+        <p>겉으론 무심한데 남 챙기는 건 잘한다든가. 이런 틈이 있으면 캐릭터가 해석할 여지가 생깁니다.</p>
+      </details>
+      <details>
+        <summary>금지사항은 짧고 분명하게</summary>
+        <p>길게 나열하면 오히려 안 지켜집니다. 정말 중요한 두세 개만 명령문으로 적습니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== 프롬프트 ===== -->
+  <section class="win" data-win="prompts" style="--x:265px; --y:108px; --w:500px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-floppy"/></svg></span>
+      <h2 class="win__title">PROMPT ARCHIVE</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <p class="label">C:\HEART\prompt\ooc\</p>
+
+      <h3 class="sub">OOC</h3>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">서술 길이 조절</p>
+          <button type="button" class="btn" data-copy="p-ooc-len">COPY</button>
+        </div>
+        <pre id="p-ooc-len">(OOC: 지금부터 응답을 3~4문단으로 유지해 주세요.
+한 문단은 3~5문장 정도가 좋습니다.
+장면 요약 대신 그 순간의 감각과 대화에 집중해 주세요.)</pre>
+      </div>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">유저 대사 대신 쓰지 않기</p>
+          <button type="button" class="btn" data-copy="p-ooc-user">COPY</button>
+        </div>
+        <pre id="p-ooc-user">(OOC: 제 페르소나의 대사, 속마음, 행동은 제가 직접 씁니다.
+캐릭터의 반응까지만 작성하고 거기서 멈춰 주세요.
+제 반응을 예상해서 미리 서술하지 말아 주세요.)</pre>
+      </div>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">전개 속도 늦추기</p>
+          <button type="button" class="btn" data-copy="p-ooc-pace">COPY</button>
+        </div>
+        <pre id="p-ooc-pace">(OOC: 전개를 조금 늦춰 주세요.
+한 응답에서 시간이나 장소를 건너뛰지 말고,
+지금 이 장면 안에서만 움직여 주세요.
+관계 변화도 한 번에 한 단계씩만 진행해 주세요.)</pre>
+      </div>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">설정 다시 붙잡기</p>
+          <button type="button" class="btn" data-copy="p-ooc-reset">COPY</button>
+        </div>
+        <pre id="p-ooc-reset">(OOC: 캐릭터 설정을 다시 확인해 주세요.
+특히 아래가 흔들리고 있습니다.
+1. (흔들린 부분)
+2. (흔들린 부분)
+이전 응답은 유지하고, 다음 응답부터 반영해 주세요.)</pre>
+      </div>
+
+      <h3 class="sub">SCENE</h3>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">첫 만남 장면 열기</p>
+          <button type="button" class="btn" data-copy="p-scene-first">COPY</button>
+        </div>
+        <pre id="p-scene-first">장소: (구체적인 공간 하나)
+시간: (계절, 시각, 날씨)
+분위기: (소리, 냄새, 빛 중 두 가지만)
+
+캐릭터는 이 자리에 먼저 와 있습니다.
+제 페르소나가 들어오는 순간부터 시작해 주세요.
+첫 응답은 캐릭터의 시선과 첫 한마디로 끝내 주세요.</pre>
+      </div>
+
+      <h3 class="sub">OUTPUT LOG</h3>
+      <details>
+        <summary>첫 만남 — 출력 1</summary>
+        <p>여기에 출력 내용을 붙여넣어 주세요.</p>
+      </details>
+      <details>
+        <summary>첫 만남 — 출력 2</summary>
+        <p>여기에 출력 내용을 붙여넣어 주세요.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== 위젯 ===== -->
+  <section class="win win--yellow" data-win="widgets" style="--x:315px; --y:158px; --w:480px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-monitor"/></svg></span>
+      <h2 class="win__title">WIDGET SHARE</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <p class="label">C:\HEART\widget\</p>
+      <p class="lede">직접 만든 위젯입니다. 색이나 문구는 자유롭게 바꿔주세요.</p>
+
+      <ul class="files">
+        <li class="file">
+          <h3 class="file__name">widget_01</h3>
+          <p class="file__meta">2026.07 · 8색</p>
+          <p class="file__desc">용도를 한 줄로 적어주세요.</p>
+        </li>
+        <li class="file">
+          <h3 class="file__name">widget_02</h3>
+          <p class="file__meta">2026.07 · 단색</p>
+          <p class="file__desc">용도를 한 줄로 적어주세요.</p>
+        </li>
+        <li class="file">
+          <h3 class="file__name">widget_03</h3>
+          <p class="file__meta">준비 중</p>
+          <p class="file__desc">곧 올라옵니다.</p>
+        </li>
+      </ul>
+
+      <h3 class="sub">CODE</h3>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">widget_01.txt</p>
+          <button type="button" class="btn" data-copy="w-01">COPY</button>
+        </div>
+        <pre id="w-01">&lt;!-- 여기에 위젯 코드를 붙여넣어 주세요 --&gt;</pre>
+      </div>
+
+      <div class="snip">
+        <div class="snip__top">
+          <p class="snip__name">widget_02.txt</p>
+          <button type="button" class="btn" data-copy="w-02">COPY</button>
+        </div>
+        <pre id="w-02">&lt;!-- 여기에 위젯 코드를 붙여넣어 주세요 --&gt;</pre>
+      </div>
+
+      <h3 class="sub">README</h3>
+      <details>
+        <summary>플랫폼마다 막히는 태그가 있습니다</summary>
+        <p>붙일 곳에서 어떤 태그가 통과되는지 먼저 확인해 주세요. 안 되는 게 있으면 인라인 스타일로 바꾸면 대부분 해결됩니다.</p>
+      </details>
+      <details>
+        <summary>색만 바꾸는 법</summary>
+        <p>코드 맨 위 색상값만 바꾸면 전체 톤이 따라 바뀌도록 만들어 뒀습니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== 방명록 ===== -->
+  <section class="win win--mint" data-win="guest" style="--x:365px; --y:198px; --w:470px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-pencil"/></svg></span>
+      <h2 class="win__title">GUESTBOOK</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <p class="label">NEW MESSAGE</p>
+      <p class="lede">인사도, 위젯 요청도, CP 이야기도 다 환영합니다.</p>
+
+      <div class="guestbox">
+        <!-- 연결 전 안내. giscus 연결 후 이 div를 지우세요 -->
+        <div class="callout">
+          방명록이 아직 연결되지 않았습니다.
+          <code>SETUP.md</code>의 방명록 항목대로 giscus를 설정하면 이 자리에 댓글창이 나타납니다.
+        </div>
+
+        <!--
+          giscus 연결하기: 아래 script 블록을 감싼 주석을 풀고 값 2개를 바꾸세요.
+
+        <script src="https://giscus.app/client.js"
+                data-repo="Violet-7F00FF/Violet-7F00FF.github.io"
+                data-repo-id="발급받은 REPO_ID"
+                data-category="Guestbook"
+                data-category-id="발급받은 CATEGORY_ID"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="ko"
+                crossorigin="anonymous"
+                async>
+        </script>
+        -->
+      </div>
+
+      <h3 class="sub">HOUSE RULES</h3>
+      <ul>
+        <li>서로 취향이 다를 수 있습니다. 남의 CP를 깎는 말은 지웁니다.</li>
+        <li>개인정보나 실명은 적지 말아주세요.</li>
+        <li>위젯 요청은 원하는 색과 용도를 같이 적어주시면 빠릅니다.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ===== 글 ===== -->
+  <section class="win win--peach" data-win="blog" style="--x:250px; --y:120px; --w:490px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-note"/></svg></span>
+      <h2 class="win__title">BLOG</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <p class="label">C:\HEART\posts\</p>
+      <ul class="postlist" id="postList"></ul>
+      <div id="postView" hidden></div>
+    </div>
+  </section>
+
+  <!-- ===== 갤러리 ===== -->
+  <section class="win win--mint" data-win="gallery" style="--x:300px; --y:140px; --w:460px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-photo"/></svg></span>
+      <h2 class="win__title">GALLERY</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <p class="label">C:\HEART\gallery\</p>
+      <div class="gview" id="gview"></div>
+      <p class="gcap" id="gcap"></p>
+      <ul class="gthumbs" id="gthumbs"></ul>
+    </div>
+  </section>
+
+  <!-- ===== 음악 ===== -->
+  <section class="win win--cyan" data-win="music" style="--x:420px; --y:230px; --w:430px;">
+    <header class="win__bar">
+      <span class="win__glyph"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-disc"/></svg></span>
+      <h2 class="win__title">MUSIC PLAYER</h2>
+      <div class="win__btns">
+        <button type="button" data-min aria-label="최소화">▁</button>
+        <button type="button" data-close aria-label="닫기">✕</button>
+      </div>
+    </header>
+    <div class="win__body">
+      <div class="player">
+        <div class="lp" id="lp" aria-hidden="true"><span class="lp__arm"></span></div>
+        <div class="player__info">
+          <p class="track" id="trackTitle">노래를 넣어주세요</p>
+          <p class="track__sub" id="trackArtist">index.html 의 PLAYLIST 목록</p>
+          <div class="mctrl">
+            <button type="button" id="mPrev" aria-label="이전 곡">◀◀</button>
+            <button type="button" id="mPlay" class="play" aria-label="재생">▶</button>
+            <button type="button" id="mNext" aria-label="다음 곡">▶▶</button>
+          </div>
+          <div class="vol">
+            <span class="vol__label">VOL</span>
+            <input type="range" id="mVol" min="0" max="100" value="60" aria-label="음량">
+          </div>
+        </div>
+      </div>
+
+      <h3 class="sub">PLAYLIST</h3>
+      <ul class="plist" id="plist"></ul>
+
+      <p class="mnote">
+        재생 버튼을 눌러야 시작됩니다. (브라우저가 자동 재생을 막습니다)<br>
+        한 곡만 반복하려면 index.html 위쪽의 LOOP_ONE 을 true 로 바꾸세요.
+      </p>
+
+      <audio id="audio" preload="none"></audio>
+    </div>
+  </section>
+
+  <p class="made">made by <b>@Violet_7F00FF</b></p>
+
+  <!-- ===== 시작 메뉴 ===== -->
+  <div class="startmenu" id="startMenu">
+    <p class="startmenu__head">VIOLET OS</p>
+    <ul>
+      <li><button type="button" data-open="blog"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-note"/></svg></span>글</button></li>
+      <li><button type="button" data-open="notice"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-bubble"/></svg></span>공지</button></li>
+      <li><button type="button" data-open="profile"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg></span>파는 CP</button></li>
+      <li><button type="button" data-open="persona"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-ribbon"/></svg></span>페르소나</button></li>
+      <li><button type="button" data-open="prompts"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-floppy"/></svg></span>프롬프트</button></li>
+      <li><button type="button" data-open="widgets"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-monitor"/></svg></span>위젯</button></li>
+      <li><button type="button" data-open="gallery"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-photo"/></svg></span>갤러리</button></li>
+      <li><button type="button" data-open="music"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-disc"/></svg></span>음악</button></li>
+      <li><button type="button" data-open="guest"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-pencil"/></svg></span>방명록</button></li>
+    </ul>
+  </div>
+
+  <!-- ===== 작업 표시줄 ===== -->
+  <div class="taskbar">
+    <button type="button" class="start" id="startBtn" aria-expanded="false" aria-controls="startMenu">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heart"/></svg>START
+    </button>
+    <div id="tasks"></div>
+    <div class="tray">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-star"/></svg>
+      <span id="clock">--:--</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ==========================================================
+   VIOLET OS
+
+   글 / 그림 / 음악은 관리자 페이지에서 올립니다.
+       주소/admin  으로 들어가세요.
+
+   아래 목록은 관리자 페이지를 안 쓰고 직접 적고 싶을 때만 씁니다.
+   (관리자 페이지로 올린 내용이 있으면 그쪽이 우선입니다)
+   ========================================================== */
+
+var GALLERY = [
+  // { src: 'media/pic1.png', caption: '설명' },
+];
+
+var PLAYLIST = [
+  // { title: '노래 제목', artist: '아티스트', src: 'media/song1.mp3' },
+];
+
+/* 한 곡만 반복하려면 true */
+var LOOP_ONE = false;
+
+
+/* ==========================================================
+   VIOLET OS — 창 관리
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var desk = document.getElementById('desk');
+  var taskArea = document.getElementById('tasks');
+  var startBtn = document.getElementById('startBtn');
+  var startMenu = document.getElementById('startMenu');
+  var clockEl = document.getElementById('clock');
+
+  var wins = {};
+  var topZ = 10;
+
+  function isMobile() {
+    return window.matchMedia('(max-width: 820px)').matches;
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.win'), function (el) {
+    wins[el.dataset.win] = {
+      el: el,
+      title: el.querySelector('.win__title').textContent.trim(),
+      task: null
+    };
+  });
+
+  function syncDock() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-open]'), function (btn) {
+      var w = wins[btn.dataset.open];
+      btn.classList.toggle('active', !!(w && w.el.classList.contains('open')));
+    });
+  }
+
+  function focusWin(key) {
+    var w = wins[key];
+    if (!w) return;
+    topZ += 1;
+    w.el.style.zIndex = topZ;
+    Object.keys(wins).forEach(function (k) {
+      if (wins[k].task) wins[k].task.classList.toggle('on', k === key);
+    });
+    syncDock();
+  }
+
+  function addTask(key) {
+    var w = wins[key];
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'taskbtn';
+    btn.textContent = w.title;
+    btn.addEventListener('click', function () {
+      focusWin(key);
+      if (isMobile()) w.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    taskArea.appendChild(btn);
+    w.task = btn;
+  }
+
+  function openWin(key) {
+    var w = wins[key];
+    if (!w) return;
+    w.el.classList.add('open');
+    if (!w.task) addTask(key);
+    focusWin(key);
+    if (isMobile()) w.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function closeWin(key) {
+    var w = wins[key];
+    if (!w) return;
+    w.el.classList.remove('open');
+    if (w.task) { w.task.remove(); w.task = null; }
+    syncDock();
+  }
+
+  /* ---------- 클릭 ---------- */
+
+  document.addEventListener('click', function (e) {
+    var opener = e.target.closest('[data-open]');
+    if (opener) { openWin(opener.dataset.open); closeStart(); return; }
+
+    var hit = e.target.closest('[data-close], [data-min]');
+    if (hit) { closeWin(hit.closest('.win').dataset.win); return; }
+
+    var win = e.target.closest('.win');
+    if (win) focusWin(win.dataset.win);
+  });
+
+  /* ---------- 드래그 ---------- */
+
+  var drag = null;
+
+  document.addEventListener('pointerdown', function (e) {
+    if (isMobile()) return;
+    var bar = e.target.closest('.win__bar');
+    if (!bar || e.target.closest('button')) return;
+
+    var el = bar.closest('.win');
+    var rect = el.getBoundingClientRect();
+    drag = {
+      el: el,
+      dx: e.clientX - rect.left,
+      dy: e.clientY - rect.top,
+      w: rect.width
+    };
+    focusWin(el.dataset.win);
+    bar.setPointerCapture(e.pointerId);
+  });
+
+  document.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var x = Math.min(Math.max(e.clientX - drag.dx, -drag.w + 100), window.innerWidth - 70);
+    var y = Math.min(Math.max(e.clientY - drag.dy, 0), window.innerHeight - 70);
+    drag.el.style.setProperty('--x', x + 'px');
+    drag.el.style.setProperty('--y', y + 'px');
+  });
+
+  function endDrag() { drag = null; }
+  document.addEventListener('pointerup', endDrag);
+  document.addEventListener('pointercancel', endDrag);
+
+  /* ---------- 시작 메뉴 ---------- */
+
+  function closeStart() {
+    startMenu.classList.remove('open');
+    startBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  startBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var willOpen = !startMenu.classList.contains('open');
+    startMenu.classList.toggle('open', willOpen);
+    startBtn.setAttribute('aria-expanded', String(willOpen));
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#startMenu') && !e.target.closest('#startBtn')) closeStart();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeStart();
+  });
+
+  /* ---------- 시계 ---------- */
+
+  function tick() {
+    var d = new Date();
+    clockEl.textContent =
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  tick();
+  setInterval(tick, 20000);
+
+  /* ---------- 복사 버튼 ---------- */
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    var target = document.getElementById(btn.dataset.copy);
+    if (!target) return;
+
+    var original = btn.textContent;
+
+    function done() {
+      btn.textContent = 'COPIED!';
+      btn.classList.add('done');
+      setTimeout(function () {
+        btn.textContent = original;
+        btn.classList.remove('done');
+      }, 1500);
+    }
+    function fail() {
+      btn.textContent = '복사 실패';
+      setTimeout(function () { btn.textContent = original; }, 2000);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(target.textContent).then(done, fail);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = target.textContent;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (err) { fail(); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  /* ---------- 첫 화면 ---------- */
+
+  (desk.dataset.boot ? desk.dataset.boot.split(',') : []).forEach(function (k) {
+    openWin(k.trim());
+  });
+
+}());
+
+
+/* ==========================================================
+   관리자 페이지에서 올린 자료 불러오기
+   ========================================================== */
+
+function loadJSON(path) {
+  return fetch(path, { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .catch(function () { return null; });
+}
+
+/* 마크다운 → HTML. marked 가 없으면 최소한의 처리만 합니다 */
+function toHTML(md) {
+  if (!md) return '';
+  if (window.marked) {
+    try {
+      var fn = window.marked.parse || window.marked;
+      return fn(md, { breaks: true });
+    } catch (e) { /* 아래 기본 처리로 */ }
+  }
+  var esc = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return '<p>' + esc.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
+}
+
+
+/* ==========================================================
+   글 (BLOG)
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var listEl = document.getElementById('postList');
+  var viewEl = document.getElementById('postView');
+  if (!listEl) return;
+
+  var posts = [];
+
+  function showList() {
+    viewEl.hidden = true;
+    listEl.hidden = false;
+  }
+
+  function showPost(i) {
+    var p = posts[i];
+    listEl.hidden = true;
+    viewEl.hidden = false;
+    viewEl.innerHTML = '';
+
+    var back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'btn';
+    back.textContent = '← 목록';
+    back.addEventListener('click', showList);
+    viewEl.appendChild(back);
+
+    var h = document.createElement('h3');
+    h.className = 'post__title';
+    h.textContent = p.title || '(제목 없음)';
+    viewEl.appendChild(h);
+
+    var meta = document.createElement('p');
+    meta.className = 'post__meta';
+    meta.textContent = (p.date || '') + (p.tag ? '  ·  ' + p.tag : '');
+    viewEl.appendChild(meta);
+
+    if (p.cover) {
+      var img = document.createElement('img');
+      img.className = 'post__cover';
+      img.src = p.cover;
+      img.alt = '';
+      viewEl.appendChild(img);
+    }
+
+    var body = document.createElement('div');
+    body.className = 'post__body';
+    body.innerHTML = toHTML(p.body);
+    viewEl.appendChild(body);
+  }
+
+  function render() {
+    listEl.innerHTML = '';
+
+    if (!posts.length) {
+      listEl.innerHTML = '<p class="empty">아직 쓴 글이 없습니다.<br>' +
+        '주소 뒤에 <b>/admin</b> 을 붙여서 들어가면 글을 쓸 수 있어요.</p>';
+      return;
+    }
+
+    posts.forEach(function (p, i) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'postbtn';
+      b.innerHTML =
+        '<span class="postbtn__date">' + (p.date || '') + '</span>' +
+        '<span class="postbtn__title">' + (p.title || '(제목 없음)') + '</span>' +
+        (p.tag ? '<span class="postbtn__tag">' + p.tag + '</span>' : '');
+      b.addEventListener('click', function () { showPost(i); });
+      li.appendChild(b);
+      listEl.appendChild(li);
+    });
+  }
+
+  loadJSON('data/posts.json').then(function (data) {
+    posts = (data && data.posts) ? data.posts.slice() : [];
+    posts.sort(function (a, b) {
+      return String(b.date || '').localeCompare(String(a.date || ''));
+    });
+    render();
+  });
+
+}());
+
+
+/* ==========================================================
+   갤러리
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var view = document.getElementById('gview');
+  var cap = document.getElementById('gcap');
+  var thumbs = document.getElementById('gthumbs');
+  if (!view) return;
+
+  function build(items) {
+    if (!items.length) {
+      view.innerHTML = '<p class="gview__empty">아직 올린 그림이 없습니다.<br>' +
+        '주소 뒤에 <b>/admin</b> 을 붙여서 올릴 수 있어요.</p>';
+      return;
+    }
+
+    function show(i) {
+      var item = items[i];
+      view.innerHTML = '';
+      var img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.caption || '';
+      img.onerror = function () {
+        view.innerHTML = '<p class="gview__empty">그림을 불러오지 못했습니다.</p>';
+      };
+      view.appendChild(img);
+      cap.textContent = item.caption || '';
+      Array.prototype.forEach.call(thumbs.querySelectorAll('button'), function (b, n) {
+        b.classList.toggle('on', n === i);
+      });
+    }
+
+    items.forEach(function (item, i) {
+      var li = document.createElement('li');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', item.caption || ('그림 ' + (i + 1)));
+      var im = document.createElement('img');
+      im.src = item.src;
+      im.alt = '';
+      btn.appendChild(im);
+      btn.addEventListener('click', function () { show(i); });
+      li.appendChild(btn);
+      thumbs.appendChild(li);
+    });
+
+    show(0);
+  }
+
+  loadJSON('data/gallery.json').then(function (data) {
+    var items = [];
+    if (data && data.items) {
+      items = data.items.map(function (it) {
+        return { src: it.image, caption: it.caption };
+      });
+    }
+    if (!items.length) items = GALLERY;
+    build(items);
+  });
+
+}());
+
+
+/* ==========================================================
+   배경 음악 (LP 플레이어)
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var audio = document.getElementById('audio');
+  var lp = document.getElementById('lp');
+  var titleEl = document.getElementById('trackTitle');
+  var artistEl = document.getElementById('trackArtist');
+  var playBtn = document.getElementById('mPlay');
+  var prevBtn = document.getElementById('mPrev');
+  var nextBtn = document.getElementById('mNext');
+  var volEl = document.getElementById('mVol');
+  var listEl = document.getElementById('plist');
+  if (!audio) return;
+
+  var tracks = [];
+  var current = 0;
+
+  function paint() {
+    var t = tracks[current];
+    titleEl.textContent = t ? t.title : '노래를 넣어주세요';
+    artistEl.textContent = t ? (t.artist || '') : '주소 뒤에 /admin 으로 올릴 수 있어요';
+    Array.prototype.forEach.call(listEl.querySelectorAll('button'), function (b, n) {
+      b.classList.toggle('on', n === current);
+    });
+  }
+
+  function load(i, autoplay) {
+    if (!tracks.length) return;
+    current = (i + tracks.length) % tracks.length;
+    audio.src = tracks[current].src;
+    paint();
+    if (autoplay) play();
+  }
+
+  function play() {
+    if (!tracks.length) return;
+    var p = audio.play();
+    if (p && p.catch) {
+      p.catch(function () {
+        titleEl.textContent = '재생할 수 없습니다';
+        artistEl.textContent = '파일을 확인해 주세요';
+      });
+    }
+  }
+
+  audio.addEventListener('play', function () {
+    lp.classList.add('spinning');
+    playBtn.textContent = '❚❚';
+  });
+
+  audio.addEventListener('pause', function () {
+    lp.classList.remove('spinning');
+    playBtn.textContent = '▶';
+  });
+
+  audio.addEventListener('ended', function () {
+    if (LOOP_ONE) { audio.currentTime = 0; play(); }
+    else load(current + 1, true);
+  });
+
+  audio.addEventListener('error', function () {
+    if (!audio.getAttribute('src')) return;
+    titleEl.textContent = '파일을 찾을 수 없습니다';
+  });
+
+  playBtn.addEventListener('click', function () {
+    if (audio.paused) play(); else audio.pause();
+  });
+  prevBtn.addEventListener('click', function () { load(current - 1, !audio.paused); });
+  nextBtn.addEventListener('click', function () { load(current + 1, !audio.paused); });
+  volEl.addEventListener('input', function () { audio.volume = volEl.value / 100; });
+  audio.volume = 0.6;
+
+  loadJSON('data/music.json').then(function (data) {
+    if (data && data.tracks) {
+      tracks = data.tracks.map(function (t) {
+        return { title: t.title, artist: t.artist, src: t.file };
+      });
+    }
+    if (!tracks.length) tracks = PLAYLIST;
+
+    tracks.forEach(function (t, i) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<span class="plist__no">' + String(i + 1).padStart(2, '0') +
+        '</span>' + (t.title || '(제목 없음)');
+      b.addEventListener('click', function () { load(i, true); });
+      li.appendChild(b);
+      listEl.appendChild(li);
+    });
+
+    if (tracks.length) load(0, false);
+    else paint();
+  });
+
+}());
+
+</script>
+
+<!-- 물방울 커서 효과 -->
+<script>
+// <![CDATA[
+var colours=new Array("#a6f", "#60f", "#60f", "#a6f", "#ccc"); // colours for top, right, bottom and left borders and background of bubbles
+var bubbles=66; // maximum number of bubbles on screen
+var over_or_under="over"; // set to "over" for bubbles to always be on top, or "under" to allow them to float behind other objects
+
+/****************************
+* JavaScript Bubble Cursor  *
+*(c)2010-13 mf2fm web-design*
+*  http://www.mf2fm.com/rv  *
+* DON'T EDIT BELOW THIS BOX *
+****************************/
+var x=ox=400;
+var y=oy=300;
+var swide=800;
+var shigh=600;
+var sleft=sdown=0;
+var bubb=new Array();
+var bubbx=new Array();
+var bubby=new Array();
+var bubbs=new Array();
+var sploosh=false;
+
+function addLoadEvent(funky) {
+  var oldonload=window.onload;
+  if (typeof(oldonload)!='function') window.onload=funky;
+  else window.onload=function() {
+    if (oldonload) oldonload();
+    funky();
+  }
+}
+
+addLoadEvent(buble);
+
+function buble() { if (document.getElementById) {
+  var i, rats, div;
+  for (i=0; i<bubbles; i++) {
+    rats=createDiv("3px", "3px");
+    rats.style.visibility="hidden";
+	rats.style.zIndex=(over_or_under=="over")?"1001":"0";
+
+    div=createDiv("auto", "auto");
+    rats.appendChild(div);
+    div=div.style;
+    div.top="1px";
+    div.left="0px";
+    div.bottom="1px";
+    div.right="0px";
+    div.borderLeft="1px solid "+colours[3];
+    div.borderRight="1px solid "+colours[1];
+
+    div=createDiv("auto", "auto");
+    rats.appendChild(div);
+    div=div.style;
+    div.top="0px";
+    div.left="1px";
+    div.right="1px";
+    div.bottom="0px"
+    div.borderTop="1px solid "+colours[0];
+    div.borderBottom="1px solid "+colours[2];
+
+    div=createDiv("auto", "auto");
+    rats.appendChild(div);
+    div=div.style;
+    div.left="1px";
+    div.right="1px";
+    div.bottom="1px";
+    div.top="1px";
+    div.backgroundColor=colours[4];
+    if (navigator.appName=="Microsoft Internet Explorer") div.filter="alpha(opacity=50)";
+    else div.opacity=0.5;
+    document.body.appendChild(rats);
+    bubb[i]=rats.style;
+  }
+  set_scroll();
+  set_width();
+  bubble();
+}}
+
+function bubble() {
+  var c;
+  if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+    ox=x;
+    oy=y;
+    for (c=0; c<bubbles; c++) if (!bubby[c]) {
+      bubb[c].left=(bubbx[c]=x)+"px";
+      bubb[c].top=(bubby[c]=y-3)+"px";
+      bubb[c].width="3px";
+      bubb[c].height="3px"
+      bubb[c].visibility="visible";
+      bubbs[c]=3;
+      break;
+    }
+  }
+  for (c=0; c<bubbles; c++) if (bubby[c]) update_bubb(c);
+  setTimeout("bubble()", 40);
+}
+
+document.onmousedown=splash;
+document.onmouseup=function(){clearTimeout(sploosh);};
+
+function splash() {
+  ox=-1;
+  oy=-1;
+  sploosh=setTimeout('splash()', 100);
+}
+
+function update_bubb(i) {
+  if (bubby[i]) {
+    bubby[i]-=bubbs[i]/2+i%2;
+    bubbx[i]+=(i%5-2)/5;
+    if (bubby[i]>sdown && bubbx[i]>sleft && bubbx[i]<sleft+swide+bubbs[i]) {
+	  if (Math.random()<bubbs[i]/shigh*2 && bubbs[i]++<8) {
+		bubb[i].width=bubbs[i]+"px";
+		bubb[i].height=bubbs[i]+"px";
+	  }
+      bubb[i].top=bubby[i]+"px";
+      bubb[i].left=bubbx[i]+"px";
+    }
+    else {
+      bubb[i].visibility="hidden";
+      bubby[i]=0;
+      return;
+    }
+  }
+}
+
+document.onmousemove=mouse;
+function mouse(e) {
+  if (e) {
+    y=e.pageY;
+    x=e.pageX;
+  }
+  else {
+    set_scroll();
+    y=event.y+sdown;
+    x=event.x+sleft;
+  }
+}
+
+window.onresize=set_width;
+function set_width() {
+  var sw_min=999999;
+  var sh_min=999999;
+  if (document.documentElement && document.documentElement.clientWidth) {
+    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+  }
+  if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+  }
+  if (document.body.clientWidth) {
+    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+  }
+  if (sw_min==999999 || sh_min==999999) {
+    sw_min=800;
+    sh_min=600;
+  }
+  swide=sw_min;
+  shigh=sh_min;
+}
+
+window.onscroll=set_scroll;
+function set_scroll() {
+  if (typeof(self.pageYOffset)=='number') {
+    sdown=self.pageYOffset;
+    sleft=self.pageXOffset;
+  }
+  else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+    sdown=document.body.scrollTop;
+    sleft=document.body.scrollLeft;
+  }
+  else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+    sleft=document.documentElement.scrollLeft;
+    sdown=document.documentElement.scrollTop;
+  }
+  else {
+    sdown=0;
+    sleft=0;
+  }
+}
+
+function createDiv(height, width) {
+  var div=document.createElement("div");
+  div.style.position="absolute";
+  div.style.height=height;
+  div.style.width=width;
+  div.style.overflow="hidden";
+  div.style.backgroundColor="transparent";
+  return (div);
+}
+// ]]>
+
+</script>
 </body>
 </html>
