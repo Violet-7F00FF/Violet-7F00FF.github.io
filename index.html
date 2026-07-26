@@ -2061,35 +2061,23 @@ details[open] { padding-bottom: 12px; }
 
 </div>
 
+<!-- 내 설정 (이 파일은 index.html 을 새로 올려도 유지됩니다) -->
+<script src="settings.js"></script>
+
 <script>
 /* ==========================================================
    VIOLET OS
 
-   글 / 그림 / 음악은 관리자 페이지에서 올립니다.
-       주소/admin  으로 들어가세요.
-
-   아래 목록은 관리자 페이지를 안 쓰고 직접 적고 싶을 때만 씁니다.
-   (관리자 페이지로 올린 내용이 있으면 그쪽이 우선입니다)
+   설정은 settings.js 파일에 있습니다.
+   글 / 그림 / 음악은 관리자 페이지(주소/admin)에서 올립니다.
    ========================================================== */
 
-var GALLERY = [
-  // { src: 'media/pic1.png', caption: '설명' },
-];
-
-var PLAYLIST = [
-  // { title: '노래 제목', artist: '아티스트', src: 'media/song1.mp3' },
-];
-
-/* 한 곡만 반복하려면 true */
-var LOOP_ONE = false;
-
-/* 방명록 (Supabase) — 설정 후 아래 두 줄에 값을 넣어주세요.
-   비워두면 방명록 창에 안내문만 나옵니다.
-   URL : Settings > Data API 의 Project URL
-   KEY : Settings > API Keys 의 Publishable key (sb_publishable_... )
-         Secret key 는 절대 넣지 마세요 */
-var SUPABASE_URL = '';
-var SUPABASE_KEY = '';
+/* settings.js 에서 읽어옵니다. 파일이 없으면 기본값을 씁니다. */
+var GALLERY  = window.GALLERY  || [];
+var PLAYLIST = window.PLAYLIST || [];
+var LOOP_ONE = (window.LOOP_ONE === true);
+var SUPABASE_URL = window.SUPABASE_URL || '';
+var SUPABASE_KEY = window.SUPABASE_KEY || '';
 
 
 /* ==========================================================
@@ -3157,7 +3145,7 @@ document.addEventListener('click', function (e) {
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     if (formEl) formEl.hidden = true;
-    say('방명록이 아직 연결되지 않았습니다.<br>GUESTBOOK-설정.md 를 보고 연결해 주세요.');
+    say('방명록이 아직 연결되지 않았습니다.<br>settings.js 에 Supabase 값을 넣어주세요.');
     return;
   }
 
