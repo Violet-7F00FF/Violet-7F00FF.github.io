@@ -168,7 +168,7 @@
           "tags": "거목 X 독초, 정원사 X 박제사, 생명의 수호자 X 죽음의 인도자",
           "images": [
             {
-              "image": "/media/무접무향1.webp",
+              "image": "/media/무접무향2.webp",
               "caption": ""
             }
           ],
@@ -201,7 +201,7 @@
     {
       "type": "cps",
       "tag": "",
-      "heading": "",
+      "heading": "소테리아",
       "items": [
         {
           "name": "헬리오스 x 발푸르기스",
@@ -239,6 +239,28 @@
             }
           ],
           "note": "피와 죽음의 삶과 0과 1의 데이터의 사랑†"
+        }
+      ]
+    },
+    {
+      "type": "cps",
+      "tag": "",
+      "heading": "노시스",
+      "items": [
+        {
+          "name": "밴스 x 뮤즐",
+          "work": "ARCH",
+          "pair": "",
+          "badge": "SUB",
+          "color": "peach",
+          "tags": "책임자 x 괴수 조련사, 냉철한 x 해맑은, 이성적인 x 감성적인",
+          "images": [
+            {
+              "image": "/media/1.webp",
+              "caption": ""
+            }
+          ],
+          "note": "괴수 조련사와 책임자의 특별 프로토콜~"
         }
       ]
     }
