@@ -247,8 +247,8 @@ p { margin: 0 0 12px; }
       <h2>세탁 설정</h2>
 
       <div class="opt">
-        <label><input type="checkbox" id="optAlpha" checked> 투명도 없애기</label>
-        <span class="hint">그림 속에 숨긴 정보를 지웁니다. 배경이 투명한 그림은 꺼주세요</span>
+        <label><input type="checkbox" id="optAlpha" checked> 투명도 없애기 <b>(중요)</b></label>
+        <span class="hint">AI 그림은 여기에 프롬프트를 숨깁니다. 배경이 투명해야 하는 그림만 꺼주세요</span>
       </div>
 
       <div class="opt">
@@ -333,6 +333,22 @@ p { margin: 0 0 12px; }
       </div>
 
       <div id="repoLog" style="margin-top:16px"></div>
+    </div>
+  </div>
+
+
+  <div class="win">
+    <div class="bar">CHECK — 세탁 확인</div>
+    <div class="body">
+      <p class="sub">세탁한 파일을 여기에 넣으면 숨은 정보가 남았는지 알려줍니다.</p>
+      <div class="drop" id="dropCheck" style="min-height:110px">
+        <div>
+          <b>검사할 그림을 놓으세요</b>
+          <span>이 브라우저 안에서만 확인합니다</span>
+        </div>
+      </div>
+      <input type="file" id="fileCheck" accept="image/*" hidden>
+      <div id="checkOut" style="margin-top:14px"></div>
     </div>
   </div>
 
@@ -455,13 +471,17 @@ p { margin: 0 0 12px; }
           d[i + 1] = (d[i + 1] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
           d[i + 2] = (d[i + 2] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
           if (killAlpha) d[i + 3] = 255;
-          else if (d[i + 3] > 250) d[i + 3] = 255;
+          else if (d[i + 3] > 247) d[i + 3] = 255;
+          else d[i + 3] = (d[i + 3] & 0xF8);
         }
         ctx.putImageData(data, 0, 0);
       } else if (killAlpha) {
         var data2 = ctx.getImageData(0, 0, w, h);
         var d2 = data2.data;
-        for (var j = 3; j < d2.length; j += 4) d2[j] = 255;
+        for (var j = 3; j < d2.length; j += 4) {
+          if (killAlpha || d2[j] > 247) d2[j] = 255;
+          else d2[j] = (d2[j] & 0xF8);
+        }
         ctx.putImageData(data2, 0, 0);
       }
 
@@ -763,7 +783,7 @@ p { margin: 0 0 12px; }
         cv.width = w; cv.height = h2;
         var ctx = cv.getContext('2d', { willReadFrequently: true });
 
-        var killAlpha = document.getElementById('optAlpha').checked && mime !== 'image/png';
+        var killAlpha = document.getElementById('optAlpha').checked;
         if (killAlpha || mime === 'image/jpeg') {
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(0, 0, w, h2);
@@ -779,7 +799,10 @@ p { margin: 0 0 12px; }
             d[i + 1] = (d[i + 1] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
             d[i + 2] = (d[i + 2] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
           }
-          if (d[i + 3] > 250) d[i + 3] = 255;
+          // 알파 채널에 숨긴 정보 지우기
+          if (killAlpha) d[i + 3] = 255;
+          else if (d[i + 3] > 247) d[i + 3] = 255;
+          else d[i + 3] = (d[i + 3] & 0xF8);
         }
         ctx.putImageData(data, 0, 0);
 
@@ -883,6 +906,101 @@ p { margin: 0 0 12px; }
       washRepoEl.textContent = '고른 것 세탁하기';
     });
   });
+
+
+  /* ==========================================================
+     세탁 확인
+     ========================================================== */
+
+  var dropCheck = document.getElementById('dropCheck');
+  var fileCheck = document.getElementById('fileCheck');
+  var checkOut = document.getElementById('checkOut');
+
+  dropCheck.addEventListener('click', function () { fileCheck.click(); });
+  dropCheck.addEventListener('dragover', function (e) {
+    e.preventDefault(); dropCheck.classList.add('over');
+  });
+  dropCheck.addEventListener('dragleave', function () { dropCheck.classList.remove('over'); });
+  dropCheck.addEventListener('drop', function (e) {
+    e.preventDefault(); dropCheck.classList.remove('over');
+    if (e.dataTransfer.files[0]) inspect(e.dataTransfer.files[0]);
+  });
+  fileCheck.addEventListener('change', function () {
+    if (fileCheck.files[0]) inspect(fileCheck.files[0]);
+  });
+
+  function inspect(file) {
+    checkOut.innerHTML = '<p style="font-family:var(--mini);font-size:10px">검사 중...</p>';
+
+    var reader = new FileReader();
+    reader.onload = function () {
+      var bytes = new Uint8Array(reader.result);
+      var txt = '';
+      for (var i = 0; i < Math.min(bytes.length, 300000); i++) {
+        txt += String.fromCharCode(bytes[i]);
+      }
+
+      // 파일 안에 남은 글자 정보 찾기
+      var marks = ['tEXt', 'iTXt', 'zTXt', 'Exif', 'XML:com.adobe', 'parameters',
+                   'Software', 'Comment', 'novelai', 'NovelAI', 'stable-diffusion'];
+      var hits = marks.filter(function (m) { return txt.indexOf(m) !== -1; });
+
+      // 알파 채널 확인
+      var url = URL.createObjectURL(file);
+      var im = new Image();
+      im.onload = function () {
+        URL.revokeObjectURL(url);
+        var cv = document.createElement('canvas');
+        var w = Math.min(im.naturalWidth, 900);
+        var r = w / im.naturalWidth;
+        cv.width = w;
+        cv.height = Math.round(im.naturalHeight * r);
+        var ctx = cv.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(im, 0, 0, cv.width, cv.height);
+        var d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+
+        var semi = 0;
+        for (var j = 3; j < d.length; j += 4) if (d[j] !== 255) semi += 1;
+
+        var okColor = '#14705a';
+        var badColor = '#c2317c';
+        var html = '';
+
+        html += line(hits.length === 0,
+          hits.length === 0 ? '파일에 남은 글자 정보 없음'
+            : '파일에 정보가 남아있어요 — ' + hits.join(', '));
+
+        html += line(semi === 0,
+          semi === 0 ? '알파 채널 깨끗함 (전부 불투명)'
+            : '반투명 픽셀 ' + semi.toLocaleString() + '개 — 여기 정보가 숨어있을 수 있어요');
+
+        html += '<p style="font-family:var(--mini);font-size:9px;color:var(--sub);margin:8px 0 0">' +
+          im.naturalWidth + '×' + im.naturalHeight + ' · ' +
+          (file.type || '?') + ' · ' + Math.round(file.size / 1024) + 'KB</p>';
+
+        if (hits.length === 0 && semi === 0) {
+          html += '<p style="font-family:var(--mini);font-size:10px;color:' + okColor +
+            ';margin:10px 0 0"><b>깨끗해요!</b></p>';
+        } else {
+          html += '<p style="font-family:var(--mini);font-size:10px;color:' + badColor +
+            ';margin:10px 0 0"><b>다시 세탁해 주세요.</b> 투명도 없애기를 켜고 해보세요.</p>';
+        }
+
+        checkOut.innerHTML = html;
+      };
+      im.onerror = function () {
+        checkOut.innerHTML = '<p style="font-family:var(--mini);font-size:10px">' +
+          '그림을 열 수 없어요.</p>';
+      };
+      im.src = url;
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function line(ok, text) {
+    return '<p style="font-family:var(--mini);font-size:10px;margin:0 0 5px;color:' +
+      (ok ? '#14705a' : '#c2317c') + '">' + (ok ? '✔ ' : '✕ ') + text + '</p>';
+  }
 
 
 }());
