@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VIOLET OS</title>
-<meta name="description" content="쿠키 몬스터의 집">
+<meta name="description" content="파는 CP와 장르, 페르소나 프롬프트, 위젯을 모아둔 방입니다.">
 <meta name="theme-color" content="#b98af2">
-<meta property="og:title" content="Cookie Monster">
-<meta property="og:description" content="쿠키 몬스터의 집">
+<meta property="og:title" content="VIOLET OS">
+<meta property="og:description" content="파는 CP와 장르, 페르소나 프롬프트, 위젯을 모아둔 방입니다.">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
@@ -2392,7 +2392,8 @@ var SUPABASE_KEY = window.SUPABASE_KEY || '';
     }
   });
 
-  /* ---------- 열려 있던 창 기억하기 ---------- */
+  /* ---------- 열려 있던 창 기억하기 ----------
+     sessionStorage 라서 새로고침에는 남고, 브라우저(탭)를 닫으면 사라집니다. */
 
   var STORE = 'violet-os-windows';
   var restoring = false;
@@ -2410,13 +2411,13 @@ var SUPABASE_KEY = window.SUPABASE_KEY || '';
           z: el.style.zIndex || ''
         };
       });
-      localStorage.setItem(STORE, JSON.stringify(st));
+      sessionStorage.setItem(STORE, JSON.stringify(st));
     } catch (e) { /* 저장이 막힌 환경 */ }
   }
 
   function loadState() {
     try {
-      return JSON.parse(localStorage.getItem(STORE) || 'null');
+      return JSON.parse(sessionStorage.getItem(STORE) || 'null');
     } catch (e) { return null; }
   }
 
