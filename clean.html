@@ -270,6 +270,39 @@ p { margin: 0 0 12px; }
     </div>
   </div>
 
+
+  <div class="win">
+    <div class="bar">REPO WASHER — 이미 올린 그림</div>
+    <div class="body">
+      <p class="sub">
+        저장소 <b>media</b> 폴더에 이미 올라간 그림을 <b>그 자리에서</b> 세탁합니다.
+        파일 이름과 주소가 그대로라 사이트 링크가 깨지지 않아요.
+      </p>
+
+      <div class="opt">
+        <label>저장소</label>
+        <input type="text" id="repoOwner" placeholder="사용자명" style="width:150px">
+        <span class="hint">/</span>
+        <input type="text" id="repoName" placeholder="저장소명" style="width:190px">
+      </div>
+
+      <div class="opt">
+        <label>열쇠(토큰)</label>
+        <input type="password" id="ghToken" placeholder="github_pat_..." style="width:100%;max-width:330px">
+      </div>
+      <p class="hint" style="font-family:var(--mini);font-size:10px;color:var(--sub);margin:0 0 4px">
+        관리자 페이지에서 쓰던 그 토큰이에요. 이 창을 닫으면 사라지고, 어디에도 전송되지 않습니다.
+      </p>
+
+      <div class="row">
+        <button type="button" class="btn" id="scan">그림 목록 불러오기</button>
+        <button type="button" class="btn btn--go" id="washRepo" disabled>전부 세탁하기</button>
+      </div>
+
+      <div id="repoLog" style="margin-top:16px"></div>
+    </div>
+  </div>
+
   <div class="win">
     <div class="bar">READ ME</div>
     <div class="body">
@@ -512,6 +545,195 @@ p { margin: 0 0 12px; }
     goEl.disabled = true;
     drop.querySelector('b').textContent = '여기에 그림을 끌어다 놓으세요';
   });
+
+  /* ==========================================================
+     이미 올라간 그림 세탁 (GitHub)
+     ========================================================== */
+
+  var ownerEl = document.getElementById('repoOwner');
+  var nameEl2 = document.getElementById('repoName');
+  var tokenEl = document.getElementById('ghToken');
+  var scanEl = document.getElementById('scan');
+  var washRepoEl = document.getElementById('washRepo');
+  var logEl = document.getElementById('repoLog');
+
+  var found = [];
+
+  // 주소에서 저장소 이름 짐작하기
+  (function () {
+    var host = location.hostname;
+    var m = host.match(/^([^.]+)\.github\.io$/i);
+    if (m) { ownerEl.value = m[1]; nameEl2.value = host; }
+    try {
+      var saved = sessionStorage.getItem('gh-token');
+      if (saved) tokenEl.value = saved;
+    } catch (e) {}
+  }());
+
+  function log(html, color) {
+    var p = document.createElement('p');
+    p.style.cssText = 'font-family:var(--mini);font-size:10px;margin:0 0 4px;color:' +
+      (color || 'var(--sub)');
+    p.innerHTML = html;
+    logEl.appendChild(p);
+  }
+
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = {
+      'Authorization': 'Bearer ' + tokenEl.value.trim(),
+      'Accept': 'application/vnd.github+json'
+    };
+    return fetch('https://api.github.com/repos/' + ownerEl.value.trim() + '/' +
+      nameEl2.value.trim() + '/contents/' + path, opts)
+      .then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+      });
+  }
+
+  var MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
+
+  scanEl.addEventListener('click', function () {
+    logEl.innerHTML = '';
+    if (!tokenEl.value.trim()) { log('토큰을 넣어주세요.', '#c2317c'); return; }
+    try { sessionStorage.setItem('gh-token', tokenEl.value.trim()); } catch (e) {}
+
+    log('불러오는 중...');
+    api('media').then(function (res) {
+      if (!res.ok) {
+        log('목록을 못 가져왔어요. (' + res.status + ') ' +
+          (res.j && res.j.message ? res.j.message : ''), '#c2317c');
+        return;
+      }
+      found = (res.j || []).filter(function (f) {
+        var ext = (f.name.split('.').pop() || '').toLowerCase();
+        return f.type === 'file' && MIME[ext];
+      });
+      logEl.innerHTML = '';
+      if (!found.length) { log('세탁할 그림이 없어요. (gif·svg 는 건너뜁니다)'); return; }
+      log('그림 <b>' + found.length + '장</b>을 찾았어요. 세탁하기를 눌러주세요.', 'var(--ink)');
+      washRepoEl.disabled = false;
+    }).catch(function () { log('연결에 실패했어요.', '#c2317c'); });
+  });
+
+  function washBlob(blob, mime) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(blob);
+      var im = new Image();
+      im.onload = function () {
+        URL.revokeObjectURL(url);
+        var w = im.naturalWidth, h2 = im.naturalHeight;
+
+        if (document.getElementById('optResize').checked) {
+          var max = parseInt(document.getElementById('maxSide').value, 10) || 1800;
+          if (Math.max(w, h2) > max) {
+            var r = max / Math.max(w, h2);
+            w = Math.round(w * r); h2 = Math.round(h2 * r);
+          }
+        }
+
+        var cv = document.createElement('canvas');
+        cv.width = w; cv.height = h2;
+        var ctx = cv.getContext('2d', { willReadFrequently: true });
+
+        var killAlpha = document.getElementById('optAlpha').checked && mime !== 'image/png';
+        if (killAlpha || mime === 'image/jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h2);
+        }
+        ctx.drawImage(im, 0, 0, w, h2);
+
+        var data = ctx.getImageData(0, 0, w, h2);
+        var d = data.data;
+        var noise = document.getElementById('optNoise').checked;
+        for (var i = 0; i < d.length; i += 4) {
+          if (noise) {
+            d[i]     = (d[i]     & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+            d[i + 1] = (d[i + 1] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+            d[i + 2] = (d[i + 2] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+          }
+          if (d[i + 3] > 250) d[i + 3] = 255;
+        }
+        ctx.putImageData(data, 0, 0);
+
+        var q = (parseInt(document.getElementById('quality').value, 10) || 90) / 100;
+        cv.toBlob(function (out) { out ? resolve(out) : reject(); }, mime, q);
+      };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(); };
+      im.src = url;
+    });
+  }
+
+  function toBase64(blob) {
+    return new Promise(function (resolve, reject) {
+      var fr = new FileReader();
+      fr.onload = function () { resolve(String(fr.result).split(',')[1]); };
+      fr.onerror = reject;
+      fr.readAsDataURL(blob);
+    });
+  }
+
+  washRepoEl.addEventListener('click', function () {
+    if (!found.length) return;
+    if (!confirm(found.length + '장을 세탁해서 저장소에 덮어씁니다.\n되돌릴 수 없어요. 진행할까요?')) return;
+
+    washRepoEl.disabled = true;
+    washRepoEl.textContent = '세탁 중...';
+    logEl.innerHTML = '';
+
+    var okCount = 0, failCount = 0;
+    var chain = Promise.resolve();
+
+    found.forEach(function (f, i) {
+      chain = chain.then(function () {
+        var ext = (f.name.split('.').pop() || '').toLowerCase();
+        var mime = MIME[ext];
+        log('(' + (i + 1) + '/' + found.length + ') ' + f.name + ' …');
+
+        return fetch(f.download_url)
+          .then(function (r) { return r.blob(); })
+          .then(function (b) { return washBlob(b, mime); })
+          .then(toBase64)
+          .then(function (b64) {
+            return api(f.path, {
+              method: 'PUT',
+              body: JSON.stringify({
+                message: 'Clean metadata: ' + f.name,
+                content: b64,
+                sha: f.sha
+              })
+            });
+          })
+          .then(function (res) {
+            var last = logEl.lastChild;
+            if (res.ok) {
+              okCount += 1;
+              last.innerHTML = '✔ ' + f.name;
+              last.style.color = '#14705a';
+            } else {
+              failCount += 1;
+              last.innerHTML = '✕ ' + f.name + ' — ' +
+                (res.j && res.j.message ? res.j.message : res.status);
+              last.style.color = '#c2317c';
+            }
+          })
+          .catch(function () {
+            failCount += 1;
+            var last = logEl.lastChild;
+            last.innerHTML = '✕ ' + f.name + ' — 처리 실패';
+            last.style.color = '#c2317c';
+          });
+      });
+    });
+
+    chain.then(function () {
+      log('<b>끝났어요. 성공 ' + okCount + '장 / 실패 ' + failCount + '장</b>', 'var(--ink)');
+      log('사이트에 반영되기까지 1~2분 걸려요.');
+      washRepoEl.disabled = false;
+      washRepoEl.textContent = '전부 세탁하기';
+    });
+  });
+
 
 }());
 </script>
