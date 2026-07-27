@@ -226,6 +226,32 @@ p { margin: 0 0 12px; }
 </head>
 <body>
 <div class="wrap">
+  <div class="win">
+    <div class="bar">READ ME</div>
+    <div class="body">
+      <p class="warn">
+        그림 파일에는 <b>만든 날짜·프로그램·설정값</b>처럼 그림 외의 정보가 함께 저장됩니다.
+        세탁하면 그림만 남고 나머지 기록은 사라져요.
+        올릴 때 함께 올라가는 정보를 정리하는 용도이고, 파일도 가벼워집니다.
+      </p>
+
+      <h2>확인하는 법</h2>
+      <p class="sub">
+        세탁한 파일을 메타데이터 확인 사이트에 넣어보세요.
+        아무 정보도 안 나오면 성공입니다.
+        원본과 비교해 보시면 차이가 확실히 보여요.
+      </p>
+
+      <h2>무엇을 지우나요?</h2>
+      <p class="sub">
+        ① 파일에 붙은 정보 — 촬영 기기, 위치, 날짜, 편집 기록<br>
+        ② 그림에 적힌 정보 — 생성 프롬프트, 모델 이름, 설정값<br>
+        ③ <b>그림 속에 숨긴 정보</b> — 픽셀 안에 들어있는 생성 기록
+      </p>
+
+      <p><a class="back" href="index.html">← 홈페이지로</a></p>
+    </div>
+  </div>
 
   <div class="win">
     <div class="bar">IMAGE WASHER</div>
@@ -294,9 +320,23 @@ p { margin: 0 0 12px; }
     </div>
   </div>
 
-
   <div class="win">
-    <div class="bar">REPO WASHER — 이미 올린 그림</div>
+    <div class="bar">CHECK</div>
+    <div class="body">
+      <p class="sub">세탁한 파일을 여기에 넣으면 숨은 정보가 남았는지 알려줍니다.</p>
+      <div class="drop" id="dropCheck" style="min-height:110px">
+        <div>
+          <b>검사할 그림을 놓으세요</b>
+          <span>이 브라우저 안에서만 확인합니다</span>
+        </div>
+      </div>
+      <input type="file" id="fileCheck" accept="image/*" hidden>
+      <div id="checkOut" style="margin-top:14px"></div>
+    </div>
+  </div>
+
+  <div class="win" id="repoWin" hidden>
+    <div class="bar">REPO WASHER</div>
     <div class="body">
       <p class="sub">
         저장소 <b>media</b> 폴더에 이미 올라간 그림을 <b>그 자리에서</b> 세탁합니다.
@@ -336,48 +376,6 @@ p { margin: 0 0 12px; }
     </div>
   </div>
 
-
-  <div class="win">
-    <div class="bar">CHECK — 세탁 확인</div>
-    <div class="body">
-      <p class="sub">세탁한 파일을 여기에 넣으면 숨은 정보가 남았는지 알려줍니다.</p>
-      <div class="drop" id="dropCheck" style="min-height:110px">
-        <div>
-          <b>검사할 그림을 놓으세요</b>
-          <span>이 브라우저 안에서만 확인합니다</span>
-        </div>
-      </div>
-      <input type="file" id="fileCheck" accept="image/*" hidden>
-      <div id="checkOut" style="margin-top:14px"></div>
-    </div>
-  </div>
-
-  <div class="win">
-    <div class="bar">READ ME</div>
-    <div class="body">
-      <p class="warn">
-        세탁하면 <b>프롬프트·생성 정보·촬영 정보</b>가 지워집니다.
-        다만 <b>그림 자체를 저장해 가는 것</b>은 어떤 방법으로도 막을 수 없어요.
-        정말 걱정되는 그림은 워터마크를 넣거나 작게 올리는 편이 안전합니다.
-      </p>
-
-      <h2>확인하는 법</h2>
-      <p class="sub">
-        세탁한 파일을 메타데이터 확인 사이트에 넣어보세요.
-        아무 정보도 안 나오면 성공입니다.
-        원본과 비교해 보시면 차이가 확실히 보여요.
-      </p>
-
-      <h2>무엇을 지우나요</h2>
-      <p class="sub">
-        ① 파일에 붙은 정보 — 촬영 기기, 위치, 날짜, 편집 기록<br>
-        ② 그림에 적힌 정보 — 생성 프롬프트, 모델 이름, 설정값<br>
-        ③ <b>그림 속에 숨긴 정보</b> — 픽셀 안에 몰래 넣어둔 생성 기록
-      </p>
-
-      <p><a class="back" href="index.html">← 홈페이지로</a></p>
-    </div>
-  </div>
 
 </div>
 
@@ -611,6 +609,12 @@ p { margin: 0 0 12px; }
   var logEl = document.getElementById('repoLog');
   var pickBox = document.getElementById('pickBox');
   var pickList = document.getElementById('pickList');
+
+  // 저장소 세탁 창은 주소 뒤에 ?me 를 붙였을 때만 보입니다
+  (function () {
+    var win = document.getElementById('repoWin');
+    if (win && /[?&]me(\b|=)/.test(location.search)) win.hidden = false;
+  }());
 
   var found = [];        // media 폴더의 그림들
   var washedMap = {};    // 이미 세탁한 기록 { 파일명: sha }
