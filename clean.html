@@ -179,6 +179,30 @@ p { margin: 0 0 12px; }
 
 .item .btn { flex: none; padding: 7px 12px; }
 
+.pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  padding: 8px 11px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  font-size: 13px;
+}
+
+.pick input { width: 17px; height: 17px; accent-color: var(--pink); flex: none; }
+.pick--done { background: var(--grape-l); }
+.pick__name { flex: 1; font-family: var(--mini); font-size: 10px; word-break: break-all; }
+.pick__tag {
+  flex: none;
+  font-family: var(--mini);
+  font-size: 9px;
+  padding: 3px 7px;
+  border: 2px solid var(--outline);
+  background: var(--mint-l);
+}
+.pick__tag--done { background: var(--grape-l); color: var(--sub); }
+
 .warn {
   padding: 12px 14px;
   background: var(--pink-l);
@@ -296,7 +320,16 @@ p { margin: 0 0 12px; }
 
       <div class="row">
         <button type="button" class="btn" id="scan">그림 목록 불러오기</button>
-        <button type="button" class="btn btn--go" id="washRepo" disabled>전부 세탁하기</button>
+        <button type="button" class="btn btn--go" id="washRepo" disabled>고른 것 세탁하기</button>
+      </div>
+
+      <div id="pickBox" hidden style="margin-top:16px">
+        <div class="row" style="margin-top:0">
+          <button type="button" class="btn" id="pickNew">새 그림만 고르기</button>
+          <button type="button" class="btn" id="pickAll">전부 고르기</button>
+          <button type="button" class="btn" id="pickNone">전부 풀기</button>
+        </div>
+        <ul class="list" id="pickList" style="margin-top:12px"></ul>
       </div>
 
       <div id="repoLog" style="margin-top:16px"></div>
@@ -556,14 +589,18 @@ p { margin: 0 0 12px; }
   var scanEl = document.getElementById('scan');
   var washRepoEl = document.getElementById('washRepo');
   var logEl = document.getElementById('repoLog');
+  var pickBox = document.getElementById('pickBox');
+  var pickList = document.getElementById('pickList');
 
-  var found = [];
+  var found = [];        // media 폴더의 그림들
+  var washedMap = {};    // 이미 세탁한 기록 { 파일명: sha }
+  var washedSha = null;  // 기록 파일 자체의 sha
 
-  // 주소에서 저장소 이름 짐작하기
+  var RECORD = 'data/washed.json';
+
   (function () {
-    var host = location.hostname;
-    var m = host.match(/^([^.]+)\.github\.io$/i);
-    if (m) { ownerEl.value = m[1]; nameEl2.value = host; }
+    var m = location.hostname.match(/^([^.]+)\.github\.io$/i);
+    if (m) { ownerEl.value = m[1]; nameEl2.value = location.hostname; }
     try {
       var saved = sessionStorage.getItem('gh-token');
       if (saved) tokenEl.value = saved;
@@ -576,6 +613,7 @@ p { margin: 0 0 12px; }
       (color || 'var(--sub)');
     p.innerHTML = html;
     logEl.appendChild(p);
+    return p;
   }
 
   function api(path, opts) {
@@ -587,34 +625,123 @@ p { margin: 0 0 12px; }
     return fetch('https://api.github.com/repos/' + ownerEl.value.trim() + '/' +
       nameEl2.value.trim() + '/contents/' + path, opts)
       .then(function (r) {
-        return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+        return r.text().then(function (t) {
+          var j = null;
+          try { j = t ? JSON.parse(t) : null; } catch (e) {}
+          return { ok: r.ok, status: r.status, j: j };
+        });
       });
   }
 
   var MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
 
+  function b64ToText(b64) {
+    try {
+      return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+    } catch (e) { return ''; }
+  }
+
+  function textToB64(txt) {
+    return btoa(unescape(encodeURIComponent(txt)));
+  }
+
+  /* ---------- 목록 불러오기 ---------- */
+
   scanEl.addEventListener('click', function () {
     logEl.innerHTML = '';
-    if (!tokenEl.value.trim()) { log('토큰을 넣어주세요.', '#c2317c'); return; }
-    try { sessionStorage.setItem('gh-token', tokenEl.value.trim()); } catch (e) {}
+    pickBox.hidden = true;
+    washRepoEl.disabled = true;
+
+    var tok = tokenEl.value.trim();
+    if (!tok) { log('토큰을 넣어주세요.', '#c2317c'); return; }
+    if (tok.length < 40) {
+      log('토큰이 너무 짧아요. (' + tok.length + '글자) 복사할 때 잘린 것 같아요.', '#c2317c');
+      return;
+    }
+    try { sessionStorage.setItem('gh-token', tok); } catch (e) {}
 
     log('불러오는 중...');
-    api('media').then(function (res) {
+
+    // 세탁 기록 먼저 읽기
+    api(RECORD).then(function (res) {
+      if (res.ok && res.j && res.j.content) {
+        washedSha = res.j.sha;
+        try { washedMap = JSON.parse(b64ToText(res.j.content)) || {}; }
+        catch (e) { washedMap = {}; }
+      } else {
+        washedSha = null;
+        washedMap = {};
+      }
+      return api('media');
+    }).then(function (res) {
+      logEl.innerHTML = '';
+
       if (!res.ok) {
-        log('목록을 못 가져왔어요. (' + res.status + ') ' +
-          (res.j && res.j.message ? res.j.message : ''), '#c2317c');
+        if (res.status === 401) {
+          log('토큰이 맞지 않아요. (401)', '#c2317c');
+          log('GitHub → Settings → Developer settings → Fine-grained tokens 에서');
+          log('<b>Contents: Read and write</b> 권한으로 새로 만들어 주세요.');
+        } else if (res.status === 404) {
+          log('media 폴더가 없어요. 관리자 페이지로 그림을 한 장이라도 올려주세요.', '#c2317c');
+        } else {
+          log('목록을 못 가져왔어요. (' + res.status + ') ' +
+            (res.j && res.j.message ? res.j.message : ''), '#c2317c');
+        }
         return;
       }
+
       found = (res.j || []).filter(function (f) {
         var ext = (f.name.split('.').pop() || '').toLowerCase();
         return f.type === 'file' && MIME[ext];
       });
-      logEl.innerHTML = '';
+
       if (!found.length) { log('세탁할 그림이 없어요. (gif·svg 는 건너뜁니다)'); return; }
-      log('그림 <b>' + found.length + '장</b>을 찾았어요. 세탁하기를 눌러주세요.', 'var(--ink)');
+
+      renderPicks();
+      var fresh = found.filter(isNew).length;
+      log('그림 <b>' + found.length + '장</b> 중 <b>새 그림 ' + fresh + '장</b>이에요.', 'var(--ink)');
+      if (fresh === 0) log('전부 이미 세탁했어요. 다시 안 하셔도 돼요!', '#14705a');
+      pickBox.hidden = false;
       washRepoEl.disabled = false;
+
     }).catch(function () { log('연결에 실패했어요.', '#c2317c'); });
   });
+
+  function isNew(f) {
+    // 기록해둔 sha 와 지금 sha 가 같으면 = 세탁 후 바뀐 적 없음
+    return washedMap[f.name] !== f.sha;
+  }
+
+  function renderPicks() {
+    pickList.innerHTML = '';
+    found.forEach(function (f, i) {
+      var fresh = isNew(f);
+      var li = document.createElement('li');
+      li.className = 'pick' + (fresh ? '' : ' pick--done');
+      li.innerHTML =
+        '<input type="checkbox" data-i="' + i + '"' + (fresh ? ' checked' : '') + '>' +
+        '<span class="pick__name">' + f.name + '</span>' +
+        '<span class="pick__tag' + (fresh ? '' : ' pick__tag--done') + '">' +
+        (fresh ? '새 그림' : '세탁됨') + '</span>';
+      pickList.appendChild(li);
+    });
+  }
+
+  function setAll(on) {
+    Array.prototype.forEach.call(pickList.querySelectorAll('input'), function (c) {
+      c.checked = on;
+    });
+  }
+
+  document.getElementById('pickAll').addEventListener('click', function () { setAll(true); });
+  document.getElementById('pickNone').addEventListener('click', function () { setAll(false); });
+  document.getElementById('pickNew').addEventListener('click', function () {
+    Array.prototype.forEach.call(pickList.querySelectorAll('input'), function (c) {
+      c.checked = isNew(found[Number(c.dataset.i)]);
+    });
+  });
+
+  /* ---------- 세탁 ---------- */
 
   function washBlob(blob, mime) {
     return new Promise(function (resolve, reject) {
@@ -674,8 +801,13 @@ p { margin: 0 0 12px; }
   }
 
   washRepoEl.addEventListener('click', function () {
-    if (!found.length) return;
-    if (!confirm(found.length + '장을 세탁해서 저장소에 덮어씁니다.\n되돌릴 수 없어요. 진행할까요?')) return;
+    var targets = [];
+    Array.prototype.forEach.call(pickList.querySelectorAll('input'), function (c) {
+      if (c.checked) targets.push(found[Number(c.dataset.i)]);
+    });
+
+    if (!targets.length) { alert('고른 그림이 없어요.'); return; }
+    if (!confirm(targets.length + '장을 세탁해서 덮어씁니다.\n되돌릴 수 없어요. 진행할까요?')) return;
 
     washRepoEl.disabled = true;
     washRepoEl.textContent = '세탁 중...';
@@ -684,11 +816,11 @@ p { margin: 0 0 12px; }
     var okCount = 0, failCount = 0;
     var chain = Promise.resolve();
 
-    found.forEach(function (f, i) {
+    targets.forEach(function (f, i) {
       chain = chain.then(function () {
         var ext = (f.name.split('.').pop() || '').toLowerCase();
         var mime = MIME[ext];
-        log('(' + (i + 1) + '/' + found.length + ') ' + f.name + ' …');
+        var line = log('(' + (i + 1) + '/' + targets.length + ') ' + f.name + ' …');
 
         return fetch(f.download_url)
           .then(function (r) { return r.blob(); })
@@ -705,32 +837,50 @@ p { margin: 0 0 12px; }
             });
           })
           .then(function (res) {
-            var last = logEl.lastChild;
             if (res.ok) {
               okCount += 1;
-              last.innerHTML = '✔ ' + f.name;
-              last.style.color = '#14705a';
+              // 세탁 후의 새 sha 를 기록
+              if (res.j && res.j.content && res.j.content.sha) {
+                washedMap[f.name] = res.j.content.sha;
+              }
+              line.innerHTML = '✔ ' + f.name;
+              line.style.color = '#14705a';
             } else {
               failCount += 1;
-              last.innerHTML = '✕ ' + f.name + ' — ' +
+              line.innerHTML = '✕ ' + f.name + ' — ' +
                 (res.j && res.j.message ? res.j.message : res.status);
-              last.style.color = '#c2317c';
+              line.style.color = '#c2317c';
             }
           })
           .catch(function () {
             failCount += 1;
-            var last = logEl.lastChild;
-            last.innerHTML = '✕ ' + f.name + ' — 처리 실패';
-            last.style.color = '#c2317c';
+            line.innerHTML = '✕ ' + f.name + ' — 처리 실패';
+            line.style.color = '#c2317c';
           });
       });
     });
 
+    // 세탁 기록 저장
+    chain = chain.then(function () {
+      if (!okCount) return null;
+      var body = {
+        message: 'Update wash record',
+        content: textToB64(JSON.stringify(washedMap, null, 2))
+      };
+      if (washedSha) body.sha = washedSha;
+      return api(RECORD, { method: 'PUT', body: JSON.stringify(body) })
+        .then(function (res) {
+          if (res.ok && res.j && res.j.content) washedSha = res.j.content.sha;
+        })
+        .catch(function () {});
+    });
+
     chain.then(function () {
       log('<b>끝났어요. 성공 ' + okCount + '장 / 실패 ' + failCount + '장</b>', 'var(--ink)');
+      log('다음에 다시 눌러도 <b>세탁한 그림은 건너뜁니다.</b>');
       log('사이트에 반영되기까지 1~2분 걸려요.');
       washRepoEl.disabled = false;
-      washRepoEl.textContent = '전부 세탁하기';
+      washRepoEl.textContent = '고른 것 세탁하기';
     });
   });
 
