@@ -9,22 +9,23 @@ backend:
 media_folder: /media
 public_folder: /media
 
-# 사진 올릴 때 자동 처리
+# 사진 올릴 때 자동 처리 (공식 문서 형식)
 media_libraries:
-  all:
-    # 파일 이름을 영문/숫자로 정리
-    slugify_filename: true
-    # 한 파일 최대 8MB
-    max_file_size: 8000000
-    transformations:
-      # 사진을 webp 로 다시 저장 → EXIF(위치·기기 정보)가 모두 사라집니다
-      raster_image:
-        format: webp
-        quality: 82
-        width: 1800
-        height: 1800
-      svg:
-        optimize: true
+  default:
+    config:
+      # 파일 이름을 영문/숫자로 정리
+      slugify_filename: true
+      # 한 파일 최대 8MB
+      max_file_size: 8000000
+      transformations:
+        # 사진을 webp 로 다시 저장 → 파일에 붙은 정보가 사라집니다
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1800
+          height: 1800
+        svg:
+          optimize: true
 
 collections:
   # ---------- 글 ----------
