@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>이미지 세탁기 · VIOLET OS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<style>
+:root {
+  --outline: #2b1e52;
+  --wall: #8079f0;
+  --pink: #ff5fa8;
+  --pink-l: #ffd6ea;
+  --cyan: #3fd3e8;
+  --cyan-l: #ccf4fa;
+  --yellow: #ffd93d;
+  --yellow-l: #fff5c2;
+  --mint: #4ddcb4;
+  --mint-l: #d0f8ec;
+  --grape: #9b6cf5;
+  --grape-l: #e6dbff;
+  --ink: #2b1e52;
+  --sub: #7565a8;
+  --pixel: 'Galmuri11', 'Galmuri9', monospace;
+  --mini: 'Galmuri9', 'Galmuri11', monospace;
+  --body: 'Pretendard Variable', Pretendard, -apple-system, 'Malgun Gothic', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 28px 16px 60px;
+  font-family: var(--body);
+  color: var(--ink);
+  line-height: 1.75;
+  background-color: var(--wall);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+  background-size: 148px 148px, 148px 148px;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; }
+
+.win {
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.38);
+  margin-bottom: 22px;
+}
+
+.bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background-color: var(--grape);
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.4);
+}
+
+.body { padding: 18px 18px 20px; }
+.body > :first-child { margin-top: 0; }
+.body > :last-child { margin-bottom: 0; }
+
+h2 { font-family: var(--pixel); font-size: 13px; margin: 22px 0 9px;
+     padding-bottom: 7px; border-bottom: 3px dotted var(--grape-l); }
+
+p { margin: 0 0 12px; }
+.sub { color: var(--sub); font-size: 13.5px; }
+
+/* 놓는 곳 */
+.drop {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  padding: 22px;
+  text-align: center;
+  background: var(--grape-l);
+  border: 3px dashed var(--outline);
+  cursor: pointer;
+}
+
+.drop.over { background: var(--yellow-l); }
+.drop b { font-family: var(--pixel); font-size: 13px; display: block; margin-bottom: 6px; }
+.drop span { font-family: var(--mini); font-size: 10px; color: var(--sub); }
+
+/* 설정 */
+.opt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 2px dotted var(--grape-l);
+  font-size: 13.5px;
+}
+
+.opt:last-of-type { border-bottom: 0; }
+.opt label { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+.opt input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--pink); }
+.opt input[type="number"], .opt input[type="text"], .opt select {
+  font-family: var(--body);
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 2px solid var(--outline);
+  background: #fff;
+  color: var(--ink);
+}
+.opt input[type="number"] { width: 88px; }
+.opt input[type="text"] { width: 130px; }
+.opt .hint { font-family: var(--mini); font-size: 10px; color: var(--sub); }
+
+/* 버튼 */
+.btn {
+  font-family: var(--mini);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  cursor: pointer;
+  color: var(--outline);
+  background: var(--yellow);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+.btn:hover { background: var(--cyan); }
+.btn:active { transform: translate(3px,3px); box-shadow: none; }
+.btn[disabled] { opacity: 0.5; cursor: default; transform: none; }
+.btn--go { background: var(--pink); color: #fff; }
+
+.row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+
+/* 결과 */
+.list { list-style: none; margin: 0; padding: 0; }
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 9px;
+  padding: 10px 12px;
+  background: var(--mint-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
+}
+
+.item img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  flex: none;
+  border: 2px solid var(--outline);
+  background: #fff;
+}
+
+.item__info { flex: 1; min-width: 0; }
+.item__name {
+  font-family: var(--pixel);
+  font-size: 11px;
+  margin: 0 0 3px;
+  word-break: break-all;
+}
+.item__meta { font-family: var(--mini); font-size: 9px; color: var(--sub); margin: 0; }
+
+.item .btn { flex: none; padding: 7px 12px; }
+
+.warn {
+  padding: 12px 14px;
+  background: var(--pink-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+  font-size: 13px;
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--mini);
+  font-size: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 8px 14px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="win">
+    <div class="bar">IMAGE WASHER</div>
+    <div class="body">
+      <p class="sub">
+        그림을 올리기 전에 여기서 한 번 세탁하세요.
+        파일에 붙은 정보와 그림 속에 숨겨진 정보를 모두 지웁니다.
+        <b>세탁은 이 브라우저 안에서만 이루어지고, 어디에도 전송되지 않습니다.</b>
+      </p>
+
+      <div class="drop" id="drop">
+        <div>
+          <b>여기에 그림을 끌어다 놓으세요</b>
+          <span>눌러서 고를 수도 있어요 · 여러 장 한꺼번에 가능</span>
+        </div>
+      </div>
+      <input type="file" id="file" accept="image/*" multiple hidden>
+
+      <h2>세탁 설정</h2>
+
+      <div class="opt">
+        <label><input type="checkbox" id="optAlpha" checked> 투명도 없애기</label>
+        <span class="hint">그림 속에 숨긴 정보를 지웁니다. 배경이 투명한 그림은 꺼주세요</span>
+      </div>
+
+      <div class="opt">
+        <label><input type="checkbox" id="optNoise" checked> 픽셀 미세 변경</label>
+        <span class="hint">눈에 안 보이는 정도로 바꿔서 숨긴 정보를 마저 지웁니다</span>
+      </div>
+
+      <div class="opt">
+        <label><input type="checkbox" id="optResize" checked> 크기 줄이기</label>
+        <input type="number" id="maxSide" value="1800" min="400" max="4000" step="100">
+        <span class="hint">긴 쪽 기준 픽셀</span>
+      </div>
+
+      <div class="opt">
+        <label>저장 형식</label>
+        <select id="fmt">
+          <option value="image/webp">WebP (추천)</option>
+          <option value="image/jpeg">JPEG</option>
+          <option value="image/png">PNG</option>
+        </select>
+        <span class="hint">화질</span>
+        <input type="number" id="quality" value="90" min="50" max="100" step="5">
+      </div>
+
+      <div class="opt">
+        <label><input type="checkbox" id="optRename" checked> 파일 이름 바꾸기</label>
+        <input type="text" id="prefix" value="img" maxlength="20">
+        <span class="hint">img-001, img-002 … 처럼 저장됩니다</span>
+      </div>
+
+      <div class="row">
+        <button type="button" class="btn btn--go" id="go" disabled>세탁하기</button>
+        <button type="button" class="btn" id="saveAll" disabled>전부 저장</button>
+        <button type="button" class="btn" id="clear" disabled>비우기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="win" id="resultWin" hidden>
+    <div class="bar">RESULT</div>
+    <div class="body">
+      <ul class="list" id="list"></ul>
+    </div>
+  </div>
+
+
+  <div class="win">
+    <div class="bar">REPO WASHER — 이미 올린 그림</div>
+    <div class="body">
+      <p class="sub">
+        저장소 <b>media</b> 폴더에 이미 올라간 그림을 <b>그 자리에서</b> 세탁합니다.
+        파일 이름과 주소가 그대로라 사이트 링크가 깨지지 않아요.
+      </p>
+
+      <div class="opt">
+        <label>저장소</label>
+        <input type="text" id="repoOwner" placeholder="사용자명" style="width:150px">
+        <span class="hint">/</span>
+        <input type="text" id="repoName" placeholder="저장소명" style="width:190px">
+      </div>
+
+      <div class="opt">
+        <label>열쇠(토큰)</label>
+        <input type="password" id="ghToken" placeholder="github_pat_..." style="width:100%;max-width:330px">
+      </div>
+      <p class="hint" style="font-family:var(--mini);font-size:10px;color:var(--sub);margin:0 0 4px">
+        관리자 페이지에서 쓰던 그 토큰이에요. 이 창을 닫으면 사라지고, 어디에도 전송되지 않습니다.
+      </p>
+
+      <div class="row">
+        <button type="button" class="btn" id="scan">그림 목록 불러오기</button>
+        <button type="button" class="btn btn--go" id="washRepo" disabled>전부 세탁하기</button>
+      </div>
+
+      <div id="repoLog" style="margin-top:16px"></div>
+    </div>
+  </div>
+
+  <div class="win">
+    <div class="bar">READ ME</div>
+    <div class="body">
+      <p class="warn">
+        세탁하면 <b>프롬프트·생성 정보·촬영 정보</b>가 지워집니다.
+        다만 <b>그림 자체를 저장해 가는 것</b>은 어떤 방법으로도 막을 수 없어요.
+        정말 걱정되는 그림은 워터마크를 넣거나 작게 올리는 편이 안전합니다.
+      </p>
+
+      <h2>확인하는 법</h2>
+      <p class="sub">
+        세탁한 파일을 메타데이터 확인 사이트에 넣어보세요.
+        아무 정보도 안 나오면 성공입니다.
+        원본과 비교해 보시면 차이가 확실히 보여요.
+      </p>
+
+      <h2>무엇을 지우나요</h2>
+      <p class="sub">
+        ① 파일에 붙은 정보 — 촬영 기기, 위치, 날짜, 편집 기록<br>
+        ② 그림에 적힌 정보 — 생성 프롬프트, 모델 이름, 설정값<br>
+        ③ <b>그림 속에 숨긴 정보</b> — 픽셀 안에 몰래 넣어둔 생성 기록
+      </p>
+
+      <p><a class="back" href="index.html">← 홈페이지로</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var drop = document.getElementById('drop');
+  var fileEl = document.getElementById('file');
+  var goEl = document.getElementById('go');
+  var saveAllEl = document.getElementById('saveAll');
+  var clearEl = document.getElementById('clear');
+  var listEl = document.getElementById('list');
+  var resultWin = document.getElementById('resultWin');
+
+  var picked = [];   // 고른 파일
+  var done = [];     // 세탁 끝난 것
+
+  /* ---------- 파일 고르기 ---------- */
+
+  drop.addEventListener('click', function () { fileEl.click(); });
+
+  drop.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    drop.classList.add('over');
+  });
+  drop.addEventListener('dragleave', function () { drop.classList.remove('over'); });
+  drop.addEventListener('drop', function (e) {
+    e.preventDefault();
+    drop.classList.remove('over');
+    take(e.dataTransfer.files);
+  });
+
+  fileEl.addEventListener('change', function () { take(fileEl.files); });
+
+  function take(files) {
+    picked = Array.prototype.filter.call(files, function (f) {
+      return /^image\//.test(f.type);
+    });
+    drop.querySelector('b').textContent = picked.length
+      ? picked.length + '장 골랐어요'
+      : '여기에 그림을 끌어다 놓으세요';
+    goEl.disabled = !picked.length;
+  }
+
+  /* ---------- 세탁 ---------- */
+
+  function loadImage(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var im = new Image();
+      im.onload = function () { URL.revokeObjectURL(url); resolve(im); };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(); };
+      im.src = url;
+    });
+  }
+
+  function wash(file, index) {
+    return loadImage(file).then(function (im) {
+      var w = im.naturalWidth;
+      var h = im.naturalHeight;
+
+      // 크기 줄이기
+      if (document.getElementById('optResize').checked) {
+        var max = parseInt(document.getElementById('maxSide').value, 10) || 1800;
+        if (Math.max(w, h) > max) {
+          var r = max / Math.max(w, h);
+          w = Math.round(w * r);
+          h = Math.round(h * r);
+        }
+      }
+
+      var cv = document.createElement('canvas');
+      cv.width = w;
+      cv.height = h;
+      var ctx = cv.getContext('2d', { willReadFrequently: true });
+
+      var killAlpha = document.getElementById('optAlpha').checked;
+      if (killAlpha) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+      }
+      ctx.drawImage(im, 0, 0, w, h);
+
+      // 픽셀 미세 변경 — 숨긴 정보 지우기
+      if (document.getElementById('optNoise').checked) {
+        var data = ctx.getImageData(0, 0, w, h);
+        var d = data.data;
+        for (var i = 0; i < d.length; i += 4) {
+          d[i]     = (d[i]     & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+          d[i + 1] = (d[i + 1] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+          d[i + 2] = (d[i + 2] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+          if (killAlpha) d[i + 3] = 255;
+          else if (d[i + 3] > 250) d[i + 3] = 255;
+        }
+        ctx.putImageData(data, 0, 0);
+      } else if (killAlpha) {
+        var data2 = ctx.getImageData(0, 0, w, h);
+        var d2 = data2.data;
+        for (var j = 3; j < d2.length; j += 4) d2[j] = 255;
+        ctx.putImageData(data2, 0, 0);
+      }
+
+      var fmt = document.getElementById('fmt').value;
+      var q = (parseInt(document.getElementById('quality').value, 10) || 90) / 100;
+
+      return new Promise(function (resolve) {
+        cv.toBlob(function (blob) {
+          var ext = fmt === 'image/png' ? 'png' : (fmt === 'image/jpeg' ? 'jpg' : 'webp');
+          var name;
+          if (document.getElementById('optRename').checked) {
+            var pre = (document.getElementById('prefix').value || 'img')
+              .replace(/[^a-zA-Z0-9_-]/g, '') || 'img';
+            name = pre + '-' + String(index + 1).padStart(3, '0') + '.' + ext;
+          } else {
+            name = file.name.replace(/\.[^.]+$/, '') .replace(/[^a-zA-Z0-9_-]/g, '-') + '.' + ext;
+          }
+          resolve({
+            name: name,
+            blob: blob,
+            before: file.size,
+            after: blob ? blob.size : 0,
+            w: w, h: h
+          });
+        }, fmt, q);
+      });
+    });
+  }
+
+  function kb(n) {
+    if (n > 1024 * 1024) return (n / 1024 / 1024).toFixed(1) + 'MB';
+    return Math.round(n / 1024) + 'KB';
+  }
+
+  function show() {
+    listEl.innerHTML = '';
+    done.forEach(function (r, i) {
+      var li = document.createElement('li');
+      li.className = 'item';
+
+      var img = document.createElement('img');
+      img.src = URL.createObjectURL(r.blob);
+      li.appendChild(img);
+
+      var info = document.createElement('div');
+      info.className = 'item__info';
+      info.innerHTML = '<p class="item__name">' + r.name + '</p>' +
+        '<p class="item__meta">' + r.w + '×' + r.h + ' · ' +
+        kb(r.before) + ' → ' + kb(r.after) + '</p>';
+      li.appendChild(info);
+
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn';
+      b.textContent = '저장';
+      b.addEventListener('click', function () { save(r); });
+      li.appendChild(b);
+
+      listEl.appendChild(li);
+    });
+    resultWin.hidden = !done.length;
+    saveAllEl.disabled = !done.length;
+    clearEl.disabled = !done.length;
+  }
+
+  function save(r) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(r.blob);
+    a.download = r.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+  }
+
+  goEl.addEventListener('click', function () {
+    if (!picked.length) return;
+    goEl.disabled = true;
+    goEl.textContent = '세탁 중...';
+    done = [];
+
+    var chain = Promise.resolve();
+    picked.forEach(function (f, i) {
+      chain = chain.then(function () {
+        return wash(f, i).then(function (r) { done.push(r); });
+      });
+    });
+
+    chain.then(function () {
+      show();
+      goEl.disabled = false;
+      goEl.textContent = '세탁하기';
+    }).catch(function () {
+      goEl.disabled = false;
+      goEl.textContent = '세탁하기';
+      alert('처리하지 못한 그림이 있어요.');
+    });
+  });
+
+  saveAllEl.addEventListener('click', function () {
+    done.forEach(function (r, i) {
+      setTimeout(function () { save(r); }, i * 350);
+    });
+  });
+
+  clearEl.addEventListener('click', function () {
+    picked = [];
+    done = [];
+    fileEl.value = '';
+    listEl.innerHTML = '';
+    resultWin.hidden = true;
+    saveAllEl.disabled = true;
+    clearEl.disabled = true;
+    goEl.disabled = true;
+    drop.querySelector('b').textContent = '여기에 그림을 끌어다 놓으세요';
+  });
+
+  /* ==========================================================
+     이미 올라간 그림 세탁 (GitHub)
+     ========================================================== */
+
+  var ownerEl = document.getElementById('repoOwner');
+  var nameEl2 = document.getElementById('repoName');
+  var tokenEl = document.getElementById('ghToken');
+  var scanEl = document.getElementById('scan');
+  var washRepoEl = document.getElementById('washRepo');
+  var logEl = document.getElementById('repoLog');
+
+  var found = [];
+
+  // 주소에서 저장소 이름 짐작하기
+  (function () {
+    var host = location.hostname;
+    var m = host.match(/^([^.]+)\.github\.io$/i);
+    if (m) { ownerEl.value = m[1]; nameEl2.value = host; }
+    try {
+      var saved = sessionStorage.getItem('gh-token');
+      if (saved) tokenEl.value = saved;
+    } catch (e) {}
+  }());
+
+  function log(html, color) {
+    var p = document.createElement('p');
+    p.style.cssText = 'font-family:var(--mini);font-size:10px;margin:0 0 4px;color:' +
+      (color || 'var(--sub)');
+    p.innerHTML = html;
+    logEl.appendChild(p);
+  }
+
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = {
+      'Authorization': 'Bearer ' + tokenEl.value.trim(),
+      'Accept': 'application/vnd.github+json'
+    };
+    return fetch('https://api.github.com/repos/' + ownerEl.value.trim() + '/' +
+      nameEl2.value.trim() + '/contents/' + path, opts)
+      .then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+      });
+  }
+
+  var MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
+
+  scanEl.addEventListener('click', function () {
+    logEl.innerHTML = '';
+    if (!tokenEl.value.trim()) { log('토큰을 넣어주세요.', '#c2317c'); return; }
+    try { sessionStorage.setItem('gh-token', tokenEl.value.trim()); } catch (e) {}
+
+    log('불러오는 중...');
+    api('media').then(function (res) {
+      if (!res.ok) {
+        log('목록을 못 가져왔어요. (' + res.status + ') ' +
+          (res.j && res.j.message ? res.j.message : ''), '#c2317c');
+        return;
+      }
+      found = (res.j || []).filter(function (f) {
+        var ext = (f.name.split('.').pop() || '').toLowerCase();
+        return f.type === 'file' && MIME[ext];
+      });
+      logEl.innerHTML = '';
+      if (!found.length) { log('세탁할 그림이 없어요. (gif·svg 는 건너뜁니다)'); return; }
+      log('그림 <b>' + found.length + '장</b>을 찾았어요. 세탁하기를 눌러주세요.', 'var(--ink)');
+      washRepoEl.disabled = false;
+    }).catch(function () { log('연결에 실패했어요.', '#c2317c'); });
+  });
+
+  function washBlob(blob, mime) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(blob);
+      var im = new Image();
+      im.onload = function () {
+        URL.revokeObjectURL(url);
+        var w = im.naturalWidth, h2 = im.naturalHeight;
+
+        if (document.getElementById('optResize').checked) {
+          var max = parseInt(document.getElementById('maxSide').value, 10) || 1800;
+          if (Math.max(w, h2) > max) {
+            var r = max / Math.max(w, h2);
+            w = Math.round(w * r); h2 = Math.round(h2 * r);
+          }
+        }
+
+        var cv = document.createElement('canvas');
+        cv.width = w; cv.height = h2;
+        var ctx = cv.getContext('2d', { willReadFrequently: true });
+
+        var killAlpha = document.getElementById('optAlpha').checked && mime !== 'image/png';
+        if (killAlpha || mime === 'image/jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h2);
+        }
+        ctx.drawImage(im, 0, 0, w, h2);
+
+        var data = ctx.getImageData(0, 0, w, h2);
+        var d = data.data;
+        var noise = document.getElementById('optNoise').checked;
+        for (var i = 0; i < d.length; i += 4) {
+          if (noise) {
+            d[i]     = (d[i]     & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+            d[i + 1] = (d[i + 1] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+            d[i + 2] = (d[i + 2] & 0xFE) | (Math.random() < 0.5 ? 0 : 1);
+          }
+          if (d[i + 3] > 250) d[i + 3] = 255;
+        }
+        ctx.putImageData(data, 0, 0);
+
+        var q = (parseInt(document.getElementById('quality').value, 10) || 90) / 100;
+        cv.toBlob(function (out) { out ? resolve(out) : reject(); }, mime, q);
+      };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(); };
+      im.src = url;
+    });
+  }
+
+  function toBase64(blob) {
+    return new Promise(function (resolve, reject) {
+      var fr = new FileReader();
+      fr.onload = function () { resolve(String(fr.result).split(',')[1]); };
+      fr.onerror = reject;
+      fr.readAsDataURL(blob);
+    });
+  }
+
+  washRepoEl.addEventListener('click', function () {
+    if (!found.length) return;
+    if (!confirm(found.length + '장을 세탁해서 저장소에 덮어씁니다.\n되돌릴 수 없어요. 진행할까요?')) return;
+
+    washRepoEl.disabled = true;
+    washRepoEl.textContent = '세탁 중...';
+    logEl.innerHTML = '';
+
+    var okCount = 0, failCount = 0;
+    var chain = Promise.resolve();
+
+    found.forEach(function (f, i) {
+      chain = chain.then(function () {
+        var ext = (f.name.split('.').pop() || '').toLowerCase();
+        var mime = MIME[ext];
+        log('(' + (i + 1) + '/' + found.length + ') ' + f.name + ' …');
+
+        return fetch(f.download_url)
+          .then(function (r) { return r.blob(); })
+          .then(function (b) { return washBlob(b, mime); })
+          .then(toBase64)
+          .then(function (b64) {
+            return api(f.path, {
+              method: 'PUT',
+              body: JSON.stringify({
+                message: 'Clean metadata: ' + f.name,
+                content: b64,
+                sha: f.sha
+              })
+            });
+          })
+          .then(function (res) {
+            var last = logEl.lastChild;
+            if (res.ok) {
+              okCount += 1;
+              last.innerHTML = '✔ ' + f.name;
+              last.style.color = '#14705a';
+            } else {
+              failCount += 1;
+              last.innerHTML = '✕ ' + f.name + ' — ' +
+                (res.j && res.j.message ? res.j.message : res.status);
+              last.style.color = '#c2317c';
+            }
+          })
+          .catch(function () {
+            failCount += 1;
+            var last = logEl.lastChild;
+            last.innerHTML = '✕ ' + f.name + ' — 처리 실패';
+            last.style.color = '#c2317c';
+          });
+      });
+    });
+
+    chain.then(function () {
+      log('<b>끝났어요. 성공 ' + okCount + '장 / 실패 ' + failCount + '장</b>', 'var(--ink)');
+      log('사이트에 반영되기까지 1~2분 걸려요.');
+      washRepoEl.disabled = false;
+      washRepoEl.textContent = '전부 세탁하기';
+    });
+  });
+
+
+}());
+</script>
+</body>
+</html>
