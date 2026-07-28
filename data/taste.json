@@ -96,7 +96,12 @@
           "badge": "SUB",
           "color": "sage",
           "tags": "(강제)지휘자 X 연주자, 저격수 X 첼리스트, 까칠 X 평온",
-          "images": [],
+          "images": [
+            {
+              "image": "/media/레저넌스5.webp",
+              "caption": ""
+            }
+          ],
           "note": "(강제)지휘자님과 연주자님의 오케스트라♪"
         }
       ]
