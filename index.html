@@ -831,6 +831,7 @@ details[open] { padding-bottom: 12px; }
 .startmenu button,
 .startmenu a {
   font-family: var(--pixel);
+  font-weight: normal;
   width: 100%;
   display: flex;
   align-items: center;
@@ -846,6 +847,7 @@ details[open] { padding-bottom: 12px; }
 .startmenu button:hover,
 .startmenu a:hover { background: var(--grape-l); border-color: var(--outline); }
 .startmenu a { text-decoration: none; }
+.startmenu a.strong { font-weight: 700; }
 .startmenu__sym { display: grid; place-items: center; width: 22px; height: 22px; }
 .startmenu__sym svg { width: 19px; height: 19px; }
 
@@ -2127,7 +2129,7 @@ details[open] { padding-bottom: 12px; }
       <li><button type="button" data-open="music"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-disc"/></svg></span>음악</button></li>
       <li><a href="clean.html"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-broom"/></svg></span>이미지 세탁기</a></li>
       <li><button type="button" data-open="guest"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-pencil"/></svg></span>방명록</button></li>
-      <li><a href="admin/" target="_blank" rel="noopener"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heartv"/></svg></span>관리자</a></li>
+      <li><a class="strong" href="admin/" target="_blank" rel="noopener"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heartv"/></svg></span>관리자</a></li>
     </ul>
   </div>
 
