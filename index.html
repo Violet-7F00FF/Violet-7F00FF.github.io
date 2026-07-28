@@ -490,12 +490,12 @@ h3.sub {
 .cp--cyan   .cp__dday { background: #128fa8; }
 .cp--mint   .cp__dday { background: #12967a; }
 .cp--peach  .cp__dday { background: #dd6a26; }
-.cp--yellow .cp__dday { background: #c08a00; }
+.cp--yellow .cp__dday { background: #ffcf33; color: #4a3708; }
 .cp--grape  .cp__dday { background: #7340d8; }
 .cp--coral  .cp__dday { background: #db4f3a; }
 .cp--sky    .cp__dday { background: #3663cf; }
 .cp--sage   .cp__dday { background: #4a9236; }
-.cp--cream  .cp__dday { background: #a87a2c; }
+.cp--cream  .cp__dday { background: #f2cd8c; color: #5a4318; }
 .cp--rose   .cp__dday { background: #cf3468; }
 .cp--ice    .cp__dday { background: #1c8e95; }
 
@@ -2711,6 +2711,37 @@ function toHTML(md) {
   var loopOne = !!LOOP_ONE;
   var volume = 0.6;
 
+  /* ---------- 듣던 자리 기억하기 ----------
+     sessionStorage 라서 새로고침엔 남고, 탭을 닫으면 사라집니다. */
+
+  var MSTORE = 'violet-os-music';
+
+  function nowTime() {
+    var t = tracks[current];
+    if (isYT(t)) {
+      return (yt && yt.getCurrentTime) ? (yt.getCurrentTime() || 0) : 0;
+    }
+    return audio.currentTime || 0;
+  }
+
+  function saveMusic() {
+    if (!tracks.length) return;
+    try {
+      sessionStorage.setItem(MSTORE, JSON.stringify({
+        i: current,
+        t: nowTime(),
+        p: playing(),
+        v: volume,
+        l: loopOne
+      }));
+    } catch (e) {}
+  }
+
+  function loadMusicState() {
+    try { return JSON.parse(sessionStorage.getItem(MSTORE) || 'null'); }
+    catch (e) { return null; }
+  }
+
   /* ---------- 유튜브 ---------- */
 
   var yt = null;          // 플레이어 객체
@@ -2738,6 +2769,7 @@ function toHTML(md) {
         onStateChange: function (e) {
           if (e.data === YT.PlayerState.PLAYING) setSpin(true);
           else setSpin(false);
+          saveMusic();
           if (e.data === YT.PlayerState.ENDED) whenEnded();
         },
         onError: function () {
@@ -2785,25 +2817,35 @@ function toHTML(md) {
     });
   }
 
-  function load(i, autoplay) {
+  function load(i, autoplay, startAt) {
     if (!tracks.length) return;
     stopAll();
     setSpin(false);
     current = (i + tracks.length) % tracks.length;
     var t = tracks[current];
+    var at = Number(startAt) > 0 ? Number(startAt) : 0;
     paint();
 
     if (isYT(t)) {
       audio.removeAttribute('src');
       var id = ytId(t.yt);
       withYT(function () {
-        if (autoplay) yt.loadVideoById(id);
-        else yt.cueVideoById(id);
+        var opt = { videoId: id, startSeconds: at };
+        if (autoplay) yt.loadVideoById(opt);
+        else yt.cueVideoById(opt);
       });
     } else if (t.src) {
       audio.src = t.src;
+      if (at > 0) {
+        var once = function () {
+          try { audio.currentTime = at; } catch (e) {}
+          audio.removeEventListener('loadedmetadata', once);
+        };
+        audio.addEventListener('loadedmetadata', once);
+      }
       if (autoplay) playAudio();
     }
+    saveMusic();
   }
 
   function playAudio() {
@@ -2845,8 +2887,8 @@ function toHTML(md) {
     }
   }
 
-  audio.addEventListener('play', function () { setSpin(true); });
-  audio.addEventListener('pause', function () { setSpin(false); });
+  audio.addEventListener('play', function () { setSpin(true); saveMusic(); });
+  audio.addEventListener('pause', function () { setSpin(false); saveMusic(); });
   audio.addEventListener('ended', whenEnded);
   audio.addEventListener('error', function () {
     if (!audio.getAttribute('src')) return;
@@ -2865,6 +2907,7 @@ function toHTML(md) {
     loopBtn.classList.toggle('on', loopOne);
     loopBtn.setAttribute('aria-pressed', String(loopOne));
     loopBtn.title = loopOne ? '한 곡 반복 켜짐' : '한 곡 반복 꺼짐';
+    saveMusic();
   });
   loopBtn.classList.toggle('on', loopOne);
   loopBtn.setAttribute('aria-pressed', String(loopOne));
@@ -2874,6 +2917,7 @@ function toHTML(md) {
     volume = volEl.value / 100;
     audio.volume = volume;
     if (yt && yt.setVolume) yt.setVolume(Math.round(volume * 100));
+    saveMusic();
   });
   audio.volume = volume;
 
@@ -2899,8 +2943,28 @@ function toHTML(md) {
       listEl.appendChild(li);
     });
 
-    if (tracks.length) load(0, false);
-    else paint();
+    if (!tracks.length) { paint(); return; }
+
+    var st = loadMusicState();
+    if (st && tracks[st.i]) {
+      if (typeof st.v === 'number') {
+        volume = st.v;
+        volEl.value = Math.round(volume * 100);
+        audio.volume = volume;
+      }
+      if (typeof st.l === 'boolean') {
+        loopOne = st.l;
+        loopBtn.classList.toggle('on', loopOne);
+        loopBtn.setAttribute('aria-pressed', String(loopOne));
+      }
+      // 듣던 곡을 듣던 자리에서
+      load(st.i, !!st.p, st.t);
+    } else {
+      load(0, false);
+    }
+
+    // 재생 중에는 자리를 계속 기억해 둡니다
+    setInterval(function () { if (playing()) saveMusic(); }, 3000);
   });
 
 }());
