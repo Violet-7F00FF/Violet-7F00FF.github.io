@@ -490,12 +490,12 @@ h3.sub {
 .cp--cyan   .cp__dday { background: #128fa8; }
 .cp--mint   .cp__dday { background: #12967a; }
 .cp--peach  .cp__dday { background: #dd6a26; }
-.cp--yellow .cp__dday { background: #ffcf33; color: #4a3708; }
+.cp--yellow .cp__dday { background: #d9a017; }
 .cp--grape  .cp__dday { background: #7340d8; }
 .cp--coral  .cp__dday { background: #db4f3a; }
 .cp--sky    .cp__dday { background: #3663cf; }
 .cp--sage   .cp__dday { background: #4a9236; }
-.cp--cream  .cp__dday { background: #f2cd8c; color: #5a4318; }
+.cp--cream  .cp__dday { background: #c08f45; }
 .cp--rose   .cp__dday { background: #cf3468; }
 .cp--ice    .cp__dday { background: #1c8e95; }
 
@@ -2851,7 +2851,12 @@ function toHTML(md) {
   function playAudio() {
     var p = audio.play();
     if (p && p.catch) {
-      p.catch(function () {
+      p.catch(function (err) {
+        // 브라우저가 자동 재생을 막은 경우 — 오류가 아니라 그냥 멈춤 상태
+        if (err && (err.name === 'NotAllowedError' || err.name === 'AbortError')) {
+          setSpin(false);
+          return;
+        }
         titleEl.textContent = '재생할 수 없습니다';
         artistEl.textContent = '파일을 확인해 주세요';
       });
