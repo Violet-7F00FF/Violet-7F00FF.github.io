@@ -18,8 +18,10 @@
           "name": "바이브 x 베타",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-05-02",
+          "dday_label": "💜",
           "badge": "MAIN",
-          "color": "mint",
+          "color": "grape",
           "tags": "의도치 않은 보호자 연하 X 세상물정 하나도 몰라 연상, (가끔 불)안정형 X 안정형, 영원히 내 각시 X 영원히 내 거!",
           "images": [
             {
@@ -41,8 +43,10 @@
           "name": "페더 x 알파",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-05-11",
+          "dday_label": "💜",
           "badge": "SUB",
-          "color": "mint",
+          "color": "grape",
           "tags": "",
           "images": [
             {
@@ -63,8 +67,10 @@
           "name": "신드롬 x 라피스",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-04-27",
+          "dday_label": "💙",
           "badge": "SUB",
-          "color": "cyan",
+          "color": "sky",
           "tags": "까칠 X 성깔 미침, 천상천하 유아독존 X 미친 살쾡이, 영원히 짜증냄 X 어리석은 녀석 취급하기",
           "images": [
             {
@@ -85,8 +91,10 @@
           "name": "휴고 x 피네",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-05-20",
+          "dday_label": "💗",
           "badge": "SUB",
-          "color": "mint",
+          "color": "sage",
           "tags": "(강제)지휘자 X 연주자, 저격수 X 첼리스트, 까칠 X 평온",
           "images": [],
           "note": "(강제)지휘자님과 연주자님의 오케스트라♪"
@@ -102,8 +110,10 @@
           "name": "저스티스 x 레이븐",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-05-22",
+          "dday_label": "🖤",
           "badge": "SUB",
-          "color": "peach",
+          "color": "coral",
           "tags": "전직 형사 X 정보상, 사별 X 첫사랑, 유사 보호자 X 그딴 거 필요 없어",
           "images": [
             {
@@ -124,6 +134,8 @@
           "name": "에덴 x 써드",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-05-27",
+          "dday_label": "❤️",
           "badge": "SUB",
           "color": "pink",
           "tags": "전직 국가대표 X 암살자, 목줄 X 늑대개, 극도의 까칠 X 극도의 무심",
@@ -141,8 +153,10 @@
           "name": "산타 x 브라이어",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-06-01",
+          "dday_label": "🌹",
           "badge": "SUB",
-          "color": "peach",
+          "color": "rose",
           "tags": "어린애 X 보호자, 바보 X 천재, 정신연령 낮음 X 정신연령 높음",
           "images": [
             {
@@ -162,7 +176,9 @@
         {
           "name": "자이안 x 마리포사",
           "work": "ARCH",
-          "pair": "",
+          "pair": "💚",
+          "dday": "2026-06-08",
+          "dday_label": "",
           "badge": "SUB",
           "color": "cyan",
           "tags": "거목 X 독초, 정원사 X 박제사, 생명의 수호자 X 죽음의 인도자",
@@ -185,8 +201,10 @@
           "name": "스트레이 x 글레이시아",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-06-13",
+          "dday_label": "❄️",
           "badge": "SUB",
-          "color": "pink",
+          "color": "ice",
           "tags": "거침 X 어리버리, 중립 악 양아치 X 질서 선 사신님, 길들여지지 않은 야수 X 세상만사 다 좋아요 바보",
           "images": [
             {
@@ -207,8 +225,10 @@
           "name": "헬리오스 x 발푸르기스",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-06-26",
+          "dday_label": "☀️",
           "badge": "SUB",
-          "color": "mint",
+          "color": "coral",
           "tags": "태양 X 마녀, 구원 X 나락, 변치 않을 영원한 낮 X 구원 받을 수 없는 밤",
           "images": [
             {
@@ -229,6 +249,8 @@
           "name": "카르마 x 테디베어",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-06-26",
+          "dday_label": "🤍",
           "badge": "SUB",
           "color": "pink",
           "tags": "야쿠자 X 천재 엔지니어, 악성 코드 X 시스템 관리자, 폭력과 피의 삶 X 0과 1의 삶",
@@ -251,6 +273,8 @@
           "name": "밴스 x 뮤즐",
           "work": "ARCH",
           "pair": "",
+          "dday": "2026-07-21",
+          "dday_label": "💘",
           "badge": "SUB",
           "color": "peach",
           "tags": "책임자 x 괴수 조련사, 냉철한 x 해맑은, 이성적인 x 감성적인",
