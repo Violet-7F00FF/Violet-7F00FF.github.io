@@ -453,10 +453,18 @@ h3.sub {
   box-shadow: 4px 4px 0 rgba(43,30,82,0.25);
 }
 
-.cp--pink  { background: var(--pink-l); }
-.cp--cyan  { background: var(--cyan-l); }
-.cp--mint  { background: var(--mint-l); }
-.cp--peach { background: var(--peach-l); }
+.cp--pink   { background: var(--pink-l); }
+.cp--cyan   { background: var(--cyan-l); }
+.cp--mint   { background: var(--mint-l); }
+.cp--peach  { background: var(--peach-l); }
+.cp--yellow { background: var(--yellow-l); }
+.cp--grape  { background: var(--grape-l); }
+.cp--coral  { background: #ffdcd6; }
+.cp--sky    { background: #d8e7ff; }
+.cp--sage   { background: #ddf2d6; }
+.cp--cream  { background: #fff1da; }
+.cp--rose   { background: #ffe0ef; }
+.cp--ice    { background: #ddf6f6; }
 
 .cp__head {
   display: flex;
@@ -464,6 +472,18 @@ h3.sub {
   align-items: center;
   gap: 7px;
   margin-bottom: 8px;
+}
+
+/* 디데이 */
+.cp__dday {
+  font-family: var(--mini);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  color: #fff;
+  background: var(--grape);
+  border: 2px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
 }
 
 /* 페어명 (네모 박스) */
@@ -810,6 +830,7 @@ details[open] { padding-bottom: 12px; }
 
 .startmenu button,
 .startmenu a {
+  font-family: var(--pixel);
   width: 100%;
   display: flex;
   align-items: center;
@@ -1066,10 +1087,18 @@ details[open] { padding-bottom: 12px; }
   box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
 }
 
-.spec--mint { background: var(--mint-l); }
-.spec--pink { background: var(--pink-l); }
-.spec--cyan { background: var(--cyan-l); }
+.spec--pink   { background: var(--pink-l); }
+.spec--cyan   { background: var(--cyan-l); }
+.spec--mint   { background: var(--mint-l); }
+.spec--peach  { background: var(--peach-l); }
 .spec--yellow { background: var(--yellow-l); }
+.spec--grape  { background: var(--grape-l); }
+.spec--coral  { background: #ffdcd6; }
+.spec--sky    { background: #d8e7ff; }
+.spec--sage   { background: #ddf2d6; }
+.spec--cream  { background: #fff1da; }
+.spec--rose   { background: #ffe0ef; }
+.spec--ice    { background: #ddf6f6; }
 
 /* 본명 (작은 기울임 글씨) */
 .pcard__real {
@@ -2096,8 +2125,8 @@ details[open] { padding-bottom: 12px; }
       <li><button type="button" data-open="widgets"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-monitor"/></svg></span>위젯</button></li>
       <li><button type="button" data-open="gallery"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-photo"/></svg></span>갤러리</button></li>
       <li><button type="button" data-open="music"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-disc"/></svg></span>음악</button></li>
-      <li><button type="button" data-open="guest"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-pencil"/></svg></span>방명록</button></li>
       <li><a href="clean.html"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-broom"/></svg></span>이미지 세탁기</a></li>
+      <li><button type="button" data-open="guest"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-pencil"/></svg></span>방명록</button></li>
       <li><a href="admin/" target="_blank" rel="noopener"><span class="startmenu__sym"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-heartv"/></svg></span>관리자</a></li>
     </ul>
   </div>
@@ -2884,6 +2913,20 @@ function toHTML(md) {
     return h ? '<h3 class="sub">' + esc(h) + '</h3>' : '';
   }
 
+  /* 디데이 계산 */
+  function dday(dateStr, label) {
+    if (!dateStr) return '';
+    var p = String(dateStr).slice(0, 10).split('-');
+    if (p.length < 3) return '';
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    if (isNaN(d)) return '';
+    var t = new Date();
+    t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+    var diff = Math.round((t - d) / 86400000);
+    var txt = diff >= 0 ? ('D+' + diff) : ('D-' + Math.abs(diff));
+    return '<span class="cp__dday">' + (label ? esc(label) + ' ' : '') + txt + '</span>';
+  }
+
   var seq = 0;
   function snip(name, text) {
     var id = 'sn' + (++seq);
@@ -2967,6 +3010,7 @@ function toHTML(md) {
             '<div class="cp__head">' +
             '<h4 class="cp__name">' + esc(c.name) + '</h4>' +
             (c.pair ? '<span class="cp__pair">' + esc(c.pair) + '</span>' : '') +
+            dday(c.dday, c.dday_label) +
             (c.badge ? '<span class="' + badgeCls + '">' + esc(c.badge) + '</span>' : '') +
             '</div>' +
             (c.note ? '<p class="cp__note cp__note--top">' + nl2br(c.note) + '</p>' : '') +
