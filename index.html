@@ -1043,7 +1043,7 @@ u.rose   { --u-color: #ff8fc4; }
 mark {
   padding: 1px 3px;
   color: var(--ink);
-  background: var(--yellow-l);
+  background: var(--mark-color, var(--yellow-l));
   border-radius: 2px;
 }
 
@@ -1075,6 +1075,65 @@ mark.rose   { background: #ffe0ef; }
 .callout--coral  { background: var(--peach-l); color: #7d2f1a; }
 .callout--sky    { background: #d8e7ff; color: #24407f; }
 .callout--rose   { background: #ffe0ef; color: #7d1f42; }
+
+/* ---------- 내 배너 가져가기 ---------- */
+
+.mine {
+  margin: 0 0 16px;
+  padding: 13px 14px 14px;
+  background: var(--soft);
+  border: 3px solid var(--outline);
+  box-shadow: 4px 4px 0 rgba(43,30,82,0.22);
+}
+
+.mine__pic {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto 12px;
+  border: 3px solid var(--outline);
+}
+
+.mine__note {
+  font-size: 12.5px;
+  color: var(--sub);
+  margin: 0 0 12px;
+  line-height: 1.7;
+}
+
+.mine__list { list-style: none; margin: 0; padding: 0; }
+
+.mine__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 7px;
+}
+
+.mine__label {
+  flex: none;
+  width: 88px;
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+}
+
+.mine__row code {
+  flex: 1;
+  min-width: 140px;
+  padding: 7px 9px;
+  font-family: var(--pixel);
+  font-size: 11px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--outline);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mine__row .btn { flex: none; padding: 6px 11px; }
 
 /* ---------- 배너 교환 ---------- */
 
@@ -3224,10 +3283,25 @@ function toHTML(md) {
      #mint-u 는 밑줄, #mint-h 는 형광펜 */
   var COLORS = 'pink|cyan|mint|yellow|grape|coral|sky|rose';
 
+  // 형광펜 색 이름 → 실제 색
+  var MARK = {
+    pink: '#ffd6ea', cyan: '#ccf4fa', mint: '#d0f8ec', yellow: '#fff5c2',
+    grape: '#e6dbff', coral: '#ffe1cc', sky: '#d8e7ff', rose: '#ffe0ef'
+  };
+
   function colorize(html) {
+    html = String(html || '');
+
+    // #h / #u — 항목에서 고른 색을 씁니다
+    html = html.replace(/<a href="#h"[^>]*>([\s\S]*?)<\/a>/g,
+      function (m, inner) { return '<mark>' + inner + '</mark>'; });
+    html = html.replace(/<a href="#u"[^>]*>([\s\S]*?)<\/a>/g,
+      function (m, inner) { return '<u>' + inner + '</u>'; });
+
+    // #mint / #mint-u / #mint-h — 색을 직접 지정
     var re = new RegExp(
       '<a href="#(' + COLORS + ')(?:-(u|h))?"[^>]*>([\\s\\S]*?)<\\/a>', 'g');
-    return String(html || '').replace(re, function (m, color, kind, inner) {
+    return html.replace(re, function (m, color, kind, inner) {
       if (kind === 'u') return '<u class="' + color + '">' + inner + '</u>';
       if (kind === 'h') return '<mark class="' + color + '">' + inner + '</mark>';
       return '<span class="c-' + color + '">' + inner + '</span>';
@@ -3235,6 +3309,18 @@ function toHTML(md) {
   }
 
   function rich(md) { return colorize(toHTML(md)); }
+
+  /* 항목에서 고른 형광펜·밑줄 색을 그 항목 안에서만 적용 */
+  function penStyle(b) {
+    var s = '';
+    if (b.mark_color && MARK[b.mark_color]) s += '--mark-color:' + MARK[b.mark_color] + ';';
+    if (b.u_color && MARK[b.u_color]) {
+      var solid = { pink: '#ff5fa8', cyan: '#3fd3e8', mint: '#4ddcb4', yellow: '#ffd93d',
+                    grape: '#9b6cf5', coral: '#ff9a5c', sky: '#6fb8ec', rose: '#ff8fc4' };
+      s += '--u-color:' + solid[b.u_color] + ';';
+    }
+    return s ? ' style="' + s + '"' : '';
+  }
 
   /* 디데이 계산 */
   function dday(dateStr, label) {
@@ -3301,13 +3387,13 @@ function toHTML(md) {
 
       case 'text':
         return heading(b.heading) +
-          '<div' + (b.color ? ' class="c-' + esc(b.color) + '"' : '') + '>' +
+          '<div' + (b.color ? ' class="c-' + esc(b.color) + '"' : '') + penStyle(b) + '>' +
           rich(b.body) + '</div>';
 
       case 'callout':
         return heading(b.heading) +
-          '<div class="callout' + (b.color ? ' callout--' + esc(b.color) : '') + '">' +
-          rich(b.body) + '</div>';
+          '<div class="callout' + (b.color ? ' callout--' + esc(b.color) : '') + '"' +
+          penStyle(b) + '>' + rich(b.body) + '</div>';
 
       case 'tags':
         return heading(b.heading) + tagList(b.tags, b.color);
@@ -3375,6 +3461,30 @@ function toHTML(md) {
           (imgUrl ? '<img class="mybnr" src="' + esc(imgUrl) + '" alt="' + esc(alt) + '">' : '') +
           (b.desc ? '<p class="cp__note cp__note--top">' + nl2br(b.desc) + '</p>' : '') +
           (imgUrl ? snip('내 배너 코드', code) : '');
+
+      case 'mybanner':
+        var rows = [
+          ['홈페이지 링크', b.link],
+          ['배너 그림 주소', b.image],
+          ['제목', b.title],
+          ['한 줄 소개', b.desc]
+        ].filter(function (r) { return r[1]; });
+
+        return heading(b.heading) +
+          '<div class="mine">' +
+          (b.image ? '<img class="mine__pic" src="' + esc(b.image) +
+            '" alt="내 배너" loading="lazy">' : '') +
+          (b.note ? '<p class="mine__note">' + nl2br(b.note) + '</p>' : '') +
+          '<ul class="mine__list">' +
+          rows.map(function (r) {
+            var id = 'mb' + (++seq);
+            return '<li class="mine__row">' +
+              '<span class="mine__label">' + esc(r[0]) + '</span>' +
+              '<code id="' + id + '">' + esc(r[1]) + '</code>' +
+              '<button type="button" class="btn" data-copy="' + id + '">COPY</button>' +
+              '</li>';
+          }).join('') +
+          '</ul></div>';
 
       case 'banners':
         return heading(b.heading) + '<ul class="banners">' +
