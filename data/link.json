@@ -1,18 +1,19 @@
 {
   "top_label": "COOKIE LIST",
+  "top_note": "",
   "intro_heading": "",
-  "intro": "배너 교환하는 곳이에요. 가져가실 분은 아래 내 배너를 쓰시면 됩니다!",
+  "intro": "배너 교환하는 곳이에요. 가져가실 분은 아래 제 배너 사용법을 봐주세요!",
   "blocks": [
     {
       "type": "banners",
       "tag": "",
-      "heading": "받은 쿠키",
+      "heading": "쿠키 종류",
       "items": [
         {
-          "name": "사이트 이름",
-          "link": "https://",
-          "image": "",
-          "desc": "한 줄 설명"
+          "name": "一蓮托生",
+          "desc": "죄까지도 함께 짊어지고 살아가",
+          "image": "https://cdn.luv3r.me/og/ce82dcb9d198.jpg",
+          "link": "https://hae.luv3r.me/"
         }
       ]
     },
@@ -20,7 +21,7 @@
       "type": "text",
       "tag": "",
       "heading": "내 배너",
-      "body": "아래 그림을 저장해서 쓰시고, 주소는 `https://violet-7f00ff.github.io` 로 걸어주세요.\n\n![내 배너](/banner.png)"
+      "body": "아래 그림을 저장해서 배너 이미지로 올려주시고, 주소는 `https://violet-7f00ff.github.io` 로 걸어주세요.\n\n![내 배너](/media/%EB%B0%94%EB%B2%A8%ED%83%919-1.webp)"
     }
   ]
 }
