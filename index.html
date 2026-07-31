@@ -3304,7 +3304,7 @@ function toHTML(md) {
 
     // ==글자== → 형광펜 (항목에서 고른 색)
     html = outsideCode(html, function (s) {
-      return s.replace(/==([^=\n]+?)==/g, '<mark>$1</mark>');
+      return s.replace(/==(?!=)([\s\S]*?)==/g, '<mark>$1</mark>');
     });
 
     // #h / #u — 항목에서 고른 색을 씁니다
