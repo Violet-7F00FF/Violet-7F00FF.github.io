@@ -116,7 +116,9 @@ collections:
                   - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - { name: color, label: 글씨 색 (전체), widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose] }
-                  - { name: body, label: 내용, widget: richtext, hint: '한 단어만 색을 넣으려면 그 글자를 고르고 링크 버튼 → 주소에 #mint 처럼 적으세요' }
+                  - { name: mark_color, label: 형광펜 색, widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose], default: yellow, hint: '본문에서 #h 로 칠한 부분의 색' }
+                  - { name: u_color, label: 밑줄 색, widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose], default: pink, hint: '본문에서 #u 로 그은 밑줄의 색' }
+                  - { name: body, label: 내용, widget: richtext, hint: '형광펜: 글자 고르고 링크 버튼 → #h  /  밑줄: #u  /  글씨색: #mint' }
               - name: tags
                 label: 태그 묶음
                 summary: '태그 · {{fields.heading}}'
@@ -132,7 +134,9 @@ collections:
                   - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
                   - { name: color, label: 상자 색, widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose], default: yellow }
-                  - { name: body, label: 내용, widget: richtext }
+                  - { name: mark_color, label: 형광펜 색, widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose], default: yellow, hint: '본문에서 #h 로 칠한 부분의 색' }
+                  - { name: u_color, label: 밑줄 색, widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose], default: pink, hint: '본문에서 #u 로 그은 밑줄의 색' }
+                  - { name: body, label: 내용, widget: richtext, hint: '형광펜: 글자 고르고 링크 버튼 → #h' }
               - name: label
                 label: 작은 라벨
                 summary: '라벨 · {{fields.text}}'
@@ -219,6 +223,17 @@ collections:
                     fields:
                       - { name: image, label: 사진, widget: image }
                       - { name: caption, label: 설명, widget: string, required: false }
+              - name: mybanner
+                label: 내 배너 (가져가기용)
+                summary: '내 배너 · {{fields.title}}'
+                fields:
+                  - { name: tag, label: 분류(태그), widget: string, required: false }
+                  - { name: heading, label: 소제목, widget: string, required: false, default: 내 배너 }
+                  - { name: image, label: 배너 그림 주소, widget: string, required: false, hint: 'https://violet-7f00ff.github.io/banner.png' }
+                  - { name: link, label: 홈페이지 링크, widget: string, required: false, hint: 'https://violet-7f00ff.github.io' }
+                  - { name: title, label: 제목, widget: string, required: false }
+                  - { name: desc, label: 한 줄 소개, widget: string, required: false }
+                  - { name: note, label: 안내 문구, widget: text, required: false }
               - name: banners
                 label: 배너 교환
                 summary: '배너 · {{fields.heading}}'
