@@ -1,0 +1,26 @@
+{
+  "top_label": "COOKIE LIST",
+  "intro_heading": "",
+  "intro": "배너 교환하는 곳이에요. 가져가실 분은 아래 내 배너를 쓰시면 됩니다!",
+  "blocks": [
+    {
+      "type": "banners",
+      "tag": "",
+      "heading": "받은 쿠키",
+      "items": [
+        {
+          "name": "사이트 이름",
+          "link": "https://",
+          "image": "",
+          "desc": "한 줄 설명"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "tag": "",
+      "heading": "내 배너",
+      "body": "아래 그림을 저장해서 쓰시고, 주소는 `https://violet-7f00ff.github.io` 로 걸어주세요.\n\n![내 배너](/banner.png)"
+    }
+  ]
+}
