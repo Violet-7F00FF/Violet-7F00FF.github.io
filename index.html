@@ -15,6 +15,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<!-- 일본어·한자 도트 글꼴 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <style>
 /* ==========================================================
@@ -43,8 +45,8 @@
   --bar-h:  32px;
   --task-h: 48px;
 
-  --pixel: 'Galmuri11', 'Galmuri9', 'DungGeunMo', monospace;
-  --mini:  'Galmuri9', 'Galmuri11', monospace;
+  --pixel: 'Galmuri11', 'DotGothic16', 'Galmuri9', 'DungGeunMo', monospace;
+  --mini:  'Galmuri9', 'DotGothic16', 'Galmuri11', monospace;
   --body:  'Pretendard Variable', Pretendard, -apple-system,
            'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 }
@@ -1013,14 +1015,16 @@ details[open] { padding-bottom: 12px; }
 
 .banners {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
   gap: 11px;
   list-style: none;
   margin: 0 0 14px;
   padding: 0;
 }
 
-.banner a {
+.banner a,
+.banner .banner__box {
+  position: relative;
   display: block;
   background: #fff;
   border: 3px solid var(--outline);
@@ -1035,18 +1039,39 @@ details[open] { padding-bottom: 12px; }
   box-shadow: 5px 5px 0 rgba(43,30,82,0.3);
 }
 
-.banner img {
+/* 배너 그림 */
+.banner__pic {
   display: block;
-  width: 100%;
-  border-bottom: 3px solid var(--outline);
+  padding-top: 60%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 그림 위에 얹히는 반투명 흰 띠 */
+.banner__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 6px 9px 7px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(2px);
+  border-top: 2px solid var(--outline);
+}
+
+.banner__bar--solid {
+  position: static;
+  background: var(--grape-l);
+  border-top: 0;
+  padding: 11px 10px;
 }
 
 .banner__name {
   display: block;
-  padding: 7px 9px;
-  font-family: var(--mini);
-  font-size: 10px;
-  letter-spacing: 0.03em;
+  font-family: var(--pixel);
+  font-size: 11px;
+  font-weight: normal;
   color: var(--ink);
   white-space: nowrap;
   overflow: hidden;
@@ -1054,10 +1079,14 @@ details[open] { padding-bottom: 12px; }
 }
 
 .banner__desc {
-  margin: 6px 2px 0;
-  font-size: 12px;
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.5;
   color: var(--sub);
-  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ---------- 위젯 카드 ---------- */
@@ -3262,29 +3291,33 @@ function toHTML(md) {
           (imgUrl ? snip('내 배너 코드', code) : '');
 
       case 'banners':
-        return heading(b.heading) +
-          (b.desc ? '<p class="lede">' + nl2br(b.desc) + '</p>' : '') +
-          '<ul class="bnrs">' + (b.items || []).map(function (it) {
-            var inner = it.image
-              ? '<img src="' + esc(it.image) + '" alt="' + esc(it.name || '') + '" loading="lazy">'
-              : '<span class="bnrs__txt">' + esc(it.name || '이름 없음') + '</span>';
-            return '<li><a href="' + esc(it.url || '#') + '" target="_blank" rel="noopener"' +
-              (it.name ? ' title="' + esc(it.name) + '"' : '') + '>' + inner + '</a></li>';
-          }).join('') + '</ul>';
-
-      case 'banners':
         return heading(b.heading) + '<ul class="banners">' +
           (b.items || []).map(function (it) {
-            var pic = it.image
-              ? '<img src="' + esc(it.image) + '" alt="' + esc(it.name || '배너') + '" loading="lazy">'
-              : '';
-            return '<li class="banner">' +
-              '<a href="' + esc(it.link) + '" target="_blank" rel="noopener">' +
-              pic +
-              '<span class="banner__name">' + esc(it.name || it.link) + '</span>' +
-              '</a>' +
-              (it.desc ? '<p class="banner__desc">' + esc(it.desc) + '</p>' : '') +
-              '</li>';
+            var name = esc(it.name || '');
+            var desc = esc(it.desc || '');
+            var link = String(it.link || '').trim();
+            var ok = /^https?:\/\//i.test(link);
+
+            var inner = '';
+            if (it.image) {
+              inner += '<span class="banner__pic" style="background-image:url(\'' +
+                esc(it.image) + '\')"></span>';
+            }
+            if (name || desc) {
+              inner += '<span class="banner__bar' + (it.image ? '' : ' banner__bar--solid') + '">' +
+                (name ? '<b class="banner__name">' + name + '</b>' : '') +
+                (desc ? '<span class="banner__desc">' + desc + '</span>' : '') +
+                '</span>';
+            }
+            if (!inner) inner = '<span class="banner__bar banner__bar--solid">' +
+              '<b class="banner__name">' + esc(link || '링크') + '</b></span>';
+
+            // 링크가 없으면 눌러도 아무 데도 안 가게 합니다
+            var box = ok
+              ? '<a href="' + esc(link) + '" target="_blank" rel="noopener">' + inner + '</a>'
+              : '<div class="banner__box">' + inner + '</div>';
+
+            return '<li class="banner">' + box + '</li>';
           }).join('') + '</ul>';
 
       case 'widget':
