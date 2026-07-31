@@ -1078,20 +1078,13 @@ mark.rose   { background: #ffe0ef; }
 
 /* ---------- 내 배너 가져가기 ---------- */
 
-.mine {
-  margin: 0 0 16px;
-  padding: 13px 14px 14px;
-  background: var(--soft);
-  border: 3px solid var(--outline);
-  box-shadow: 4px 4px 0 rgba(43,30,82,0.22);
-}
-
 .mine__pic {
   display: block;
   width: 100%;
-  max-width: 260px;
-  margin: 0 auto 12px;
+  max-width: 280px;
+  margin: 0 0 14px;
   border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
 }
 
 .mine__note {
@@ -3460,46 +3453,21 @@ function toHTML(md) {
           '</div>';
 
       case 'mybanner':
-        var origin = location.origin;
-        var toAbs = function (p) {
-          if (!p) return '';
-          if (/^https?:/i.test(p)) return p;
-          return origin + (p.charAt(0) === '/' ? '' : '/') + p;
-        };
-        var imgUrl = toAbs(b.image);
-        var siteUrl = b.url ? b.url : origin;
-        var alt = b.alt || document.title || 'banner';
-        var code = '<a href="' + siteUrl + '" target="_blank">\n' +
-          '  <img src="' + imgUrl + '" alt="' + alt + '">\n' +
-          '</a>';
-        return heading(b.heading) +
-          (imgUrl ? '<img class="mybnr" src="' + esc(imgUrl) + '" alt="' + esc(alt) + '">' : '') +
-          (b.desc ? '<p class="cp__note cp__note--top">' + nl2br(b.desc) + '</p>' : '') +
-          (imgUrl ? snip('내 배너 코드', code) : '');
-
-      case 'mybanner':
-        var rows = [
-          ['홈페이지 링크', b.link],
-          ['배너 그림 주소', b.image],
-          ['제목', b.title],
-          ['한 줄 소개', b.desc]
-        ].filter(function (r) { return r[1]; });
-
-        return heading(b.heading) +
-          '<div class="mine">' +
-          (b.image ? '<img class="mine__pic" src="' + esc(b.image) +
-            '" alt="내 배너" loading="lazy">' : '') +
-          (b.note ? '<p class="mine__note">' + nl2br(b.note) + '</p>' : '') +
-          '<ul class="mine__list">' +
-          rows.map(function (r) {
-            var id = 'mb' + (++seq);
-            return '<li class="mine__row">' +
-              '<span class="mine__label">' + esc(r[0]) + '</span>' +
-              '<code id="' + id + '">' + esc(r[1]) + '</code>' +
-              '<button type="button" class="btn" data-copy="' + id + '">COPY</button>' +
-              '</li>';
-          }).join('') +
-          '</ul></div>';
+        var mine = heading(b.heading);
+        if (b.note) mine += '<p class="mine__note">' + nl2br(b.note) + '</p>';
+        if (b.image) {
+          mine += '<img class="mine__pic" src="' + esc(b.image) +
+            '" alt="내 배너" loading="lazy">';
+        }
+        [
+          ['배너 그림 주소.txt', b.image],
+          ['홈페이지 링크.txt', b.link],
+          ['이름.txt', b.title],
+          ['한 줄 소개.txt', b.desc]
+        ].forEach(function (r) {
+          if (r[1]) mine += snip(r[0], r[1]);
+        });
+        return mine;
 
       case 'banners':
         return heading(b.heading) + '<ul class="banners">' +
