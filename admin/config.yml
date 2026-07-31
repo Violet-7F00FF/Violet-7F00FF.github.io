@@ -290,6 +290,21 @@ collections:
                           - { name: caption, label: 설명, widget: string, required: false }
                       - { name: prompt, label: 프롬프트, widget: text, required: false }
 
+  # ---------- 쿠키 (배너 교환) ----------
+  - name: cookie
+    label: 쿠키
+    icon: cookie
+    files:
+      - name: cookie
+        label: 쿠키 창 (배너 교환)
+        file: data/link.json
+        fields:
+          - { name: top_label, label: 맨 위 작은 라벨, widget: string, required: false }
+          - { name: top_note, label: 라벨 옆 도트 글씨, widget: string, required: false }
+          - { name: intro_heading, label: 소개글 소제목, widget: string, required: false }
+          - { name: intro, label: 소개글, widget: text, required: false }
+          - *blocks
+
   # ---------- 파는 CP ----------
   - name: taste
     label: 파는 CP
