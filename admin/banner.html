@@ -174,9 +174,23 @@ input[type="text"] {
     <div class="bar">READ ME</div>
     <div class="body">
       <p class="tip">
-        브라우저는 다른 사이트의 정보를 직접 못 읽습니다.
-        그래서 중계 서비스를 거치는데, 무료라서 가끔 느리거나 실패해요.
-        안 되면 잠시 뒤 다시 하거나, 그 사이트에서 배너 그림 주소를 직접 복사해 넣으세요.
+        상대 사이트가 <b>대표 그림(OG 태그)</b>을 걸어뒀으면 그 사람이 정해둔 그림·제목·소개를
+        그대로 가져옵니다. 안 걸어둔 사이트는 페이지 안의 그림을 대신 찾아서 보여주니
+        마음에 드는 걸 고르시면 돼요.
+      </p>
+
+      <h2>못 가져올 때</h2>
+      <p class="sub">
+        ① 그 사이트가 대표 그림을 안 걸어둔 경우 — 나온 그림 중에 고르거나 직접 넣기<br>
+        ② 사이트가 접근을 막아둔 경우 — 배너 그림에 <b>마우스 오른쪽 → 이미지 주소 복사</b><br>
+        ③ 중계 서비스가 느린 경우 — 잠시 뒤 다시 시도
+      </p>
+
+      <h2>내 배너 주소</h2>
+      <p class="sub">
+        남에게 줄 때는 이렇게 알려주세요.<br>
+        링크 <b>https://violet-7f00ff.github.io</b><br>
+        배너 <b>https://violet-7f00ff.github.io/banner.png</b>
       </p>
 
       <h2>넣는 곳</h2>
@@ -202,11 +216,13 @@ input[type="text"] {
   var ogGoEl = document.getElementById('ogGo');
   var ogOut = document.getElementById('ogOut');
 
-  // 다른 사이트는 브라우저가 직접 못 읽어서 중계 서비스를 거칩니다
   var PROXIES = [
     function (u) { return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
-    function (u) { return 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u); }
+    function (u) { return 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u); },
+    function (u) { return 'https://corsproxy.io/?url=' + encodeURIComponent(u); }
   ];
+
+  var found = { title: '', desc: '', url: '', images: [] };
 
   function say(html, color) {
     ogOut.innerHTML = '<p class="note" style="color:' + (color || 'var(--sub)') + '">' +
@@ -214,7 +230,7 @@ input[type="text"] {
   }
 
   function absolute(src, base) {
-    try { return new URL(src, base).href; } catch (e) { return src; }
+    try { return new URL(src, base).href; } catch (e) { return ''; }
   }
 
   function pickMeta(doc, names) {
@@ -227,22 +243,92 @@ input[type="text"] {
   }
 
   function tryFetch(url, idx) {
-    if (idx >= PROXIES.length) return Promise.reject();
+    if (idx >= PROXIES.length) return Promise.reject(new Error('proxy'));
     return fetch(PROXIES[idx](url))
-      .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+      .then(function (r) {
+        if (!r.ok) throw 0;
+        return r.text();
+      })
+      .then(function (t) {
+        if (!t || t.length < 50) throw 0;
+        return t;
+      })
       .catch(function () { return tryFetch(url, idx + 1); });
   }
 
+  /* 배너로 쓸 만한 그림 후보 모으기 */
+  function collectImages(doc, base) {
+    var out = [];
+    function add(src) {
+      var abs = absolute(src, base);
+      if (!abs) return;
+      if (/\.svg($|\?)/i.test(abs)) return;
+      if (out.indexOf(abs) === -1) out.push(abs);
+    }
+
+    ['og:image', 'og:image:secure_url', 'twitter:image', 'twitter:image:src'].forEach(function (n) {
+      var v = pickMeta(doc, [n]);
+      if (v) add(v);
+    });
+
+    var linkImg = doc.querySelector('link[rel="image_src"]');
+    if (linkImg && linkImg.getAttribute('href')) add(linkImg.getAttribute('href'));
+
+    var touch = doc.querySelector('link[rel="apple-touch-icon"]');
+    if (touch && touch.getAttribute('href')) add(touch.getAttribute('href'));
+
+    // 페이지 안의 그림 중 앞쪽 몇 개
+    var imgs = doc.querySelectorAll('img');
+    for (var i = 0; i < imgs.length && out.length < 12; i++) {
+      var s = imgs[i].getAttribute('src') || imgs[i].getAttribute('data-src');
+      if (s && !/^data:/.test(s)) add(s);
+    }
+    return out;
+  }
+
   var seq = 0;
-  function field(label, value) {
-    if (!value) return '';
+  function field(label, value, editable) {
     var id = 'f' + (++seq);
     return '<div class="field">' +
       '<label>' + label + '</label>' +
       '<input type="text" id="' + id + '" value="' +
-      String(value).replace(/"/g, '&quot;') + '" readonly>' +
+      String(value || '').replace(/"/g, '&quot;') + '"' +
+      (editable ? '' : ' readonly') + '>' +
       '<button type="button" class="btn btn--sm" data-copy="' + id + '">복사</button>' +
       '</div>';
+  }
+
+  function render() {
+    var out = '';
+
+    if (found.images.length) {
+      out += '<p class="note" style="margin-bottom:8px">쓸 그림을 골라주세요 ' +
+        '(' + found.images.length + '개 찾음)</p>';
+      out += '<div id="shots" style="display:grid;' +
+        'grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:14px">';
+      found.images.forEach(function (src, i) {
+        out += '<button type="button" class="shot" data-src="' + src.replace(/"/g, '&quot;') +
+          '" style="padding:0;background:#fff;border:3px solid ' +
+          (i === 0 ? '#ff5fa8' : '#2b1e52') + ';cursor:pointer;overflow:hidden">' +
+          '<img src="' + src + '" alt="" style="display:block;width:100%;height:70px;' +
+          'object-fit:cover" onerror="this.parentNode.style.display=\'none\'">' +
+          '</button>';
+      });
+      out += '</div>';
+    } else {
+      out += '<p class="note" style="color:#c2317c;margin-bottom:10px">' +
+        '이 사이트는 대표 그림을 안 걸어뒀어요. 배너 주소를 직접 넣어주세요.</p>';
+    }
+
+    out += field('사이트 이름', found.title, true);
+    out += field('링크', found.url, true);
+    out += field('배너 그림 주소', found.images[0] || '', true);
+    out += field('한 줄 설명', (found.desc || '').slice(0, 80), true);
+    out += '<p class="note" style="margin-top:10px">' +
+      '관리자 → <b>쿠키</b> → 항목 추가 → <b>배너 교환</b> 에 넣어주세요. ' +
+      '칸의 내용은 직접 고쳐도 됩니다.</p>';
+
+    ogOut.innerHTML = out;
   }
 
   ogGoEl.addEventListener('click', function () {
@@ -251,44 +337,45 @@ input[type="text"] {
     if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
     ogGoEl.disabled = true;
-    say('찾는 중... (5~10초 걸릴 수 있어요)');
+    say('찾는 중... (10초쯤 걸릴 수 있어요)');
 
     tryFetch(url, 0).then(function (html) {
       var doc = new DOMParser().parseFromString(html, 'text/html');
-
-      var img = pickMeta(doc, ['og:image', 'twitter:image', 'twitter:image:src']);
-      var title = pickMeta(doc, ['og:title', 'twitter:title']) ||
+      found.url = url;
+      found.title = pickMeta(doc, ['og:title', 'twitter:title']) ||
         (doc.querySelector('title') ? doc.querySelector('title').textContent.trim() : '');
-      var desc = pickMeta(doc, ['og:description', 'description']);
-
-      if (img) img = absolute(img, url);
-
-      if (!img && !title) {
-        say('배너 정보를 못 찾았어요. 그 사이트가 대표 그림을 안 넣어둔 것 같아요.', '#c2317c');
-        ogGoEl.disabled = false;
-        return;
-      }
-
-      var out = '';
-      if (img) out += '<img class="preview" src="' + img + '" alt="">';
-      out += field('사이트 이름', title);
-      out += field('링크', url);
-      out += field('배너 그림 주소', img);
-      if (desc) out += field('한 줄 설명', desc.slice(0, 80));
-      out += '<p class="note">관리자 → 원하는 창 → 항목 추가 → <b>배너 교환</b> 에 넣어주세요.</p>';
-
-      ogOut.innerHTML = out;
+      found.desc = pickMeta(doc, ['og:description', 'twitter:description', 'description']);
+      found.images = collectImages(doc, url);
+      render();
       ogGoEl.disabled = false;
 
     }).catch(function () {
-      say('가져오지 못했어요. 잠시 뒤 다시 하거나, 그 사이트에서 ' +
-        '배너 그림 주소를 직접 복사해 주세요.', '#c2317c');
+      found = { title: '', desc: '', url: url, images: [] };
+      ogOut.innerHTML =
+        '<p class="note" style="color:#c2317c;margin-bottom:10px">' +
+        '사이트를 열지 못했어요. 접근을 막아둔 곳일 수 있어요.<br>' +
+        '아래에 직접 적어주세요.</p>' +
+        field('사이트 이름', '', true) +
+        field('링크', url, true) +
+        field('배너 그림 주소', '', true) +
+        field('한 줄 설명', '', true);
       ogGoEl.disabled = false;
     });
   });
 
-  // 복사 버튼
+  /* 그림 고르기 */
   document.addEventListener('click', function (e) {
+    var shot = e.target.closest('.shot');
+    if (shot) {
+      Array.prototype.forEach.call(document.querySelectorAll('.shot'), function (s) {
+        s.style.borderColor = '#2b1e52';
+      });
+      shot.style.borderColor = '#ff5fa8';
+      var inputs = ogOut.querySelectorAll('input');
+      if (inputs[2]) inputs[2].value = shot.dataset.src;
+      return;
+    }
+
     var b = e.target.closest('[data-copy]');
     if (!b) return;
     var el = document.getElementById(b.dataset.copy);
