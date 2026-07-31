@@ -36,12 +36,14 @@
       ]
     },
     {
-      "type": "text",
+      "type": "mybanner",
       "tag": "",
       "heading": "쿠키의 배너",
-      "color": "",
-      "mark_color": "grape",
-      "body": "아래 그림을 저장해서 배너 이미지로 올려주시고, 주소는 ==https://violet-7f00ff.github.io== 로 걸어주세요.\n\n![](/media/%EB%B0%94%EB%B2%A8%ED%83%919-1.webp \"쿠키 몬스터의 집!\")"
+      "image": "",
+      "link": "",
+      "title": "Cookie Monster",
+      "desc": "쿠키 몬스터의 집!",
+      "note": "위 항목을 복사하여 러버미의 배너 항목에 넣어주시면 됩니다!"
     }
   ]
 }
