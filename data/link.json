@@ -39,7 +39,8 @@
       "type": "text",
       "tag": "",
       "heading": "내 배너",
-      "body": "아래 그림을 저장해서 배너 이미지로 올려주시고, 주소는 https://violet-7f00ff.github.io 로 걸어주세요.\n\n![내 배너](/media/%EB%B0%94%EB%B2%A8%ED%83%919-1.webp)"
+      "color": "grape",
+      "body": "아래 그림을 저장해서 배너 이미지로 올려주시고, 주소는 `https://violet-7f00ff.github.io` 로 걸어주세요.\n\n![내 배너](/media/%EB%B0%94%EB%B2%A8%ED%83%919-1.webp)"
     }
   ]
 }
