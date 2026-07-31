@@ -115,7 +115,8 @@ collections:
                 fields:
                   - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
-                  - { name: body, label: 내용, widget: richtext }
+                  - { name: color, label: 글씨 색 (전체), widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose] }
+                  - { name: body, label: 내용, widget: richtext, hint: '한 단어만 색을 넣으려면 그 글자를 고르고 링크 버튼 → 주소에 #mint 처럼 적으세요' }
               - name: tags
                 label: 태그 묶음
                 summary: '태그 · {{fields.heading}}'
@@ -125,11 +126,12 @@ collections:
                   - { name: tags, label: 태그, widget: string, hint: '쉼표로 구분. 예) 현대물, 학원물' }
                   - { name: color, label: 색, widget: select, required: false, options: [pink, cyan, mint, yellow, peach, grape] }
               - name: callout
-                label: 노란 상자
+                label: 색 상자
                 summary: '상자 · {{fields.heading}}'
                 fields:
                   - { name: tag, label: 분류(태그), widget: string, required: false, hint: '위쪽 태그 버튼으로 묶입니다. 비워두면 항상 보입니다' }
                   - { name: heading, label: 소제목, widget: string, required: false }
+                  - { name: color, label: 상자 색, widget: select, required: false, options: [pink, cyan, mint, yellow, grape, coral, sky, rose], default: yellow }
                   - { name: body, label: 내용, widget: richtext }
               - name: label
                 label: 작은 라벨
