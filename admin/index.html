@@ -7,9 +7,8 @@
     <title>VIOLET OS 관리자</title>
     <style>
       /* 배너 가져오기 도구로 가는 작은 버튼 */
-      #bannerTool {
+      #bannerTool, #sortTool {
         position: fixed;
-        right: 16px;
         bottom: 16px;
         z-index: 99999;
         display: inline-flex;
@@ -24,12 +23,15 @@
         border: 3px solid #2b1e52;
         box-shadow: 3px 3px 0 rgba(43, 30, 82, 0.35);
       }
-      #bannerTool:hover { background: #3fd3e8; }
-      #bannerTool:active { transform: translate(3px, 3px); box-shadow: none; }
+      #bannerTool { right: 16px; }
+      #sortTool { right: 158px; background: #4ddcb4; }
+      #bannerTool:hover, #sortTool:hover { background: #3fd3e8; }
+      #bannerTool:active, #sortTool:active { transform: translate(3px, 3px); box-shadow: none; }
     </style>
   </head>
   <body>
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <a id="sortTool" href="sort.html">↕ 순서 바꾸기</a>
     <a id="bannerTool" href="banner.html">🍪 배너 가져오기</a>
   </body>
 </html>

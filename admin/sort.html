@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>순서 바꾸기 · 관리자</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<style>
+:root {
+  --outline: #2b1e52;
+  --wall: #8079f0;
+  --pink: #ff5fa8;
+  --pink-l: #ffd6ea;
+  --cyan: #3fd3e8;
+  --cyan-l: #ccf4fa;
+  --yellow: #ffd93d;
+  --yellow-l: #fff5c2;
+  --mint-l: #d0f8ec;
+  --grape: #9b6cf5;
+  --grape-l: #e6dbff;
+  --ink: #2b1e52;
+  --sub: #7565a8;
+  --pixel: 'Galmuri11', 'Galmuri9', monospace;
+  --mini: 'Galmuri9', 'Galmuri11', monospace;
+  --body: 'Pretendard Variable', Pretendard, -apple-system, 'Malgun Gothic', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 28px 16px 60px;
+  font-family: var(--body);
+  color: var(--ink);
+  line-height: 1.75;
+  background-color: var(--wall);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+  background-size: 148px 148px, 148px 148px;
+}
+
+.wrap { max-width: 640px; margin: 0 auto; }
+
+.win {
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.38);
+  margin-bottom: 22px;
+}
+
+.bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background-color: var(--grape);
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.4);
+}
+
+.body { padding: 18px 18px 20px; }
+.body > :first-child { margin-top: 0; }
+.body > :last-child { margin-bottom: 0; }
+
+.sub { color: var(--sub); font-size: 13.5px; margin: 0 0 14px; }
+
+.field { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 11px; }
+.field > label { font-family: var(--mini); font-size: 10px; color: var(--sub); flex: none; width: 74px; }
+
+input[type="password"], select {
+  flex: 1;
+  min-width: 180px;
+  font-family: var(--body);
+  font-size: 13px;
+  padding: 7px 10px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+
+.btn {
+  font-family: var(--mini);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  cursor: pointer;
+  color: var(--outline);
+  background: var(--yellow);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+.btn:hover { background: var(--cyan); }
+.btn:active { transform: translate(3px,3px); box-shadow: none; }
+.btn[disabled] { opacity: 0.5; cursor: default; transform: none; }
+.btn--go { background: var(--pink); color: #fff; }
+
+.row { display: flex; flex-wrap: wrap; gap: 9px; }
+
+.note { font-family: var(--mini); font-size: 10px; color: var(--sub); margin: 0; }
+
+/* 정렬 목록 */
+#list { list-style: none; margin: 16px 0 0; padding: 0; }
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  padding: 10px 12px;
+  background: var(--grape-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
+  cursor: grab;
+  user-select: none;
+}
+
+.item.dragging { opacity: 0.4; }
+.item.over { border-color: var(--pink); background: var(--pink-l); }
+
+.item__grip {
+  flex: none;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--sub);
+  letter-spacing: -2px;
+}
+
+.item__no {
+  flex: none;
+  width: 24px;
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+}
+
+.item__txt { flex: 1; min-width: 0; }
+
+.item__kind {
+  display: block;
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+}
+
+.item__name {
+  display: block;
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item__btns { flex: none; display: flex; gap: 4px; }
+
+.item__btns button {
+  width: 28px;
+  height: 28px;
+  font-family: var(--mini);
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--outline);
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+.item__btns button:hover { background: var(--yellow); }
+
+.back {
+  display: inline-block;
+  font-family: var(--mini);
+  font-size: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 8px 14px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+  margin-right: 8px;
+}
+
+.tip {
+  padding: 12px 14px;
+  background: var(--yellow-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="win">
+    <div class="bar">SORT — 순서 바꾸기</div>
+    <div class="body">
+      <p class="sub">항목을 끌어서 순서를 바꾸고 저장하세요. 관리자에서 화살표를 여러 번 누를 필요가 없어요.</p>
+
+      <div class="field">
+        <label>열쇠(토큰)</label>
+        <input type="password" id="token" placeholder="github_pat_...">
+      </div>
+
+      <div class="field">
+        <label>어느 창</label>
+        <select id="file">
+          <option value="link">쿠키 (배너 교환)</option>
+          <option value="notice">공지</option>
+          <option value="taste">파는 CP</option>
+          <option value="persona">페르소나</option>
+          <option value="prompts">프롬프트</option>
+          <option value="widgets">위젯</option>
+          <option value="guest">방명록 안내</option>
+          <option value="posts">글</option>
+          <option value="gallery">갤러리</option>
+          <option value="music">음악</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <button type="button" class="btn" id="load">불러오기</button>
+        <button type="button" class="btn btn--go" id="save" disabled>순서 저장</button>
+      </div>
+
+      <ul id="list"></ul>
+      <p class="note" id="msg" style="margin-top:12px"></p>
+    </div>
+  </div>
+
+  <div class="win">
+    <div class="bar">READ ME</div>
+    <div class="body">
+      <p class="tip">
+        여기서는 <b>순서만</b> 바꿉니다. 내용은 관리자 페이지에서 고치세요.
+        저장하면 1~2분 뒤 사이트에 반영됩니다.
+      </p>
+      <p class="sub" style="margin-top:14px">
+        휴대폰에서는 끌기가 잘 안 될 수 있어요. 그럴 땐 오른쪽 ▲▼ 버튼을 쓰세요.
+      </p>
+      <p>
+        <a class="back" href="./">← 관리자로</a>
+        <a class="back" href="../">← 홈페이지로</a>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var tokenEl = document.getElementById('token');
+  var fileEl = document.getElementById('file');
+  var loadEl = document.getElementById('load');
+  var saveEl = document.getElementById('save');
+  var listEl = document.getElementById('list');
+  var msgEl = document.getElementById('msg');
+
+  var owner = '', repo = '';
+  (function () {
+    var m = location.hostname.match(/^([^.]+)\.github\.io$/i);
+    if (m) { owner = m[1]; repo = location.hostname; }
+    try {
+      var t = sessionStorage.getItem('gh-token');
+      if (t) tokenEl.value = t;
+    } catch (e) {}
+  }());
+
+  var data = null;      // 파일 전체
+  var key = '';         // 정렬할 배열 이름
+  var items = [];       // 정렬 대상
+  var sha = '';
+
+  var KIND = {
+    text: '글', tags: '태그 묶음', callout: '색 상자', label: '작은 라벨',
+    code: '복사 상자', folds: '접히는 목록', cards: '작은 카드', cps: 'CP 카드',
+    images: '사진 나열', mybanner: '내 배너', banners: '배너 교환',
+    promptcard: '프롬프트 카드', widget: '위젯', personas: '페르소나 카드'
+  };
+
+  function msg(t, color) {
+    msgEl.textContent = t;
+    msgEl.style.color = color || 'var(--sub)';
+  }
+
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = {
+      'Authorization': 'Bearer ' + tokenEl.value.trim(),
+      'Accept': 'application/vnd.github+json'
+    };
+    return fetch('https://api.github.com/repos/' + owner + '/' + repo +
+      '/contents/' + path, opts).then(function (r) {
+      return r.text().then(function (t) {
+        var j = null;
+        try { j = t ? JSON.parse(t) : null; } catch (e) {}
+        return { ok: r.ok, status: r.status, j: j };
+      });
+    });
+  }
+
+  function b64ToText(b64) {
+    return decodeURIComponent(escape(atob(String(b64).replace(/\n/g, ''))));
+  }
+  function textToB64(txt) {
+    return btoa(unescape(encodeURIComponent(txt)));
+  }
+
+  function labelOf(it) {
+    if (key === 'blocks') {
+      var kind = KIND[it.type] || it.type || '항목';
+      var name = it.heading || it.text || it.name || it.title || '';
+      if (!name && it.items && it.items.length) {
+        name = it.items[0].name || it.items[0].title || '';
+      }
+      return { kind: kind, name: name || '(제목 없음)' };
+    }
+    if (key === 'posts') return { kind: it.date || '', name: it.title || '(제목 없음)' };
+    if (key === 'tracks') return { kind: it.artist || '', name: it.title || '(제목 없음)' };
+    return { kind: '', name: it.caption || it.name || it.title || '(설명 없음)' };
+  }
+
+  function render() {
+    listEl.innerHTML = '';
+    items.forEach(function (it, i) {
+      var lab = labelOf(it);
+      var li = document.createElement('li');
+      li.className = 'item';
+      li.draggable = true;
+      li.dataset.i = i;
+      li.innerHTML =
+        '<span class="item__grip">⋮⋮</span>' +
+        '<span class="item__no">' + (i + 1) + '</span>' +
+        '<span class="item__txt">' +
+        (lab.kind ? '<span class="item__kind">' + lab.kind + '</span>' : '') +
+        '<span class="item__name"></span></span>' +
+        '<span class="item__btns">' +
+        '<button type="button" data-up="' + i + '">▲</button>' +
+        '<button type="button" data-down="' + i + '">▼</button>' +
+        '</span>';
+      li.querySelector('.item__name').textContent = lab.name;
+      listEl.appendChild(li);
+    });
+  }
+
+  function move(from, to) {
+    if (to < 0 || to >= items.length) return;
+    var x = items.splice(from, 1)[0];
+    items.splice(to, 0, x);
+    render();
+    saveEl.disabled = false;
+    msg('순서를 바꿨어요. 저장을 눌러주세요.');
+  }
+
+  /* 끌어서 옮기기 */
+  var dragFrom = null;
+
+  listEl.addEventListener('dragstart', function (e) {
+    var li = e.target.closest('.item');
+    if (!li) return;
+    dragFrom = Number(li.dataset.i);
+    li.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    try { e.dataTransfer.setData('text/plain', String(dragFrom)); } catch (err) {}
+  });
+
+  listEl.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    var li = e.target.closest('.item');
+    Array.prototype.forEach.call(listEl.querySelectorAll('.item'), function (x) {
+      x.classList.remove('over');
+    });
+    if (li) li.classList.add('over');
+  });
+
+  listEl.addEventListener('drop', function (e) {
+    e.preventDefault();
+    var li = e.target.closest('.item');
+    if (li && dragFrom !== null) move(dragFrom, Number(li.dataset.i));
+    dragFrom = null;
+  });
+
+  listEl.addEventListener('dragend', function () {
+    dragFrom = null;
+    Array.prototype.forEach.call(listEl.querySelectorAll('.item'), function (x) {
+      x.classList.remove('dragging', 'over');
+    });
+  });
+
+  /* 화살표 */
+  listEl.addEventListener('click', function (e) {
+    var up = e.target.closest('[data-up]');
+    if (up) { move(Number(up.dataset.up), Number(up.dataset.up) - 1); return; }
+    var dn = e.target.closest('[data-down]');
+    if (dn) move(Number(dn.dataset.down), Number(dn.dataset.down) + 1);
+  });
+
+  /* 불러오기 */
+  loadEl.addEventListener('click', function () {
+    var tok = tokenEl.value.trim();
+    if (!tok) { msg('토큰을 넣어주세요.', '#c2317c'); return; }
+    if (tok.length < 40) { msg('토큰이 너무 짧아요. 복사할 때 잘린 것 같아요.', '#c2317c'); return; }
+    try { sessionStorage.setItem('gh-token', tok); } catch (e) {}
+
+    listEl.innerHTML = '';
+    saveEl.disabled = true;
+    msg('불러오는 중...');
+
+    api('data/' + fileEl.value + '.json').then(function (res) {
+      if (!res.ok) {
+        msg('불러오지 못했어요. (' + res.status + ') ' +
+          (res.j && res.j.message ? res.j.message : ''), '#c2317c');
+        return;
+      }
+      sha = res.j.sha;
+      data = JSON.parse(b64ToText(res.j.content));
+
+      key = ['blocks', 'posts', 'items', 'tracks'].filter(function (k) {
+        return Array.isArray(data[k]);
+      })[0] || '';
+
+      if (!key) { msg('이 파일에는 정렬할 목록이 없어요.', '#c2317c'); return; }
+
+      items = data[key];
+      if (items.length < 2) { msg('항목이 하나뿐이라 바꿀 게 없어요.'); render(); return; }
+
+      render();
+      msg('끌어서 옮기거나 ▲▼ 를 눌러주세요. (' + items.length + '개)');
+
+    }).catch(function () { msg('연결에 실패했어요.', '#c2317c'); });
+  });
+
+  /* 저장 */
+  saveEl.addEventListener('click', function () {
+    if (!data || !key) return;
+    saveEl.disabled = true;
+    msg('저장 중...');
+    data[key] = items;
+
+    api('data/' + fileEl.value + '.json', {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: 'Reorder ' + fileEl.value,
+        content: textToB64(JSON.stringify(data, null, 2)),
+        sha: sha
+      })
+    }).then(function (res) {
+      if (!res.ok) {
+        msg('저장하지 못했어요. ' + (res.j && res.j.message ? res.j.message : res.status), '#c2317c');
+        saveEl.disabled = false;
+        return;
+      }
+      if (res.j && res.j.content) sha = res.j.content.sha;
+      msg('저장했어요! 1~2분 뒤 사이트에 반영됩니다.', '#14705a');
+    }).catch(function () {
+      msg('연결에 실패했어요.', '#c2317c');
+      saveEl.disabled = false;
+    });
+  });
+
+}());
+</script>
+</body>
+</html>
