@@ -133,7 +133,7 @@
     {
       "type": "cps",
       "tag": "",
-      "heading": "권태",
+      "heading": "구시온",
       "items": [
         {
           "name": "에덴 x 써드",
@@ -143,8 +143,13 @@
           "dday_label": "❤️",
           "badge": "SUB",
           "color": "cream",
-          "tags": "전직 국가대표 X 암살자, 목줄 X 늑대개, 극도의 까칠 X 극도의 무심",
-          "images": [],
+          "tags": "전직 국가대표 X 전직 암살자, 목줄 X 늑대개, 극도의 까칠 X 극도의 무심",
+          "images": [
+            {
+              "image": "/media/구시온1.webp",
+              "caption": ""
+            }
+          ],
           "note": "줄과 늑대개의 앙칼지고 끔찍한 사냥놀이※"
         }
       ]
