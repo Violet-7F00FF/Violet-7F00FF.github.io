@@ -12,6 +12,14 @@
 <meta property="og:url" content="https://violet-7f00ff.github.io/">
 <!-- 남들이 내 배너를 가져갈 때 쓰이는 그림. banner.png 를 최상단에 올려주세요 -->
 <meta property="og:image" content="https://violet-7f00ff.github.io/banner.png">
+<meta property="og:image:width" content="800">
+<meta property="og:image:height" content="420">
+<meta property="og:image:alt" content="Cookie Monster 배너">
+<meta property="og:site_name" content="Cookie Monster">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:title" content="Cookie Monster">
+<meta name="twitter:description" content="쿠키 몬스터의 집!">
+<meta name="twitter:image" content="https://violet-7f00ff.github.io/banner.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
@@ -1010,6 +1018,63 @@ details[open] { padding-bottom: 12px; }
 
 .pmt .shots { margin-top: 0; }
 .pmt .snip { margin-bottom: 0; }
+
+/* ---------- 밑줄 · 형광펜 색 ---------- */
+
+:root { --u-color: var(--pink); }
+
+u {
+  text-decoration: underline;
+  text-decoration-color: var(--u-color);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+}
+
+u.pink   { --u-color: #ff5fa8; }
+u.cyan   { --u-color: #3fd3e8; }
+u.mint   { --u-color: #4ddcb4; }
+u.yellow { --u-color: #ffd93d; }
+u.grape  { --u-color: #9b6cf5; }
+u.coral  { --u-color: #ff9a5c; }
+u.sky    { --u-color: #6fb8ec; }
+u.rose   { --u-color: #ff8fc4; }
+
+/* 형광펜 */
+mark {
+  padding: 1px 3px;
+  color: var(--ink);
+  background: var(--yellow-l);
+  border-radius: 2px;
+}
+
+mark.pink   { background: var(--pink-l); }
+mark.cyan   { background: var(--cyan-l); }
+mark.mint   { background: var(--mint-l); }
+mark.yellow { background: var(--yellow-l); }
+mark.grape  { background: var(--grape-l); }
+mark.coral  { background: var(--peach-l); }
+mark.sky    { background: #d8e7ff; }
+mark.rose   { background: #ffe0ef; }
+
+/* 글씨 색 */
+.c-pink   { color: #e0348a; }
+.c-cyan   { color: #128fa8; }
+.c-mint   { color: #12967a; }
+.c-yellow { color: #b07d00; }
+.c-grape  { color: #7c4ce0; }
+.c-coral  { color: #d9503b; }
+.c-sky    { color: #3663cf; }
+.c-rose   { color: #cf3468; }
+
+/* 노란 상자 색 바꾸기 */
+.callout--pink   { background: var(--pink-l); color: #7a1a45; }
+.callout--cyan   { background: var(--cyan-l); color: #0a4a5a; }
+.callout--mint   { background: var(--mint-l); color: #0b5544; }
+.callout--yellow { background: var(--yellow-l); }
+.callout--grape  { background: var(--grape-l); color: #3e2384; }
+.callout--coral  { background: var(--peach-l); color: #7d2f1a; }
+.callout--sky    { background: #d8e7ff; color: #24407f; }
+.callout--rose   { background: #ffe0ef; color: #7d1f42; }
 
 /* ---------- 배너 교환 ---------- */
 
@@ -3154,6 +3219,23 @@ function toHTML(md) {
     return h ? '<h3 class="sub">' + esc(h) + '</h3>' : '';
   }
 
+  /* 관리자에서 링크로 색을 지정할 수 있게 합니다.
+     글자를 고르고 링크 버튼 → 주소에 #mint 처럼 적으면 색이 됩니다.
+     #mint-u 는 밑줄, #mint-h 는 형광펜 */
+  var COLORS = 'pink|cyan|mint|yellow|grape|coral|sky|rose';
+
+  function colorize(html) {
+    var re = new RegExp(
+      '<a href="#(' + COLORS + ')(?:-(u|h))?"[^>]*>([\\s\\S]*?)<\\/a>', 'g');
+    return String(html || '').replace(re, function (m, color, kind, inner) {
+      if (kind === 'u') return '<u class="' + color + '">' + inner + '</u>';
+      if (kind === 'h') return '<mark class="' + color + '">' + inner + '</mark>';
+      return '<span class="c-' + color + '">' + inner + '</span>';
+    });
+  }
+
+  function rich(md) { return colorize(toHTML(md)); }
+
   /* 디데이 계산 */
   function dday(dateStr, label) {
     if (!dateStr) return '';
@@ -3218,10 +3300,14 @@ function toHTML(md) {
         return '<div class="labelrow"><span class="label">' + esc(b.text) + '</span></div>';
 
       case 'text':
-        return heading(b.heading) + toHTML(b.body);
+        return heading(b.heading) +
+          '<div' + (b.color ? ' class="c-' + esc(b.color) + '"' : '') + '>' +
+          rich(b.body) + '</div>';
 
       case 'callout':
-        return heading(b.heading) + '<div class="callout">' + toHTML(b.body) + '</div>';
+        return heading(b.heading) +
+          '<div class="callout' + (b.color ? ' callout--' + esc(b.color) : '') + '">' +
+          rich(b.body) + '</div>';
 
       case 'tags':
         return heading(b.heading) + tagList(b.tags, b.color);
@@ -3267,7 +3353,7 @@ function toHTML(md) {
       case 'promptcard':
         return '<div class="pmt">' +
           (b.heading ? '<h4 class="pmt__name">' + esc(b.heading) + '</h4>' : '') +
-          (b.desc ? '<div class="pmt__desc">' + toHTML(b.desc) + '</div>' : '') +
+          (b.desc ? '<div class="pmt__desc">' + rich(b.desc) + '</div>' : '') +
           imageRow(b.images) +
           (b.code ? snip(b.filename || b.heading || 'prompt', b.code) : '') +
           '</div>';
