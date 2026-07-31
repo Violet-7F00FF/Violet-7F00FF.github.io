@@ -3289,8 +3289,23 @@ function toHTML(md) {
     grape: '#e6dbff', coral: '#ffe1cc', sky: '#d8e7ff', rose: '#ffe0ef'
   };
 
+  /* 코드 상자 안은 건드리지 않도록 */
+  function outsideCode(html, fn) {
+    var parts = String(html || '')
+      .split(/(<pre[\s\S]*?<\/pre>|<code[\s\S]*?<\/code>)/g);
+    for (var i = 0; i < parts.length; i++) {
+      if (i % 2 === 0) parts[i] = fn(parts[i]);
+    }
+    return parts.join('');
+  }
+
   function colorize(html) {
     html = String(html || '');
+
+    // ==글자== → 형광펜 (항목에서 고른 색)
+    html = outsideCode(html, function (s) {
+      return s.replace(/==([^=\n]+?)==/g, '<mark>$1</mark>');
+    });
 
     // #h / #u — 항목에서 고른 색을 씁니다
     html = html.replace(/<a href="#h"[^>]*>([\s\S]*?)<\/a>/g,
