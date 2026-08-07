@@ -197,6 +197,7 @@ collections:
                       - { name: pair, label: 페어명, widget: string, required: false, hint: 'CP 이름 옆 네모 박스에 들어갑니다' }
                       - { name: dday, label: 디데이 기준 날짜, widget: datetime, type: date, required: false, hint: '이 날짜부터 며칠 지났는지 D+0000 으로 나옵니다' }
                       - { name: dday_label, label: 디데이 앞에 붙일 말, widget: string, required: false, hint: '예) 함께한 지' }
+                      - { name: dday_plus1, label: 시작일을 1일째로 세기, widget: boolean, required: false, default: false, hint: '켜면 시작한 날이 D+1, 끄면 D+0 입니다' }
                       - { name: badge, label: 배지, widget: select, options: [MAIN, SUB, 관심], default: SUB }
                       - { name: color, label: 카드 색, widget: select, options: [pink, cyan, mint, peach, yellow, grape, coral, sky, sage, cream, rose, ice], default: pink }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
