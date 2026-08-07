@@ -229,6 +229,30 @@
     {
       "type": "cps",
       "tag": "",
+      "heading": "플뢰르",
+      "items": [
+        {
+          "name": "아모레 x 아메시스트",
+          "work": "ARCH",
+          "pair": "",
+          "dday": "2026-08-07",
+          "dday_label": "💐",
+          "badge": "SUB",
+          "color": "grape",
+          "tags": "여성의 신사 X 모두의 언니, 마피아 가문 차남 X 일본 황실 차남, 장미 X 라벤더",
+          "images": [
+            {
+              "image": "/media/은교1.webp",
+              "caption": ""
+            }
+          ],
+          "note": "마피아＆언니의 비밀 거래"
+        }
+      ]
+    },
+    {
+      "type": "cps",
+      "tag": "",
       "heading": "소테리아",
       "items": [
         {
