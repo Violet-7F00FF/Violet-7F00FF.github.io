@@ -1587,14 +1587,51 @@ mark.rose   { background: #ffe0ef; }
   text-align: center;
 }
 
-.gthumbs {
+/* 썸네일 — 한 줄에 5개, 옆으로 넘기기 */
+.gwrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.gnav {
+  flex: none;
+  width: 28px;
+  height: 58px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+  place-items: center;
+  font-family: var(--mini);
+  font-size: 12px;
+  color: var(--outline);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+}
+
+.gnav:hover { background: var(--yellow); }
+.gnav:active { transform: translate(2px,2px); box-shadow: none; }
+.gnav[disabled] { opacity: 0.35; cursor: default; transform: none; }
+
+.gthumbs {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 4 * 8px) / 5);
   gap: 8px;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 3px 0 6px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
 }
+
+.gthumbs::-webkit-scrollbar { display: none; }
+
+.gthumbs li { scroll-snap-align: start; }
 
 .gthumbs button {
   display: block;
@@ -1605,6 +1642,18 @@ mark.rose   { background: #ffe0ef; }
   background: #fff;
   border: 3px solid var(--outline);
   box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+}
+
+.gcount {
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+  text-align: center;
+  margin: 4px 0 0;
+}
+
+@media (max-width: 560px) {
+  .gthumbs { grid-auto-columns: calc((100% - 3 * 8px) / 4); }
 }
 
 .gthumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -2358,7 +2407,12 @@ mark.rose   { background: #ffe0ef; }
       <p class="label">C:\HEART\gallery\</p>
       <div class="gview" id="gview"></div>
       <p class="gcap" id="gcap"></p>
-      <ul class="gthumbs" id="gthumbs"></ul>
+      <div class="gwrap">
+        <button type="button" class="gnav" id="gprev" aria-label="이전">◀</button>
+        <ul class="gthumbs" id="gthumbs"></ul>
+        <button type="button" class="gnav" id="gnext" aria-label="다음">▶</button>
+      </div>
+      <p class="gcount" id="gcount"></p>
     </div>
   </section>
 
@@ -2910,6 +2964,9 @@ function toHTML(md) {
   var view = document.getElementById('gview');
   var cap = document.getElementById('gcap');
   var thumbs = document.getElementById('gthumbs');
+  var prevBtn = document.getElementById('gprev');
+  var nextBtn = document.getElementById('gnext');
+  var countEl = document.getElementById('gcount');
   if (!view) return;
 
   function build(items) {
@@ -2919,7 +2976,10 @@ function toHTML(md) {
       return;
     }
 
+    var current = 0;
+
     function show(i) {
+      current = i;
       var item = items[i];
       view.innerHTML = '';
       var img = document.createElement('img');
@@ -2930,9 +2990,44 @@ function toHTML(md) {
       };
       view.appendChild(img);
       cap.textContent = item.caption || '';
-      Array.prototype.forEach.call(thumbs.querySelectorAll('button'), function (b, n) {
+      if (countEl) countEl.textContent = (i + 1) + ' / ' + items.length;
+
+      var btns = thumbs.querySelectorAll('button');
+      Array.prototype.forEach.call(btns, function (b, n) {
         b.classList.toggle('on', n === i);
       });
+      // 고른 그림이 안 보이면 그 자리로 밀어줍니다
+      if (btns[i]) {
+        var li = btns[i].parentNode;
+        var left = li.offsetLeft;
+        var right = left + li.offsetWidth;
+        if (left < thumbs.scrollLeft || right > thumbs.scrollLeft + thumbs.clientWidth) {
+          thumbs.scrollTo({ left: left - 4, behavior: 'smooth' });
+        }
+      }
+      syncNav();
+    }
+
+    function syncNav() {
+      if (!prevBtn) return;
+      var max = thumbs.scrollWidth - thumbs.clientWidth - 2;
+      prevBtn.disabled = thumbs.scrollLeft <= 2;
+      nextBtn.disabled = thumbs.scrollLeft >= max;
+      var few = items.length <= 5;
+      prevBtn.hidden = few;
+      nextBtn.hidden = few;
+    }
+
+    function page(dir) {
+      thumbs.scrollBy({ left: dir * thumbs.clientWidth, behavior: 'smooth' });
+      setTimeout(syncNav, 320);
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () { page(-1); });
+      nextBtn.addEventListener('click', function () { page(1); });
+      thumbs.addEventListener('scroll', syncNav);
+      window.addEventListener('resize', syncNav);
     }
 
     items.forEach(function (item, i) {
@@ -3336,7 +3431,7 @@ function toHTML(md) {
   }
 
   /* 디데이 계산 */
-  function dday(dateStr, label) {
+  function dday(dateStr, label, countToday) {
     if (!dateStr) return '';
     var p = String(dateStr).slice(0, 10).split('-');
     if (p.length < 3) return '';
@@ -3345,6 +3440,8 @@ function toHTML(md) {
     var t = new Date();
     t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
     var diff = Math.round((t - d) / 86400000);
+    // 당일을 1일째로 셀지 여부
+    if (countToday && diff >= 0) diff += 1;
     var txt = diff >= 0 ? ('D+' + diff) : ('D-' + Math.abs(diff));
     return '<span class="cp__dday">' + (label ? esc(label) + ' ' : '') + txt + '</span>';
   }
@@ -3436,7 +3533,7 @@ function toHTML(md) {
             '<div class="cp__head">' +
             '<h4 class="cp__name">' + esc(c.name) + '</h4>' +
             (c.pair ? '<span class="cp__pair">' + esc(c.pair) + '</span>' : '') +
-            dday(c.dday, c.dday_label) +
+            dday(c.dday, c.dday_label, c.dday_plus1) +
             (c.badge ? '<span class="' + badgeCls + '">' + esc(c.badge) + '</span>' : '') +
             '</div>' +
             (c.note ? '<p class="cp__note cp__note--top">' + nl2br(c.note) + '</p>' : '') +
@@ -3466,7 +3563,7 @@ function toHTML(md) {
         }
         [
           ['홈페이지 링크.txt', b.link],
-          ['배너 이미지 주소.txt', b.image],
+          ['배너 그림 주소.txt', b.image],
           ['이름.txt', b.title],
           ['한 줄 소개.txt', b.desc]
         ].forEach(function (r) {
