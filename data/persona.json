@@ -33,8 +33,8 @@
           "spec": "#복제_인간 #인공_가이드 #번개",
           "spec_color": "yellow",
           "look": "1 girl, closed_mouth, expressionless, yellow hair, 2::very low-tied::, twintails, very long hair, straight hair, crossed bangs, purple eyes, sharp cat-eyes, dark eyelashes, small medium breasts,",
-          "outfit": "white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, balck boots",
-          "prompt": "1 girl, closed_mouth, expressionless, yellow hair, 2::very low-tied::, twintails, very long hair, straight hair, crossed bangs, purple eyes, sharp cat-eyes, dark eyelashes, small medium breasts, white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, balck boots"
+          "outfit": "white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, black knee boots",
+          "prompt": "1 girl, closed_mouth, expressionless, yellow hair, 2::very low-tied::, twintails, very long hair, straight hair, crossed bangs, purple eyes, sharp cat-eyes, dark eyelashes, small medium breasts, white suit, black turtleneck shirt, white pants, double-breasted, simple buttons, black buttons, waist belt, balck knee boots"
         },
         {
           "name": "알파",
@@ -54,7 +54,9 @@
           "quote": "신들의 오만을, 끌어내리겠다.",
           "spec": "#복제_인간 #인공_센티넬 #번개",
           "spec_color": "yellow",
-          "prompt": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes, thin_lips, black suit, black suit pants, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, white shirt, black tie, formal shoes, waist belt, thick black belt, black socks,"
+          "look": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes,",
+          "outfit": "black suit, white shirt, black tie, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, waist belt, thick black belt, black suit pants, black socks, black formal shoes,",
+          "prompt": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes, black suit, white shirt, black tie, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, waist belt, thick black belt, black suit pants, black socks, black formal shoes,"
         },
         {
           "name": "라피스",
@@ -74,6 +76,8 @@
           "quote": "네 녀석들의 미래는 네 손에 있는 거다!",
           "spec": "#미친_살쾡이 #가이드 #물",
           "spec_color": "cyan",
+          "look": "1 girl, silver-ash hair, vivid blue left streaked bangs, bangs, vivid blue_inner_hair, heart ahoge, straight hair, long hair, 2::high hair ring::, vivid blue eyes, slit pupils, sharp cat-eyes, dark eyelashes, cat-like smile, upturned mouth corners, small mole below the left side of mouth, small medium breast,",
+          "outfit": "white turtleneck suit, white pants, black buttons, double-breasted, waist black belt, black boots",
           "prompt": "1 girl, silver-ash hair, vivid blue left streaked bangs, bangs, vivid blue_inner_hair, heart ahoge, straight hair, long hair, 2::high hair ring::, vivid blue eyes, slit pupils, sharp cat-eyes, dark eyelashes, cat-like smile, upturned mouth corners, small mole below the left side of mouth, small medium breast, white turtleneck suit, white pants, black buttons, double-breasted, waist black belt, black boots"
         },
         {
@@ -94,6 +98,8 @@
           "quote": "조율 완료.. 지휘자님, 지휘를.",
           "spec": "#첼리스트 #센티넬 #바람",
           "spec_color": "mint",
+          "look": "1 girl, closed_mouth, brown hair, dark green_inner_hair, long hair, half up half down braid, blunt ends, asymmetrical bangs, dark green eyes, tareme, expressionless, medium breasts,",
+          "outfit": "black suit, black shirt, mermaid line black skirt, long skirt, balck wedge_heels, green ribbon tie, simple gold epaulettes, gold buttons, double-breasted, black belt, pantyhose, holding cello upright beside her, holding a bow in her right hand",
           "prompt": "1 girl, closed_mouth, brown hair, dark green_inner_hair, long hair, half up half down braid, blunt ends, asymmetrical bangs, dark green eyes, tareme, expressionless, medium breasts, black suit, black shirt, mermaid line black skirt, long skirt, balck wedge_heels, green ribbon tie, simple gold epaulettes, gold buttons, double-breasted, black belt, pantyhose, holding cello upright beside her, holding a bow in her right hand"
         },
         {
@@ -114,6 +120,8 @@
           "quote": "그레이는 흥정 같은 거 안 받아. 그 정도는 알지?",
           "spec": "#정보상 #센티넬 #불",
           "spec_color": "pink",
+          "look": "1 girl, close mouth,expressionless, gray hair, low twintails, long hair, hair between eyes, black thin hair tie, 3::heterochromia(((deep yellow eye, deep pink eye)))::, tsurime, upturned eyes, medium breasts,",
+          "outfit": "2:: V-neck black suit::, 2::black turtleneck shirt::, black suit pants, 2::simple gold epaulettes::, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots",
           "prompt": "1 girl, close mouth,expressionless, gray hair, low twintails, long hair, hair between eyes, black thin hair tie, 3::heterochromia(((deep yellow eye, deep pink eye)))::, tsurime, upturned eyes, medium breasts, 2:: V-neck black suit::, 2::black turtleneck shirt::, black suit pants, 2::simple gold epaulettes::, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots"
         },
         {
@@ -134,7 +142,9 @@
           "quote": "빠를 때는 달이 가깝지. 그러나 늦을 때는 달은 멀 뿐이다.",
           "spec": "#암살자 #센티넬 #얼음",
           "spec_color": "pink",
-          "prompt": "1 girl, black hair, wolf cut, short hair, red eyes, tsurime, dog mouth mask, large breast, black suit, black drees shirt, red tie, black suit pants, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots, Black leather fingerless gloves, black nails"
+          "look": "1 girl, black hair, wolf cut, short hair, red eyes, tsurime, black nails, large breast,",
+          "outfit": "dog mouth mask, lack nails, black suit, black drees shirt, red tie, black leather fingerless gloves, black suit pants, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots,",
+          "prompt": "1 girl, black hair, wolf cut, short hair, red eyes, tsurime, black nails, large breast, dog mouth mask, black suit, black drees shirt, red tie, black leather fingerless gloves, black suit pants, 2::black buttons::, double-breasted, 2::simple lapel, no decor on lapel::, black boots,"
         },
         {
           "name": "브라이어",
@@ -154,6 +164,8 @@
           "quote": "네 존재가 어리석음이야. 그것도 몰라?",
           "spec": "#고고한_장미 #가이드 #불",
           "spec_color": "pink",
+          "look": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::fipped hair::, 2::dark pink eyes::, half-closed eyes, white eyelashes,",
+          "outfit": "white suit, white pants, 2::white dress shirt::, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, 2::gold buttons::, double-breasted, ear piercing,",
           "prompt": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::fipped hair::, 2::dark pink eyes::, half-closed eyes, white eyelashes, white suit, white pants, 2::white dress shirt::, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, 2::gold buttons::, double-breasted, ear piercing,"
         },
         {
@@ -174,6 +186,8 @@
           "quote": "오늘은.. 어떤 꽃이 있으려나.",
           "spec": "#나비_박제사 #센티넬 #풀",
           "spec_color": "cyan",
+          "look": "1 girl, 2::pale white skin::, sitting, black wheelchair, midnight blue hair, cyan inner hair, 1.5::twintails::, hair between eyes, long hair, crossed bangs, black eyes, 1.5::cyan shining pupil::, hair between eyes, tareme, 2::cyan butterfly on eye::, cover one eye, upturned eyes, seductive smile, close mouth, large breast, 1.5::cyan rose both hair tie::, 1.5::black nail::,",
+          "outfit": "off-shoulder black dress, mermaid line dress, bare shoulders, halter neck, see-through, mesh panel, rose race overlay, ruffle sleeve, gold butterfly choker, black heel,",
           "prompt": "1 girl, 2::pale white skin::, sitting, black wheelchair, midnight blue hair, cyan inner hair, 1.5::twintails::, hair between eyes, long hair, crossed bangs, black eyes, 1.5::cyan shining pupil::, hair between eyes, tareme, 2::cyan butterfly on eye::, cover one eye, upturned eyes, seductive smile, close mouth, large breast, 1.5::cyan rose both hair tie::, 1.5::black nail::, off-shoulder black dress, mermaid line dress, bare shoulders, halter neck, see-through, mesh panel, rose race overlay, ruffle sleeve, gold butterfly choker, black heel,"
         },
         {
@@ -194,6 +208,8 @@
           "quote": "에헤헤.. 이번에는 제대로 할 수 있을 거예요. 아마도요!",
           "spec": "#덜렁이_사신님 #가이드 #얼음",
           "spec_color": "mint",
+          "look": "1 girl, smile, white hair, bluish hair, wispy bangs, long hair, 2::soft wave hair::, light sky eyes, tareme, 2::short eyebrows::, large breast,",
+          "outfit": "white suit, 2::white dress shirt::, light sky necktie, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, gold button, 3::white long pleated skirt::, white combat boots\n\n스트레이 한정 - 센티넬.ver\nblack suit, 2::white dress shirt::, light sky necktie, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, gold button, 3::black long pleated skirt::, black combat boots",
           "prompt": "1 girl, smile, white hair, bluish hair, wispy bangs, long hair, 2::soft wave hair::, light sky eyes, tareme, 2::short eyebrows::, large breast, white suit, 2::white dress shirt::, light sky necktie, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, gold button, 3::white long pleated skirt::, white combat boots\n\n스트레이 한정 - 센티넬.ver\nblack suit, 2::white dress shirt::, light sky necktie, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, gold button, 3::black long pleated skirt::, black combat boots"
         },
         {
@@ -214,6 +230,8 @@
           "quote": "ウチ는 아메시스트, 잘 부탁해.",
           "spec": "#모두의_언니 #가이드 #풀",
           "spec_color": "yellow",
+          "look": "1 male, 0.3::muscular::, close mouth, gentle smile, drak purple hair, wolf cut, long hair, side part bangs, blunt bangs, light pink eyes, tareme, gentle eyes, upturned eyes, prominent eyelashes, thick eyebrows,",
+          "outfit": "white suit, white dress shirt, dark purple tie, 3::simple lapel, no decor on lapel::, 2::black buttons::, double-breasted, white pants, balck formal shoes,",
           "prompt": "1 male, 0.3::muscular::, close mouth, gentle smile, drak purple hair, wolf cut, long hair, side part bangs, blunt bangs, light pink eyes, tareme, gentle eyes, upturned eyes, prominent eyelashes, thick eyebrows, white suit, white dress shirt, dark purple tie, 3::simple lapel, no decor on lapel::, 2::black buttons::, double-breasted, white pants, balck formal shoes,"
         },
         {
@@ -234,6 +252,8 @@
           "quote": "네 멍청함을 탓해, 보잘 것 없는 삶이잖아.",
           "spec": "#심연 #센티넬 #물",
           "spec_color": "mint",
+          "look": "1 girl, smile, gentle face, gray hair, 0.4::green hair::, short hair, swept bangs, single low right side small bun, gray eyes, 0.4::green eyes::, tareme, large breast,",
+          "outfit": "black suit, white dress shirt, gray necktie, 2::shoulder board::, 3::simple lapel, no decor on lapel::, black A-line  short skirt, double-breasted, black buttons, balck formal shoes,",
           "prompt": "1 girl, smile, gentle face, gray hair, 0.4::green hair::, short hair, swept bangs, single low right side small bun, gray eyes, 0.4::green eyes::, tareme, large breast, black suit, white dress shirt, gray necktie, 2::shoulder board::, 3::simple lapel, no decor on lapel::, black A-line  short skirt, double-breasted, black buttons, balck formal shoes,"
         },
         {
@@ -254,6 +274,8 @@
           "quote": "...마녀의 밤은 끝나지 않아.",
           "spec": "#마녀 #가이드 #바람",
           "spec_color": "cyan",
+          "look": "1 girl, 2::pale skin::, dark blue hair, hime cut, long hair, black eyes, tsurime, expressionless, close mouth, medium breasts,",
+          "outfit": "white suit, dark blue dress shirt, white necktie, 2::shoulder board::, 3::white lapel, simple lapel, no decor on lapel::, double-breasted, black buttons, white gored long skirt, dark blue heel,",
           "prompt": "1 girl, 2::pale skin::, dark blue hair, hime cut, long hair, black eyes, tsurime, expressionless, close mouth, medium breasts, white suit, dark blue dress shirt, white necktie, 2::shoulder board::, 3::white lapel, simple lapel, no decor on lapel::, double-breasted, black buttons, white gored long skirt, dark blue heel,"
         },
         {
@@ -274,6 +296,8 @@
           "quote": "고통은 전장을 잇는 축복이다.",
           "spec": "#전쟁의_현신 #가이드 #무속성",
           "spec_color": "pink",
+          "look": "1 girl, evil grin, close mouth, dark red hair, low-braided long hair, bangs, messy hair, white eyes, tsurime, shining eyes, medium breasts,",
+          "outfit": "white suit Jacket, Jacket on shoulders, white dress shirt, 3::shoulder board::, 2::simple lapel, no decor on lapel::, white suit pants, white socks, white formal shoes,",
           "prompt": "1 girl, evil grin, close mouth, dark red hair, low-braided long hair, bangs, messy hair, white eyes, tsurime, shining eyes, medium breasts, white suit Jacket, Jacket on shoulders, white dress shirt, 3::shoulder board::, 2::simple lapel, no decor on lapel::, white suit pants, white socks, white formal shoes,"
         },
         {
@@ -294,6 +318,8 @@
           "quote": "스테이지 활성화. 버그 발견, 침입 개시.",
           "spec": "#천재_엔지니어 #센티넬 #무속성",
           "spec_color": "pink",
+          "look": "1 girl, pale skin, expressionless, close mouth, pastel pink hair, long hair, bangs, crossed bangs, light purple eyes, tsurime, medium breasts, glossy light purple bear ear headset, holographic ear accents,",
+          "outfit": "white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,",
           "prompt": "1 girl, pale skin, expressionless, close mouth, pastel pink hair, long hair, bangs, crossed bangs, light purple eyes, tsurime, medium breasts, glossy light purple bear ear headset, holographic ear accents, white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,"
         },
         {
@@ -314,6 +340,8 @@
           "quote": "그대는 어리석은 도마뱀 빌인가? 아니면 잠꾸러기 산쥐인가!",
           "spec": "#미치광이_모자장수 #센티넬 #무속성",
           "spec_color": "yellow",
+          "look": "1 girl, 1.5::aged up::, pale skin, close mouth, smile, calm, silver hair, short hair, bob cut, messy hair, 1.5::parted bangs::, black eyes, tsurime, empty eyes, large breasts,",
+          "outfit": "black fedora, white dress shirt, black necktie, black suit Jacket, Jacket on shoulders, 3::shoulder board::, 2::simple lapel, no decor on lapel::, black suit pants, black belt, black socks, formal shoes,",
           "prompt": "1 girl, 1.5::aged up::, pale skin, close mouth, smile, calm, silver hair, short hair, bob cut, messy hair, 1.5::parted bangs::, black eyes, tsurime, empty eyes, large breasts, black fedora, white dress shirt, black necktie, black suit Jacket, Jacket on shoulders, 3::shoulder board::, 2::simple lapel, no decor on lapel::, black suit pants, black belt, black socks, formal shoes,"
         },
         {
@@ -334,6 +362,8 @@
           "quote": "펜리르, 시르카, 바실! 다들 준비 됐어? 좋아, 출발이야~!!",
           "spec": "#괴수_조련사 #센티넬 #무속성",
           "spec_color": "pink",
+          "look": "1 girl, pale skin, smail, grin, pastel red hair, teal_inner_hair, short hair, bangs, single hair intake, 1.5::front braid::, teal eyes, tareme, gentle eyes, huge breasts,",
+          "outfit": "techwear, teal ribbon hairpin, black leather oversized coat, teal lining, white crop top dress shirt, cleavage cutout, black chest harness, black necktie between breasts, black belt, black leather shorts, black knee boots",
           "prompt": "1 girl, pale skin, smail, grin, pastel red hair, teal_inner_hair, short hair, bangs, single hair intake, 1.5::front braid::, teal eyes, tareme, gentle eyes, huge breasts, techwear, teal ribbon hairpin, black leather oversized coat, teal lining, white crop top dress shirt, cleavage cutout, black chest harness, black necktie between breasts, black belt, black leather shorts, black knee boots"
         }
       ]
