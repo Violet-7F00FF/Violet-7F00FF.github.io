@@ -3630,6 +3630,8 @@ function toHTML(md) {
               nl2br(p.spec) + '</div>' : '') +
             tagList(p.tags, 'peach') +
             imageRow(p.images) +
+            (p.look ? snip('외형.txt', p.look) : '') +
+            (p.outfit ? snip('의상.txt', p.outfit) : '') +
             (p.prompt ? snip((p.name || 'persona') + '.txt', p.prompt) : '') +
             '</div>';
         }).join('');
