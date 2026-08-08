@@ -306,6 +306,8 @@ collections:
                         fields:
                           - { name: image, label: 사진, widget: image }
                           - { name: caption, label: 설명, widget: string, required: false }
+                      - { name: look, label: 외형, widget: text, required: false, hint: '사진 아래 복사 상자로 나옵니다' }
+                      - { name: outfit, label: 의상, widget: text, required: false, hint: '외형 아래 복사 상자로 나옵니다' }
                       - { name: prompt, label: 프롬프트, widget: text, required: false }
 
   # ---------- 쿠키 (배너 교환) ----------
