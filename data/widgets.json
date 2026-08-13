@@ -8,347 +8,420 @@
       "type": "text",
       "tag": "",
       "heading": "📢 ARCH 위젯 배포",
+      "color": "",
+      "mark_color": "yellow",
+      "u_color": "pink",
       "body": "- 원하시는 위젯의 이미지를 누르시면 해당 위젯을 사용할 수 있는 링크로 이동됩니다.\n- 사용해 보시고, 버그가 있을 경우에는 디엠으로 연락주시면 최대한 빠르게 해결해 보겠습니다.\n- 지시사항의 {{char}}, {{user}}를 npc, pc로 변경하시면 유저노트를 절감할 수 있으나, 오류가 발생할 수 있습니다."
     },
     {
       "type": "text",
       "tag": "",
       "heading": "💜위젯 안내",
-      "body": "♡ ARCH 전용 유저 위젯입니다.\n♡ 크리에이티브 위젯의 대체 위젯입니다.\n♡ 실제 이모티콘은 gif와 다른 모양으로 출력됩니다.\n♡ SIMPLE, CUTE - 유저노트 약 590자의 여유가 필요합니다.\n♡ 저스티스의 수사일지 - 유저노트 약 650자의 여유가 필요합니다.\n♡ 웨딩 - 유저노트 약 500자의 여유가 필요합니다.\n♡ 별과/하트와 우주 - 유저노트 약 580자의 여유가 필요합니다."
+      "color": "",
+      "mark_color": "yellow",
+      "u_color": "pink",
+      "body": "♡ ARCH 전용 유저 위젯입니다.\n♡ 크리에이티브 위젯의 대체 위젯입니다.\n♡ 실제 이모티콘은 gif와 다른 모양으로 출력됩니다.\n\n\n♡ SIMPLE, CUTE - 유저노트 약 590자의 여유가 필요합니다.\n♡ 저스티스의 수사일지 - 유저노트 약 650자의 여유가 필요합니다.\n♡ 웨딩 · 심해 속 해파리 - 유저노트 약 500자의 여유가 필요합니다.\n♡ 별과/하트와 우주 - 유저노트 약 580자의 여유가 필요합니다."
     },
     {
       "type": "text",
       "tag": "",
       "heading": "💜위젯 안내",
-      "body": "✕ ARCH 외 사용을 금합니다.\n✕ 무단 수정 및 자작 발언 금지 바랍니다."
+      "color": "",
+      "mark_color": "yellow",
+      "u_color": "pink",
+      "body": "✕ ARCH 외 사용을 금합니다.\n✕ 무단 수정 및 자작 발언 금합니다."
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · 🔥",
       "image": "/media/kakaotalk_20260529_205020283_03.webp",
-      "link": "https://caveduck.io/ko/widgets/share/d8ca75c4-8431-45cd-bb07-8b3e007ac811"
+      "link": "https://caveduck.io/ko/widgets/share/d8ca75c4-8431-45cd-bb07-8b3e007ac811",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · 🔥"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · 💧",
       "image": "/media/kakaotalk_20260529_205020283_01.webp",
-      "link": "https://caveduck.io/ko/widgets/share/2a604623-e0cf-4837-ac62-1ff26270a645"
+      "link": "https://caveduck.io/ko/widgets/share/2a604623-e0cf-4837-ac62-1ff26270a645",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · 💧"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · 🌿",
       "image": "/media/kakaotalk_20260529_205020283_06.webp",
-      "link": "https://caveduck.io/ko/widgets/share/bf890b4a-4669-487f-9946-6e0e0d61ea6a"
+      "link": "https://caveduck.io/ko/widgets/share/bf890b4a-4669-487f-9946-6e0e0d61ea6a",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · 🌿"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · ⚡",
       "image": "/media/kakaotalk_20260529_205020283_02.webp",
-      "link": "https://caveduck.io/ko/widgets/share/fe58dcbd-01ee-4f39-8dee-f59e4a8f4f3b"
+      "link": "https://caveduck.io/ko/widgets/share/fe58dcbd-01ee-4f39-8dee-f59e4a8f4f3b",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · ⚡"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · 💨",
       "image": "/media/kakaotalk_20260529_205020283.webp",
-      "link": "https://caveduck.io/ko/widgets/share/4ac1c106-08d3-4db6-be2c-063128e1f784"
+      "link": "https://caveduck.io/ko/widgets/share/4ac1c106-08d3-4db6-be2c-063128e1f784",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · 💨"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · ❄️",
       "image": "/media/kakaotalk_20260529_205020283_08.webp",
-      "link": "https://caveduck.io/ko/widgets/share/f7b1deca-a2f8-42b9-bd73-631d3b9a40ab"
+      "link": "https://caveduck.io/ko/widgets/share/f7b1deca-a2f8-42b9-bd73-631d3b9a40ab",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · ❄️"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "CUTE",
-      "meta": "CUTE · 🖤",
       "image": "/media/kakaotalk_20260529_205020283_07.webp",
-      "link": "https://caveduck.io/ko/widgets/share/5da6f184-a377-4b5d-a778-eddfbead4655"
-    },
-    {
-      "type": "widget",
+      "link": "https://caveduck.io/ko/widgets/share/5da6f184-a377-4b5d-a778-eddfbead4655",
       "desc": "",
       "name": "CUTE",
-      "meta": "CUTE · 💗",
+      "meta": "CUTE · 🖤"
+    },
+    {
+      "type": "widget",
       "image": "/media/kakaotalk_20260529_205020283_04.webp",
-      "link": "https://caveduck.io/ko/widgets/share/d94d0967-18a9-4809-9171-c675c884c890"
+      "link": "https://caveduck.io/ko/widgets/share/d94d0967-18a9-4809-9171-c675c884c890",
+      "desc": "",
+      "name": "CUTE",
+      "meta": "CUTE · 💗"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "SIMPLE",
-      "meta": "SIMPLE · 🔥",
       "image": "/media/심플_불속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/dbfe73aa-42b5-42f4-9203-24e5c0bc4077"
+      "link": "https://caveduck.io/ko/widgets/share/dbfe73aa-42b5-42f4-9203-24e5c0bc4077",
+      "desc": "",
+      "name": "SIMPLE",
+      "meta": "SIMPLE · 🔥"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "SIMPLE",
-      "meta": "SIMPLE · 💧",
       "image": "/media/심플_물속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/f64e394a-a003-47c5-a9fe-52df1cf59ca8"
+      "link": "https://caveduck.io/ko/widgets/share/f64e394a-a003-47c5-a9fe-52df1cf59ca8",
+      "desc": "",
+      "name": "SIMPLE",
+      "meta": "SIMPLE · 💧"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "SIMPLE",
-      "meta": "SIMPLE · 🌿",
       "image": "/media/심플_풀속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/dbd54cd4-538a-4a58-89f5-61bc34b424f0"
+      "link": "https://caveduck.io/ko/widgets/share/dbd54cd4-538a-4a58-89f5-61bc34b424f0",
+      "desc": "",
+      "name": "SIMPLE",
+      "meta": "SIMPLE · 🌿"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "SIMPLE",
-      "meta": "SIMPLE · ⚡",
       "image": "/media/심플_번개속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/3ec82fdc-2733-40ab-a43e-a1f95186207e"
+      "link": "https://caveduck.io/ko/widgets/share/3ec82fdc-2733-40ab-a43e-a1f95186207e",
+      "desc": "",
+      "name": "SIMPLE",
+      "meta": "SIMPLE · ⚡"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "SIMPLE",
-      "meta": "SIMPLE · 💨",
       "image": "/media/심플_바람속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/5403949d-fc46-4cdf-ad9e-633a159654b0"
+      "link": "https://caveduck.io/ko/widgets/share/5403949d-fc46-4cdf-ad9e-633a159654b0",
+      "desc": "",
+      "name": "SIMPLE",
+      "meta": "SIMPLE · 💨"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "SIMPLE",
-      "meta": "SIMPLE · ❄️",
       "image": "/media/심플_얼음속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/38d779c4-fc7e-4f36-a36c-1ea076f16dd2"
-    },
-    {
-      "type": "widget",
+      "link": "https://caveduck.io/ko/widgets/share/38d779c4-fc7e-4f36-a36c-1ea076f16dd2",
       "desc": "",
       "name": "SIMPLE",
-      "meta": "SIMPLE · 🖤",
-      "image": "/media/심플_무속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/afe6e428-db0d-49d9-b209-229800198057"
+      "meta": "SIMPLE · ❄️"
     },
     {
       "type": "widget",
+      "image": "/media/심플_무속성.webp",
+      "link": "https://caveduck.io/ko/widgets/share/afe6e428-db0d-49d9-b209-229800198057",
+      "desc": "",
+      "name": "SIMPLE",
+      "meta": "SIMPLE · 🖤"
+    },
+    {
+      "type": "widget",
+      "image": "/media/수사일지.webp",
+      "link": "https://caveduck.io/ko/widgets/share/9d2d7331-85e1-4c84-8c31-bde6bdbd00bd",
       "desc": "",
       "name": "JUSTICE",
-      "meta": "JUSTICE INVESTIGATION LOG🕶️",
-      "image": "/media/수사일지.webp",
-      "link": "https://caveduck.io/ko/widgets/share/9d2d7331-85e1-4c84-8c31-bde6bdbd00bd"
+      "meta": "JUSTICE INVESTIGATION LOG🕶️"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · 🔥",
       "image": "/media/웨딩.webp",
-      "link": "https://caveduck.io/ko/widgets/share/ee390267-9819-4427-9131-abc0b36edeb9"
+      "link": "https://caveduck.io/ko/widgets/share/ee390267-9819-4427-9131-abc0b36edeb9",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · 🔥"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · 💧",
       "image": "/media/웨딩_물속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/88b7077c-d664-4d0f-883d-934c8fd92be0"
+      "link": "https://caveduck.io/ko/widgets/share/88b7077c-d664-4d0f-883d-934c8fd92be0",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · 💧"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · 🌿",
       "image": "/media/웨딩_풀속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/0bd7c6ba-5479-434c-96c7-6edf96c8fe13"
+      "link": "https://caveduck.io/ko/widgets/share/0bd7c6ba-5479-434c-96c7-6edf96c8fe13",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · 🌿"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · ⚡",
       "image": "/media/웨딩_번개속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/91f3e431-d27f-4923-b952-33428776656d"
+      "link": "https://caveduck.io/ko/widgets/share/91f3e431-d27f-4923-b952-33428776656d",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · ⚡"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · 💨",
       "image": "/media/웨딩_바람속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/728b60e7-1853-40d3-8566-3761996928f7"
+      "link": "https://caveduck.io/ko/widgets/share/728b60e7-1853-40d3-8566-3761996928f7",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · 💨"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · ❄️",
       "image": "/media/웨딩_얼음속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/9178cd0a-e618-4127-b5e1-1224e6f272b2"
+      "link": "https://caveduck.io/ko/widgets/share/9178cd0a-e618-4127-b5e1-1224e6f272b2",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · ❄️"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "WEDDING",
-      "meta": "WEDDING · 🖤",
       "image": "/media/웨딩_무속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/5a7f6041-cf5f-4f62-b683-74b8b55871ee"
-    },
-    {
-      "type": "widget",
+      "link": "https://caveduck.io/ko/widgets/share/5a7f6041-cf5f-4f62-b683-74b8b55871ee",
       "desc": "",
       "name": "WEDDING",
-      "meta": "WEDDING · 💗",
+      "meta": "WEDDING · 🖤"
+    },
+    {
+      "type": "widget",
       "image": "/media/웨딩_핑크.webp",
-      "link": "https://caveduck.io/ko/widgets/share/35853f4a-3ced-4204-b4e8-cd60be9efdf0"
+      "link": "https://caveduck.io/ko/widgets/share/35853f4a-3ced-4204-b4e8-cd60be9efdf0",
+      "desc": "",
+      "name": "WEDDING",
+      "meta": "WEDDING · 💗"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "별과 우주",
-      "meta": "별과 우주 · 🔥",
       "image": "/media/별과_우주_불속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/d677ff2d-f10d-463e-842d-f85544b80a00"
+      "link": "https://caveduck.io/ko/widgets/share/d677ff2d-f10d-463e-842d-f85544b80a00",
+      "desc": "",
+      "name": "별과 우주",
+      "meta": "별과 우주 · 🔥"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "별과 우주",
-      "meta": "별과 우주 · 💧",
       "image": "/media/별과_우주_물속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/5cd980f4-245b-4ba0-bdcc-b9b630e7215e"
+      "link": "https://caveduck.io/ko/widgets/share/5cd980f4-245b-4ba0-bdcc-b9b630e7215e",
+      "desc": "",
+      "name": "별과 우주",
+      "meta": "별과 우주 · 💧"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "별과 우주",
-      "meta": "별과 우주 · 🌿",
       "image": "/media/별과_우주_풀속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/6396bd3d-859a-4c3f-b55a-0d9fd5d29f7a"
+      "link": "https://caveduck.io/ko/widgets/share/6396bd3d-859a-4c3f-b55a-0d9fd5d29f7a",
+      "desc": "",
+      "name": "별과 우주",
+      "meta": "별과 우주 · 🌿"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "별과 우주",
-      "meta": "별과 우주 · ⚡️",
       "image": "/media/별과_우주_번개속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/564d6b4c-8fdd-4fe3-b881-dde2f6d91399"
+      "link": "https://caveduck.io/ko/widgets/share/564d6b4c-8fdd-4fe3-b881-dde2f6d91399",
+      "desc": "",
+      "name": "별과 우주",
+      "meta": "별과 우주 · ⚡️"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "별과 우주",
-      "meta": "별과 우주 · 💨",
       "image": "/media/별과_우주_바람속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/56eb92e1-d949-4416-8751-d7599205976d"
+      "link": "https://caveduck.io/ko/widgets/share/56eb92e1-d949-4416-8751-d7599205976d",
+      "desc": "",
+      "name": "별과 우주",
+      "meta": "별과 우주 · 💨"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "별과 우주",
-      "meta": "별과 우주 · ❄️",
       "image": "/media/별과_우주_얼음속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/2bc18008-5fc2-415c-afc7-9fa7376f06cb"
-    },
-    {
-      "type": "widget",
+      "link": "https://caveduck.io/ko/widgets/share/2bc18008-5fc2-415c-afc7-9fa7376f06cb",
       "desc": "",
       "name": "별과 우주",
-      "meta": "별과 우주 · ⚫️",
+      "meta": "별과 우주 · ❄️"
+    },
+    {
+      "type": "widget",
       "image": "/media/별과_우주_무속성.webp",
-      "link": "https://caveduck.io/ko/widgets/share/d7073bc3-586a-4568-8b2d-2efc0761febf"
+      "link": "https://caveduck.io/ko/widgets/share/d7073bc3-586a-4568-8b2d-2efc0761febf",
+      "desc": "",
+      "name": "별과 우주",
+      "meta": "별과 우주 · ⚫️"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · ❤️",
       "image": "/media/하트와_우주_빨강.webp",
-      "link": "https://caveduck.io/ko/widgets/share/1058b33d-4992-433b-bd66-d6b3d9ec6464"
+      "link": "https://caveduck.io/ko/widgets/share/1058b33d-4992-433b-bd66-d6b3d9ec6464",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · ❤️"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 🧡",
       "image": "/media/하트와_우주_주황.webp",
-      "link": "https://caveduck.io/ko/widgets/share/86831876-7ea5-4c40-849d-cfe34ae71bd9"
+      "link": "https://caveduck.io/ko/widgets/share/86831876-7ea5-4c40-849d-cfe34ae71bd9",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 🧡"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 💛",
       "image": "/media/하트와_우주_노랑.webp",
-      "link": "https://caveduck.io/ko/widgets/share/f7d8193a-b37b-4fcf-9af7-7e6024b55770"
+      "link": "https://caveduck.io/ko/widgets/share/f7d8193a-b37b-4fcf-9af7-7e6024b55770",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 💛"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 💚",
       "image": "/media/하트와_우주_녹색.webp",
-      "link": "https://caveduck.io/ko/widgets/share/7b31b447-4b27-49a6-9ac4-76d5bb7dd6b7"
+      "link": "https://caveduck.io/ko/widgets/share/7b31b447-4b27-49a6-9ac4-76d5bb7dd6b7",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 💚"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 🩵",
       "image": "/media/하트와_우주_하늘.webp",
-      "link": "https://caveduck.io/ko/widgets/share/bba0f06b-6f8f-40fc-9c01-8104b2c8b3f5"
+      "link": "https://caveduck.io/ko/widgets/share/bba0f06b-6f8f-40fc-9c01-8104b2c8b3f5",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 🩵"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 💙",
       "image": "/media/하트와_우주_파랑.webp",
-      "link": "https://caveduck.io/ko/widgets/share/589fb30c-14c1-4a34-b272-8fa2e483614e"
+      "link": "https://caveduck.io/ko/widgets/share/589fb30c-14c1-4a34-b272-8fa2e483614e",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 💙"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 💜",
       "image": "/media/하트와_우주_보라.webp",
-      "link": "https://caveduck.io/ko/widgets/share/fb77db4d-cc21-433a-8a07-7193e5cd855c"
+      "link": "https://caveduck.io/ko/widgets/share/fb77db4d-cc21-433a-8a07-7193e5cd855c",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 💜"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 💗",
       "image": "/media/하트와_우주_분홍.webp",
-      "link": "https://caveduck.io/ko/widgets/share/6c17a6e0-4ab1-4210-a3ec-6811b3b79618"
+      "link": "https://caveduck.io/ko/widgets/share/6c17a6e0-4ab1-4210-a3ec-6811b3b79618",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 💗"
     },
     {
       "type": "widget",
-      "desc": "",
-      "name": "하트와 우주",
-      "meta": "하트와 우주 · 🖤",
       "image": "/media/하트와_우주_검정.webp",
-      "link": "https://caveduck.io/ko/widgets/share/568795f1-f98d-4c10-98bc-2a3ef627d2b9"
+      "link": "https://caveduck.io/ko/widgets/share/568795f1-f98d-4c10-98bc-2a3ef627d2b9",
+      "desc": "",
+      "name": "하트와 우주",
+      "meta": "하트와 우주 · 🖤"
     },
     {
       "type": "widget",
+      "image": "/media/하트와_우주_하양.webp",
+      "link": "https://caveduck.io/ko/widgets/share/6e8cea49-1be7-49ff-a111-d6dc483c2d8b",
       "desc": "",
       "name": "하트와 우주",
-      "meta": "하트와 우주 · 🤍",
-      "image": "/media/하트와_우주_하양.webp",
-      "link": "https://caveduck.io/ko/widgets/share/6e8cea49-1be7-49ff-a111-d6dc483c2d8b"
+      "meta": "하트와 우주 · 🤍"
+    },
+    {
+      "type": "widget",
+      "image": "/media/심해-속-해파리_불속성.webp",
+      "link": "https://caveduck.io/ko/widgets/share/bb226e0c-182e-4ece-a60d-48a97b3bbfb3",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · 🔥"
+    },
+    {
+      "type": "widget",
+      "image": "/media/별과_우주_물속성-1.webp",
+      "link": "https://caveduck.io/ko/widgets/share/68ac13b0-f4cd-4e23-a741-aa64179da7ed",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · 💧"
+    },
+    {
+      "type": "widget",
+      "image": "/media/별과_우주_풀속성-1.webp",
+      "link": "https://caveduck.io/ko/widgets/share/fa15a256-9c84-47b7-bb0d-d8ce80048205",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · 🌿"
+    },
+    {
+      "type": "widget",
+      "image": "/media/별과_우주_번개속성-1.webp",
+      "link": "https://caveduck.io/ko/widgets/share/23d77a87-2ddd-405c-89d4-b1a67f440ce4",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · ⚡️"
+    },
+    {
+      "type": "widget",
+      "image": "/media/별과_우주_바람속성-1.webp",
+      "link": "https://caveduck.io/ko/widgets/share/2e101112-682b-4136-9c97-3d79833945df",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · 💨"
+    },
+    {
+      "type": "widget",
+      "image": "/media/별과_우주_얼음속성-1.webp",
+      "link": "https://caveduck.io/ko/widgets/share/db6c518e-2db2-450e-87a2-775ba0b0382c",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · ❄️"
+    },
+    {
+      "type": "widget",
+      "image": "/media/별과_우주_무속성-1.webp",
+      "link": "https://caveduck.io/ko/widgets/share/9d397828-80f0-473a-a936-39e32106ace9",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · 🖤"
+    },
+    {
+      "type": "widget",
+      "image": "/media/심해-속-해파리_핑크.webp",
+      "link": "https://caveduck.io/ko/widgets/share/3c9d4b91-0faa-4f8f-ada8-a906da10d975",
+      "desc": "",
+      "name": "심해 속 해파리",
+      "meta": "심해 속 해파리 · 🩷"
     }
   ]
 }
