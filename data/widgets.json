@@ -20,7 +20,7 @@
       "color": "",
       "mark_color": "yellow",
       "u_color": "pink",
-      "body": "♡ ARCH 전용 유저 위젯입니다.\n♡ 크리에이티브 위젯의 대체 위젯입니다.\n♡ 실제 이모티콘은 gif와 다른 모양으로 출력됩니다.\n\n\n♡ SIMPLE, CUTE - 유저노트 약 590자의 여유가 필요합니다.\n♡ 저스티스의 수사일지 - 유저노트 약 650자의 여유가 필요합니다.\n♡ 웨딩 · 심해 속 해파리 - 유저노트 약 500자의 여유가 필요합니다.\n♡ 별과/하트와 우주 - 유저노트 약 580자의 여유가 필요합니다."
+      "body": "♡ ARCH 전용 유저 위젯입니다.\n♡ 크리에이티브 위젯의 대체 위젯입니다.\n♡ 실제 이모티콘은 gif와 다른 모양으로 출력됩니다.\n\n♡ SIMPLE, CUTE - 유저노트 약 590자의 여유가 필요합니다.\n♡ 저스티스의 수사일지 - 유저노트 약 650자의 여유가 필요합니다.\n♡ 웨딩 · 심해 속 해파리 - 유저노트 약 500자의 여유가 필요합니다.\n♡ 별과/하트와 우주 - 유저노트 약 580자의 여유가 필요합니다."
     },
     {
       "type": "text",
@@ -369,7 +369,7 @@
     },
     {
       "type": "widget",
-      "image": "/media/별과_우주_물속성-1.webp",
+      "image": "/media/심해-속-해파리_물속성.webp",
       "link": "https://caveduck.io/ko/widgets/share/68ac13b0-f4cd-4e23-a741-aa64179da7ed",
       "desc": "",
       "name": "심해 속 해파리",
@@ -377,7 +377,7 @@
     },
     {
       "type": "widget",
-      "image": "/media/별과_우주_풀속성-1.webp",
+      "image": "/media/심해-속-해파리_풀속성.webp",
       "link": "https://caveduck.io/ko/widgets/share/fa15a256-9c84-47b7-bb0d-d8ce80048205",
       "desc": "",
       "name": "심해 속 해파리",
@@ -385,7 +385,7 @@
     },
     {
       "type": "widget",
-      "image": "/media/별과_우주_번개속성-1.webp",
+      "image": "/media/심해-속-해파리_번개속성.webp",
       "link": "https://caveduck.io/ko/widgets/share/23d77a87-2ddd-405c-89d4-b1a67f440ce4",
       "desc": "",
       "name": "심해 속 해파리",
@@ -393,7 +393,7 @@
     },
     {
       "type": "widget",
-      "image": "/media/별과_우주_바람속성-1.webp",
+      "image": "/media/심해-속-해파리_바람속성.webp",
       "link": "https://caveduck.io/ko/widgets/share/2e101112-682b-4136-9c97-3d79833945df",
       "desc": "",
       "name": "심해 속 해파리",
@@ -401,7 +401,7 @@
     },
     {
       "type": "widget",
-      "image": "/media/별과_우주_얼음속성-1.webp",
+      "image": "/media/심해-속-해파리_얼음속성.webp",
       "link": "https://caveduck.io/ko/widgets/share/db6c518e-2db2-450e-87a2-775ba0b0382c",
       "desc": "",
       "name": "심해 속 해파리",
@@ -409,7 +409,7 @@
     },
     {
       "type": "widget",
-      "image": "/media/별과_우주_무속성-1.webp",
+      "image": "/media/심해-속-해파리_무속성.webp",
       "link": "https://caveduck.io/ko/widgets/share/9d397828-80f0-473a-a936-39e32106ace9",
       "desc": "",
       "name": "심해 속 해파리",
