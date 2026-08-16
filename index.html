@@ -276,6 +276,9 @@ a.dockbtn { text-decoration: none; }
   top: 20px;
 }
 
+/* 좁은 화면에서 비면 자리를 차지하지 않게 */
+.dock--side:empty { display: none; }
+
 .dockbtn {
   display: flex;
   flex-direction: column;
@@ -2776,6 +2779,29 @@ var SUPABASE_KEY = window.SUPABASE_KEY || '';
       document.body.removeChild(ta);
     }
   });
+
+  /* ---------- 좁은 화면에서는 쿠키를 아이콘 줄에 합칩니다 ---------- */
+
+  (function () {
+    var main = document.querySelector('.dock:not(.dock--side)');
+    var side = document.querySelector('.dock--side');
+    if (!main || !side) return;
+
+    var cookie = side.querySelector('.dockbtn');
+    var userLink = main.querySelector('a[href="admin/"]');
+    if (!cookie) return;
+
+    function place() {
+      if (isMobile()) {
+        if (cookie.parentNode !== main) main.insertBefore(cookie, userLink);
+      } else if (cookie.parentNode !== side) {
+        side.appendChild(cookie);
+      }
+    }
+
+    place();
+    window.addEventListener('resize', place);
+  }());
 
   /* ---------- 열려 있던 창 기억하기 ----------
      sessionStorage 라서 새로고침에는 남고, 브라우저(탭)를 닫으면 사라집니다. */
