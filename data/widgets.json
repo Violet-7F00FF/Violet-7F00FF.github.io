@@ -422,6 +422,22 @@
       "desc": "",
       "name": "심해 속 해파리",
       "meta": "심해 속 해파리 · 🩷"
+    },
+    {
+      "type": "widget",
+      "image": "/media/새벽-너머의-도트.webp",
+      "link": "https://caveduck.io/ko/widgets/share/b5245e02-d68b-4e85-8f56-626a85c3a458",
+      "desc": "",
+      "name": "새벽/노을 너머의 도트",
+      "meta": "새벽 너머의 도트 · 🌙"
+    },
+    {
+      "type": "widget",
+      "image": "/media/노을-너머의-도트.webp",
+      "link": "https://caveduck.io/ko/widgets/share/9de89a45-7ced-47e0-b0c0-aad55b384483",
+      "desc": "",
+      "name": "새벽/노을 너머의 도트",
+      "meta": "노을 너머의 도트 · ☀️"
     }
   ]
 }
