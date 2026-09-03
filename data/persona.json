@@ -54,9 +54,9 @@
           "quote": "신들의 오만을, 끌어내리겠다.",
           "spec": "#복제_인간 #인공_센티넬 #번개 #S급",
           "spec_color": "yellow",
-          "look": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes,",
+          "look": "1 boy, masculine, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes,\n\nmasculine ← 너무 남자가 되버리면 이거 빼주세요.",
           "outfit": "black suit, white shirt, black tie, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, waist belt, thick black belt, black suit pants, black socks, black formal shoes,",
-          "prompt": "1 boy, defined facial structure, masculine, manly features, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes, black suit, white shirt, black tie, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, waist belt, thick black belt, black suit pants, black socks, black formal shoes,"
+          "prompt": "1 boy, masculine, closed_mouth, expressionless, yellow hair, inverted bob, blunt ends, straight medium hair, purple eyes, sharp cat-eyes, black suit, white shirt, black tie, simple collar, simple lapel, no decor on lapel, gold buttons, double-breasted, waist belt, thick black belt, black suit pants, black socks, black formal shoes,\n\nmasculine ← 너무 남자가 되버리면 이거 빼주세요."
         },
         {
           "name": "라피스",
