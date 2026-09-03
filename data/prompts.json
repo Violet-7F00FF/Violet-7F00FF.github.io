@@ -740,6 +740,38 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🚞필름 트레인",
+      "filename": "프롬프트",
+      "code": "upper body, looking out the window, leaning against the window, oversized jacket, school uniform, muted colors, soft sunlight, lo-fi, retro camcorder, VHS aesthetic, film grain, image noise, rough pencil strokes, visible pencil grain, sketchy uneven lines, light particle, rainbow particle, sparkling, floating colored pencil star doodles, floating  filled-in colored pencil stars, scattered big stars, various star shapes, (색상1) and (색상2) stars, blue sky, local train background,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_232.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🎡블루밍 트와일라이트",
+      "filename": "프롬프트",
+      "code": "two depictions of the same character, one large close-up portrait in the foreground, one smaller full-body figure in the background, standing, foreground and background composition, same outfit, glossy eyes, smile, holding heart balloons, looking back,\n\n여캐: cute (동물) ear headband, cardigan, white blouse, pleated midi skirt, mary jane shoes, small shoulder bag, soft pastel colors, cute and feminine,\n남캐: cute (동물) ear headband, light knit cardigan, white shirt, tailored trousers, straight-leg pants, loafers, soft pastel colors, stylish,\n\namusement park lights, ferris wheel, evening, soft warm lighting, cute romantic atmosphere, soft bloom, dreamy glow, volumetric light, rim light, (색상1) and (색상2) light reflections, sparkling particles, floating petals, gentle wind, lens flare, light leaks, bokeh, soft atmospheric haze, amusement park background, (색상1) and (색상2) sky,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_236.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_123.webp",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
