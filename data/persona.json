@@ -164,9 +164,9 @@
           "quote": "네 존재가 어리석음이야. 그것도 몰라?",
           "spec": "#고고한_장미 #가이드 #불",
           "spec_color": "pink",
-          "look": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::fipped hair::, 2::dark pink eyes::, half-closed eyes, white eyelashes,",
+          "look": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::dark pink eyes::, half-closed eyes, white eyelashes,",
           "outfit": "white suit, white pants, 2::white dress shirt::, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, 2::gold buttons::, double-breasted, ear piercing,",
-          "prompt": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::fipped hair::, 2::dark pink eyes::, half-closed eyes, white eyelashes, white suit, white pants, 2::white dress shirt::, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, 2::gold buttons::, double-breasted, ear piercing,"
+          "prompt": "1 boy, close mouth, expressionless, small mole below the left side of mouth, 2::rose gold hair::, medium hair, 2::bob cut, half updo::, crossed bangs, 2::dark pink eyes::, half-closed eyes, white eyelashes, white suit, white pants, 2::white dress shirt::, 2::simple gold Epaulet::, 3::simple lapel, no decor on lapel::, 2::gold buttons::, double-breasted, ear piercing,"
         },
         {
           "name": "마리포사",
@@ -319,8 +319,8 @@
           "spec": "#천재_엔지니어 #센티넬 #무속성 #S급",
           "spec_color": "pink",
           "look": "1 girl, pale skin, expressionless, close mouth, pastel pink hair, long hair, bangs, crossed bangs, light purple eyes, tsurime, medium breasts, glossy light purple bear ear headset, holographic ear accents,",
-          "outfit": "white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,",
-          "prompt": "1 girl, pale skin, expressionless, close mouth, pastel pink hair, long hair, bangs, crossed bangs, light purple eyes, tsurime, medium breasts, glossy light purple bear ear headset, holographic ear accents, white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,"
+          "outfit": "white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black short sleeved jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,",
+          "prompt": "1 girl, pale skin, expressionless, close mouth, pastel pink hair, long hair, bangs, crossed bangs, light purple eyes, tsurime, medium breasts, glossy light purple bear ear headset, holographic ear accents, white dress shirt, holographic light purple neck tie , glossy black chest harness, glossy black short sleeved jacket, 2::holographic overlay bear paws::, glossy black pleated skirt, white knee highs, black boots,"
         },
         {
           "name": "매드 해터",
