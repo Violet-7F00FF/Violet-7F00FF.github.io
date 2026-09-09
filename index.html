@@ -1301,6 +1301,14 @@ mark.rose   { background: #ffe0ef; }
   padding: 0;
 }
 
+/* 장수에 따라 배치 */
+.shots--1 { grid-template-columns: 1fr; }
+.shots--2 { grid-template-columns: repeat(2, 1fr); }
+.shots--3 { grid-template-columns: repeat(3, 1fr); }
+.shots--four { grid-template-columns: repeat(2, 1fr); }
+
+.shots img { cursor: zoom-in; }
+
 .shots li { margin: 0; }
 
 .shots img {
@@ -1896,6 +1904,83 @@ mark.rose   { background: #ffe0ef; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
+}
+
+
+/* ---------- 사진 크게 보기 ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 26px 16px;
+  background: rgba(43, 30, 82, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.lightbox__win {
+  max-width: min(92vw, 900px);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 7px 7px 0 rgba(20, 12, 45, 0.45);
+}
+
+.lightbox__bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 3px 3px 0;
+  padding: 0 4px 0 9px;
+  background-color: var(--grape);
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+}
+
+.lightbox__title {
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.45);
+}
+
+.lightbox__x {
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--outline);
+  background: #fff;
+  border: 2px solid var(--outline);
+  cursor: pointer;
+}
+
+.lightbox__x:hover { background: var(--yellow); }
+.lightbox__x svg { display: block; width: 10px; height: 10px; }
+
+.lightbox__body {
+  padding: 10px;
+  background: var(--grape-l);
+  margin: 3px;
+}
+
+.lightbox__body img {
+  display: block;
+  max-width: 100%;
+  max-height: 76vh;
+  border: 3px solid var(--outline);
 }
 
 </style>
@@ -3504,10 +3589,13 @@ function toHTML(md) {
   function imageRow(images) {
     var list = (images || []).filter(function (im) { return im && (im.image || im); });
     if (!list.length) return '';
-    return '<ul class="shots">' + list.map(function (im) {
+    // 4장이면 2×2, 그 외에는 한 줄
+    var cls = 'shots shots--' + (list.length === 4 ? 'four' : String(list.length));
+    return '<ul class="' + cls + '">' + list.map(function (im) {
       var src = im.image || im;
       var cap = im.caption || '';
-      return '<li><img src="' + esc(src) + '" alt="' + esc(cap) + '" loading="lazy">' +
+      return '<li><img src="' + esc(src) + '" alt="' + esc(cap) +
+        '" loading="lazy" data-big="' + esc(src) + '">' +
         (cap ? '<span class="shots__cap">' + esc(cap) + '</span>' : '') + '</li>';
     }).join('') + '</ul>';
   }
@@ -3778,9 +3866,11 @@ function toHTML(md) {
       out_hasBody = !!out.body;
 
       if (out.hasTabs) {
-        // 다이어리 탭 + 종이 한 장
+        // 다이어리 탭 + 종이 한 장. 소개글은 '전체' 에서만 보입니다
         h = out.row + out.tabs +
-            '<div class="pane">' + head + out.body + '</div>';
+            '<div class="pane">' +
+            (head ? '<div class="onlyall">' + head + '</div>' : '') +
+            out.body + '</div>';
       } else {
         h = out.row + head + out.body;
       }
@@ -3826,6 +3916,11 @@ document.addEventListener('click', function (e) {
 
   Array.prototype.forEach.call(box.querySelectorAll('.blk[data-tag]'), function (blk) {
     blk.style.display = (!sel || blk.dataset.tag === sel) ? '' : 'none';
+  });
+
+  // 소개글은 '전체' 에서만
+  Array.prototype.forEach.call(box.querySelectorAll('.onlyall'), function (el) {
+    el.style.display = sel ? 'none' : '';
   });
 });
 
@@ -3983,6 +4078,66 @@ document.addEventListener('click', function (e) {
 
   sendEl.addEventListener('click', submit);
   load();
+
+}());
+
+
+/* ==========================================================
+   사진 크게 보기
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var box = null;
+
+  function open(src, alt) {
+    close();
+    box = document.createElement('div');
+    box.className = 'lightbox';
+    box.innerHTML =
+      '<div class="lightbox__win">' +
+      '<div class="lightbox__bar">' +
+      '<span class="lightbox__title">IMAGE</span>' +
+      '<button type="button" class="lightbox__x" aria-label="닫기">' +
+      '<svg viewBox="0 0 10 10" aria-hidden="true">' +
+      '<path d="M1.5 1.5 L8.5 8.5 M8.5 1.5 L1.5 8.5" stroke="currentColor" ' +
+      'stroke-width="2" fill="none"/></svg></button>' +
+      '</div>' +
+      '<div class="lightbox__body"></div>' +
+      '</div>';
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = alt || '';
+    box.querySelector('.lightbox__body').appendChild(img);
+    document.body.appendChild(box);
+  }
+
+  function close() {
+    if (box && box.parentNode) box.parentNode.removeChild(box);
+    box = null;
+  }
+
+  document.addEventListener('click', function (e) {
+    // 닫기
+    if (e.target.closest('.lightbox__x')) { close(); return; }
+    if (box && e.target.classList && e.target.classList.contains('lightbox')) {
+      close();
+      return;
+    }
+
+    // 열기 — 창 안의 사진들
+    var img = e.target.closest('img[data-big], .shots img, .gview img, .wcard__shot, .post__cover, .mine__pic');
+    if (!img) return;
+    if (e.target.closest('a')) return;      // 링크 안의 그림은 그대로 링크로
+    if (e.target.closest('.gthumbs')) return; // 갤러리 작은 그림은 원래 기능대로
+    e.preventDefault();
+    open(img.dataset.big || img.src, img.alt);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
 
 }());
 
