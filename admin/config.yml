@@ -202,11 +202,11 @@ collections:
                       - { name: color, label: 카드 색, widget: select, options: [pink, cyan, mint, peach, yellow, grape, coral, sky, sage, cream, rose, ice], default: pink }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
                       - name: images
-                        label: 사진 (최대 3장)
+                        label: 사진 (최대 4장)
                         label_singular: 사진
                         widget: list
                         required: false
-                        max: 3
+                        max: 4
                         fields:
                           - { name: image, label: 사진, widget: image }
                           - { name: caption, label: 설명, widget: string, required: false }
@@ -259,11 +259,11 @@ collections:
                   - { name: heading, label: 제목, widget: string }
                   - { name: desc, label: 설명, widget: richtext, required: false }
                   - name: images
-                    label: 사진 (최대 3장)
+                    label: 사진 (최대 4장)
                     label_singular: 사진
                     widget: list
                     required: false
-                    max: 3
+                    max: 4
                     fields:
                       - { name: image, label: 사진, widget: image }
                       - { name: caption, label: 설명, widget: string, required: false }
@@ -298,11 +298,11 @@ collections:
                       - { name: spec_color, label: 간단 설정 색, widget: select, required: false, options: [pink, cyan, mint, peach, yellow, grape, coral, sky, sage, cream, rose, ice], default: mint }
                       - { name: tags, label: 태그, widget: string, required: false, hint: '쉼표로 구분' }
                       - name: images
-                        label: 사진 (최대 3장)
+                        label: 사진 (최대 4장)
                         label_singular: 사진
                         widget: list
                         required: false
-                        max: 3
+                        max: 4
                         fields:
                           - { name: image, label: 사진, widget: image }
                           - { name: caption, label: 설명, widget: string, required: false }
