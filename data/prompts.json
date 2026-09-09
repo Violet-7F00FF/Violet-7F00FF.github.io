@@ -798,7 +798,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🌡️피버 드림",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "three quarter view, looking at viewer, another person's (잡을 의상) sleeve grab, lying on back, flushed cheeks, feverish, sweating, damp hair, wet bangs, warm skin, breath, visible breath, tearing up, teary eyes, wet towel on head, pajamas, covered blanket, soft bloom, soft focus, atmospheric haze, shallow depth of field, subtle vignette, gentle light rays, slight motion blur, bedroom,",
       "desc": "",
       "images": [
@@ -812,7 +812,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🏮한밤의 구룡",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "1.5::dynamic high angle::, dynamic pose, long open coat, oversized coat, wide sleeves, wide lapels, chinese-style embroidery, gold embroidery, dragon trim, clouds trim, gold trim, lapel embroidery, sleeve embroidery, inner lining, white bandage top, crisscrossed white bandage, strapless crop top, bare midriff, high-waisted pants, fitted trousers, leather belt, silver belt buckle, bare feet, white foot bandages, bandaged ankles, loose bandage ends,\n\n💜단색 배경\nvivid color background,\n\n🐉구룡 배경\nHong Kong, Kowloon, back alley, old buildings, chinese signs, night, rain, wet pavement, puddles, mist, steam, wind, neon, neon signs, neon glow, reflections, dramatic lighting, high contrast, dramatic shadow, film grain, bloom, chromatic aberration, vignette,",
       "desc": "",
       "images": [
@@ -830,7 +830,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🍂가을 피크닉",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "💜여캐\nanimal hood, (동물) hood, fluffy animal hat, knit scarf, autumn outfit, oversized cardigan, knit sweater, pleated shorts, leggings, ankle boots,\nwarm colors, (색상1) and (색상2) and (색상3) and (색상4) colors theme, cozy, cute, feminine, stylish,\n\n💛남캐\nanimal hood, (동물) hood, fluffy animal hat, knit scarf, autumn outfit, oversized cardigan, knit sweater, pants, ankle boots, warm colors, (색상1) and (색상2) and (색상3) and (색상4) colors theme, cozy, cute, stylish,\n\nautumn sunlight, golden hour, warm lighting, soft sunlight, sun rays, light breeze, floating leaves, falling red and yellow and brown leaves, hair fluttering, soft bloom, warm glow, bokeh, cinematic lighting, atmospheric haze, autumn park, picnic, picnic blanket, grass, fallen leaves, autumn trees, autumn leaves, basket, thermos,",
       "desc": "",
       "images": [
@@ -848,7 +848,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🌅선셋 스트롤",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "2people, couple, side view, walking together, holding hands, looking at each other, eye contact,\n\n💜여캐\nwhite summer blouse, off-shoulder blouse, light cardigan, high-waisted wide-leg pants, woven shoulder bag, ankle bracelet, barefoot,\n\n💛남캐\nopen linen shirt, white t-shirt, beige straight-leg trousers, leather bracelet, rolled-up sleeves, barefoot,\n\nwarm sunset light, golden hour, soft sunlight, sea breeze, wind, flowing hair, sparkling water, soft glow, bloom, bokeh, atmospheric haze, beach, shoreline, ocean, sandy beach, shallow water, waves, sunset,",
       "desc": "",
       "images": [
@@ -866,7 +866,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🌌🩰셀레스티얼 마리오네트🩰",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "1.5::dynamic high angle::, dynamic pose, ballet pose, arabesque, en pointe, graceful pose, spinning, wind-up doll, porcelain doll, doll joints, key in back, flowing dress, tulle skirt, layered skirt, sheer fabric, lace, ribbon, long sleeves, floating fabric, wind, flowing hair, fluttering dress, floating fabric, swirling ribbons, soft glow, moonlight, rim light, bloom, volumetric light, sparkles, dust particles, magical particles, atmospheric haze, starry night, deep blue sky, stars, clouds, moon, shallow water, rippling water, reflective water, sky reflection, star reflections, moon reflection, gentle waves, shimmering surface,",
       "desc": "",
       "images": [
@@ -880,7 +880,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🐰🎀큐티&쿨 라비츠 파티",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "cute pose, lovely pose,\n\n💜큐티(원피스)\nrabbit-themed outfit, bunny hood, rabbit ears, fluffy hood, cute dress, pinafore dress, puff sleeves, fluffy arm warmers, peter pan collar, ribbon bow, lace trim, frilled hem, layered skirt, rabbit tail, pastel (색상) and cream colors, soft colors, cute, cozy, \n\n🤍쿨(바지)\nrabbit-themed outfit, bunny hood, rabbit ears, fluffy hood, cute cardigan, Peter Pan collar, ribbon, bow,\nhigh-waisted shorts, loose shorts, knee socks, ankle boots, pastel (색상) and cream colors, soft colors, cute, cozy,\n\nribbon bows stickers, hearts stickers, stars stickers, flowers stickers, lace, pearls, bunny motifs, decorative frame, sparkles, glitter, star-shaped sparkles, glossy highlights, soft glow, bloom, bokeh, pastel glow, pastel background, sticker collage, layered stickers, overlapping stickers,",
       "desc": "",
       "images": [
@@ -898,7 +898,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🪽Y2K 네온 에덴😈",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "💿공통\n1.5::dynamic low angle::,\nY2K, cyber Y2K, techwear, harness, utility straps, buckles, holographic fabric, iridescent material, translucent panels, futuristic city, neon night, holographic billboards, chrome architecture, reflective floor, floating holograms, iridescent surfaces, neon glow, bloom, lens flare, prismatic reflections, volumetric light, chromatic aberration, digital particles, soft haze, retro digital aesthetic,\n\n💜여캐 - 천사🪽\nhalo, angel wings, feather details, cropped jacket, pleated skirt, asymmetrical skirt, thigh straps, platform boots, arm warmers, (색상1) and (색상2) and silver colors, pearlescent,\n\n💜여캐 - 악마😈\ndemon horns, demon wings, demon tail, cropped jacket, pleated skirt, asymmetrical skirt, thigh straps, platform boots, arm warmers, (색상1) and (색상2) and crimson colors, metallic,\n\n💛남캐 - 천사🪽\nhalo, angel wings, feather details, oversized jacket, tactical vest, wide-leg cargo pants, utility belt, platform boots, fingerless gloves, (색상1) and (색상2) and silver colors, pearlescent,\n\n💛남캐 - 악마😈\ndemon horns, demon wings, demon tail, oversized jacket, tactical vest, wide-leg cargo pants, utility belt, platform boots, fingerless gloves, (색상1) and (색상2) and crimson colors, metallic,\n\n🪽천사 효과\nwhite glow, pearlescent light, soft blue light, floating feathers, sparkling particles,\n\n😈악마 효과\nred glow, purple glow, dark neon, smoke, glowing particles, digital distortion,",
       "desc": "",
       "images": [
@@ -916,7 +916,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🍅🍑스위트 써머 피즈🍇🍋",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "🌸공통 프롬\ncute pose, lovely pose,\n\n🍅토마토\ntomato-inspired fashion, tomato-shaped accessories, tomato hairpin, green tomato leaves, cute hair accessory, cropped red cardigan, white blouse, green ribbon, high-waisted red skirt,, white socks, brown loafers, cute, stylish, fresh, crimson red and leaf green colors, tomato slices, tomato leaves, red soda, sparkling red drink, fresh fruit,\n\n🍑복숭아\npeach-inspired fashion, peach-shaped accessories, peach hairpin, green peach leaves, cute hair accessory, off-shoulder blouse, green ribbon waist belt, high-waisted flare skirt, ankle socks, pink mary jane shoes, cute, stylish, fresh, peach pink and leaf green colors, peach slices, peach leaves, pink soda, sparkling pink drink, fresh fruit,\n\n🍇포도\ngrape-inspired fashion, grape-shaped accessories, grape hairpin, green grape leaves, cute hair accessory, puff-sleeve knit top, suspender skirt, ribbon tie, ankle socks, brown loafers, cute, stylish, fresh, grape purple and leaf green colors, grapes, grape leaves, purple soda, sparkling purple drink, fresh fruit,\n\n🍋레몬\nlemon-inspired fashion, lemon-shaped accessories, lemon hairpin, green lemon leaves, cute hair accessory, puff-sleeve blouse, neck ribbon, high-waisted wide shorts, ankle socks, green loafers, cute, stylish, fresh, lemon yellow and leaf green colors, lemon slices, lemon leaves, yellow soda, sparkling yellow drink, fresh fruit,\n\n🌼공통 배경 프롬\nsummer cafe, outdoor cafe, pastel cafe, refreshing atmosphere, clear sky, bright daylight, fruit drink shop, colorful table, glassware, sparkling light, soft glow, bloom, bokeh, sunlight, lens flare, fizzy bubbles, condensation, water droplets, ice cubes, refreshing atmosphere,",
       "desc": "",
       "images": [
@@ -931,6 +931,10 @@
         {
           "image": "/media/글레이시아31.webp",
           "caption": ""
+        },
+        {
+          "image": "/media/베타_281.webp",
+          "caption": ""
         }
       ]
     },
@@ -938,7 +942,7 @@
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "💫매지컬 스타더스트",
-      "filename": "",
+      "filename": "프롬프트",
       "code": "1.5::dynamic high angle::, tilted angle, overhead view, dynamic perspective, falling backward, backward lean, off balance, arched back, floating pose, magical girl, corset bodice, off-shoulder sleeves, layered tulle skirt, sheer overskirt, flowing fabric, lace trim, ribbons, sheer gloves, crystal glass slippers, transparent heels, crystal details, sparkling reflections, fragile beauty, (색상1) and (색상2) and silver colors, faded colors, pastel glow, soft glow, dreamy glow, iridescent light, magical particles, sparkling particles, glowing stars, floating ribbons, atmospheric haze, soft focus, subtle film grain, light leaks, chromatic aberration, night sky, crescent moon, starry sky, floating clouds, celestial background, dreamy landscape, distant city lights, empty space,",
       "desc": "",
       "images": [
