@@ -941,6 +941,32 @@
     {
       "type": "promptcard",
       "tag": "프롬프트",
+      "heading": "🫐🍹스파클링 프루트 써머🥤🍊",
+      "filename": "프롬프트",
+      "code": "🌸공통 프롬\nfull body, 1.5::dynamic low angle::, low angle, upward view, looking down, dynamic perspective, character focusatmosphere, perched on the rim of a giant glass, legs dangling, visible outfit,\n\n🫐블루베리\nblueberry-inspired fashion, blueberry-shaped accessories, blueberry hairpin, green blueberry leaves, cute hair accessory, cropped cardigan, sailor collar, high-waisted shorts, knee socks, platform loafers, cute, stylish, fresh, blueberry blue and leaf green colors, oversized blueberry soda, giant blueberries, oversized blueberry slices, blueberry garnish, blueberry leaves, soft blue glow, blue reflections,\n\n🍊오렌지\norange-inspired fashion, orange-shaped accessories, orange hairpin, green orange leaves, cute hair accessory, oversized hoodie, short pleated skirt, striped knee socks, sneakers, crossbody bag, cute, stylish, fresh, orange and leaf green colors, oversized orange soda, giant oranges, oversized orange slices, orange garnish, orange leaves, warm orange glow, orange reflections,\n\n🟢라임\nlime-inspired fashion, lime-shaped accessories, lime hairpin, green lime leaves, cute hair accessory, white sundress, cropped bolero, puff sleeves, waist ribbon, ankle socks, green lime mary jane shoes, cute, stylish, fresh, lime green and leaf green colors, oversized lime soda, giant limes, oversized lime slices, lime garnish, lime leaves, fresh green glow, green reflections,\n\n🔴자몽\ngrapefruit-inspired fashion, grapefruit-shaped accessories, grapefruit hairpin, green grapefruit leaves, cute hair accessory, off-shoulder blouse, ribbon belt, high-waisted wide-leg pants, sheer socks, loafers, cute, stylish, fresh, grapefruit pink and leaf green colors, oversized grapefruit soda, giant grapefruits, oversized grapefruit slices, grapefruit garnish, grapefruit leaves, soft pink glow, pink reflections,\n\n🌼배경 공통 프롬\ngiant glass, sparkling soda, fizzy bubbles, ice cubes, transparent glass, condensation, water droplets, giant straw, small flowers, tiny flowers, flower petals, fresh leaves, cute floral decorations, bright daylight, soft sunlight, sparkling light, bloom, bokeh, lens flare, water sparkle, refreshing atmosphere",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/발푸르기스17.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/베타_291.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/피네51.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/벨15.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
       "heading": "💫매지컬 스타더스트",
       "filename": "프롬프트",
       "code": "1.5::dynamic high angle::, tilted angle, overhead view, dynamic perspective, falling backward, backward lean, off balance, arched back, floating pose, magical girl, corset bodice, off-shoulder sleeves, layered tulle skirt, sheer overskirt, flowing fabric, lace trim, ribbons, sheer gloves, crystal glass slippers, transparent heels, crystal details, sparkling reflections, fragile beauty, (색상1) and (색상2) and silver colors, faded colors, pastel glow, soft glow, dreamy glow, iridescent light, magical particles, sparkling particles, glowing stars, floating ribbons, atmospheric haze, soft focus, subtle film grain, light leaks, chromatic aberration, night sky, crescent moon, starry sky, floating clouds, celestial background, dreamy landscape, distant city lights, empty space,",
