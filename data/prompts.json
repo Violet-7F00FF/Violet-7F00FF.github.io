@@ -977,6 +977,74 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🪻🪸위스테리아 드림",
+      "filename": "프롬프트",
+      "code": "🌸공통 프롬\nclose-up, portrait, face focus, centered composition, submerged, looking back, floating hair, weightless hair, hair spreading in water, slightly parted lips, gentle exhale, air bubbles from mouth, bubbles rising from lips, bubble trail, small air bubbles, \n\n💜여캐\noff-shoulder blouse, flowing blouse, soft fabric, sheer sleeves, chiffon, lace trim, ribbon collar, pearl buttons, delicate embroidery, pale (색상1) and soft (색상2) and pearl white colors\n\n💛남캐\nflowing shirt, loose collar, open neckline, long sleeves, soft fabric, sheer fabric, chiffon, flowing fabric, pearl buttons, delicate embroidery, pale (색상1) and soft (색상2) and pearl white colors\n\n🌼공통 배경 프롬\nfaded colors, pastel colors, soft glow, dreamy glow, underwater glow, caustic light, dappled light, soft light rays, volumetric light, floating particles, floating bubbles, sparkling particles, soft focus, bloom, atmospheric haze, subtle bokeh, light diffusion, (색상1) and (색상2) wisteria, dense wisteria, cascading wisteria flowers, wisteria vines, wisteria branches, blooming flowers, flower petals, flowers background, underwater garden, aquatic plants, lush vegetation, small goldfish, swimming goldfish, goldfish background,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_298.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_135.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💿🎀글리터 팝",
+      "filename": "프롬프트",
+      "code": "extreme close-up, eye focus, eyes only, upper face, centered composition, glitter eyeshadow, pastel eyeshadow, pink eyeshadow, lavender eyeshadow, iridescent eyeshadow, glossy eyelids, glitter eyeliner, long eyelashes, curled eyelashes, lower lash makeup,\nface glitter, eye glitter, glitter flakes, rhinestones, under-eye glitter, sparkling makeup, (색상1) and (색상2) and (색상3) colors, pastel colors, iridescent colors, pearlescent shimmer, Y2K stickers, sticker collage, sticker border, decorative stickers, layered stickers, overlapping stickers, glossy stickers, holographic stickers, iridescent stickers, chrome stickers,\nheart stickers, star stickers, gem stickers, butterfly stickers, flower stickers, bow stickers, pearl stickers, glitter, sparkle, glossy highlights, holographic shine, iridescent glow, soft glow, bloom, bokeh,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_308.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🫧🪸레트로 아쿠아리움",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\nthree-quarter view, close-up, character inside vending machine, character trapped inside vending machine, chamber, behind the glass, submerged inside the machine,\n\n💜여캐\nY2K headphones, retro fashion, Y2K fashion, cropped cardigan, sailor blouse, pleated skirt, ribbon bow, striped knee socks, mary jane shoes, \n\n💛남캐\nY2K headphones, retro fashion, Y2K fashion, oversized track jacket, striped t-shirt, loose shorts, striped socks, retro sneakers,\n\n💿공통 배경 프롬\nretro film photography, vintage film look, analog film aesthetic, film grain, dust particles, film scratches, light leaks, faded colors, soft focus, slight overexposure, halation, lens flare, chromatic aberration, nostalgic atmosphere, retro vending machine, vintage vending machine, 1990s vending machine, old-fashioned vending machine, nostalgic design, analog control panel, physical buttons, coin slot, faded plastic, retro decals, old stickers, water-filled interior, clear water, floating bubbles, tiny bubbles, water reflections, small fish, colorful fish, swimming fish, aquatic plants, large colorful plastic balls, big ball pit balls, dense layer of large balls, pastel pink balls, lavender balls, baby blue balls, cream balls, Y2K interior, colorful interior, pastel neon, glossy plastic, holographic decorations, translucent panels, iridescent surfaces, colorful lights, playful stickers, cute digital displays, pop aesthetic,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_309.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_138.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💥컬러 버스트",
+      "filename": "프롬프트",
+      "code": "2::close-up::, face focus, dramatic angle, crying, low saturation, muted colors, desaturated colors, faded colors, subdued colors, one-sided color burst, color bursting from one eye, massive color explosion eye, vivid colors erupting from eye, radiating color from eye, expanding color splash, colorful shockwave, asymmetric color explosion, saturated color, intense color, vivid color fragments, dramatic lighting, dramatic shadow, high contrast, motion blur, visual distortion, abstract atmosphere, colorful particles exploding outward, broken glass shard effect,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_314.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_149.webp",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
