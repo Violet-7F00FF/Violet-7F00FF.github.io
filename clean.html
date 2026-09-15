@@ -223,6 +223,62 @@ p { margin: 0 0 12px; }
   box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
 }
 
+/* ---------- 고른 그림 미리보기 ---------- */
+
+.picked {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 9px;
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.picked li {
+  position: relative;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+  overflow: hidden;
+}
+
+.picked img {
+  display: block;
+  width: 100%;
+  height: 84px;
+  object-fit: cover;
+}
+
+.picked__name {
+  display: block;
+  padding: 5px 7px;
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.picked__x {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  font-family: var(--mini);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--outline);
+  background: rgba(255,255,255,0.9);
+  border: 2px solid var(--outline);
+}
+
+.picked__x:hover { background: var(--pink); color: #fff; }
+
 /* ---------- 완료 알림 ---------- */
 
 .done {
@@ -328,6 +384,7 @@ p { margin: 0 0 12px; }
         </div>
       </div>
       <input type="file" id="file" accept="image/*" multiple hidden>
+      <ul class="picked" id="picked"></ul>
 
       <h2>세탁 설정</h2>
 
@@ -498,14 +555,57 @@ document.addEventListener('keydown', function (e) {
 
   fileEl.addEventListener('change', function () { take(fileEl.files); });
 
+  var pickedEl = document.getElementById('picked');
+
   function take(files) {
-    picked = Array.prototype.filter.call(files, function (f) {
+    var add = Array.prototype.filter.call(files, function (f) {
       return /^image\//.test(f.type);
     });
+    // 이미 고른 것에 더합니다 (같은 파일은 한 번만)
+    add.forEach(function (f) {
+      var dup = picked.some(function (p) {
+        return p.name === f.name && p.size === f.size;
+      });
+      if (!dup) picked.push(f);
+    });
+    paintPicked();
+  }
+
+  function paintPicked() {
     drop.querySelector('b').textContent = picked.length
       ? picked.length + '장 골랐어요'
       : '여기에 그림을 끌어다 놓으세요';
     goEl.disabled = !picked.length;
+
+    pickedEl.innerHTML = '';
+    picked.forEach(function (f, i) {
+      var li = document.createElement('li');
+
+      var img = document.createElement('img');
+      img.src = URL.createObjectURL(f);
+      img.alt = f.name;
+      img.onload = function () { URL.revokeObjectURL(img.src); };
+      li.appendChild(img);
+
+      var name = document.createElement('span');
+      name.className = 'picked__name';
+      name.textContent = f.name;
+      name.title = f.name;
+      li.appendChild(name);
+
+      var x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'picked__x';
+      x.textContent = '✕';
+      x.setAttribute('aria-label', f.name + ' 빼기');
+      x.addEventListener('click', function () {
+        picked.splice(i, 1);
+        paintPicked();
+      });
+      li.appendChild(x);
+
+      pickedEl.appendChild(li);
+    });
   }
 
   /* ---------- 세탁 ---------- */
@@ -684,6 +784,7 @@ document.addEventListener('keydown', function (e) {
     clearEl.disabled = true;
     goEl.disabled = true;
     drop.querySelector('b').textContent = '여기에 그림을 끌어다 놓으세요';
+    if (pickedEl) pickedEl.innerHTML = '';
   });
 
   /* ==========================================================
