@@ -222,6 +222,65 @@ p { margin: 0 0 12px; }
   border: 3px solid var(--outline);
   box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
 }
+
+/* ---------- 완료 알림 ---------- */
+
+.done {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(43, 30, 82, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.done__win {
+  max-width: 420px;
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 7px 7px 0 rgba(20, 12, 45, 0.45);
+}
+
+.done__bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background-color: #4ddcb4;
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.35) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.35) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.35) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.35) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #0b4736;
+}
+
+.done__body { padding: 20px 18px 18px; text-align: center; }
+
+.done__big {
+  font-family: var(--pixel);
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+
+.done__txt {
+  font-size: 13.5px;
+  color: var(--sub);
+  margin: 0 0 16px;
+  line-height: 1.8;
+}
+
+.done__txt b { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -380,6 +439,34 @@ p { margin: 0 0 12px; }
 </div>
 
 <script>
+/* 완료 알림 창 */
+function showDone(title, lines) {
+  var old = document.querySelector('.done');
+  if (old) old.remove();
+
+  var box = document.createElement('div');
+  box.className = 'done';
+  box.innerHTML =
+    '<div class="done__win">' +
+    '<div class="done__bar">COMPLETE</div>' +
+    '<div class="done__body">' +
+    '<p class="done__big">' + title + '</p>' +
+    '<p class="done__txt">' + lines + '</p>' +
+    '<button type="button" class="btn btn--go" data-done-close>확인</button>' +
+    '</div></div>';
+  document.body.appendChild(box);
+
+  box.addEventListener('click', function (e) {
+    if (e.target.closest('[data-done-close]') || e.target === box) box.remove();
+  });
+}
+
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  var box = document.querySelector('.done');
+  if (box) box.remove();
+});
+
 (function () {
   'use strict';
 
@@ -572,6 +659,8 @@ p { margin: 0 0 12px; }
       show();
       goEl.disabled = false;
       goEl.textContent = '세탁하기';
+      showDone('세탁 끝!', '<b>' + done.length + '장</b>이 깨끗해졌어요.<br>' +
+        '아래에서 저장하세요.');
     }).catch(function () {
       goEl.disabled = false;
       goEl.textContent = '세탁하기';
@@ -908,6 +997,10 @@ p { margin: 0 0 12px; }
       log('사이트에 반영되기까지 1~2분 걸려요.');
       washRepoEl.disabled = false;
       washRepoEl.textContent = '고른 것 세탁하기';
+      showDone('세탁 끝!',
+        '성공 <b>' + okCount + '장</b>' +
+        (failCount ? ' / 실패 <b>' + failCount + '장</b>' : '') + '<br>' +
+        '사이트에 반영되기까지 1~2분 걸려요.');
     });
   });
 

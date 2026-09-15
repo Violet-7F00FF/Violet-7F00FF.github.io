@@ -1983,6 +1983,44 @@ mark.rose   { background: #ffe0ef; }
   border: 3px solid var(--outline);
 }
 
+
+/* ---------- 쪽 넘기기 ---------- */
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin: 16px 0 6px;
+  padding-top: 14px;
+  border-top: 3px dotted var(--grape-l);
+}
+
+.pager__btn {
+  min-width: 30px;
+  padding: 7px 10px;
+  font-family: var(--mini);
+  font-size: 10px;
+  cursor: pointer;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+}
+
+.pager__btn:hover { background: var(--yellow-l); }
+
+.pager__btn.on {
+  background: var(--pink);
+  color: #fff;
+  box-shadow: inset 2px 2px 0 rgba(43,30,82,0.18);
+}
+
+.pager__btn[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
+
 </style>
 </head>
 <body>
@@ -3883,6 +3921,10 @@ function toHTML(md) {
       }
 
       if (h) el.innerHTML = h;
+      if (out.hasTabs && typeof paginate === 'function') {
+        el.dataset.tab = '';
+        paginate(el, 1);
+      }
     });
   }
 
@@ -3901,7 +3943,67 @@ function toHTML(md) {
    태그 탭 누르기
    ========================================================== */
 
+var PER_PAGE = 5;   // 한 쪽에 보여줄 항목 수
+
+/* 지금 보이는 항목들을 쪽 단위로 나눠서 보여줍니다 */
+function paginate(box, page) {
+  var sel = box.dataset.tab || '';
+
+  // 지금 분류에 해당하는 항목만 모읍니다
+  var shown = Array.prototype.filter.call(box.querySelectorAll('.blk'), function (blk) {
+    var t = blk.dataset.tag || '';
+    if (!t) return false;                 // 태그 없는 항목은 항상 보임
+    return !sel || t === sel;
+  });
+
+  var total = Math.ceil(shown.length / PER_PAGE) || 1;
+  if (page > total) page = total;
+  if (page < 1) page = 1;
+  box.dataset.page = page;
+
+  shown.forEach(function (blk, i) {
+    var inPage = i >= (page - 1) * PER_PAGE && i < page * PER_PAGE;
+    blk.style.display = inPage ? '' : 'none';
+  });
+
+  // 쪽 버튼 그리기
+  var nav = box.querySelector('.pager');
+  if (shown.length <= PER_PAGE) {
+    if (nav) nav.remove();
+    return;
+  }
+  if (!nav) {
+    nav = document.createElement('div');
+    nav.className = 'pager';
+    var pane = box.querySelector('.pane') || box;
+    pane.appendChild(nav);
+  }
+
+  var html = '<button type="button" class="pager__btn" data-page="' + (page - 1) + '"' +
+    (page === 1 ? ' disabled' : '') + '>◀</button>';
+  for (var p = 1; p <= total; p++) {
+    html += '<button type="button" class="pager__btn' + (p === page ? ' on' : '') +
+      '" data-page="' + p + '">' + p + '</button>';
+  }
+  html += '<button type="button" class="pager__btn" data-page="' + (page + 1) + '"' +
+    (page === total ? ' disabled' : '') + '>▶</button>';
+  nav.innerHTML = html;
+}
+
 document.addEventListener('click', function (e) {
+  /* 쪽 넘기기 */
+  var pageBtn = e.target.closest('.pager__btn');
+  if (pageBtn && !pageBtn.disabled) {
+    var pbox = pageBtn.closest('.win__body');
+    if (pbox) {
+      paginate(pbox, Number(pageBtn.dataset.page));
+      var pane = pbox.querySelector('.pane');
+      if (pane) pane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    return;
+  }
+
+  /* 분류 탭 */
   var tab = e.target.closest('.tab');
   if (!tab) return;
 
@@ -3909,19 +4011,23 @@ document.addEventListener('click', function (e) {
   if (!box) return;
 
   var sel = tab.dataset.tab || '';
+  box.dataset.tab = sel;
 
   Array.prototype.forEach.call(box.querySelectorAll('.tab'), function (t) {
     t.classList.toggle('on', t === tab);
-  });
-
-  Array.prototype.forEach.call(box.querySelectorAll('.blk[data-tag]'), function (blk) {
-    blk.style.display = (!sel || blk.dataset.tag === sel) ? '' : 'none';
   });
 
   // 소개글은 '전체' 에서만
   Array.prototype.forEach.call(box.querySelectorAll('.onlyall'), function (el) {
     el.style.display = sel ? 'none' : '';
   });
+
+  // 태그 없는 항목은 항상 보이게
+  Array.prototype.forEach.call(box.querySelectorAll('.blk'), function (blk) {
+    if (!blk.dataset.tag) blk.style.display = '';
+  });
+
+  paginate(box, 1);
 });
 
 
