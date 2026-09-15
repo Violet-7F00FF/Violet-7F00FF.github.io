@@ -3921,10 +3921,7 @@ function toHTML(md) {
       }
 
       if (h) el.innerHTML = h;
-      if (out.hasTabs && typeof paginate === 'function') {
-        el.dataset.tab = '';
-        paginate(el, 1);
-      }
+      if (out.hasTabs) el.dataset.tab = '';
     });
   }
 
@@ -3943,17 +3940,39 @@ function toHTML(md) {
    태그 탭 누르기
    ========================================================== */
 
-var PER_PAGE = 5;   // 한 쪽에 보여줄 항목 수
+var PER_PAGE = 5;            // 한 쪽에 보여줄 항목 수
+var PAGE_WINDOWS = ['promptsBody'];   // 쪽 넘기기를 쓸 창
 
-/* 지금 보이는 항목들을 쪽 단위로 나눠서 보여줍니다 */
-function paginate(box, page) {
+/* 고른 분류에 맞게 항목을 보이고 숨깁니다 */
+function applyTab(box) {
   var sel = box.dataset.tab || '';
 
-  // 지금 분류에 해당하는 항목만 모읍니다
-  var shown = Array.prototype.filter.call(box.querySelectorAll('.blk'), function (blk) {
+  Array.prototype.forEach.call(box.querySelectorAll('.blk'), function (blk) {
     var t = blk.dataset.tag || '';
-    if (!t) return false;                 // 태그 없는 항목은 항상 보임
-    return !sel || t === sel;
+    // 태그 없는 항목은 항상 보임
+    blk.style.display = (!t || !sel || t === sel) ? '' : 'none';
+  });
+
+  // 소개글은 '전체' 에서만
+  Array.prototype.forEach.call(box.querySelectorAll('.onlyall'), function (el) {
+    el.style.display = sel ? 'none' : '';
+  });
+
+  paginate(box, 1);
+}
+
+/* 쪽 나누기 — 정해둔 창에서 분류를 골랐을 때만 */
+function paginate(box, page) {
+  var nav = box.querySelector('.pager');
+  var sel = box.dataset.tab || '';
+
+  if (PAGE_WINDOWS.indexOf(box.id) === -1 || !sel) {
+    if (nav) nav.remove();
+    return;
+  }
+
+  var shown = Array.prototype.filter.call(box.querySelectorAll('.blk'), function (blk) {
+    return blk.dataset.tag === sel;
   });
 
   var total = Math.ceil(shown.length / PER_PAGE) || 1;
@@ -3966,17 +3985,15 @@ function paginate(box, page) {
     blk.style.display = inPage ? '' : 'none';
   });
 
-  // 쪽 버튼 그리기
-  var nav = box.querySelector('.pager');
   if (shown.length <= PER_PAGE) {
     if (nav) nav.remove();
     return;
   }
+
   if (!nav) {
     nav = document.createElement('div');
     nav.className = 'pager';
-    var pane = box.querySelector('.pane') || box;
-    pane.appendChild(nav);
+    (box.querySelector('.pane') || box).appendChild(nav);
   }
 
   var html = '<button type="button" class="pager__btn" data-page="' + (page - 1) + '"' +
@@ -4010,24 +4027,13 @@ document.addEventListener('click', function (e) {
   var box = tab.closest('.win__body');
   if (!box) return;
 
-  var sel = tab.dataset.tab || '';
-  box.dataset.tab = sel;
+  box.dataset.tab = tab.dataset.tab || '';
 
   Array.prototype.forEach.call(box.querySelectorAll('.tab'), function (t) {
     t.classList.toggle('on', t === tab);
   });
 
-  // 소개글은 '전체' 에서만
-  Array.prototype.forEach.call(box.querySelectorAll('.onlyall'), function (el) {
-    el.style.display = sel ? 'none' : '';
-  });
-
-  // 태그 없는 항목은 항상 보이게
-  Array.prototype.forEach.call(box.querySelectorAll('.blk'), function (blk) {
-    if (!blk.dataset.tag) blk.style.display = '';
-  });
-
-  paginate(box, 1);
+  applyTab(box);
 });
 
 
