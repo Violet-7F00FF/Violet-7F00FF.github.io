@@ -1045,6 +1045,88 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🪐시그널 프롬 홈",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\ndramatic low angle, stacked CRT televisions, multiple TV screens, glowing screens, tangled cables, humanoid alien, distant gaze, looking at television screens, holding a space helmet, astronaut helmet in hand,\n\n💜여캐\nretro sci-fi fashion, alien antenna headband, thin headband, two flexible antennae, small round tips, glowing antenna tips, retro space suit, fitted top, padded collar, cropped space jacket, loose sleeves, translucent details, utility belt, high-waisted shorts, gloves, space boots,\n\n💛남캐\nretro sci-fi fashion, alien antenna headband, thin headband, two flexible antennae, small round tips, glowing antenna tips, retro space suit, fitted turtleneck, padded collar, oversized space jacket, loose sleeves, translucent details, utility belt, high-waisted cargo pants, gloves, space boots,\n\n💿공통 배경 프롬\nfaded colors, soft blue and purple and pink colors, homesick, nostalgic, lonely, melancholic, wistful, quiet sadness, cosmic glow, starry light, screen glow, soft focus, scanlines, CRT glow, screen flicker, film grain, film scratches, light leaks, analog noise, chromatic aberration, vintage film look, static noise, analog interference, moon screens, starry screens, cosmic screens, home planet, distant home planet, planet from memory, outer space imagery,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_316.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_151.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🪼빗속을 헤엄치는 여름",
+      "filename": "프롬프트",
+      "code": "holding a transparent umbrella, umbrella above head, standing in the rain, summer fashion, lightweight summer outfit, sleeveless blouse, off-shoulder top, high-waisted shorts, sheer fabric, flowing fabric, ribbon, strappy sandals, delicate accessories, pale blue and white colors, aqua blue and lavender colors, pastel colors, iridescent colors, holographic shimmer, rain, falling raindrops, water droplets, wet surfaces, sparkling rain, soft glow, dreamy glow, bloom, bokeh, light refraction, holographic reflections, glossy highlights, subtle lens flare, misty atmosphere, transparent umbrella, clear umbrella, holographic umbrella, iridescent umbrella, translucent canopy, rainbow reflections, jellyfish floating around character, jellyfish passing in front of character, jellyfish crossing foreground, foreground jellyfish, jellyfish overlapping character,\ntranslucent jellyfish in foreground, glowing jellyfish, floating jellyfish, translucent jellyfish, bioluminescent jellyfish, jellyfish tentacles, watery atmosphere, underwater-like atmosphere, hazy background, (색상1) and (색상2) sky background",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_320.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🍬📺키치 팝 채널",
+      "filename": "",
+      "code": "💿공통 프롬\ndynamic pose, slightly low angle, three-quarter view, retro TV frame, vintage computer screen, rounded screen border, decorative interface, character inside screen, playful composition,\n\n💜여캐\nkitsch fashion, retro fashion, cropped jacket, sailor collar, pleated skirt, oversized sleeves, ribbon bow, striped socks, platform shoes, cute accessories, (색상1) and (색상2) and cream colors, vivid pastel colors, kitschy colors, candy colors, high saturation, retro color palette, playful color blocking,\n\n💛남캐\nkitsch fashion, retro fashion, oversized varsity jacket, striped shirt, baggy shorts, oversized sleeves, ribbon tie, striped socks, platform sneakers, colorful accessories, glossy fabric,\n\n💿공통 배경 프롬\nsparkles, stars, flowers, hearts, colorful confetti, halftone dots, comic accents, motion lines, colorful particles, soft glow, bloom, retro electronics, buttons, control panels, digital display, cassette tapes, retro snack packages, candy wrappers, soda cans, colorful stickers, flower motifs, round ornaments, retro 1990s aesthetic,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_330.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_159.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🎀📔스위트 스크랩북",
+      "filename": "프롬프트",
+      "code": "full body, cute pose, lovely pose, vintage dress, pinafore dress, puff sleeves, lace trim, ruffled skirt, ribbon bow, bow hair accessory, frilled socks, mary jane shoes, heart-shaped accessories, (색상1) and (색상2) colors, pastel colors, muted colors, limited color palette, vintage color palette, soft contrast, retro collage, scrapbook aesthetic, vintage paper cutouts, decorative border, sticker collage, layered paper, paper cutout shapes, hand-drawn doodles, hearts, ribbons, bows, flowers, stars, sparkles, heart-shaped balloons, love letters, envelopes, gift boxes, candy, chocolate, cake, cupcakes, cherries, perfume bottle, handbag, ribbon spool, paper texture, grainy texture, printed texture, halftone dots, vintage print, faded ink, subtle grain, soft glow, soft shadow, retro illustration, pastel grid background, scrapbook page, decorative paper, framed panels, handwritten notes, vintage labels, patterned paper, multiple rectangular panels, framed character head, monochrome head sketches, rough lineart portraits, simplified face sketches, 2::alternate facial expressions::, monochrome sketches, lineart, faded ink, soft outlines,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_336.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💿🎧디지털 웨이브",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\ncowboy shot, high angle, dynamic pose,\n\n💜여캐\nY2K fashion, techwear, cyber fashion, (색상1) and (색상2) outfit, metallic fabric, (색상3) accents, fitted top, mini skirt, harness straps, choker, fingerless gloves, headphones,\n\n💛남캐\nY2K fashion, techwear, cyber fashion, (색상1) and (색상2) outfit, metallic fabric, (색상3) accents, oversized tech jacket, fitted turtleneck, layered shirt, utility harness, cargo pants, strapped details, fingerless gloves, chunky sneakers, headphones, glossy fabric, translucent details,\n\n💿공통 배경 프롬\ncool tones, high contrast, metallic sheen, glossy highlights, flash photography, glossy magazine print, soft bloom, lens flare, chromatic aberration, film grain, halftone texture, printed texture, subtle noise, slight overexposure, white studio background, clean white backdrop, subtle gray shadows, portable CD player, compact disc player, silver CD player, metallic CD player, wired earphones, headphone cable, handheld electronics, retro electronic device, editorial layout, 2000s Japanese magazine advertisement, retro electronics advertisement, commercial poster, product advertisement, asymmetrical composition, structured advertisement layout, large product image, large headline across top, brand logo at top, date label, product detail image, technical specification box, small callout labels, thin decorative lines, geometric panels, outlined boxes, retro electronics collage, floating CDs, loose compact discs, CD cases, portable music players, cassette players, earphones, headphones, wires, small electronic gadgets, vintage audio devices, scattered product photographs, overlapping electronics, layered product images, cutout product images, collage background, scrapbook-like product collage, retro catalog collage, retro graphic elements, technical diagrams, product labels, callout text, futuristic typography, italic typography, outlined typography, oversized logo, \"2002.03\", \"NEW\", \"DIGITAL WAVE\", \"MUSIC PLAYER\", \"Portable CD Player\", \"High-Fidelity Digital Sound\", \"Anti-Skip Protection\", \"Model D-EJ751\", \"Compact Disc Player\", \"SPECIFICATIONS\", \"PLAY\", \"STOP\", \"MODE\",",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_341.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_163.webp",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
