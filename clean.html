@@ -279,6 +279,68 @@ p { margin: 0 0 12px; }
 
 .picked__x:hover { background: var(--pink); color: #fff; }
 
+/* ---------- 검사 결과 ---------- */
+
+.checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 11px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chk {
+  background: #fff;
+  border: 4px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+  overflow: hidden;
+}
+
+.chk--ok { border-color: #14a06d; }
+.chk--bad { border-color: #e03a5f; }
+
+.chk img {
+  display: block;
+  width: 100%;
+  height: 96px;
+  object-fit: cover;
+  border-bottom: 3px solid var(--outline);
+}
+
+.chk__body { padding: 8px 9px 9px; }
+
+.chk__name {
+  display: block;
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chk__verdict {
+  display: block;
+  font-family: var(--pixel);
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.chk--ok .chk__verdict { color: #14a06d; }
+.chk--bad .chk__verdict { color: #e03a5f; }
+
+.chk__line {
+  display: block;
+  font-family: var(--mini);
+  font-size: 9px;
+  line-height: 1.9;
+}
+
+.chk__line--ok { color: #14a06d; }
+.chk__line--bad { color: #e03a5f; }
+
 /* ---------- 완료 알림 ---------- */
 
 .done {
@@ -443,10 +505,10 @@ p { margin: 0 0 12px; }
       <div class="drop" id="dropCheck" style="min-height:110px">
         <div>
           <b>검사할 그림을 놓으세요</b>
-          <span>이 브라우저 안에서만 확인합니다</span>
+          <span>여러 장 한꺼번에 가능 · 이 브라우저 안에서만 확인합니다</span>
         </div>
       </div>
-      <input type="file" id="fileCheck" accept="image/*" hidden>
+      <input type="file" id="fileCheck" accept="image/*" multiple hidden>
       <div id="checkOut" style="margin-top:14px"></div>
     </div>
   </div>
@@ -1121,86 +1183,123 @@ document.addEventListener('keydown', function (e) {
   dropCheck.addEventListener('dragleave', function () { dropCheck.classList.remove('over'); });
   dropCheck.addEventListener('drop', function (e) {
     e.preventDefault(); dropCheck.classList.remove('over');
-    if (e.dataTransfer.files[0]) inspect(e.dataTransfer.files[0]);
+    inspectAll(e.dataTransfer.files);
   });
   fileCheck.addEventListener('change', function () {
-    if (fileCheck.files[0]) inspect(fileCheck.files[0]);
+    inspectAll(fileCheck.files);
   });
 
-  function inspect(file) {
-    checkOut.innerHTML = '<p style="font-family:var(--mini);font-size:10px">검사 중...</p>';
+  function inspectAll(files) {
+    var list = Array.prototype.filter.call(files, function (f) {
+      return /^image\//.test(f.type);
+    });
+    if (!list.length) return;
 
-    var reader = new FileReader();
-    reader.onload = function () {
-      var bytes = new Uint8Array(reader.result);
-      var txt = '';
-      for (var i = 0; i < Math.min(bytes.length, 300000); i++) {
-        txt += String.fromCharCode(bytes[i]);
+    checkOut.innerHTML = '<p class="note">검사 중...</p>';
+    var ul = document.createElement('ul');
+    ul.className = 'checks';
+
+    var okCount = 0, badCount = 0;
+    var chain = Promise.resolve();
+
+    list.forEach(function (f) {
+      chain = chain.then(function () {
+        return inspectOne(f).then(function (r) {
+          if (r.clean) okCount += 1; else badCount += 1;
+          ul.appendChild(card(f, r));
+          checkOut.innerHTML = '';
+          checkOut.appendChild(ul);
+        });
+      });
+    });
+
+    chain.then(function () {
+      var sum = document.createElement('p');
+      sum.className = 'note';
+      sum.style.marginTop = '10px';
+      sum.innerHTML = '깨끗함 <b>' + okCount + '장</b>' +
+        (badCount ? ' / 남아있음 <b style="color:#e03a5f">' + badCount + '장</b>' : '');
+      checkOut.appendChild(sum);
+
+      if (badCount) {
+        showDone('아직 남아있어요',
+          '<b>' + badCount + '장</b>에 정보가 남아있어요.<br>' +
+          '투명도 없애기를 켜고 다시 세탁해 주세요.');
+      } else {
+        showDone('전부 깨끗해요!', '<b>' + okCount + '장</b> 모두 정보가 지워졌어요.');
       }
+    });
+  }
 
-      // 파일 안에 남은 글자 정보 찾기
-      var marks = ['tEXt', 'iTXt', 'zTXt', 'Exif', 'XML:com.adobe', 'parameters',
-                   'Software', 'Comment', 'novelai', 'NovelAI', 'stable-diffusion'];
-      var hits = marks.filter(function (m) { return txt.indexOf(m) !== -1; });
+  function card(file, r) {
+    var li = document.createElement('li');
+    li.className = 'chk ' + (r.clean ? 'chk--ok' : 'chk--bad');
 
-      // 알파 채널 확인
-      var url = URL.createObjectURL(file);
-      var im = new Image();
-      im.onload = function () {
-        URL.revokeObjectURL(url);
-        var cv = document.createElement('canvas');
-        var w = Math.min(im.naturalWidth, 900);
-        var r = w / im.naturalWidth;
-        cv.width = w;
-        cv.height = Math.round(im.naturalHeight * r);
-        var ctx = cv.getContext('2d', { willReadFrequently: true });
-        ctx.drawImage(im, 0, 0, cv.width, cv.height);
-        var d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+    var img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.alt = file.name;
+    img.onload = function () { URL.revokeObjectURL(img.src); };
+    li.appendChild(img);
 
-        var semi = 0;
-        for (var j = 3; j < d.length; j += 4) if (d[j] !== 255) semi += 1;
+    var body = document.createElement('div');
+    body.className = 'chk__body';
+    body.innerHTML =
+      '<span class="chk__name" title="' + file.name.replace(/"/g, '&quot;') + '">' +
+      file.name + '</span>' +
+      '<span class="chk__verdict">' + (r.clean ? '✔ 깨끗해요' : '✕ 남아있어요') + '</span>' +
+      '<span class="chk__line chk__line--' + (r.noText ? 'ok' : 'bad') + '">' +
+      (r.noText ? '· 파일 정보 없음' : '· 파일 정보 남음') + '</span>' +
+      '<span class="chk__line chk__line--' + (r.noAlpha ? 'ok' : 'bad') + '">' +
+      (r.noAlpha ? '· 알파 채널 깨끗' : '· 반투명 ' + r.semi.toLocaleString() + '칸') +
+      '</span>';
+    li.appendChild(body);
+    return li;
+  }
 
-        var okColor = '#14705a';
-        var badColor = '#c2317c';
-        var html = '';
-
-        html += line(hits.length === 0,
-          hits.length === 0 ? '파일에 남은 글자 정보 없음'
-            : '파일에 정보가 남아있어요 — ' + hits.join(', '));
-
-        html += line(semi === 0,
-          semi === 0 ? '알파 채널 깨끗함 (전부 불투명)'
-            : '반투명 픽셀 ' + semi.toLocaleString() + '개 — 여기 정보가 숨어있을 수 있어요');
-
-        html += '<p style="font-family:var(--mini);font-size:9px;color:var(--sub);margin:8px 0 0">' +
-          im.naturalWidth + '×' + im.naturalHeight + ' · ' +
-          (file.type || '?') + ' · ' + Math.round(file.size / 1024) + 'KB</p>';
-
-        if (hits.length === 0 && semi === 0) {
-          html += '<p style="font-family:var(--mini);font-size:10px;color:' + okColor +
-            ';margin:10px 0 0"><b>깨끗해요!</b></p>';
-        } else {
-          html += '<p style="font-family:var(--mini);font-size:10px;color:' + badColor +
-            ';margin:10px 0 0"><b>다시 세탁해 주세요.</b> 투명도 없애기를 켜고 해보세요.</p>';
+  function inspectOne(file) {
+    return new Promise(function (resolve) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var bytes = new Uint8Array(reader.result);
+        var txt = '';
+        for (var i = 0; i < Math.min(bytes.length, 300000); i++) {
+          txt += String.fromCharCode(bytes[i]);
         }
+        var marks = ['tEXt', 'iTXt', 'zTXt', 'Exif', 'XML:com.adobe', 'parameters',
+                     'Software', 'Comment', 'novelai', 'NovelAI', 'stable-diffusion'];
+        var hits = marks.filter(function (m) { return txt.indexOf(m) !== -1; });
 
-        checkOut.innerHTML = html;
+        var url = URL.createObjectURL(file);
+        var im = new Image();
+        im.onload = function () {
+          URL.revokeObjectURL(url);
+          var cv = document.createElement('canvas');
+          var w = Math.min(im.naturalWidth, 900);
+          var ratio = w / im.naturalWidth;
+          cv.width = w;
+          cv.height = Math.round(im.naturalHeight * ratio);
+          var ctx = cv.getContext('2d', { willReadFrequently: true });
+          ctx.drawImage(im, 0, 0, cv.width, cv.height);
+          var d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+          var semi = 0;
+          for (var j = 3; j < d.length; j += 4) if (d[j] !== 255) semi += 1;
+
+          resolve({
+            noText: hits.length === 0,
+            noAlpha: semi === 0,
+            semi: semi,
+            clean: hits.length === 0 && semi === 0
+          });
+        };
+        im.onerror = function () {
+          URL.revokeObjectURL(url);
+          resolve({ noText: false, noAlpha: false, semi: 0, clean: false });
+        };
+        im.src = url;
       };
-      im.onerror = function () {
-        checkOut.innerHTML = '<p style="font-family:var(--mini);font-size:10px">' +
-          '그림을 열 수 없어요.</p>';
-      };
-      im.src = url;
-    };
-    reader.readAsArrayBuffer(file);
+      reader.readAsArrayBuffer(file);
+    });
   }
-
-  function line(ok, text) {
-    return '<p style="font-family:var(--mini);font-size:10px;margin:0 0 5px;color:' +
-      (ok ? '#14705a' : '#c2317c') + '">' + (ok ? '✔ ' : '✕ ') + text + '</p>';
-  }
-
-
 
 }());
 </script>
