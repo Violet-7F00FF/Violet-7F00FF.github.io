@@ -4014,8 +4014,15 @@ document.addEventListener('click', function (e) {
     var pbox = pageBtn.closest('.win__body');
     if (pbox) {
       paginate(pbox, Number(pageBtn.dataset.page));
-      var pane = pbox.querySelector('.pane');
-      if (pane) pane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // 창 안을 맨 위로 올려줍니다
+      if (pbox.scrollHeight > pbox.clientHeight + 4) {
+        pbox.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // 좁은 화면처럼 창 자체가 안 스크롤될 때는 창을 화면 위로
+        var win = pbox.closest('.win');
+        if (win) win.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
     return;
   }
