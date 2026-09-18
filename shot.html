@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>HTML → PNG · Cookie Monster</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root {
+  --outline: #2b1e52;
+  --wall: #8079f0;
+  --pink: #ff5fa8;
+  --pink-l: #ffd6ea;
+  --cyan: #3fd3e8;
+  --cyan-l: #ccf4fa;
+  --yellow: #ffd93d;
+  --yellow-l: #fff5c2;
+  --mint: #4ddcb4;
+  --mint-l: #d0f8ec;
+  --grape: #9b6cf5;
+  --grape-l: #e6dbff;
+  --ink: #2b1e52;
+  --sub: #7565a8;
+  --pixel: 'Galmuri11', 'DotGothic16', 'Galmuri9', monospace;
+  --mini: 'Galmuri9', 'DotGothic16', 'Galmuri11', monospace;
+  --body: 'Pretendard Variable', Pretendard, -apple-system, 'Malgun Gothic', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 28px 16px 60px;
+  font-family: var(--body);
+  color: var(--ink);
+  line-height: 1.75;
+  background-color: var(--wall);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+  background-size: 148px 148px, 148px 148px;
+}
+
+.wrap { max-width: 760px; margin: 0 auto; }
+
+.win {
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.38);
+  margin-bottom: 22px;
+}
+
+.bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background-color: var(--grape);
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.4);
+}
+
+.body { padding: 18px 18px 20px; }
+.body > :first-child { margin-top: 0; }
+.body > :last-child { margin-bottom: 0; }
+
+.sub { color: var(--sub); font-size: 13.5px; margin: 0 0 14px; }
+
+h2 {
+  font-family: var(--pixel);
+  font-size: 13px;
+  margin: 20px 0 9px;
+  padding-bottom: 7px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+textarea {
+  width: 100%;
+  min-height: 190px;
+  padding: 12px;
+  font-family: var(--pixel);
+  font-size: 12px;
+  line-height: 1.85;
+  color: #eae3ff;
+  background: #2b1e52;
+  border: 3px solid var(--outline);
+  resize: vertical;
+}
+
+.opt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 2px dotted var(--grape-l);
+  font-size: 13.5px;
+}
+
+.opt:last-of-type { border-bottom: 0; }
+.opt label { font-family: var(--mini); font-size: 10px; color: var(--sub); flex: none; width: 76px; }
+.opt input[type="number"] { width: 92px; }
+.opt input[type="number"], .opt select {
+  font-family: var(--body);
+  font-size: 13px;
+  padding: 6px 9px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+.opt .hint { font-family: var(--mini); font-size: 10px; color: var(--sub); }
+
+.btn {
+  font-family: var(--mini);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  cursor: pointer;
+  color: var(--outline);
+  background: var(--yellow);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+.btn:hover { background: var(--cyan); }
+.btn:active { transform: translate(3px,3px); box-shadow: none; }
+.btn[disabled] { opacity: 0.5; cursor: default; transform: none; }
+.btn--go { background: var(--pink); color: #fff; }
+
+.row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+
+.stage {
+  margin-top: 4px;
+  padding: 12px;
+  background: var(--grape-l);
+  border: 3px solid var(--outline);
+  overflow: auto;
+}
+
+.stage--checker {
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #e6dbff 25%, transparent 25%, transparent 75%, #e6dbff 75%),
+    linear-gradient(45deg, #e6dbff 25%, transparent 25%, transparent 75%, #e6dbff 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+
+#frame {
+  display: block;
+  margin: 0 auto;
+  background: transparent;
+  border: 0;
+}
+
+.note { font-family: var(--mini); font-size: 10px; color: var(--sub); margin: 10px 0 0; line-height: 1.9; }
+
+.tip {
+  padding: 12px 14px;
+  background: var(--yellow-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+  font-size: 13px;
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--mini);
+  font-size: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 8px 14px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+  margin-right: 8px;
+}
+
+/* 완료 알림 */
+.done {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(43, 30, 82, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.done__win {
+  max-width: 420px;
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 7px 7px 0 rgba(20, 12, 45, 0.45);
+}
+
+.done__bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background: var(--mint);
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #0b4736;
+}
+
+.done__body { padding: 20px 18px 18px; text-align: center; }
+.done__big { font-family: var(--pixel); font-size: 15px; margin: 0 0 10px; }
+.done__txt { font-size: 13.5px; color: var(--sub); margin: 0 0 16px; line-height: 1.8; }
+.done__txt b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="win">
+    <div class="bar">HTML → PNG</div>
+    <div class="body">
+      <p class="sub">
+        위젯 코드를 붙여넣으면 그림으로 뽑아줍니다. 미리보기 이미지 만들 때 쓰세요.
+        <b>이 브라우저 안에서만 처리되고 어디에도 전송되지 않습니다.</b>
+      </p>
+
+      <textarea id="code" placeholder="&lt;div style=&quot;padding:20px;background:#ffd6ea&quot;&gt;안녕&lt;/div&gt;"></textarea>
+
+      <h2>설정</h2>
+
+      <div class="opt">
+        <label>가로 너비</label>
+        <input type="number" id="width" value="420" min="100" max="1600" step="10">
+        <span class="hint">픽셀. 위젯 폭에 맞추세요</span>
+      </div>
+
+      <div class="opt">
+        <label>선명도</label>
+        <select id="scale">
+          <option value="1">1배</option>
+          <option value="2" selected>2배 (추천)</option>
+          <option value="3">3배</option>
+        </select>
+        <span class="hint">숫자가 클수록 또렷하고 파일이 커집니다</span>
+      </div>
+
+      <div class="opt">
+        <label>배경</label>
+        <select id="bg">
+          <option value="transparent">투명</option>
+          <option value="#ffffff">흰색</option>
+          <option value="#8079f0">사이트 보라</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>파일 이름</label>
+        <input type="number" id="dummy" hidden>
+        <select id="fmt">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPEG</option>
+        </select>
+        <span class="hint">투명 배경은 PNG 로만 남습니다</span>
+      </div>
+
+      <div class="row">
+        <button type="button" class="btn" id="preview">미리보기</button>
+        <button type="button" class="btn btn--go" id="save" disabled>그림으로 저장</button>
+      </div>
+
+      <h2>미리보기</h2>
+      <div class="stage stage--checker" id="stage">
+        <iframe id="frame" title="미리보기"></iframe>
+      </div>
+      <p class="note" id="msg">코드를 넣고 미리보기를 눌러주세요.</p>
+    </div>
+  </div>
+
+  <div class="win">
+    <div class="bar">READ ME</div>
+    <div class="body">
+      <p class="tip">
+        인터넷에서 불러오는 그림이나 글꼴은 안 나올 수 있어요.
+        그럴 땐 그림을 코드 안에 넣거나, 화면을 직접 캡처하는 편이 빠릅니다.
+      </p>
+
+      <h2>잘 되는 것</h2>
+      <p class="sub">
+        글자·상자·색·테두리·그림자·격자 배치 등 대부분의 꾸미기<br>
+        코드 안에 넣은 그림 (data: 로 시작하는 것)
+      </p>
+
+      <h2>안 되는 것</h2>
+      <p class="sub">
+        움직임(애니메이션)은 멈춘 한 장면으로만 나옵니다<br>
+        다른 사이트에서 불러오는 그림은 비어 보일 수 있어요
+      </p>
+
+      <p style="margin-top:16px">
+        <a class="back" href="./">← 홈페이지로</a>
+        <a class="back" href="chat.html">채팅 발췌기 →</a>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var codeEl = document.getElementById('code');
+  var frame = document.getElementById('frame');
+  var stage = document.getElementById('stage');
+  var widthEl = document.getElementById('width');
+  var scaleEl = document.getElementById('scale');
+  var bgEl = document.getElementById('bg');
+  var fmtEl = document.getElementById('fmt');
+  var previewEl = document.getElementById('preview');
+  var saveEl = document.getElementById('save');
+  var msgEl = document.getElementById('msg');
+
+  function msg(t, color) {
+    msgEl.textContent = t;
+    msgEl.style.color = color || 'var(--sub)';
+  }
+
+  function showDone(title, lines) {
+    var old = document.querySelector('.done');
+    if (old) old.remove();
+    var box = document.createElement('div');
+    box.className = 'done';
+    box.innerHTML =
+      '<div class="done__win"><div class="done__bar">COMPLETE</div>' +
+      '<div class="done__body"><p class="done__big">' + title + '</p>' +
+      '<p class="done__txt">' + lines + '</p>' +
+      '<button type="button" class="btn btn--go" data-close>확인</button>' +
+      '</div></div>';
+    document.body.appendChild(box);
+    box.addEventListener('click', function (e) {
+      if (e.target.closest('[data-close]') || e.target === box) box.remove();
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var b = document.querySelector('.done');
+    if (b) b.remove();
+  });
+
+  function render() {
+    var html = codeEl.value.trim();
+    if (!html) { msg('코드를 넣어주세요.', '#c2317c'); return; }
+
+    var w = parseInt(widthEl.value, 10) || 420;
+    frame.style.width = w + 'px';
+
+    frame.srcdoc =
+      '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">' +
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">' +
+      '<style>html,body{margin:0;padding:0;background:transparent;' +
+      "font-family:'Pretendard Variable',Pretendard,sans-serif}</style>" +
+      '</head><body>' + html + '</body></html>';
+
+    frame.onload = function () {
+      fit();
+      saveEl.disabled = false;
+      msg('미리보기 완성. 저장을 눌러주세요.');
+    };
+  }
+
+  function fit() {
+    try {
+      var doc = frame.contentDocument;
+      var h = Math.max(
+        doc.body.scrollHeight,
+        doc.documentElement ? doc.documentElement.scrollHeight : 0,
+        40
+      );
+      frame.style.height = (h + 2) + 'px';
+    } catch (e) { frame.style.height = '320px'; }
+  }
+
+  previewEl.addEventListener('click', render);
+  widthEl.addEventListener('change', function () {
+    if (!saveEl.disabled) render();
+  });
+
+  bgEl.addEventListener('change', function () {
+    stage.classList.toggle('stage--checker', bgEl.value === 'transparent');
+    stage.style.background = bgEl.value === 'transparent' ? '' : bgEl.value;
+  });
+
+  saveEl.addEventListener('click', function () {
+    if (!window.html2canvas) {
+      msg('그림 만드는 기능을 불러오지 못했어요. 새로고침해 주세요.', '#c2317c');
+      return;
+    }
+    var doc = frame.contentDocument;
+    if (!doc || !doc.body) { msg('먼저 미리보기를 눌러주세요.', '#c2317c'); return; }
+
+    saveEl.disabled = true;
+    msg('그림 만드는 중...');
+
+    var fmt = fmtEl.value;
+    var bg = bgEl.value === 'transparent'
+      ? (fmt === 'image/jpeg' ? '#ffffff' : null)
+      : bgEl.value;
+
+    fit();
+
+    html2canvas(doc.body, {
+      scale: Number(scaleEl.value) || 2,
+      backgroundColor: bg,
+      useCORS: true,
+      logging: false,
+      width: doc.body.scrollWidth,
+      height: doc.body.scrollHeight
+    }).then(function (canvas) {
+      canvas.toBlob(function (blob) {
+        if (!blob) { msg('그림을 만들지 못했어요.', '#c2317c'); saveEl.disabled = false; return; }
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'widget-' + Date.now() + (fmt === 'image/jpeg' ? '.jpg' : '.png');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+
+        msg('저장했어요.');
+        saveEl.disabled = false;
+        showDone('그림 완성!',
+          canvas.width + '×' + canvas.height + ' 크기로 저장했어요.<br>' +
+          '<b>' + Math.round(blob.size / 1024) + 'KB</b>');
+      }, fmt, 0.94);
+    }).catch(function () {
+      msg('그림을 만들지 못했어요. 코드를 줄여서 다시 해보세요.', '#c2317c');
+      saveEl.disabled = false;
+    });
+  });
+
+}());
+</script>
+</body>
+</html>

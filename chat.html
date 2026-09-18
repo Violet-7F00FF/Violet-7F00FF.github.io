@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>채팅 발췌기 · Cookie Monster</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Pen+Script&family=Hahmlet:wght@400;600&family=DotGothic16&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root {
+  --outline: #2b1e52;
+  --wall: #8079f0;
+  --pink: #ff5fa8;
+  --pink-l: #ffd6ea;
+  --cyan: #3fd3e8;
+  --cyan-l: #ccf4fa;
+  --yellow: #ffd93d;
+  --yellow-l: #fff5c2;
+  --mint: #4ddcb4;
+  --mint-l: #d0f8ec;
+  --grape: #9b6cf5;
+  --grape-l: #e6dbff;
+  --ink: #2b1e52;
+  --sub: #7565a8;
+  --pixel: 'Galmuri11', 'DotGothic16', 'Galmuri9', monospace;
+  --mini: 'Galmuri9', 'DotGothic16', 'Galmuri11', monospace;
+  --body: 'Pretendard Variable', Pretendard, -apple-system, 'Malgun Gothic', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 28px 16px 60px;
+  font-family: var(--body);
+  color: var(--ink);
+  line-height: 1.75;
+  background-color: var(--wall);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+  background-size: 148px 148px, 148px 148px;
+}
+
+.wrap { max-width: 1180px; margin: 0 auto; }
+
+/* 두 칸 배치 */
+.cols {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .cols { grid-template-columns: 1fr; }
+}
+
+.col--right { position: sticky; top: 20px; }
+
+@media (max-width: 900px) {
+  .col--right { position: static; }
+}
+
+.win--tall .body { max-height: 74vh; overflow-y: auto; }
+
+/* 창 안 스크롤바 */
+.win--tall .body::-webkit-scrollbar { width: 14px; }
+.win--tall .body::-webkit-scrollbar-track { background: var(--grape-l); }
+.win--tall .body::-webkit-scrollbar-thumb {
+  background: var(--grape);
+  border: 2px solid var(--grape-l);
+}
+
+.win {
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 6px 6px 0 rgba(43,30,82,0.38);
+  margin-bottom: 22px;
+}
+
+.bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background-color: var(--pink);
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%,
+                    transparent 75%, rgba(255,255,255,0.3) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(43,30,82,0.4);
+}
+
+.body { padding: 18px 18px 20px; }
+.body > :first-child { margin-top: 0; }
+.body > :last-child { margin-bottom: 0; }
+
+.sub { color: var(--sub); font-size: 13.5px; margin: 0 0 14px; }
+
+h2 {
+  font-family: var(--pixel);
+  font-size: 13px;
+  margin: 20px 0 9px;
+  padding-bottom: 7px;
+  border-bottom: 3px dotted var(--grape-l);
+}
+
+textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px;
+  font-family: var(--body);
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  resize: vertical;
+}
+
+.opt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 2px dotted var(--grape-l);
+  font-size: 13.5px;
+}
+
+.opt:last-of-type { border-bottom: 0; }
+
+.opt label {
+  font-family: var(--mini);
+  font-size: 10px;
+  color: var(--sub);
+  flex: none;
+  width: 84px;
+}
+
+.opt label.w-auto { width: auto; }
+.opt input[type="text"] { flex: 1; min-width: 130px; }
+.opt input[type="number"] { width: 84px; }
+.opt input[type="range"] { flex: 1; min-width: 120px; accent-color: var(--pink); }
+.opt input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--pink); flex: none; }
+
+.opt input[type="text"], .opt input[type="number"], .opt select {
+  font-family: var(--body);
+  font-size: 13px;
+  padding: 6px 9px;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+
+.opt .hint { font-family: var(--mini); font-size: 10px; color: var(--sub); }
+.opt .val { font-family: var(--mini); font-size: 10px; color: var(--ink); flex: none; width: 48px; }
+
+.btn {
+  font-family: var(--mini);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  cursor: pointer;
+  color: var(--outline);
+  background: var(--yellow);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+}
+
+.btn:hover { background: var(--cyan); }
+.btn:active { transform: translate(3px,3px); box-shadow: none; }
+.btn[disabled] { opacity: 0.5; cursor: default; transform: none; }
+.btn--go { background: var(--pink); color: #fff; }
+.btn--sm { padding: 6px 12px; }
+
+.row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+
+.stage {
+  margin-top: 4px;
+  padding: 14px;
+  background: var(--grape-l);
+  border: 3px solid var(--outline);
+  overflow: auto;
+  max-height: 58vh;
+}
+
+.stage::-webkit-scrollbar { width: 14px; }
+.stage::-webkit-scrollbar-track { background: #fff; }
+.stage::-webkit-scrollbar-thumb {
+  background: var(--grape);
+  border: 2px solid #fff;
+}
+
+/* ---------- 발췌 결과 ---------- */
+
+.sheet {
+  position: relative;
+  width: 430px;
+  margin: 0 auto;
+  padding: 20px 18px 22px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  overflow: hidden;
+  font-size: 13.5px;
+}
+
+.sheet__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.sheet__veil {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.sheet__in { position: relative; z-index: 2; }
+
+.sheet__head {
+  margin: 0 0 15px;
+  padding-bottom: 11px;
+  border-bottom: 3px dotted rgba(43,30,82,0.25);
+}
+
+.sheet__title { font-family: var(--pixel); font-size: 14px; margin: 0; }
+
+.sheet__note {
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+  margin: 5px 0 0;
+}
+
+.msg { margin-bottom: 12px; }
+.msg:last-child { margin-bottom: 0; }
+
+.msg__who {
+  display: block;
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+  margin-bottom: 4px;
+}
+
+.msg__bubble {
+  display: inline-block;
+  max-width: 90%;
+  padding: 11px 13px;
+  color: var(--ink);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
+  word-break: break-word;
+}
+
+.msg--ai .msg__bubble { background: var(--bubble-ai, #fff); }
+
+.msg--me { text-align: right; }
+.msg--me .msg__who { text-align: right; }
+.msg--me .msg__bubble { background: var(--bubble-me, #ffd6ea); text-align: left; }
+
+/* 지문 — 흐린 기울임 */
+.narr {
+  display: block;
+  margin: 0 0 7px;
+  font-style: italic;
+  opacity: 0.62;
+}
+
+/* 대사 — 또렷하게 */
+.line {
+  display: block;
+  margin: 0 0 7px;
+  font-weight: 600;
+}
+
+.narr:last-child, .line:last-child { margin-bottom: 0; }
+
+/* 말풍선 끄기 */
+.sheet--plain .msg__bubble {
+  display: block;
+  max-width: 100%;
+  padding: 0;
+  background: transparent !important;
+  border: 0;
+  box-shadow: none;
+}
+
+.sheet--plain .msg { margin-bottom: 18px; }
+.sheet--plain .msg--me, .sheet--plain .msg--me .msg__who { text-align: left; }
+.sheet--plain .line { font-weight: 500; }
+
+.sheet__foot {
+  margin: 16px 0 0;
+  padding-top: 11px;
+  border-top: 3px dotted rgba(43,30,82,0.25);
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+  text-align: right;
+}
+
+.note { font-family: var(--mini); font-size: 10px; color: var(--sub); margin: 10px 0 0; line-height: 1.9; }
+
+.tip {
+  padding: 12px 14px;
+  background: var(--yellow-l);
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.22);
+  font-size: 13px;
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--mini);
+  font-size: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 8px 14px;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 3px 3px 0 rgba(43,30,82,0.3);
+  margin-right: 8px;
+}
+
+code {
+  font-family: var(--pixel);
+  font-size: 11px;
+  padding: 2px 5px;
+  background: var(--grape-l);
+  border: 2px solid var(--outline);
+}
+
+/* 완료 알림 */
+.done {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(43, 30, 82, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.done__win {
+  max-width: 420px;
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 7px 7px 0 rgba(20, 12, 45, 0.45);
+}
+
+.done__bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 3px 3px 0;
+  padding: 0 9px;
+  background: var(--mint);
+  border: 2px solid var(--outline);
+  font-family: var(--pixel);
+  font-size: 12px;
+  color: #0b4736;
+}
+
+.done__body { padding: 20px 18px 18px; text-align: center; }
+.done__big { font-family: var(--pixel); font-size: 15px; margin: 0 0 10px; }
+.done__txt { font-size: 13.5px; color: var(--sub); margin: 0 0 16px; line-height: 1.8; }
+.done__txt b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="win">
+    <div class="bar">READ ME</div>
+    <div class="body">
+      <p class="tip">
+        발췌를 올리실 때는 플랫폼 규정을 한 번 확인해 주세요.
+        캐릭터 설정이나 프롬프트가 그대로 드러나는 부분은 빼는 편이 안전합니다.
+      </p>
+
+      <h2>적는 법</h2>
+      <p class="sub">
+        <code>*그는 고개를 돌렸다*</code> → 흐린 기울임 지문<br>
+        <code>"오늘은 무슨 일이야?"</code> → 또렷한 대사<br>
+        <code>베타: *웃으며* "안녕"</code> → 이름 + 지문 + 대사<br>
+        한 줄에 지문과 대사를 섞어 쓰면 문단이 알아서 나뉩니다.<br>
+        이름 없이 이어 쓰면 앞 말풍선에 이어 붙어요.
+      </p>
+
+      <h2>알아두기</h2>
+      <p class="sub">
+        배경 그림은 흐리기를 70% 정도로 두면 글씨가 잘 보여요.<br>
+        <b>그림 복사</b> 를 누르면 저장 없이 바로 트위터에 붙여넣을 수 있어요.
+      </p>
+
+      <p style="margin-top:16px">
+        <a class="back" href="./">← 홈페이지로</a>
+        <a class="back" href="shot.html">HTML → PNG →</a>
+      </p>
+    </div>
+  </div>
+
+
+  <div class="cols">
+
+    <div class="col col--left">
+      <div class="win win--tall">
+        <div class="bar">설정</div>
+        <div class="body">
+      <h2>글</h2>
+
+      <div class="opt">
+        <label>제목</label>
+        <input type="text" id="title" placeholder="비 오는 날">
+      </div>
+
+      <div class="opt">
+        <label>내 이름</label>
+        <input type="text" id="me" placeholder="쿠키">
+        <span class="hint">이 이름이면 오른쪽 말풍선</span>
+      </div>
+
+      <div class="opt">
+        <label>아래 글귀</label>
+        <input type="text" id="foot" placeholder="@Cookie_B_A">
+      </div>
+
+      <h2>꾸미기</h2>
+
+      <div class="opt">
+        <label>글꼴</label>
+        <select id="font">
+          <option value="'Pretendard Variable',Pretendard,sans-serif">프리텐다드 (기본)</option>
+          <option value="'Gowun Batang',serif">고운바탕 (명조)</option>
+          <option value="'Nanum Myeongjo',serif">나눔명조</option>
+          <option value="'Hahmlet',serif">함렛 (진한 명조)</option>
+          <option value="'Gowun Dodum',sans-serif">고운돋움</option>
+          <option value="'Nanum Pen Script',cursive">나눔손글씨</option>
+          <option value="'Galmuri11','DotGothic16',monospace">갈무리 (도트)</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>글자 크기</label>
+        <input type="range" id="size" min="11" max="22" step="0.5" value="13.5">
+        <span class="val" id="sizeVal">13.5px</span>
+      </div>
+
+      <div class="opt">
+        <label>줄 간격</label>
+        <input type="range" id="lh" min="1.4" max="2.6" step="0.1" value="1.8">
+        <span class="val" id="lhVal">1.8</span>
+      </div>
+
+      <div class="opt">
+        <label>내 말풍선</label>
+        <select id="colorMe">
+          <option value="#ffd6ea">분홍</option>
+          <option value="#ccf4fa">하늘</option>
+          <option value="#d0f8ec">민트</option>
+          <option value="#fff5c2">노랑</option>
+          <option value="#e6dbff">연보라</option>
+          <option value="#ffe1cc">복숭아</option>
+        </select>
+        <label class="w-auto">상대</label>
+        <select id="colorAi">
+          <option value="#ffffff">흰색</option>
+          <option value="#e6dbff">연보라</option>
+          <option value="#ccf4fa">하늘</option>
+          <option value="#fff5c2">노랑</option>
+          <option value="#d0f8ec">민트</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>말풍선 진하기</label>
+        <input type="range" id="alpha" min="30" max="100" step="5" value="100">
+        <span class="val" id="alphaVal">100%</span>
+      </div>
+
+      <h2>배경</h2>
+
+      <div class="opt">
+        <label>배경 그림</label>
+        <button type="button" class="btn btn--sm" id="bgPick">파일 고르기</button>
+        <button type="button" class="btn btn--sm" id="bgClear" hidden>빼기</button>
+        <input type="file" id="bgFile" accept="image/*" hidden>
+        <span class="hint" id="bgName">없음</span>
+      </div>
+
+      <div class="opt">
+        <label>배경 흐리기</label>
+        <input type="range" id="veil" min="0" max="95" step="5" value="70">
+        <span class="val" id="veilVal">70%</span>
+      </div>
+
+      <h2>모양</h2>
+
+      <div class="opt">
+        <label>너비</label>
+        <input type="number" id="width" value="430" min="300" max="900" step="10">
+        <label class="w-auto">선명도</label>
+        <select id="scale">
+          <option value="1">1배</option>
+          <option value="2" selected>2배</option>
+          <option value="3">3배</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>말풍선</label>
+        <input type="checkbox" id="bubbleOn" checked>
+        <label class="w-auto">이름 표시</label>
+        <input type="checkbox" id="showWho" checked>
+        <span class="hint">말풍선을 끄면 소설처럼 줄글로 나옵니다</span>
+      </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col col--right">
+      <div class="win">
+        <div class="bar">작성 · 미리보기</div>
+        <div class="body">
+          <p class="sub">
+            대화를 붙여넣으면 발췌 그림으로 만들어 줍니다.
+        <b>이 브라우저 안에서만 처리되고 어디에도 전송되지 않습니다.</b>
+      </p>
+
+
+      <h2>대화 붙여넣기</h2>
+      <p class="sub">
+        <code>*지문*</code> 은 흐린 기울임, <code>"대사"</code> 는 또렷하게 나오고 문단이 나뉩니다.
+        <code>이름:</code> 으로 말한 사람을 적을 수 있어요.
+      </p>
+
+      <textarea id="src" placeholder='베타: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"
+쿠키: "그냥... 보고 싶어서."
+*창밖에는 비가 내리고 있었다*'></textarea>
+
+      <div class="row">
+        <button type="button" class="btn btn--sm" id="sample">예시 넣기</button>
+        <button type="button" class="btn btn--sm" id="clearSrc">비우기</button>
+      </div>
+
+      <div class="row">
+        <button type="button" class="btn" id="build">다시 그리기</button>
+        <button type="button" class="btn btn--go" id="save" disabled>그림으로 저장</button>
+        <button type="button" class="btn" id="copy" disabled>그림 복사</button>
+      </div>
+
+      <h2>미리보기</h2>
+      <div class="stage">
+        <div class="sheet" id="sheet">
+          <p class="note" style="text-align:center;margin:20px 0">왼쪽에 대화를 적으면 여기에 바로 나와요.</p>
+        </div>
+      </div>
+      <p class="note" id="msg"></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  var srcEl = $('src'), titleEl = $('title'), meEl = $('me'), footEl = $('foot');
+  var fontEl = $('font'), sizeEl = $('size'), sizeValEl = $('sizeVal');
+  var lhEl = $('lh'), lhValEl = $('lhVal');
+  var colorMeEl = $('colorMe'), colorAiEl = $('colorAi');
+  var alphaEl = $('alpha'), alphaValEl = $('alphaVal');
+  var bgPickEl = $('bgPick'), bgClearEl = $('bgClear'), bgFileEl = $('bgFile');
+  var bgNameEl = $('bgName'), veilEl = $('veil'), veilValEl = $('veilVal');
+  var widthEl = $('width'), scaleEl = $('scale');
+  var bubbleOnEl = $('bubbleOn'), showWhoEl = $('showWho');
+  var buildEl = $('build'), saveEl = $('save'), copyEl = $('copy');
+  var sheet = $('sheet'), msgEl = $('msg');
+  var sampleEl = $('sample'), clearSrcEl = $('clearSrc');
+
+  var bgData = '';
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function msg(t, color) {
+    msgEl.textContent = t;
+    msgEl.style.color = color || 'var(--sub)';
+  }
+
+  function showDone(title, lines) {
+    var old = document.querySelector('.done');
+    if (old) old.remove();
+    var box = document.createElement('div');
+    box.className = 'done';
+    box.innerHTML =
+      '<div class="done__win"><div class="done__bar">COMPLETE</div>' +
+      '<div class="done__body"><p class="done__big">' + title + '</p>' +
+      '<p class="done__txt">' + lines + '</p>' +
+      '<button type="button" class="btn btn--go" data-close>확인</button>' +
+      '</div></div>';
+    document.body.appendChild(box);
+    box.addEventListener('click', function (e) {
+      if (e.target.closest('[data-close]') || e.target === box) box.remove();
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var b = document.querySelector('.done');
+    if (b) b.remove();
+  });
+
+  /* ---------- 색 + 투명도 ---------- */
+  function rgba(hex, a) {
+    var m = String(hex).replace('#', '');
+    if (m.length === 3) m = m[0] + m[0] + m[1] + m[1] + m[2] + m[2];
+    return 'rgba(' + parseInt(m.slice(0, 2), 16) + ',' +
+      parseInt(m.slice(2, 4), 16) + ',' + parseInt(m.slice(4, 6), 16) + ',' + a + ')';
+  }
+
+  /* ---------- 지문 / 대사 나누기 ---------- */
+  function formatBody(text) {
+    var out = '';
+
+    String(text).split('\n').forEach(function (para) {
+      var re = /(\*[^*]+\*)|([\u201C"][^\u201D"]*[\u201D"])/g;
+      var pieces = [];
+      var last = 0, m;
+
+      while ((m = re.exec(para)) !== null) {
+        if (m.index > last) pieces.push({ t: 'line', v: para.slice(last, m.index) });
+        if (m[1]) pieces.push({ t: 'narr', v: m[1].slice(1, -1) });
+        else pieces.push({ t: 'line', v: m[2] });
+        last = m.index + m[0].length;
+      }
+      if (last < para.length) pieces.push({ t: 'line', v: para.slice(last) });
+
+      var buf = [];
+      pieces.forEach(function (p) {
+        var v = p.v.replace(/^\s+|\s+$/g, '');
+        if (!v) return;
+        var prev = buf[buf.length - 1];
+        if (prev && prev.t === p.t) prev.v += ' ' + v;
+        else buf.push({ t: p.t, v: v });
+      });
+
+      buf.forEach(function (p) {
+        out += '<span class="' + p.t + '">' + esc(p.v) + '</span>';
+      });
+    });
+
+    return out || '<span class="line">' + esc(text) + '</span>';
+  }
+
+  /* ---------- 대화 나누기 ---------- */
+  function parse(text) {
+    var out = [];
+    String(text || '').split('\n').forEach(function (raw) {
+      var line = raw.replace(/\s+$/, '');
+      if (!line.trim()) return;
+
+      var m = line.match(/^\s*([^:：*"\u201C]{1,20})\s*[:：]\s*([\s\S]*)$/);
+      if (m) { out.push({ who: m[1].trim(), text: m[2] }); return; }
+
+      var prev = out[out.length - 1];
+      if (prev) prev.text += '\n' + line;
+      else out.push({ who: '', text: line });
+    });
+    return out;
+  }
+
+  /* ---------- 그리기 ---------- */
+  function render() {
+    var list = parse(srcEl.value);
+    if (!list.length) { msg('대화를 넣어주세요.', '#c2317c'); return; }
+
+    var me = meEl.value.trim();
+    var alpha = (parseInt(alphaEl.value, 10) || 100) / 100;
+
+    sheet.style.width = (parseInt(widthEl.value, 10) || 430) + 'px';
+    sheet.style.fontFamily = fontEl.value;
+    sheet.style.fontSize = sizeEl.value + 'px';
+    sheet.style.lineHeight = lhEl.value;
+    sheet.style.setProperty('--bubble-me', rgba(colorMeEl.value, alpha));
+    sheet.style.setProperty('--bubble-ai', rgba(colorAiEl.value, alpha));
+    sheet.classList.toggle('sheet--plain', !bubbleOnEl.checked);
+
+    var inner = '';
+    var title = titleEl.value.trim();
+    if (title) {
+      inner += '<div class="sheet__head"><p class="sheet__title">' + esc(title) + '</p>' +
+        '<p class="sheet__note">' + list.length + ' messages</p></div>';
+    }
+
+    var lastWho = '';
+    list.forEach(function (m) {
+      var mine = me && m.who === me;
+      var who = showWhoEl.checked && m.who && m.who !== lastWho;
+      inner += '<div class="msg ' + (mine ? 'msg--me' : 'msg--ai') + '">' +
+        (who ? '<span class="msg__who">' + esc(m.who) + '</span>' : '') +
+        '<span class="msg__bubble">' + formatBody(m.text) + '</span></div>';
+      lastWho = m.who;
+    });
+
+    var foot = footEl.value.trim();
+    if (foot) inner += '<p class="sheet__foot">' + esc(foot) + '</p>';
+
+    var bg = '';
+    if (bgData) {
+      bg = '<div class="sheet__bg" style="background-image:url(' + bgData + ')"></div>' +
+        '<div class="sheet__veil" style="opacity:' +
+        ((parseInt(veilEl.value, 10) || 0) / 100) + '"></div>';
+    }
+
+    sheet.innerHTML = bg + '<div class="sheet__in">' + inner + '</div>';
+    saveEl.disabled = false;
+    copyEl.disabled = false;
+    msg('말풍선 ' + list.length + '개를 만들었어요.');
+  }
+
+  /* ---------- 설정 반응 ---------- */
+  function live() { if (!saveEl.disabled) render(); }
+
+  sizeEl.addEventListener('input', function () {
+    sizeValEl.textContent = sizeEl.value + 'px';
+    live();
+  });
+  lhEl.addEventListener('input', function () {
+    lhValEl.textContent = lhEl.value;
+    live();
+  });
+  alphaEl.addEventListener('input', function () {
+    alphaValEl.textContent = alphaEl.value + '%';
+    live();
+  });
+  veilEl.addEventListener('input', function () {
+    veilValEl.textContent = veilEl.value + '%';
+    live();
+  });
+
+  [fontEl, colorMeEl, colorAiEl, widthEl, bubbleOnEl, showWhoEl,
+   titleEl, meEl, footEl].forEach(function (el) {
+    el.addEventListener('change', live);
+  });
+
+  buildEl.addEventListener('click', render);
+
+  /* 실시간 미리보기 — 타이핑이 멈추면 바로 그려줍니다 */
+  var timer = null;
+  function liveSoon() {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      if (srcEl.value.trim()) render();
+    }, 280);
+  }
+
+  srcEl.addEventListener('input', liveSoon);
+  [titleEl, meEl, footEl].forEach(function (el) {
+    el.addEventListener('input', liveSoon);
+  });
+
+  /* ---------- 배경 그림 ---------- */
+  bgPickEl.addEventListener('click', function () { bgFileEl.click(); });
+
+  bgFileEl.addEventListener('change', function () {
+    var f = bgFileEl.files[0];
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      bgData = String(fr.result);
+      bgNameEl.textContent = f.name;
+      bgClearEl.hidden = false;
+      live();
+    };
+    fr.readAsDataURL(f);
+  });
+
+  bgClearEl.addEventListener('click', function () {
+    bgData = '';
+    bgFileEl.value = '';
+    bgNameEl.textContent = '없음';
+    bgClearEl.hidden = true;
+    live();
+  });
+
+  /* ---------- 예시 / 비우기 ---------- */
+  sampleEl.addEventListener('click', function () {
+    srcEl.value =
+      '베타: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"\n' +
+      '쿠키: "그냥... 보고 싶어서."\n' +
+      '*창밖에는 비가 내리고 있었다*\n' +
+      '베타: *잠시 말을 고르다가 웃었다* "그런 말은 반칙이잖아."';
+    if (!meEl.value.trim()) meEl.value = '쿠키';
+    if (!titleEl.value.trim()) titleEl.value = '비 오는 날';
+    render();
+  });
+
+  clearSrcEl.addEventListener('click', function () {
+    srcEl.value = '';
+    srcEl.focus();
+  });
+
+  /* ---------- 그림 만들기 ---------- */
+  function draw() {
+    if (!window.html2canvas) {
+      msg('그림 만드는 기능을 불러오지 못했어요. 새로고침해 주세요.', '#c2317c');
+      return Promise.reject();
+    }
+    return html2canvas(sheet, {
+      scale: Number(scaleEl.value) || 2,
+      backgroundColor: bgData ? null : '#ffffff',
+      useCORS: true,
+      logging: false
+    });
+  }
+
+  saveEl.addEventListener('click', function () {
+    saveEl.disabled = true;
+    msg('그림 만드는 중...');
+
+    draw().then(function (canvas) {
+      canvas.toBlob(function (blob) {
+        if (!blob) { msg('그림을 만들지 못했어요.', '#c2317c'); saveEl.disabled = false; return; }
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'chat-' + Date.now() + '.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+
+        msg('저장했어요.');
+        saveEl.disabled = false;
+        showDone('발췌 완성!',
+          canvas.width + '×' + canvas.height + ' 크기로 저장했어요.<br>' +
+          '<b>' + Math.round(blob.size / 1024) + 'KB</b>');
+      }, 'image/png');
+    }).catch(function () {
+      msg('그림을 만들지 못했어요. 대화를 줄여서 다시 해보세요.', '#c2317c');
+      saveEl.disabled = false;
+    });
+  });
+
+  copyEl.addEventListener('click', function () {
+    if (!navigator.clipboard || !window.ClipboardItem) {
+      msg('이 브라우저는 그림 복사를 지원하지 않아요. 저장을 써주세요.', '#c2317c');
+      return;
+    }
+    copyEl.disabled = true;
+    msg('복사하는 중...');
+
+    draw().then(function (canvas) {
+      canvas.toBlob(function (blob) {
+        if (!blob) { msg('복사하지 못했어요.', '#c2317c'); copyEl.disabled = false; return; }
+        navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+          .then(function () {
+            msg('복사했어요. 붙여넣기 하세요.');
+            copyEl.disabled = false;
+            showDone('복사 완료!', '이제 트위터나 메신저에 <b>붙여넣기</b> 하시면 돼요.');
+          })
+          .catch(function () {
+            msg('복사하지 못했어요. 저장을 써주세요.', '#c2317c');
+            copyEl.disabled = false;
+          });
+      }, 'image/png');
+    }).catch(function () {
+      msg('그림을 만들지 못했어요.', '#c2317c');
+      copyEl.disabled = false;
+    });
+  });
+
+}());
+</script>
+</body>
+</html>
