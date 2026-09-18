@@ -406,9 +406,9 @@
           "quote": "하하, 인생이라는 바다 위를 모험하자구나!",
           "spec": "#해적_선장 #가이드 #불속성 #S급",
           "spec_color": "mint",
-          "look": "girl, 0.3::aged up::, smug, holding huge anchor, golden hair, curtained hair, folded ponytail, coral eyes, tsurime, large breasts, red hair tie,",
-          "outfit": "dark red pirate coat on shoulders, white dress shirt, brown harness, brown corset, holster, white pants, brown leather boots,",
-          "prompt": "girl, 0.3::aged up::, smug, holding huge anchor, golden hair, curtained hair, folded ponytail, coral eyes, tsurime, large breasts, red hair tie, dark red pirate coat on shoulders, white dress shirt, brown harness, brown corset, holster, white pants, brown leather boots,"
+          "look": "girl, 0.3::aged up::, smug, golden hair, curtained hair, folded ponytail, coral eyes, tsurime, large breasts, red hair tie,",
+          "outfit": "dark red pirate coat on shoulders, white dress shirt, brown harness, brown corset, holster, white pants, brown leather boots, holding huge anchor,",
+          "prompt": "girl, 0.3::aged up::, smug, holding huge anchor, golden hair, curtained hair, folded ponytail, coral eyes, tsurime, large breasts, red hair tie, dark red pirate coat on shoulders, white dress shirt, brown harness, brown corset, holster, white pants, brown leather boots, holding huge anchor,"
         }
       ]
     }
