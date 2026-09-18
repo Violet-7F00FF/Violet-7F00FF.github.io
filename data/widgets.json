@@ -446,6 +446,38 @@
       "desc": "",
       "name": "레트로 키치 PC",
       "meta": "레트로 키치 PC · 🍬"
+    },
+    {
+      "type": "widget",
+      "image": "/media/아이팟-실버-모던.webp",
+      "link": "https://caveduck.io/ko/widgets/share/7a9d6fd1-0274-4c5d-9ff4-a4be84f598ec",
+      "desc": "",
+      "name": "쿠키팟",
+      "meta": "쿠키팟 실버 모던 · 🤍"
+    },
+    {
+      "type": "widget",
+      "image": "/media/아이팟-실버-레트로.webp",
+      "link": "https://caveduck.io/ko/widgets/share/49e58392-8e99-4008-b195-3e8dd2f5cd71",
+      "desc": "",
+      "name": "쿠키팟",
+      "meta": "쿠키팟 실버 레트로 · 🤍📟"
+    },
+    {
+      "type": "widget",
+      "image": "/media/아이팟-블랙-모던.webp",
+      "link": "https://caveduck.io/ko/widgets/share/db501348-294a-452b-b5f5-eff03cfbd4a8",
+      "desc": "",
+      "name": "쿠키팟",
+      "meta": "쿠키팟 블랙 모던 · 🖤"
+    },
+    {
+      "type": "widget",
+      "image": "/media/아이팟-블랙-레트로.webp",
+      "link": "https://caveduck.io/ko/widgets/share/ae5b5b89-c3d7-41f6-86b2-d6297aa04760",
+      "desc": "",
+      "name": "쿠키팟",
+      "meta": "쿠키팟 블랙 레트로 · 🖤📟"
     }
   ]
 }
