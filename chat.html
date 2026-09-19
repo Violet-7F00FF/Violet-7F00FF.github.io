@@ -169,6 +169,16 @@ textarea {
 .opt .hint { font-family: var(--mini); font-size: 10px; color: var(--sub); }
 .opt .val { font-family: var(--mini); font-size: 10px; color: var(--ink); flex: none; width: 48px; }
 
+.opt input[type="color"] {
+  width: 44px;
+  height: 32px;
+  padding: 2px;
+  flex: none;
+  cursor: pointer;
+  background: #fff;
+  border: 2px solid var(--outline);
+}
+
 .btn {
   font-family: var(--mini);
   font-size: 11px;
@@ -188,6 +198,39 @@ textarea {
 .btn--sm { padding: 6px 12px; }
 
 .row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+
+/* 꾸미기 버튼 줄 */
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.tool {
+  min-width: 34px;
+  padding: 7px 11px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  cursor: pointer;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+}
+
+.tool:hover { background: var(--yellow-l); }
+.tool:active { transform: translate(2px,2px); box-shadow: none; }
+.tool mark { background: var(--yellow); padding: 0 3px; }
+.tool i { font-style: italic; opacity: 0.7; font-size: 11.5px; }
+
+.tools__hint {
+  font-family: var(--mini);
+  font-size: 9px;
+  color: var(--sub);
+  margin-left: 4px;
+}
 
 .stage {
   margin-top: 4px;
@@ -226,6 +269,97 @@ textarea {
   z-index: 0;
 }
 
+/* 무늬 배경 */
+.pat {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.pat--dots {
+  background-image: radial-gradient(var(--pat-a) 2px, transparent 2px);
+  background-size: 16px 16px;
+  background-color: var(--pat-b);
+}
+
+.pat--grid {
+  background-image:
+    linear-gradient(var(--pat-a) 2px, transparent 2px),
+    linear-gradient(90deg, var(--pat-a) 2px, transparent 2px);
+  background-size: 28px 28px;
+  background-color: var(--pat-b);
+}
+
+.pat--stripe {
+  background-image: repeating-linear-gradient(45deg,
+    var(--pat-a) 0 8px, var(--pat-b) 8px 22px);
+}
+
+.pat--check {
+  background-image:
+    linear-gradient(45deg, var(--pat-a) 25%, transparent 25%, transparent 75%, var(--pat-a) 75%),
+    linear-gradient(45deg, var(--pat-a) 25%, transparent 25%, transparent 75%, var(--pat-a) 75%);
+  background-size: 22px 22px;
+  background-position: 0 0, 11px 11px;
+  background-color: var(--pat-b);
+}
+
+.pat--grad1 { background: linear-gradient(160deg, var(--pat-a), var(--pat-b)); }
+.pat--grad2 { background: linear-gradient(90deg, var(--pat-a), var(--pat-b)); }
+.pat--grad3 { background: radial-gradient(circle at 30% 20%, var(--pat-a), var(--pat-b)); }
+.pat--solid { background: var(--pat-a); }
+
+/* 글씨 강조 */
+.sheet b, .sheet strong { font-weight: 800; }
+
+.sheet mark {
+  padding: 1px 4px;
+  color: inherit;
+  background: var(--hl, #fff5c2);
+  border-radius: 2px;
+}
+
+/* 바탕 무늬 */
+.sheet__pat {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.pat--dots {
+  background-image: radial-gradient(var(--pat2) 2.5px, transparent 2.5px);
+  background-size: 18px 18px;
+  background-color: var(--pat1);
+}
+
+.pat--grid {
+  background-image:
+    linear-gradient(var(--pat2) 2px, transparent 2px),
+    linear-gradient(90deg, var(--pat2) 2px, transparent 2px);
+  background-size: 28px 28px, 28px 28px;
+  background-color: var(--pat1);
+}
+
+.pat--check {
+  background-image:
+    linear-gradient(45deg, var(--pat2) 25%, transparent 25%, transparent 75%, var(--pat2) 75%),
+    linear-gradient(45deg, var(--pat2) 25%, transparent 25%, transparent 75%, var(--pat2) 75%);
+  background-size: 22px 22px;
+  background-position: 0 0, 11px 11px;
+  background-color: var(--pat1);
+}
+
+.pat--stripe {
+  background-image: repeating-linear-gradient(
+    45deg, var(--pat2) 0 8px, transparent 8px 22px);
+  background-color: var(--pat1);
+}
+
+.pat--grad-v { background: linear-gradient(180deg, var(--pat1), var(--pat2)); }
+.pat--grad-d { background: linear-gradient(135deg, var(--pat1), var(--pat2)); }
+.pat--grad-r { background: radial-gradient(circle at 50% 30%, var(--pat1), var(--pat2)); }
+.pat--solid { background: var(--pat1); }
+
 .sheet__veil {
   position: absolute;
   inset: 0;
@@ -242,16 +376,17 @@ textarea {
 }
 
 .sheet__title {
-  font-family: inherit;
-  font-size: 1.25em;
+  font-family: var(--title-font, inherit);
+  font-size: 1.3em;
   font-weight: 700;
+  color: var(--title-color, inherit);
   margin: 0;
 }
 
 .sheet__note {
-  font-family: var(--mini);
-  font-size: 9px;
-  color: var(--sub);
+  font-family: inherit;
+  font-size: 0.72em;
+  opacity: 0.6;
   margin: 5px 0 0;
 }
 
@@ -260,17 +395,19 @@ textarea {
 
 .msg__who {
   display: block;
-  font-family: var(--mini);
-  font-size: 9px;
-  color: var(--sub);
+  font-family: var(--who-font, inherit);
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--who-color, inherit);
+  opacity: 0.75;
   margin-bottom: 4px;
 }
 
 .msg__bubble {
+  color: inherit;
   display: inline-block;
   max-width: 90%;
   padding: 11px 13px;
-  color: var(--ink);
   border: 3px solid var(--outline);
   box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
   word-break: break-word;
@@ -287,15 +424,26 @@ textarea {
   display: block;
   margin: 0 0 7px;
   font-style: italic;
-  opacity: 0.62;
+  color: var(--narr-color, inherit);
+  opacity: var(--narr-fade, 0.62);
 }
 
 /* 대사 — 또렷하게 */
 .line {
   display: block;
   margin: 0 0 7px;
-  font-weight: 600;
+  font-weight: var(--line-weight, 600);
+  color: var(--line-color, inherit);
 }
+
+/* 형광펜 · 굵게 */
+.hl {
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: var(--hl-color, #fff5c2);
+}
+
+.bold { font-weight: 800; }
 
 .narr:last-child, .line:last-child { margin-bottom: 0; }
 
@@ -317,11 +465,46 @@ textarea {
   margin: 16px 0 0;
   padding-top: 11px;
   border-top: 3px dotted rgba(43,30,82,0.25);
-  font-family: var(--mini);
-  font-size: 9px;
-  color: var(--sub);
+  font-family: inherit;
+  font-size: 0.78em;
+  color: var(--foot-color, inherit);
+  opacity: 0.72;
   text-align: right;
 }
+
+/* 접이식 사용법 */
+.guide {
+  margin-top: 14px;
+  border: 3px solid var(--outline);
+  background: var(--grape-l);
+}
+
+.guide > summary {
+  padding: 11px 14px;
+  font-family: var(--pixel);
+  font-size: 12px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.guide > summary::-webkit-details-marker { display: none; }
+
+.guide > summary::before {
+  content: '▶ ';
+  font-size: 10px;
+}
+
+.guide[open] > summary::before { content: '▼ '; }
+.guide > summary:hover { background: var(--yellow-l); }
+
+.guide__in {
+  padding: 4px 16px 16px;
+  background: #fff;
+  border-top: 3px solid var(--outline);
+}
+
+.guide__in h2:first-child { margin-top: 14px; }
 
 .note { font-family: var(--mini); font-size: 10px; color: var(--sub); margin: 10px 0 0; line-height: 1.9; }
 
@@ -397,90 +580,100 @@ code {
 <div class="wrap">
 
   <div class="win">
-    <div class="bar">READ ME — 사용법</div>
+    <div class="bar">READ ME</div>
     <div class="body">
-      <p class="sub">
-        대화를 붙여넣고 설정을 만지면 오른쪽에 바로 나옵니다.
-        저장을 누르면 그림으로 내려받아요.
+      <p class="sub" style="margin-bottom:12px">
+        왼쪽에서 설정하고 오른쪽에 대화를 적으면 바로 미리보기가 나옵니다.
         <b>모든 처리는 이 브라우저 안에서만 이루어지고 어디에도 전송되지 않습니다.</b>
       </p>
 
-      <h2>1. 적는 법</h2>
-      <p class="sub">
-        <code>*그는 고개를 돌렸다*</code> → <b>지문</b>. 흐린 기울임으로 나옵니다<br>
-        <code>"오늘은 무슨 일이야?"</code> → <b>대사</b>. 진하고 또렷하게 나옵니다<br>
-        <code>베타: *웃으며* "안녕"</code> → 이름 + 지문 + 대사를 한 줄에<br>
-        <br>
-        한 줄에 섞어 써도 지문과 대사가 <b>문단으로 나뉘어</b> 보기 좋게 정리돼요.<br>
-        이름 없이 다음 줄을 적으면 <b>앞 말풍선에 이어 붙습니다.</b><br>
-        따옴표는 <code>"</code> 든 <code>"</code> 든 다 알아봅니다.
-      </p>
-
-      <h2>2. 글 — 제목 · 내 이름 · 아래 글귀</h2>
-      <p class="sub">
-        <b>제목</b> 발췌 맨 위에 굵게 나옵니다. 비우면 제목 줄이 통째로 사라져요<br>
-        <b>내 이름</b> 여기 적은 이름과 같으면 <b>오른쪽 분홍 말풍선</b>이 됩니다.
-        상대 대사는 왼쪽에 놓여요<br>
-        <b>아래 글귀</b> 오른쪽 아래에 작게 들어갑니다. 트위터 아이디를 적어두면
-        퍼질 때 출처가 남아요
-      </p>
-
-      <h2>3. 꾸미기 — 글꼴 · 크기 · 색</h2>
-      <p class="sub">
-        <b>글꼴</b> 7가지. 제목도 같이 바뀝니다<br>
-        &nbsp;&nbsp;· 프리텐다드 — 깔끔한 기본<br>
-        &nbsp;&nbsp;· 고운바탕 · 나눔명조 · 함렛 — 소설 느낌의 명조<br>
-        &nbsp;&nbsp;· 나눔손글씨 — 손으로 쓴 느낌<br>
-        &nbsp;&nbsp;· 갈무리 — 사이트와 같은 도트<br>
-        <b>글자 크기</b> 11~22px. 긴 대화는 작게, 짧은 명장면은 크게<br>
-        <b>줄 간격</b> 1.4~2.6. 명조 글꼴에는 2.0 언저리가 잘 어울려요<br>
-        <b>말풍선 색</b> 내 것과 상대 것을 따로 고릅니다<br>
-        <b>말풍선 진하기</b> 낮추면 반투명해져서 <b>배경 그림이 비쳐 보여요</b>
-      </p>
-
-      <h2>4. 배경</h2>
-      <p class="sub">
-        <b>배경 그림</b> 컴퓨터에서 그림을 골라 발췌 뒤에 깔 수 있어요.
-        캐릭터 일러스트를 깔면 분위기가 확 살아납니다<br>
-        <b>배경 흐리기</b> 숫자가 클수록 그림이 연해져 글씨가 잘 보여요.
-        <b>70% 정도</b>가 적당합니다. 0%면 원본 그대로 나와서 글씨가 안 보일 수 있어요<br>
-        <br>
-        그림을 빼려면 <b>빼기</b> 버튼을 누르세요.
-      </p>
-
-      <h2>5. 모양</h2>
-      <p class="sub">
-        <b>너비</b> 300~900px. 트위터에는 430~600 정도가 보기 좋아요<br>
-        <b>선명도</b> 2배를 추천해요. 3배는 또렷하지만 파일이 커집니다<br>
-        <b>말풍선</b> 끄면 말풍선 없이 <b>소설처럼 줄글</b>로 나옵니다<br>
-        <b>이름 표시</b> 끄면 누가 말했는지 안 적혀요. 대사만 남기고 싶을 때
-      </p>
-
-      <h2>6. 버튼</h2>
-      <p class="sub">
-        <b>예시 넣기</b> 어떻게 쓰는지 바로 보여줍니다. 처음이라면 이것부터<br>
-        <b>비우기</b> 입력칸만 비웁니다. 설정은 그대로 남아요<br>
-        <b>다시 그리기</b> 보통은 자동으로 그려지지만, 뭔가 안 맞을 때 누르세요<br>
-        <b>그림으로 저장</b> PNG 파일로 내려받습니다<br>
-        <b>그림 복사</b> 저장 없이 바로 <b>트위터에 붙여넣기</b> 할 수 있어요
-      </p>
-
-      <h2>7. 이럴 땐</h2>
-      <p class="sub">
-        <b>글씨가 잘 안 보여요</b> → 배경 흐리기를 올리거나 말풍선 진하기를 100%로<br>
-        <b>그림이 너무 길어요</b> → 대화를 나눠서 여러 장으로 만드세요<br>
-        <b>복사가 안 돼요</b> → 크롬·엣지에서만 됩니다. 다른 곳에서는 저장을 쓰세요<br>
-        <b>글꼴이 기본으로 나와요</b> → 인터넷 연결을 확인하고 새로고침해 주세요
-      </p>
-
-      <p class="tip" style="margin-top:18px">
+      <p class="tip">
         발췌를 올리실 때는 플랫폼 규정을 한 번 확인해 주세요.
         캐릭터 설정이나 프롬프트가 그대로 드러나는 부분은 빼는 편이 안전합니다.
       </p>
 
+      <details class="guide">
+        <summary>사용법 자세히 보기</summary>
+        <div class="guide__in">
+
+          <h2>1. 적는 법</h2>
+          <p class="sub">
+            글자를 드래그하고 <b>입력칸 위의 버튼</b>을 누르면 알아서 감싸집니다.
+            직접 쳐도 됩니다.<br>
+            <code>*그는 고개를 돌렸다*</code> → 지문. 흐린 기울임<br>
+            <code>"오늘은 무슨 일이야?"</code> → 대사. 진하고 또렷하게<br>
+            <code>**보고 싶어서**</code> → 굵게<br>
+            <code>==반칙==</code> → 형광펜<br>
+            <code>초코: *웃으며* "안녕"</code> → 이름 + 지문 + 대사<br>
+            <br>
+            한 줄에 섞어 써도 지문과 대사가 <b>문단으로 나뉩니다.</b><br>
+            이름 없이 다음 줄을 적으면 <b>앞 말풍선에 이어 붙어요.</b><br>
+            이미 감싼 글자를 다시 고르고 버튼을 누르면 <b>풀립니다.</b>
+          </p>
+
+          <h2>2. 글</h2>
+          <p class="sub">
+            <b>제목</b> 맨 위에 굵게. 비우면 제목 줄이 사라집니다<br>
+            <b>내 이름</b> 이 이름과 같으면 <b>오른쪽 말풍선</b>이 됩니다<br>
+            <b>아래 글귀</b> 오른쪽 아래에 작게. 출처를 적어두면 퍼질 때 남아요
+          </p>
+
+          <h2>3. 글꼴</h2>
+          <p class="sub">
+            본문 · 제목 · 이름 · 아래 글귀를 <b>각각 다르게</b> 고를 수 있어요.
+            "본문과 같게"를 고르면 본문을 따라갑니다.<br>
+            &nbsp;&nbsp;· 프리텐다드 — 깔끔한 기본<br>
+            &nbsp;&nbsp;· 고운바탕 · 나눔명조 · 함렛 — 소설 느낌<br>
+            &nbsp;&nbsp;· 나눔손글씨 — 손으로 쓴 느낌<br>
+            &nbsp;&nbsp;· 갈무리 — 사이트와 같은 도트<br>
+            <b>글자 크기</b> 긴 대화는 작게, 짧은 명장면은 크게<br>
+            <b>줄 간격</b> 명조 글꼴에는 2.0 언저리가 잘 어울려요
+          </p>
+
+          <h2>4. 글씨 색</h2>
+          <p class="sub">
+            대사 · 지문 · 제목 · 이름 · 아래 글귀 · 형광펜 색을 따로 정합니다.<br>
+            <b>지문 흐리기</b> 를 올리면 지문이 연해져서 대사가 더 도드라져요.
+          </p>
+
+          <h2>5. 말풍선</h2>
+          <p class="sub">
+            <b>색</b> 내 것과 상대 것을 따로 고릅니다<br>
+            <b>진하기</b> 낮추면 반투명해져 <b>배경이 비쳐 보여요</b><br>
+            <b>말풍선 끄기</b> 소설처럼 줄글로 나옵니다<br>
+            <b>이름 표시</b> 끄면 대사만 남아요
+          </p>
+
+          <h2>6. 바탕</h2>
+          <p class="sub">
+            <b>종류</b> 단색 · 그라데이션 3종 · 물방울 · 격자 · 사선 · 체크<br>
+            <b>바탕색 / 무늬색</b> 두 색을 직접 고릅니다. 단색은 앞쪽 색만 씁니다<br>
+            <b>배경 그림</b> 캐릭터 일러스트를 깔면 분위기가 살아납니다<br>
+            <b>그림 흐리기</b> <b>70% 정도</b>가 글씨 읽기 좋아요
+          </p>
+
+          <h2>7. 크기와 저장</h2>
+          <p class="sub">
+            <b>너비</b> 트위터에는 430~600 정도가 보기 좋아요<br>
+            <b>선명도</b> 2배 추천. 3배는 또렷하지만 파일이 커집니다<br>
+            <b>그림으로 저장</b> PNG 파일로 내려받기<br>
+            <b>그림 복사</b> 저장 없이 바로 <b>붙여넣기</b> 가능 (크롬·엣지)
+          </p>
+
+          <h2>8. 이럴 땐</h2>
+          <p class="sub">
+            <b>글씨가 안 보여요</b> → 그림 흐리기를 올리거나 말풍선 진하기를 100%로<br>
+            <b>그림이 너무 길어요</b> → 대화를 나눠 여러 장으로<br>
+            <b>복사가 안 돼요</b> → 크롬·엣지에서만 됩니다. 저장을 쓰세요<br>
+            <b>글꼴이 기본으로 나와요</b> → 인터넷 확인 후 새로고침
+          </p>
+
+        </div>
+      </details>
+
       <p style="margin-top:16px">
         <a class="back" href="./">← 홈페이지로</a>
-        <a class="back" href="shot.html">HTML → PNG →</a>
+        <a class="back" href="shot.html">HTML 발췌기 →</a>
       </p>
     </div>
   </div>
@@ -506,18 +699,60 @@ code {
 
       <div class="opt">
         <label>아래 글귀</label>
-        <input type="text" id="foot" placeholder="@Cookie_B_A">
+        <input type="text" id="foot" placeholder="출처: 쿠키 몬스터의 집">
       </div>
 
-      <h2>꾸미기</h2>
+      <h2>글꼴</h2>
 
       <div class="opt">
-        <label>글꼴</label>
+        <label>본문</label>
         <select id="font">
-          <option value="'Pretendard Variable',Pretendard,sans-serif">프리텐다드 (기본)</option>
-          <option value="'Gowun Batang',serif">고운바탕 (명조)</option>
+          <option value="'Pretendard Variable',Pretendard,sans-serif">프리텐다드</option>
+          <option value="'Gowun Batang',serif">고운바탕</option>
           <option value="'Nanum Myeongjo',serif">나눔명조</option>
-          <option value="'Hahmlet',serif">함렛 (진한 명조)</option>
+          <option value="'Hahmlet',serif">함렛</option>
+          <option value="'Gowun Dodum',sans-serif">고운돋움</option>
+          <option value="'Nanum Pen Script',cursive">나눔손글씨</option>
+          <option value="'Galmuri11','DotGothic16',monospace">갈무리 (도트)</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>제목</label>
+        <select id="fontTitle">
+          <option value="">본문과 같게</option>
+          <option value="'Pretendard Variable',Pretendard,sans-serif">프리텐다드</option>
+          <option value="'Gowun Batang',serif">고운바탕</option>
+          <option value="'Nanum Myeongjo',serif">나눔명조</option>
+          <option value="'Hahmlet',serif">함렛</option>
+          <option value="'Gowun Dodum',sans-serif">고운돋움</option>
+          <option value="'Nanum Pen Script',cursive">나눔손글씨</option>
+          <option value="'Galmuri11','DotGothic16',monospace">갈무리 (도트)</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>이름</label>
+        <select id="fontWho">
+          <option value="">본문과 같게</option>
+          <option value="'Pretendard Variable',Pretendard,sans-serif">프리텐다드</option>
+          <option value="'Gowun Batang',serif">고운바탕</option>
+          <option value="'Nanum Myeongjo',serif">나눔명조</option>
+          <option value="'Hahmlet',serif">함렛</option>
+          <option value="'Gowun Dodum',sans-serif">고운돋움</option>
+          <option value="'Nanum Pen Script',cursive">나눔손글씨</option>
+          <option value="'Galmuri11','DotGothic16',monospace">갈무리 (도트)</option>
+        </select>
+      </div>
+
+      <div class="opt">
+        <label>아래 글귀</label>
+        <select id="fontFoot">
+          <option value="">본문과 같게</option>
+          <option value="'Pretendard Variable',Pretendard,sans-serif">프리텐다드</option>
+          <option value="'Gowun Batang',serif">고운바탕</option>
+          <option value="'Nanum Myeongjo',serif">나눔명조</option>
+          <option value="'Hahmlet',serif">함렛</option>
           <option value="'Gowun Dodum',sans-serif">고운돋움</option>
           <option value="'Nanum Pen Script',cursive">나눔손글씨</option>
           <option value="'Galmuri11','DotGothic16',monospace">갈무리 (도트)</option>
@@ -537,32 +772,88 @@ code {
       </div>
 
       <div class="opt">
-        <label>내 말풍선</label>
-        <select id="colorMe">
-          <option value="#ffd6ea">분홍</option>
-          <option value="#ccf4fa">하늘</option>
-          <option value="#d0f8ec">민트</option>
-          <option value="#fff5c2">노랑</option>
-          <option value="#e6dbff">연보라</option>
-          <option value="#ffe1cc">복숭아</option>
+        <label>대사 굵기</label>
+        <select id="weight">
+          <option value="400">보통</option>
+          <option value="600" selected>조금 굵게</option>
+          <option value="800">아주 굵게</option>
         </select>
+      </div>
+
+      <h2>글씨 색</h2>
+
+      <div class="opt">
+        <label>대사</label>
+        <input type="color" id="cLine" value="#2b1e52">
+        <label class="w-auto">지문</label>
+        <input type="color" id="cNarr" value="#2b1e52">
+      </div>
+
+      <div class="opt">
+        <label>지문 흐리기</label>
+        <input type="range" id="narrFade" min="30" max="100" step="5" value="62">
+        <span class="val" id="narrFadeVal">62%</span>
+      </div>
+
+      <div class="opt">
+        <label>제목</label>
+        <input type="color" id="cTitle" value="#2b1e52">
+        <label class="w-auto">이름</label>
+        <input type="color" id="cWho" value="#7565a8">
+      </div>
+
+      <div class="opt">
+        <label>아래 글귀</label>
+        <input type="color" id="cFoot" value="#7565a8">
+        <label class="w-auto">형광펜</label>
+        <input type="color" id="cHl" value="#fff5c2">
+      </div>
+
+      <h2>말풍선</h2>
+
+      <div class="opt">
+        <label>내 말풍선</label>
+        <input type="color" id="colorMe" value="#ffd6ea">
         <label class="w-auto">상대</label>
-        <select id="colorAi">
-          <option value="#ffffff">흰색</option>
-          <option value="#e6dbff">연보라</option>
-          <option value="#ccf4fa">하늘</option>
-          <option value="#fff5c2">노랑</option>
-          <option value="#d0f8ec">민트</option>
+        <input type="color" id="colorAi" value="#ffffff">
+      </div>
+
+      <div class="opt">
+        <label>진하기</label>
+        <input type="range" id="alpha" min="0" max="100" step="5" value="100">
+        <span class="val" id="alphaVal">100%</span>
+      </div>
+
+      <div class="opt">
+        <label>말풍선</label>
+        <input type="checkbox" id="bubbleOn" checked>
+        <label class="w-auto">이름 표시</label>
+        <input type="checkbox" id="showWho" checked>
+        <span class="hint">끄면 소설처럼 줄글로</span>
+      </div>
+
+      <h2>바탕</h2>
+
+      <div class="opt">
+        <label>종류</label>
+        <select id="pattern">
+          <option value="solid">단색</option>
+          <option value="grad-v">그라데이션 (위아래)</option>
+          <option value="grad-d">그라데이션 (대각선)</option>
+          <option value="grad-r">그라데이션 (가운데)</option>
+          <option value="dots">물방울 무늬</option>
+          <option value="grid">격자 무늬</option>
+          <option value="check">체크 무늬</option>
+          <option value="stripe">줄무늬</option>
         </select>
       </div>
 
       <div class="opt">
-        <label>말풍선 진하기</label>
-        <input type="range" id="alpha" min="30" max="100" step="5" value="100">
-        <span class="val" id="alphaVal">100%</span>
+        <label>바탕색</label>
+        <input type="color" id="pat1" value="#ffffff">
+        <label class="w-auto">무늬색</label>
+        <input type="color" id="pat2" value="#e6dbff">
       </div>
-
-      <h2>배경</h2>
 
       <div class="opt">
         <label>배경 그림</label>
@@ -573,12 +864,12 @@ code {
       </div>
 
       <div class="opt">
-        <label>배경 흐리기</label>
+        <label>그림 흐리기</label>
         <input type="range" id="veil" min="0" max="95" step="5" value="70">
         <span class="val" id="veilVal">70%</span>
       </div>
 
-      <h2>모양</h2>
+      <h2>크기</h2>
 
       <div class="opt">
         <label>너비</label>
@@ -591,13 +882,6 @@ code {
         </select>
       </div>
 
-      <div class="opt">
-        <label>말풍선</label>
-        <input type="checkbox" id="bubbleOn" checked>
-        <label class="w-auto">이름 표시</label>
-        <input type="checkbox" id="showWho" checked>
-        <span class="hint">말풍선을 끄면 소설처럼 줄글로 나옵니다</span>
-      </div>
 
         </div>
       </div>
@@ -607,40 +891,42 @@ code {
       <div class="win">
         <div class="bar">작성 · 미리보기</div>
         <div class="body">
+          <h2>대화 붙여넣기</h2>
           <p class="sub">
-            대화를 붙여넣으면 발췌 그림으로 만들어 줍니다.
-        <b>이 브라우저 안에서만 처리되고 어디에도 전송되지 않습니다.</b>
-      </p>
+            <code>*지문*</code> 은 흐린 기울임, <code>"대사"</code> 는 또렷하게.
+            <code>**굵게**</code> · <code>==형광펜==</code> 도 됩니다.
+          </p>
 
-
-      <h2>대화 붙여넣기</h2>
-      <p class="sub">
-        <code>*지문*</code> 은 흐린 기울임, <code>"대사"</code> 는 또렷하게 나오고 문단이 나뉩니다.
-        <code>이름:</code> 으로 말한 사람을 적을 수 있어요.
-      </p>
-
-      <textarea id="src" placeholder='베타: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"
-쿠키: "그냥... 보고 싶어서."
+          <textarea id="src" placeholder='초코: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"
+쿠키: "그냥... **보고 싶어서.**"
 *창밖에는 비가 내리고 있었다*'></textarea>
 
-      <div class="row">
-        <button type="button" class="btn btn--sm" id="sample">예시 넣기</button>
-        <button type="button" class="btn btn--sm" id="clearSrc">비우기</button>
-      </div>
+          <div class="tools">
+            <button type="button" class="tool" data-wrap="**" title="굵게"><b>B</b></button>
+            <button type="button" class="tool" data-wrap="==" title="형광펜"><mark>H</mark></button>
+            <button type="button" class="tool" data-wrap="*" title="지문"><i>지문</i></button>
+            <button type="button" class="tool" data-wrap='"' title="대사">"대사"</button>
+            <span class="tools__hint">글자를 고르고 누르세요</span>
+          </div>
 
-      <div class="row">
+          <div class="row">
+            <button type="button" class="btn btn--sm" id="sample">예시 넣기</button>
+            <button type="button" class="btn btn--sm" id="clearSrc">비우기</button>
+          </div>
+
+          <div class="row">
         <button type="button" class="btn" id="build">다시 그리기</button>
         <button type="button" class="btn btn--go" id="save" disabled>그림으로 저장</button>
         <button type="button" class="btn" id="copy" disabled>그림 복사</button>
       </div>
 
-      <h2>미리보기</h2>
-      <div class="stage">
+          <h2>미리보기</h2>
+          <div class="stage">
         <div class="sheet" id="sheet">
           <p class="note" style="text-align:center;margin:20px 0">왼쪽에 대화를 적으면 여기에 바로 나와요.</p>
         </div>
       </div>
-      <p class="note" id="msg"></p>
+          <p class="note" id="msg"></p>
         </div>
       </div>
     </div>
@@ -656,14 +942,20 @@ code {
   var $ = function (id) { return document.getElementById(id); };
 
   var srcEl = $('src'), titleEl = $('title'), meEl = $('me'), footEl = $('foot');
-  var fontEl = $('font'), sizeEl = $('size'), sizeValEl = $('sizeVal');
-  var lhEl = $('lh'), lhValEl = $('lhVal');
+  var fontEl = $('font'), fontTitleEl = $('fontTitle');
+  var fontWhoEl = $('fontWho'), fontFootEl = $('fontFoot');
+  var sizeEl = $('size'), sizeValEl = $('sizeVal');
+  var lhEl = $('lh'), lhValEl = $('lhVal'), weightEl = $('weight');
+  var cLineEl = $('cLine'), cNarrEl = $('cNarr'), cTitleEl = $('cTitle');
+  var cWhoEl = $('cWho'), cFootEl = $('cFoot'), cHlEl = $('cHl');
+  var narrFadeEl = $('narrFade'), narrFadeValEl = $('narrFadeVal');
   var colorMeEl = $('colorMe'), colorAiEl = $('colorAi');
   var alphaEl = $('alpha'), alphaValEl = $('alphaVal');
+  var bubbleOnEl = $('bubbleOn'), showWhoEl = $('showWho');
+  var patternEl = $('pattern'), pat1El = $('pat1'), pat2El = $('pat2');
   var bgPickEl = $('bgPick'), bgClearEl = $('bgClear'), bgFileEl = $('bgFile');
   var bgNameEl = $('bgName'), veilEl = $('veil'), veilValEl = $('veilVal');
   var widthEl = $('width'), scaleEl = $('scale');
-  var bubbleOnEl = $('bubbleOn'), showWhoEl = $('showWho');
   var buildEl = $('build'), saveEl = $('save'), copyEl = $('copy');
   var sheet = $('sheet'), msgEl = $('msg');
   var sampleEl = $('sample'), clearSrcEl = $('clearSrc');
@@ -703,12 +995,18 @@ code {
     if (b) b.remove();
   });
 
-  /* ---------- 색 + 투명도 ---------- */
   function rgba(hex, a) {
     var m = String(hex).replace('#', '');
     if (m.length === 3) m = m[0] + m[0] + m[1] + m[1] + m[2] + m[2];
     return 'rgba(' + parseInt(m.slice(0, 2), 16) + ',' +
       parseInt(m.slice(2, 4), 16) + ',' + parseInt(m.slice(4, 6), 16) + ',' + a + ')';
+  }
+
+  /* ---------- 꾸미기 기호 ---------- */
+  function decorate(s) {
+    return esc(s)
+      .replace(/==([^=]+)==/g, '<span class="hl">$1</span>')
+      .replace(/\*\*([^*]+)\*\*/g, '<span class="bold">$1</span>');
   }
 
   /* ---------- 지문 / 대사 나누기 ---------- */
@@ -738,11 +1036,11 @@ code {
       });
 
       buf.forEach(function (p) {
-        out += '<span class="' + p.t + '">' + esc(p.v) + '</span>';
+        out += '<span class="' + p.t + '">' + decorate(p.v) + '</span>';
       });
     });
 
-    return out || '<span class="line">' + esc(text) + '</span>';
+    return out || '<span class="line">' + decorate(text) + '</span>';
   }
 
   /* ---------- 대화 나누기 ---------- */
@@ -768,14 +1066,29 @@ code {
     if (!list.length) { msg('대화를 넣어주세요.', '#c2317c'); return; }
 
     var me = meEl.value.trim();
-    var alpha = (parseInt(alphaEl.value, 10) || 100) / 100;
+    var alpha = (parseInt(alphaEl.value, 10) || 0) / 100;
+    var s = sheet.style;
 
-    sheet.style.width = (parseInt(widthEl.value, 10) || 430) + 'px';
-    sheet.style.fontFamily = fontEl.value;
-    sheet.style.fontSize = sizeEl.value + 'px';
-    sheet.style.lineHeight = lhEl.value;
-    sheet.style.setProperty('--bubble-me', rgba(colorMeEl.value, alpha));
-    sheet.style.setProperty('--bubble-ai', rgba(colorAiEl.value, alpha));
+    s.width = (parseInt(widthEl.value, 10) || 430) + 'px';
+    s.fontFamily = fontEl.value;
+    s.fontSize = sizeEl.value + 'px';
+    s.lineHeight = lhEl.value;
+
+    s.setProperty('--bubble-me', rgba(colorMeEl.value, alpha));
+    s.setProperty('--bubble-ai', rgba(colorAiEl.value, alpha));
+    s.setProperty('--line-color', cLineEl.value);
+    s.setProperty('--narr-color', cNarrEl.value);
+    s.setProperty('--narr-fade', (parseInt(narrFadeEl.value, 10) || 62) / 100);
+    s.setProperty('--title-color', cTitleEl.value);
+    s.setProperty('--who-color', cWhoEl.value);
+    s.setProperty('--foot-color', cFootEl.value);
+    s.setProperty('--hl-color', cHlEl.value);
+    s.setProperty('--line-weight', weightEl.value);
+    s.setProperty('--title-font', fontTitleEl.value || fontEl.value);
+    s.setProperty('--who-font', fontWhoEl.value || fontEl.value);
+    s.setProperty('--pat1', pat1El.value);
+    s.setProperty('--pat2', pat2El.value);
+
     sheet.classList.toggle('sheet--plain', !bubbleOnEl.checked);
 
     var inner = '';
@@ -796,16 +1109,21 @@ code {
     });
 
     var foot = footEl.value.trim();
-    if (foot) inner += '<p class="sheet__foot">' + esc(foot) + '</p>';
-
-    var bg = '';
-    if (bgData) {
-      bg = '<div class="sheet__bg" style="background-image:url(' + bgData + ')"></div>' +
-        '<div class="sheet__veil" style="opacity:' +
-        ((parseInt(veilEl.value, 10) || 0) / 100) + '"></div>';
+    if (foot) {
+      inner += '<p class="sheet__foot" style="font-family:' +
+        (fontFootEl.value || fontEl.value) + '">' + esc(foot) + '</p>';
     }
 
-    sheet.innerHTML = bg + '<div class="sheet__in">' + inner + '</div>';
+    // 바탕: 무늬 → 그림 → 가림막 순서
+    var back = '<div class="sheet__pat pat--' + patternEl.value + '"></div>';
+    if (bgData) {
+      back += '<div class="sheet__bg" style="background-image:url(' + bgData + ')"></div>' +
+        '<div class="sheet__veil" style="opacity:' +
+        ((parseInt(veilEl.value, 10) || 0) / 100) +
+        ';background:' + pat1El.value + '"></div>';
+    }
+
+    sheet.innerHTML = back + '<div class="sheet__in">' + inner + '</div>';
     saveEl.disabled = false;
     copyEl.disabled = false;
     msg('말풍선 ' + list.length + '개를 만들었어요.');
@@ -814,31 +1132,29 @@ code {
   /* ---------- 설정 반응 ---------- */
   function live() { if (!saveEl.disabled) render(); }
 
-  sizeEl.addEventListener('input', function () {
-    sizeValEl.textContent = sizeEl.value + 'px';
-    live();
-  });
-  lhEl.addEventListener('input', function () {
-    lhValEl.textContent = lhEl.value;
-    live();
-  });
-  alphaEl.addEventListener('input', function () {
-    alphaValEl.textContent = alphaEl.value + '%';
-    live();
-  });
-  veilEl.addEventListener('input', function () {
-    veilValEl.textContent = veilEl.value + '%';
-    live();
-  });
+  function slider(el, valEl, suffix) {
+    el.addEventListener('input', function () {
+      valEl.textContent = el.value + (suffix || '');
+      live();
+    });
+  }
+  slider(sizeEl, sizeValEl, 'px');
+  slider(lhEl, lhValEl, '');
+  slider(alphaEl, alphaValEl, '%');
+  slider(veilEl, veilValEl, '%');
+  slider(narrFadeEl, narrFadeValEl, '%');
 
-  [fontEl, colorMeEl, colorAiEl, widthEl, bubbleOnEl, showWhoEl,
-   titleEl, meEl, footEl].forEach(function (el) {
+  [fontEl, fontTitleEl, fontWhoEl, fontFootEl, weightEl,
+   cLineEl, cNarrEl, cTitleEl, cWhoEl, cFootEl, cHlEl,
+   colorMeEl, colorAiEl, patternEl, pat1El, pat2El,
+   widthEl, bubbleOnEl, showWhoEl].forEach(function (el) {
+    el.addEventListener('input', live);
     el.addEventListener('change', live);
   });
 
   buildEl.addEventListener('click', render);
 
-  /* 실시간 미리보기 — 타이핑이 멈추면 바로 그려줍니다 */
+  /* 실시간 미리보기 */
   var timer = null;
   function liveSoon() {
     clearTimeout(timer);
@@ -879,18 +1195,58 @@ code {
   /* ---------- 예시 / 비우기 ---------- */
   sampleEl.addEventListener('click', function () {
     srcEl.value =
-      '베타: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"\n' +
-      '쿠키: "그냥... 보고 싶어서."\n' +
+      '초코: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"\n' +
+      '쿠키: "그냥... **보고 싶어서.**"\n' +
       '*창밖에는 비가 내리고 있었다*\n' +
-      '베타: *잠시 말을 고르다가 웃었다* "그런 말은 반칙이잖아."';
+      '초코: *잠시 말을 고르다가 웃었다* "그런 말은 ==반칙==이잖아."';
     if (!meEl.value.trim()) meEl.value = '쿠키';
     if (!titleEl.value.trim()) titleEl.value = '비 오는 날';
+    if (!footEl.value.trim()) footEl.value = '출처: 쿠키 몬스터의 집';
     render();
   });
 
   clearSrcEl.addEventListener('click', function () {
     srcEl.value = '';
     srcEl.focus();
+  });
+
+  /* ---------- 고른 글자 감싸기 ---------- */
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('.tool');
+    if (!t) return;
+
+    var wrap = t.dataset.wrap;
+    var open = wrap;
+    var close = wrap;
+    if (wrap === '"') { open = '"'; close = '"'; }
+
+    var s = srcEl.selectionStart;
+    var en = srcEl.selectionEnd;
+    var v = srcEl.value;
+    var sel = v.slice(s, en);
+
+    if (!sel) {
+      // 고른 글자가 없으면 표시만 넣고 가운데로 커서
+      srcEl.value = v.slice(0, s) + open + close + v.slice(en);
+      srcEl.focus();
+      srcEl.setSelectionRange(s + open.length, s + open.length);
+      return;
+    }
+
+    // 이미 감싸져 있으면 풀어줍니다
+    var before = v.slice(Math.max(0, s - open.length), s);
+    var after = v.slice(en, en + close.length);
+    if (before === open && after === close) {
+      srcEl.value = v.slice(0, s - open.length) + sel + v.slice(en + close.length);
+      srcEl.focus();
+      srcEl.setSelectionRange(s - open.length, en - open.length);
+    } else {
+      srcEl.value = v.slice(0, s) + open + sel + close + v.slice(en);
+      srcEl.focus();
+      srcEl.setSelectionRange(s + open.length, en + open.length);
+    }
+
+    render();
   });
 
   /* ---------- 그림 만들기 ---------- */
@@ -901,7 +1257,7 @@ code {
     }
     return html2canvas(sheet, {
       scale: Number(scaleEl.value) || 2,
-      backgroundColor: bgData ? null : '#ffffff',
+      backgroundColor: null,
       useCORS: true,
       logging: false
     });
