@@ -626,13 +626,13 @@ code {
 /* ---------- 등장인물 ---------- */
 .cast__head, .cast__row {
   display: grid;
-  grid-template-columns: 38px minmax(0,1fr) 38px 38px 26px;
-  gap: 6px;
+  grid-template-columns: 34px 34px minmax(0,1fr) 36px 36px 24px;
+  gap: 5px;
   align-items: center;
 }
 .cast__head { font-family: var(--mini); font-size: 9px; color: var(--sub); margin-bottom: 5px; }
 .cast__head span { text-align: center; }
-.cast__head span:nth-child(2) { text-align: left; }
+.cast__head span:nth-child(3) { text-align: left; }
 .cast__row { padding: 5px 0; }
 .cast__tag { font-family: var(--mini); font-size: 10px; color: var(--sub); }
 .cast__row[data-me="1"] .cast__tag { color: var(--pink); }
@@ -642,11 +642,11 @@ code {
   color: var(--ink); background: #fff; border: 2px solid var(--outline);
 }
 .cast__row input[type="color"] {
-  width: 38px; height: 32px; padding: 2px; cursor: pointer;
+  width: 36px; height: 32px; padding: 2px; cursor: pointer;
   background: #fff; border: 2px solid var(--outline);
 }
 .cast__del {
-  width: 26px; height: 26px; padding: 0; cursor: pointer;
+  width: 24px; height: 24px; padding: 0; cursor: pointer;
   font-size: 12px; line-height: 1; color: var(--ink);
   background: #fff; border: 2px solid var(--outline);
 }
@@ -738,25 +738,150 @@ code {
 .tpl-book .narr, .tpl-book .line { text-indent: 1em; margin-bottom: 0.25em; }
 .tpl-book .sheet__foot { border-top: 0; text-align: center; font-size: 0.72em; letter-spacing: 0.1em; margin-top: 26px; }
 
-/* 편지지 — 모든 줄 높이를 공책 줄 간격(--rule)에 맞춤 */
-.tpl-letter { padding: 30px 28px 26px; }
-.tpl-letter .sheet__head { border-bottom: 0; margin: 0; padding: 0; }
-.tpl-letter .sheet__title { line-height: calc(var(--rule) * 2); font-size: 1.15em; }
-.tpl-letter .sheet__note { display: none; }
-.tpl-letter .narr { font-style: normal; }
-.tpl-letter .narr, .tpl-letter .line { margin: 0; }
-.tpl-letter .msg, .tpl-letter.sheet--plain .msg { margin: 0; }
-.tpl-letter .msg__who { opacity: 1; font-size: 0.85em; line-height: var(--rule); margin: 0; }
-.tpl-letter .sheet__foot { border-top: 0; margin: 0; padding: 0; line-height: calc(var(--rule) * 2); }
-
 /* 채팅 앱 풍에서는 내 이름을 안 보임 */
-.tpl-kakao .msg--me .msg__who, .tpl-x .msg--me .msg__who, .tpl-insta .msg--me .msg__who { display: none; }
+.tpl-kakao .msg--me .msg__who, .tpl-x .msg--me .msg__who, .tpl-insta .msg--me .msg__who,
+.tpl-line .msg--me .msg__who { display: none; }
 
 /* 새벽 */
 .tpl-night { padding: 30px 26px 26px; }
 .tpl-night .sheet__head, .tpl-night .sheet__foot { border-color: rgba(255,255,255,0.18); }
 .tpl-night .sheet__title { letter-spacing: 0.04em; }
 .tpl-night .msg__who { opacity: 1; }
+
+/* ---------- 프로필 사진 칸 ---------- */
+.cast__av {
+  width: 34px; height: 34px; padding: 0; cursor: pointer;
+  font-family: var(--mini); font-size: 13px; color: var(--sub);
+  background: #fff center / cover no-repeat;
+  border: 2px solid var(--outline);
+}
+.cast__av:hover { background-color: var(--yellow-l); }
+.cast__av.has-img { color: transparent; }
+
+.avbox {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center;
+  padding: 24px 16px;
+  background: rgba(43,30,82,0.6);
+  backdrop-filter: blur(3px);
+}
+.avbox[hidden] { display: none; }
+.avbox__win {
+  width: 100%; max-width: 340px;
+  background: #fff; border: 3px solid var(--outline);
+  box-shadow: 7px 7px 0 rgba(20,12,45,0.45);
+}
+.avbox__body { padding: 18px 18px 16px; }
+.avbox__view {
+  width: 150px; height: 150px; margin: 0 auto 14px;
+  border-radius: 50%; border: 3px solid var(--outline);
+  background: var(--grape-l) center / cover no-repeat;
+  cursor: grab; touch-action: none;
+}
+.avbox__view:active { cursor: grabbing; }
+
+/* 채팅 앱 풍에서 내 프로필은 안 보임 (디스코드만 보임) */
+.tpl-kakao .msg--me .msg__av, .tpl-insta .msg--me .msg__av, .tpl-line .msg--me .msg__av { display: none; }
+
+/* 프로필: 사진이 있으면 글자 숨김 */
+.msg__av.has-img { color: transparent !important; background-repeat: no-repeat; }
+
+/* 배경 그림 확대 */
+.sheet__bg { transform-origin: center; }
+
+/* 라인 풍 */
+.tpl-line .sheet__head {
+  margin: -20px -18px 14px; padding: 13px 18px 12px;
+  border-bottom: 0; background: rgba(255,255,255,0.35);
+}
+.tpl-line .sheet__title { font-size: 1.05em; }
+.tpl-line .sheet__note, .tpl-discord .sheet__note { display: none; }
+.tpl-line .msg { margin-bottom: 6px; }
+.tpl-line .msg.g-first { margin-top: 12px; }
+.tpl-line .msg--ai { display: flex; gap: 8px; align-items: flex-start; }
+.tpl-line .msg__av {
+  display: grid; place-items: center; flex: none;
+  width: calc(36px * var(--avk, 1)); height: calc(36px * var(--avk, 1)); border-radius: 50%;
+  background-color: var(--who-color); color: #fff; font-weight: 700; font-size: 0.9em;
+}
+.tpl-line .msg:not(.g-first) .msg__av { visibility: hidden; }
+.tpl-line .msg__col { flex: 1; min-width: 0; }
+.tpl-line .msg__who { opacity: 1; font-size: 0.78em; margin-bottom: 3px; }
+.tpl-line .msg__bubble {
+  border: 0; box-shadow: none; border-radius: 18px;
+  padding: 8px 13px; max-width: 76%;
+}
+
+/* 디스코드 풍 — 말풍선 없이 모두 왼쪽 */
+.tpl-discord .sheet__head {
+  margin: -20px -18px 14px; padding: 13px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.35);
+}
+.tpl-discord .sheet__title { font-size: 1em; font-weight: 700; }
+.tpl-discord .sheet__title::before { content: '# '; opacity: 0.45; }
+.tpl-discord .msg { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 2px; text-align: left; }
+.tpl-discord .msg.g-first { margin-top: 16px; }
+.tpl-discord .msg--me .msg__who { text-align: left; }
+.tpl-discord .msg__av {
+  display: grid; place-items: center; flex: none;
+  width: calc(40px * var(--avk, 1)); height: calc(40px * var(--avk, 1)); border-radius: 50%;
+  background-color: var(--who-color); color: #fff; font-weight: 700;
+}
+.tpl-discord .msg:not(.g-first) .msg__av { visibility: hidden; height: 0; }
+.tpl-discord .msg__col { flex: 1; min-width: 0; }
+.tpl-discord .msg__who { opacity: 1; font-size: 0.95em; font-weight: 600; margin-bottom: 2px; }
+.tpl-discord .msg__bubble {
+  display: block; max-width: 100%; padding: 0;
+  background: transparent !important; border: 0; box-shadow: none;
+}
+.tpl-discord .line { font-weight: 400; }
+
+/* 카톡·인스타 프로필 크기 */
+.tpl-kakao .msg__av { width: calc(38px * var(--avk, 1)); height: calc(38px * var(--avk, 1)); background-color: var(--who-color); }
+.tpl-insta .msg__av { width: calc(28px * var(--avk, 1)); height: calc(28px * var(--avk, 1)); background-color: var(--who-color); }
+
+/* 웹소설 — 문단마다 한 줄씩 띄움 */
+.tpl-web { padding: 34px 26px 28px; }
+.tpl-web .sheet__head { border-bottom: 0; margin-bottom: 26px; padding-bottom: 0; }
+.tpl-web .sheet__title { font-size: 1.15em; }
+.tpl-web .sheet__note { display: none; }
+.tpl-web .narr { font-style: normal; }
+.tpl-web .narr, .tpl-web .line { margin-bottom: 1.15em; }
+.tpl-web.sheet--plain .msg { margin-bottom: 1.15em; }
+.tpl-web .sheet__foot { border-top: 1px solid rgba(0,0,0,0.08); text-align: center; }
+
+/* 편지지 — 차분한 종이와 가는 겹선 */
+.tpl-letter { padding: 46px 42px 38px; }
+.tpl-letter::after {
+  content: ''; position: absolute; top: 14px; right: 14px; bottom: 14px; left: 14px; z-index: 3;
+  border: 3px double rgba(140,110,80,0.45);
+  pointer-events: none;
+}
+.tpl-letter .sheet__head { border-bottom: 0; text-align: center; margin-bottom: 26px; padding-bottom: 0; }
+.tpl-letter .sheet__title { font-size: 1.05em; font-weight: 600; letter-spacing: 0.18em; }
+.tpl-letter .sheet__note { display: none; }
+.tpl-letter .msg__who { opacity: 1; font-size: 0.78em; letter-spacing: 0.08em; margin-bottom: 2px; }
+.tpl-letter.sheet--plain .msg { margin-bottom: 1.1em; }
+.tpl-letter .narr { margin-bottom: 0.3em; }
+.tpl-letter .sheet__foot { border-top: 0; margin-top: 30px; font-style: italic; }
+
+/* 대본 — 이름은 왼쪽 칸, 지문은 괄호 */
+.tpl-script { padding: 34px 30px 30px; }
+.tpl-script .sheet__head { text-align: center; border-bottom: 2px solid rgba(0,0,0,0.75); margin-bottom: 20px; }
+.tpl-script .sheet__title { font-size: 1.1em; letter-spacing: 0.1em; }
+.tpl-script .sheet__note { display: none; }
+.tpl-script .msg, .tpl-script.sheet--plain .msg { margin-bottom: 0.7em; text-align: left; }
+.tpl-script .msg__col { display: grid; grid-template-columns: 5.2em minmax(0,1fr); column-gap: 14px; }
+.tpl-script .msg__who, .tpl-script .msg--me .msg__who {
+  grid-column: 1; margin: 0; opacity: 1; font-size: 0.92em; font-weight: 700; text-align: left;
+  line-height: inherit;
+}
+.tpl-script .msg__bubble { grid-column: 2; }
+.tpl-script .narr { font-style: normal; }
+.tpl-script .narr::before { content: '('; }
+.tpl-script .narr::after { content: ')'; }
+.tpl-script .narr, .tpl-script .line { margin-bottom: 0.2em; }
+.tpl-script .sheet__foot { border-top: 1px solid rgba(0,0,0,0.2); }
 </style>
 </head>
 <body>
@@ -783,11 +908,11 @@ code {
           <p class="sub">
             글자를 드래그하고 <b>입력칸 위의 버튼</b>을 누르면 알아서 감싸집니다.
             직접 쳐도 됩니다.<br>
-            <code>*그는 고개를 돌렸다*</code> → 지문. 흐린 기울임<br>
-            <code>"오늘은 무슨 일이야?"</code> → 대사. 진하고 또렷하게<br>
-            <code>**보고 싶어서**</code> → 굵게<br>
-            <code>==반칙==</code> → 형광펜<br>
-            <code>초코: *웃으며* "안녕"</code> → 이름 + 지문 + 대사<br>
+            <code>*그는 고개를 돌렸다*</code> → 지문. 흐린 기울임으로 나옵니다.<br>
+            <code>"오늘은 무슨 일이야?"</code> → 대사. 진하고 또렷하게 나옵니다.<br>
+            <code>**보고 싶어서**</code> → 굵게 나옵니다.<br>
+            <code>==반칙==</code> → 형광펜이 칠해집니다.<br>
+            <code>초코: *웃으며* "안녕"</code> → 이름 + 지문 + 대사로 나뉩니다.<br>
             <br>
             한 줄에 섞어 써도 지문과 대사가 <b>문단으로 나뉩니다.</b><br>
             이름 없이 다음 줄을 적으면 <b>앞 말풍선에 이어 붙어요.</b><br>
@@ -796,71 +921,76 @@ code {
 
           <h2>2. 템플릿</h2>
           <p class="sub">
-            <b>채팅</b> 도트 기본 · 카톡 풍 · X DM 풍 · 인스타 DM 풍<br>
-            <b>소설</b> 책 한 쪽 · 편지지 · 새벽<br>
-            고르면 글꼴·색·바탕이 한 번에 바뀌고, 그다음 하나씩 고칠 수 있어요.
+            <b>채팅</b> 도트 기본 · 카톡 풍 · 라인 풍 · X DM 풍 · 인스타 DM 풍 · 디스코드 풍이 있어요.<br>
+            <b>소설</b> 책 한 쪽 · 웹소설 · 편지지 · 대본 · 새벽이 있어요.<br>
+            고르면 글꼴·색·바탕이 한 번에 바뀌고, 그다음 하나씩 고칠 수 있어요.<br>
+            대화를 적기 전에도 <b>예시 대화로 미리보기</b>가 나와서 어떻게 바뀌는지 바로 볼 수 있어요.
           </p>
 
           <h2>3. 글과 등장인물</h2>
           <p class="sub">
-            <b>제목</b> 맨 위에 굵게. 비우면 제목 줄이 사라집니다<br>
-            <b>아래 글귀</b> 아래에 작게. 출처를 적어두면 퍼질 때 남아요<br>
+            <b>제목</b> 맨 위에 굵게 나옵니다. 비우면 제목 줄이 사라집니다.<br>
+            <b>아래 글귀</b> 아래에 작게 나옵니다. 출처를 적어두면 퍼질 때 남아요.<br>
             <b>등장인물</b> 맨 위 '나' 칸의 이름으로 적은 말은 <b>오른쪽 말풍선</b>이 됩니다.
             사람마다 <b>이름색·말풍선 색</b>을 따로 정하고, <b>+ 상대 추가</b>로 인원을 늘려요.<br>
-            <b>대화에서 불러오기</b> 대화에 나온 이름을 알아서 채워줍니다
+            <b>사진</b> 네모 칸을 누르면 프로필 사진을 넣을 수 있어요. 확대·축소하고 위치도 옮길 수 있어요.
+            카톡·라인·인스타·디스코드 풍에서 보입니다.<br>
+            <b>대화에서 불러오기</b> 대화에 나온 이름을 알아서 채워줍니다.
           </p>
 
           <h2>4. 글꼴</h2>
           <p class="sub">
             본문 · 제목 · 이름 · 아래 글귀를 <b>각각 다르게</b> 고를 수 있어요.
             "본문과 같게"를 고르면 본문을 따라갑니다.<br>
-            &nbsp;&nbsp;· 프리텐다드 — 깔끔한 기본<br>
-            &nbsp;&nbsp;· 고운바탕 · 나눔명조 · 함렛 — 소설 느낌<br>
-            &nbsp;&nbsp;· 나눔손글씨 — 손으로 쓴 느낌<br>
-            &nbsp;&nbsp;· 갈무리 — 사이트와 같은 도트<br>
-            <b>글자 크기</b> 긴 대화는 작게, 짧은 명장면은 크게<br>
-            <b>줄 간격</b> 명조 글꼴에는 2.0 언저리가 잘 어울려요
+            &nbsp;&nbsp;· 프리텐다드 — 깔끔한 기본이에요.<br>
+            &nbsp;&nbsp;· 고운바탕 · 나눔명조 · 함렛 — 소설 느낌이에요.<br>
+            &nbsp;&nbsp;· 나눔손글씨 — 손으로 쓴 느낌이에요.<br>
+            &nbsp;&nbsp;· 갈무리 — 사이트와 같은 도트예요.<br>
+            <b>글자 크기</b> 긴 대화는 작게, 짧은 명장면은 크게 하면 좋아요.<br>
+            <b>줄 간격</b> 명조 글꼴에는 2.0 언저리가 잘 어울려요.
           </p>
 
           <h2>5. 글씨 색</h2>
           <p class="sub">
-            대사 · 지문 · 제목 · 아래 글귀 · 형광펜 색을 따로 정합니다. 이름색은 등장인물에서.<br>
+            대사 · 지문 · 제목 · 아래 글귀 · 형광펜 색을 따로 정합니다. 이름색은 등장인물에서 정해요.<br>
             말풍선이 어두운 색이면 그 안의 글씨는 알아서 하얗게 바뀌어요.<br>
-            <b>지문 흐리기</b> 를 올리면 지문이 연해져서 대사가 더 도드라져요.
+            <b>지문 흐리기</b>를 올리면 지문이 연해져서 대사가 더 도드라져요.
           </p>
 
           <h2>6. 말풍선</h2>
           <p class="sub">
-            <b>진하기</b> 낮추면 반투명해져 <b>배경이 비쳐 보여요</b><br>
-            <b>말풍선 끄기</b> 소설처럼 줄글로 나옵니다<br>
-            <b>이름</b> 끄면 이름(과 프로필)이 사라져요<br>
-            <b>지문</b> 끄면 지문이 빠지고 대사만 남아요
+            <b>진하기</b> 낮추면 반투명해져서 <b>배경이 비쳐 보여요.</b><br>
+            <b>말풍선</b> 끄면 소설처럼 줄글로 나옵니다.<br>
+            <b>이름</b> 끄면 이름과 프로필이 사라져요.<br>
+            <b>지문</b> 끄면 지문이 빠지고 대사만 남아요.<br>
+            <b>프로필 크기</b> 채팅 풍 템플릿의 프로필 동그라미 크기를 바꿔요.
           </p>
 
           <h2>7. 바탕</h2>
           <p class="sub">
-            <b>종류</b> 단색 · 그라데이션 3종 · 물방울 · 격자 · 사선 · 체크 · 줄 공책<br>
-            <b>바탕색 / 무늬색</b> 두 색을 직접 고릅니다. 단색은 앞쪽 색만 씁니다<br>
+            <b>종류</b> 단색 · 그라데이션 3종 · 물방울 · 격자 · 사선 · 체크 · 줄 공책이 있어요.<br>
+            <b>바탕색 / 무늬색</b> 두 색을 직접 고릅니다. 단색은 앞쪽 색만 씁니다.<br>
             <b>칠하기</b> '테두리만'을 고르면 바탕 무늬가 액자처럼 가장자리에만 칠해지고,
-            안쪽은 <b>안쪽 색</b>으로 채워져요. <b>테두리 두께</b>로 굵기를 정합니다<br>
-            <b>배경 그림</b> 캐릭터 일러스트를 깔면 분위기가 살아납니다<br>
-            <b>그림 흐리기</b> <b>70% 정도</b>가 글씨 읽기 좋아요
+            안쪽은 <b>안쪽 색</b>으로 채워져요. <b>테두리 두께</b>로 굵기를 정합니다.<br>
+            <b>배경 그림</b> 캐릭터 일러스트를 깔면 분위기가 살아납니다.<br>
+            <b>그림 크기</b> 배경 그림을 확대해서 원하는 부분만 보이게 할 수 있어요.<br>
+            <b>그림 흐리기</b> <b>70% 정도</b>가 글씨 읽기 좋아요.
           </p>
 
           <h2>8. 크기와 저장</h2>
           <p class="sub">
-            <b>너비</b> 트위터에는 430~600 정도가 보기 좋아요<br>
-            <b>선명도</b> 2배 추천. 3배는 또렷하지만 파일이 커집니다<br>
-            <b>그림으로 저장</b> PNG 파일로 내려받기<br>
-            <b>그림 복사</b> 저장 없이 바로 <b>붙여넣기</b> 가능 (크롬·엣지)
+            <b>너비</b> 트위터에는 430~600 정도가 보기 좋아요.<br>
+            <b>선명도</b> 2배를 추천해요. 3배는 또렷하지만 파일이 커집니다.<br>
+            <b>그림으로 저장</b> PNG 파일로 내려받습니다.<br>
+            <b>그림 복사</b> 저장 없이 바로 <b>붙여넣기</b>할 수 있어요. 크롬·엣지에서 됩니다.
           </p>
 
           <h2>9. 이럴 땐</h2>
           <p class="sub">
-            <b>글씨가 안 보여요</b> → 그림 흐리기를 올리거나 말풍선 진하기를 100%로<br>
-            <b>그림이 너무 길어요</b> → 대화를 나눠 여러 장으로<br>
-            <b>복사가 안 돼요</b> → 크롬·엣지에서만 됩니다. 저장을 쓰세요<br>
-            <b>글꼴이 기본으로 나와요</b> → 인터넷 확인 후 새로고침
+            <b>글씨가 안 보여요</b> → 그림 흐리기를 올리거나 말풍선 진하기를 100%로 해 보세요.<br>
+            <b>그림이 너무 길어요</b> → 대화를 나눠서 여러 장으로 만들어 보세요.<br>
+            <b>복사가 안 돼요</b> → 크롬·엣지에서만 됩니다. 저장을 써 주세요.<br>
+            <b>글꼴이 기본으로 나와요</b> → 인터넷 연결을 확인하고 새로고침해 보세요.
           </p>
 
         </div>
@@ -884,16 +1014,20 @@ code {
       <div class="tpl-grid">
         <button type="button" class="tpl-btn is-on" data-tpl="dot"><i style="--sw:#ffd6ea"></i>도트 기본</button>
         <button type="button" class="tpl-btn" data-tpl="kakao"><i style="--sw:linear-gradient(135deg,#b2c7da 50%,#fee500 50%)"></i>카톡 풍</button>
+        <button type="button" class="tpl-btn" data-tpl="line"><i style="--sw:linear-gradient(135deg,#9bb8d8 50%,#8de055 50%)"></i>라인 풍</button>
         <button type="button" class="tpl-btn" data-tpl="x"><i style="--sw:linear-gradient(135deg,#eff3f4 50%,#1d9bf0 50%)"></i>X DM 풍</button>
         <button type="button" class="tpl-btn" data-tpl="insta"><i style="--sw:linear-gradient(135deg,#efefef 50%,#7b4dff 50%)"></i>인스타 DM 풍</button>
+        <button type="button" class="tpl-btn" data-tpl="discord"><i style="--sw:linear-gradient(135deg,#313338 50%,#5865f2 50%)"></i>디스코드 풍</button>
       </div>
       <p class="tpl-group">소설</p>
       <div class="tpl-grid">
         <button type="button" class="tpl-btn" data-tpl="book"><i style="--sw:#fbf7ee"></i>책 한 쪽</button>
-        <button type="button" class="tpl-btn" data-tpl="letter"><i style="--sw:repeating-linear-gradient(180deg,#fffdf7 0 4px,#dcd4f0 4px 5px)"></i>편지지</button>
+        <button type="button" class="tpl-btn" data-tpl="web"><i style="--sw:#ffffff"></i>웹소설</button>
+        <button type="button" class="tpl-btn" data-tpl="letter"><i style="--sw:#f6f0e4;box-shadow:inset 0 0 0 3px #f6f0e4,inset 0 0 0 4px #b89f82"></i>편지지</button>
+        <button type="button" class="tpl-btn" data-tpl="script"><i style="--sw:linear-gradient(90deg,#fdfdfb 40%,#e3e1da 40% 45%,#fdfdfb 45%)"></i>대본</button>
         <button type="button" class="tpl-btn" data-tpl="night"><i style="--sw:#1b1826"></i>새벽</button>
       </div>
-      <p class="note" style="margin:0">고르면 아래 설정이 그 느낌으로 바뀌어요. 그다음 마음대로 고치면 돼요.</p>
+      <p class="note" style="margin:0">고르면 아래 설정이 그 느낌으로 바뀌어요.<br>그다음 마음대로 고치면 돼요.</p>
 
       <h2>글</h2>
 
@@ -908,13 +1042,13 @@ code {
       </div>
 
       <h2>등장인물</h2>
-      <div class="cast__head"><span></span><span>이름</span><span>이름색</span><span>말풍선</span><span></span></div>
+      <div class="cast__head"><span></span><span>사진</span><span>이름</span><span>이름색</span><span>말풍선</span><span></span></div>
       <div id="cast"></div>
       <div class="row" style="margin-top:8px">
         <button type="button" class="btn btn--sm" id="castAdd">+ 상대 추가</button>
         <button type="button" class="btn btn--sm" id="castLoad">대화에서 불러오기</button>
       </div>
-      <p class="note">'나' 이름으로 적은 말은 오른쪽 말풍선이 돼요.</p>
+      <p class="note">'나' 이름으로 적은 말은 오른쪽 말풍선이 돼요.<br>사진 칸을 누르면 프로필 사진을 넣고 크기를 맞출 수 있어요.</p>
 
       <h2>글꼴</h2>
 
@@ -1029,6 +1163,12 @@ code {
         <span class="val" id="alphaVal">100%</span>
       </div>
 
+      <div class="opt">
+        <label>프로필 크기</label>
+        <input type="range" id="avSize" min="70" max="160" step="5" value="100">
+        <span class="val" id="avSizeVal">100%</span>
+      </div>
+
       <div class="opt opt--pair">
         <label>말풍선</label>
         <input type="checkbox" id="bubbleOn" checked>
@@ -1039,7 +1179,7 @@ code {
       <div class="opt opt--pair">
         <label>지문</label>
         <input type="checkbox" id="narrOn" checked>
-        <span class="hint hint--under">말풍선을 끄면 소설처럼 줄글로, 지문을 끄면 대사만 남아요</span>
+        <span class="hint hint--under">말풍선을 끄면 소설처럼 줄글로, 지문을 끄면 대사만 남아요.</span>
       </div>
 
       <h2>바탕</h2>
@@ -1094,6 +1234,12 @@ code {
       </div>
 
       <div class="opt">
+        <label>그림 크기</label>
+        <input type="range" id="bgZoom" min="100" max="300" step="5" value="100">
+        <span class="val" id="bgZoomVal">100%</span>
+      </div>
+
+      <div class="opt">
         <label>그림 흐리기</label>
         <input type="range" id="veil" min="0" max="95" step="5" value="70">
         <span class="val" id="veilVal">70%</span>
@@ -1135,7 +1281,7 @@ code {
             <button type="button" class="tool" data-wrap="==" title="형광펜"><mark>H</mark></button>
             <button type="button" class="tool" data-wrap="*" title="지문"><i>지문</i></button>
             <button type="button" class="tool" data-wrap='"' title="대사">"대사"</button>
-            <span class="tools__hint">글자를 고르고 누르세요</span>
+            <span class="tools__hint">글자를 고르고 누르세요.</span>
           </div>
 
           <div class="row">
@@ -1152,7 +1298,7 @@ code {
           <h2>미리보기</h2>
           <div class="stage">
         <div class="sheet" id="sheet">
-          <p class="note" style="text-align:center;margin:20px 0">왼쪽에 대화를 적으면 여기에 바로 나와요.</p>
+          <p class="note" style="text-align:center;margin:20px 0">위에 대화를 적으면 여기에 바로 나와요.</p>
         </div>
       </div>
           <p class="note" id="msg"></p>
@@ -1164,6 +1310,35 @@ code {
 
 </div>
 
+<div class="avbox" id="avBox" hidden>
+  <div class="avbox__win">
+    <div class="done__bar">프로필 사진</div>
+    <div class="avbox__body">
+      <div class="avbox__view" id="avView"></div>
+      <div class="opt">
+        <label>확대</label>
+        <input type="range" id="avZoom" min="100" max="400" step="5" value="100">
+        <span class="val" id="avZoomVal">100%</span>
+      </div>
+      <div class="opt">
+        <label>가로 위치</label>
+        <input type="range" id="avX" min="0" max="100" step="1" value="50">
+      </div>
+      <div class="opt">
+        <label>세로 위치</label>
+        <input type="range" id="avY" min="0" max="100" step="1" value="50">
+      </div>
+      <p class="note" style="margin:0 0 12px">사진을 끌어서 옮길 수도 있어요.</p>
+      <div class="row" style="justify-content:center">
+        <button type="button" class="btn btn--sm" id="avPick">사진 바꾸기</button>
+        <button type="button" class="btn btn--sm" id="avRemove">사진 빼기</button>
+        <button type="button" class="btn btn--sm btn--go" id="avDone">완료</button>
+      </div>
+      <input type="file" id="avFile" accept="image/*" hidden>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -1173,6 +1348,9 @@ code {
   var srcEl = $('src'), titleEl = $('title'), footEl = $('foot');
   var castEl = $('cast'), castAddEl = $('castAdd'), castLoadEl = $('castLoad');
   var narrOnEl = $('narrOn');
+  var avSizeEl = $('avSize'), avSizeValEl = $('avSizeVal');
+  var bgZoomEl = $('bgZoom'), bgZoomValEl = $('bgZoomVal');
+  var demoOn = false;
   var fillEl = $('fill'), frameWEl = $('frameW'), frameWValEl = $('frameWVal'), innerCEl = $('innerC');
   var fontEl = $('font'), fontTitleEl = $('fontTitle');
   var fontWhoEl = $('fontWho'), fontFootEl = $('fontFoot');
@@ -1298,8 +1476,11 @@ code {
   var F_BATANG = "'Gowun Batang',serif";
   var F_MYEONG = "'Nanum Myeongjo',serif";
   var F_PEN = "'Nanum Pen Script',cursive";
+  var F_HAHM = "'Hahmlet',serif";
+  var F_DODUM = "'Gowun Dodum',sans-serif";
 
   var PAL = ['#d6428a', '#4f63d8', '#23967a', '#8d5ae8', '#d9701a', '#c23b5a', '#2f86b8', '#7565a8'];
+  var PAL_MUTED = ['#9c4f5c', '#566a8c', '#5b7a60', '#86679a', '#a2703c', '#7a5a4a', '#4f7c86', '#8a6f5c'];
   var PAL_LIGHT = ['#ff9ccb', '#a9b6ff', '#86e3c6', '#c9a8ff', '#ffc07a', '#ff9aa8', '#8fd3ff', '#d8cff5'];
 
   var TPL = {
@@ -1318,9 +1499,24 @@ code {
     book:   { font: F_BATANG, size: 14, lh: 2.0, weight: 400, line: '#2a2622', narr: '#2a2622', fade: 80,
               title: '#2a2622', foot: '#8a8275', hl: '#f6e7a8', bubble: false, who: false,
               pattern: 'solid', pat1: '#fbf7ee', pat2: '#efe6d2', width: 480, me: '#ffd6ea', ai: '#ffffff' },
-    letter: { font: F_PEN, size: 20, lh: 1.6, weight: 400, line: '#3b3350', narr: '#3b3350', fade: 75,
-              title: '#3b3350', foot: '#8b82a8', hl: '#ffe3ef', bubble: false, who: true,
-              pattern: 'lines', pat1: '#fffdf7', pat2: '#dcd4f0', width: 430, me: '#ffd6ea', ai: '#ffffff' },
+    line:   { font: F_PRE, size: 13.5, lh: 1.6, weight: 400, line: '#1e1e1e', narr: '#1e1e1e', fade: 55,
+              title: '#1e1e1e', foot: '#4d6480', hl: '#fff3a0', bubble: true, who: true,
+              pattern: 'solid', pat1: '#9bb8d8', pat2: '#87a8cc', width: 390, me: '#8de055', ai: '#ffffff' },
+    discord:{ font: F_PRE, size: 14, lh: 1.55, weight: 400, line: '#dbdee1', narr: '#b5bac1', fade: 80,
+              title: '#f2f3f5', foot: '#949ba4', hl: '#6b5a1c', bubble: true, who: true,
+              pattern: 'solid', pat1: '#313338', pat2: '#2b2d31', width: 480, me: '#ffffff', ai: '#ffffff',
+              pal: PAL_LIGHT },
+    web:    { font: F_PRE, size: 15, lh: 1.9, weight: 400, line: '#222222', narr: '#444444', fade: 85,
+              title: '#111111', foot: '#999999', hl: '#fff1a8', bubble: false, who: false,
+              pattern: 'solid', pat1: '#ffffff', pat2: '#f3f3f3', width: 430, me: '#ffd6ea', ai: '#ffffff' },
+    letter: { font: F_HAHM, size: 14, lh: 2.0, weight: 400, line: '#4a3f35', narr: '#6b5d50', fade: 80,
+              title: '#4a3f35', foot: '#8c7a66', hl: '#f3dfc1', bubble: false, who: true,
+              pattern: 'solid', pat1: '#f6f0e4', pat2: '#ece2cf', width: 460, me: '#ffd6ea', ai: '#ffffff',
+              pal: PAL_MUTED },
+    script: { font: F_DODUM, size: 14, lh: 1.8, weight: 400, line: '#1a1a1a', narr: '#555555', fade: 90,
+              title: '#111111', foot: '#888888', hl: '#ffef9e', bubble: false, who: true,
+              pattern: 'solid', pat1: '#fdfdfb', pat2: '#eeeeea', width: 480, me: '#ffd6ea', ai: '#ffffff',
+              pal: ['#1a1a1a'] },
     night:  { font: F_MYEONG, size: 14, lh: 2.0, weight: 600, line: '#f3eeff', narr: '#cfc4f2', fade: 75,
               title: '#ffffff', foot: '#a99fd0', hl: '#5a4796', bubble: false, who: true,
               pattern: 'solid', pat1: '#1b1826', pat2: '#2b2640', width: 430, me: '#ffd6ea', ai: '#ffffff',
@@ -1377,6 +1573,7 @@ code {
     r.dataset.me = isMe ? '1' : '0';
     r.innerHTML =
       '<span class="cast__tag"></span>' +
+      '<button type="button" class="cast__av" title="프로필 사진">+</button>' +
       '<input type="text" class="cast__name"' + (isMe ? ' id="me"' : '') +
         ' placeholder="' + (isMe ? '내 캐릭터' : '상대 캐릭터') + '">' +
       '<input type="color" class="cast__who" title="이름색" value="' + pal[rows.length % pal.length] + '">' +
@@ -1393,6 +1590,8 @@ code {
   });
   castEl.addEventListener('change', live);
   castEl.addEventListener('click', function (e) {
+    var pb = e.target.closest('.cast__av');
+    if (pb) { openAv(pb.closest('.cast__row')); return; }
     var d = e.target.closest('.cast__del');
     if (!d) return;
     d.closest('.cast__row').remove();
@@ -1440,8 +1639,10 @@ code {
 
   /* ---------- 그리기 ---------- */
   function render() {
-    var list = parse(srcEl.value);
-    if (!list.length) { msg('대화를 넣어주세요.', '#c2317c'); return; }
+    var demo = !srcEl.value.trim();
+    if (demo && !demoOn) { showEmpty(); return; }
+    var list = parse(demo ? demoText() : srcEl.value);
+    if (!list.length) { showEmpty(); return; }
 
     var alpha = (parseInt(alphaEl.value, 10) || 0) / 100;
     var bubbleOn = bubbleOnEl.checked, narrOn = narrOnEl.checked;
@@ -1476,18 +1677,21 @@ code {
     s.setProperty('--who-font', fontWhoEl.value || fontEl.value);
     s.setProperty('--pat1', pat1El.value);
     s.setProperty('--pat2', pat2El.value);
+    s.setProperty('--avk', (parseInt(avSizeEl.value, 10) || 100) / 100);
     var rule = Math.round(parseFloat(sizeEl.value) * parseFloat(lhEl.value) * 100) / 100;
     s.setProperty('--rule', rule + 'px');
 
     // 등장인물 표
     var cast = {}, order = 0, me = '';
-    castRows().forEach(function (r) {
-      var n = r.querySelector('.cast__name').value.trim();
+    var names = demo ? demoNames() : null;
+    castRows().forEach(function (r, i) {
+      var n = demo ? names[i] : r.querySelector('.cast__name').value.trim();
       if (!n || cast[n]) return;
       cast[n] = {
         me: r.dataset.me === '1',
         who: r.querySelector('.cast__who').value,
-        bub: r.querySelector('.cast__bub').value
+        bub: r.querySelector('.cast__bub').value,
+        av: r._av || null
       };
       if (cast[n].me) me = n;
       order++;
@@ -1524,9 +1728,11 @@ code {
       if (bubbleOn && alpha >= 0.5 && lum(p.bub) < 0.5) st += ';--line-color:#fff;--narr-color:#fff';
 
       var initial = m.who ? Array.from(m.who)[0] : '';
+      var av = p.av;
       inner += '<div class="msg ' + (mine ? 'msg--me' : 'msg--ai') +
         (gFirst ? ' g-first' : '') + (gLast ? ' g-last' : '') + '" style="' + st + '">' +
-        (mine ? '' : '<span class="msg__av' + (initial ? '' : ' is-empty') + '">' + esc(initial) + '</span>') +
+        '<span class="msg__av' + (initial ? '' : ' is-empty') + (av ? ' has-img' : '') + '"' +
+          (av ? ' style="' + avStyle(av) + '"' : '') + '>' + esc(initial) + '</span>' +
         '<div class="msg__col">' +
         (showName ? '<span class="msg__who">' + esc(m.who) + '</span>' : '') +
         '<span class="msg__bubble">' + m.body + '</span></div></div>';
@@ -1548,7 +1754,8 @@ code {
     }
     var back = '<div class="sheet__pat pat--' + patternEl.value + '"' + patStyle + '></div>';
     if (bgData) {
-      back += '<div class="sheet__bg" style="background-image:url(' + bgData + ')"></div>' +
+      back += '<div class="sheet__bg" style="background-image:url(' + bgData + ');transform:scale(' +
+        ((parseInt(bgZoomEl.value, 10) || 100) / 100) + ')"></div>' +
         '<div class="sheet__veil" style="opacity:' +
         ((parseInt(veilEl.value, 10) || 0) / 100) +
         ';background:' + pat1El.value + '"></div>';
@@ -1558,13 +1765,159 @@ code {
     }
 
     sheet.innerHTML = back + '<div class="sheet__in">' + inner + '</div>';
-    saveEl.disabled = false;
-    copyEl.disabled = false;
-    msg('말 ' + items.length + '개를 그렸어요.');
+    saveEl.disabled = demo;
+    copyEl.disabled = demo;
+    if (demo) msg('예시 대화로 보여주는 중이에요. 대화를 적으면 바로 바뀌어요.');
+    else msg('말 ' + items.length + '개를 그렸어요.');
   }
 
+  /* ---------- 빈 상태 / 예시 ---------- */
+  var EMPTY_HTML = sheet.innerHTML;
+
+  function showEmpty() {
+    sheet.className = 'sheet';
+    sheet.removeAttribute('style');
+    sheet.innerHTML = EMPTY_HTML;
+    saveEl.disabled = true;
+    copyEl.disabled = true;
+    msg('');
+  }
+
+  var DEMO_OTHERS = ['초코', '마카롱', '마들렌', '타르트', '스콘', '브라우니'];
+
+  function demoNames() {
+    var used = {}, k = 0;
+    var rows = castRows();
+    rows.forEach(function (r) {
+      var n = r.querySelector('.cast__name').value.trim();
+      if (n) used[n] = 1;
+    });
+    return rows.map(function (r) {
+      var n = r.querySelector('.cast__name').value.trim();
+      if (n) return n;
+      if (r.dataset.me === '1') return '쿠키';
+      while (used[DEMO_OTHERS[k % DEMO_OTHERS.length]] && k < 20) k++;
+      var d = DEMO_OTHERS[k % DEMO_OTHERS.length]; k++;
+      used[d] = 1;
+      return d;
+    });
+  }
+
+  function demoText() {
+    var rows = castRows(), names = demoNames();
+    var me = '쿠키', others = [];
+    rows.forEach(function (r, i) {
+      if (r.dataset.me === '1') me = names[i]; else others.push(names[i]);
+    });
+    var a = others[0] || '초코', b = others[1] || '';
+    return a + ': *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"\n' +
+      me + ': "그냥... **보고 싶어서.**"\n' +
+      a + ': *잠시 말을 고르다가 웃었다* "그런 말은 ==반칙==이잖아."' +
+      (b ? '\n' + b + ': *문을 벌컥 열며* "둘이 또 뭐 해?"' : '');
+  }
+
+  /* ---------- 프로필 사진 ---------- */
+  function avStyle(av) {
+    var z = av.zoom || 100;
+    var size = av.w >= av.h ? 'auto ' + z + '%' : z + '% auto';
+    return 'background-image:url(' + av.src + ');background-size:' + size +
+      ';background-position:' + av.x + '% ' + av.y + '%';
+  }
+
+  var avBox = $('avBox'), avView = $('avView'), avFile = $('avFile');
+  var avZoom = $('avZoom'), avZoomVal = $('avZoomVal'), avX = $('avX'), avY = $('avY');
+  var avRow = null;
+
+  function paintAv() {
+    if (!avRow) return;
+    var av = avRow._av, btn = avRow.querySelector('.cast__av');
+    if (av) {
+      avView.setAttribute('style', avStyle(av));
+      btn.setAttribute('style', avStyle(av));
+      btn.classList.add('has-img');
+    } else {
+      avView.removeAttribute('style');
+      btn.removeAttribute('style');
+      btn.classList.remove('has-img');
+    }
+    live();
+  }
+
+  function openAv(row) {
+    avRow = row;
+    if (!row._av) { avFile.value = ''; avFile.click(); return; }
+    showAvBox();
+  }
+
+  function showAvBox() {
+    var av = avRow._av;
+    avZoom.value = av.zoom; avZoomVal.textContent = av.zoom + '%';
+    avX.value = av.x; avY.value = av.y;
+    avBox.hidden = false;
+    paintAv();
+  }
+
+  avFile.addEventListener('change', function () {
+    var f = avFile.files[0];
+    if (!f || !avRow) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        // 가볍게: 긴 쪽 360px로 줄임
+        var k = Math.min(1, 360 / Math.max(img.width, img.height));
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        avRow._av = { src: c.toDataURL('image/png'), w: c.width, h: c.height, zoom: 100, x: 50, y: 50 };
+        showAvBox();
+      };
+      img.src = String(fr.result);
+    };
+    fr.readAsDataURL(f);
+  });
+
+  function avInput() {
+    if (!avRow || !avRow._av) return;
+    avRow._av.zoom = parseInt(avZoom.value, 10);
+    avRow._av.x = parseInt(avX.value, 10);
+    avRow._av.y = parseInt(avY.value, 10);
+    avZoomVal.textContent = avZoom.value + '%';
+    paintAv();
+  }
+  [avZoom, avX, avY].forEach(function (el) { el.addEventListener('input', avInput); });
+
+  // 사진을 끌어서 옮기기
+  var drag = null;
+  avView.addEventListener('pointerdown', function (e) {
+    if (!avRow || !avRow._av) return;
+    drag = { x: e.clientX, y: e.clientY, ax: avRow._av.x, ay: avRow._av.y };
+    avView.setPointerCapture(e.pointerId);
+  });
+  avView.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var k = 100 / avView.clientWidth * (100 / Math.max(100, avRow._av.zoom - 20)) * 1.4;
+    avX.value = Math.max(0, Math.min(100, drag.ax - (e.clientX - drag.x) * k));
+    avY.value = Math.max(0, Math.min(100, drag.ay - (e.clientY - drag.y) * k));
+    avInput();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (t) {
+    avView.addEventListener(t, function () { drag = null; });
+  });
+
+  $('avPick').addEventListener('click', function () { avFile.value = ''; avFile.click(); });
+  $('avRemove').addEventListener('click', function () {
+    if (avRow) avRow._av = null;
+    paintAv();
+    avBox.hidden = true;
+  });
+  $('avDone').addEventListener('click', function () { avBox.hidden = true; });
+  avBox.addEventListener('click', function (e) { if (e.target === avBox) avBox.hidden = true; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') avBox.hidden = true; });
+
   /* ---------- 설정 반응 ---------- */
-  function live() { if (!saveEl.disabled) render(); }
+  // 설정을 바꾸면 대화가 비어 있어도 예시로 보여줌
+  function live() { demoOn = true; render(); }
 
   function slider(el, valEl, suffix) {
     el.addEventListener('input', function () {
@@ -1578,6 +1931,8 @@ code {
   slider(veilEl, veilValEl, '%');
   slider(narrFadeEl, narrFadeValEl, '%');
   slider(frameWEl, frameWValEl, 'px');
+  slider(avSizeEl, avSizeValEl, '%');
+  slider(bgZoomEl, bgZoomValEl, '%');
 
   function frameRows() {
     [].forEach.call(document.querySelectorAll('[data-frame]'), function (el) {
@@ -1594,18 +1949,23 @@ code {
     el.addEventListener('change', live);
   });
 
-  buildEl.addEventListener('click', render);
+  buildEl.addEventListener('click', function () {
+    if (!srcEl.value.trim()) { showEmpty(); msg('대화를 넣어주세요.', '#c2317c'); return; }
+    render();
+  });
 
   /* 실시간 미리보기 */
   var timer = null;
   function liveSoon() {
     clearTimeout(timer);
-    timer = setTimeout(function () {
-      if (srcEl.value.trim()) render();
-    }, 280);
+    timer = setTimeout(render, 280);
   }
 
-  srcEl.addEventListener('input', liveSoon);
+  srcEl.addEventListener('input', function () {
+    // 다 지우면 아무것도 없는 상태로
+    if (!srcEl.value.trim()) demoOn = false;
+    liveSoon();
+  });
   [titleEl, footEl].forEach(function (el) {
     el.addEventListener('input', liveSoon);
   });
@@ -1614,7 +1974,8 @@ code {
     var b = e.target.closest('.tpl-btn');
     if (!b) return;
     applyTemplate(b.dataset.tpl);
-    if (srcEl.value.trim()) render();
+    demoOn = true;
+    render();
   });
 
   // 처음 등장인물: 나 + 상대 한 명
@@ -1663,6 +2024,8 @@ code {
 
   clearSrcEl.addEventListener('click', function () {
     srcEl.value = '';
+    demoOn = false;
+    render();
     srcEl.focus();
   });
 
