@@ -422,8 +422,8 @@ textarea {
   max-width: 90%;
   padding: 11px 13px;
   border: 3px solid var(--outline);
-  box-shadow: 3px 3px 0 rgba(43,30,82,0.2);
   word-break: break-word;
+  position: relative;
 }
 
 .msg__bubble { background: var(--bub, #fff); }
@@ -899,6 +899,18 @@ code {
 .tpl-script .narr::after { content: ')'; }
 .tpl-script .narr, .tpl-script .line { margin-bottom: 0.2em; }
 .tpl-script .sheet__foot { border-top: 1px solid rgba(0,0,0,0.2); }
+
+/* 말풍선 그림자 — box-shadow 는 그림 저장(2배 이상)에서 빠지고, ::before/::after 도 저장 때 어긋나서
+   말풍선 안에 오른쪽·아래 띠 두 개를 실제로 넣어 그림. 미리보기와 저장 그림이 똑같이 나옴 */
+.sh { display: none; }
+.sheet:not(.sheet--plain):not(.tpl-kakao):not(.tpl-x):not(.tpl-insta):not(.tpl-line):not(.tpl-discord) .sh {
+  display: block;
+  position: absolute;
+  background: rgba(43,30,82,0.2);
+  pointer-events: none;
+}
+.sheet:not(.sheet--plain):not(.tpl-kakao):not(.tpl-x):not(.tpl-insta):not(.tpl-line):not(.tpl-discord) .sh--r { top: 0; bottom: -6px; right: -6px; width: 3px; }
+.sheet:not(.sheet--plain):not(.tpl-kakao):not(.tpl-x):not(.tpl-insta):not(.tpl-line):not(.tpl-discord) .sh--b { left: 0; right: -3px; bottom: -6px; height: 3px; }
 </style>
 </head>
 <body>
@@ -1776,7 +1788,7 @@ code {
           (av ? ' style="' + avStyle(av) + '"' : '') + '>' + esc(initial) + '</span>' +
         '<div class="msg__col">' +
         (showName ? '<span class="msg__who">' + esc(m.who) + '</span>' : '') +
-        '<span class="msg__bubble">' + m.body + '</span></div></div>';
+        '<span class="msg__bubble"><i class="sh sh--r"></i><i class="sh sh--b"></i>' + m.body + '</span></div></div>';
     });
 
     var foot = footEl.value.trim();
