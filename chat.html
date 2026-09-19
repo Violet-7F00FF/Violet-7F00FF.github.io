@@ -585,6 +585,11 @@ code {
 .done__txt { font-size: 13.5px; color: var(--sub); margin: 0 0 16px; line-height: 1.8; }
 .done__txt b { color: var(--ink); }
 
+/* ---------- 테두리만 칠하기: 안쪽 판 ---------- */
+.sheet__inner { position: absolute; z-index: 1; }
+.opt[hidden] { display: none; }
+.tpl-dot .sheet__inner { border: 3px solid var(--outline); }
+
 /* ---------- 두 개씩 놓는 줄 (뒤쪽 이름표·칸이 위아래로 맞음) ---------- */
 .opt--pair {
   display: grid;
@@ -594,6 +599,7 @@ code {
 }
 .opt--pair > * { justify-self: start; }
 .opt--pair label, .opt--pair label.w-auto { width: auto; margin-left: 0; }
+.opt--pair label.w-auto { justify-self: end; margin-right: -2px; }
 .opt--pair select, .opt--pair input[type="number"] { justify-self: stretch; width: auto; min-width: 0; }
 .opt--pair .hint--under { grid-column: 1 / -1; }
 
@@ -835,6 +841,8 @@ code {
           <p class="sub">
             <b>종류</b> 단색 · 그라데이션 3종 · 물방울 · 격자 · 사선 · 체크 · 줄 공책<br>
             <b>바탕색 / 무늬색</b> 두 색을 직접 고릅니다. 단색은 앞쪽 색만 씁니다<br>
+            <b>칠하기</b> '테두리만'을 고르면 바탕 무늬가 액자처럼 가장자리에만 칠해지고,
+            안쪽은 <b>안쪽 색</b>으로 채워져요. <b>테두리 두께</b>로 굵기를 정합니다<br>
             <b>배경 그림</b> 캐릭터 일러스트를 깔면 분위기가 살아납니다<br>
             <b>그림 흐리기</b> <b>70% 정도</b>가 글씨 읽기 좋아요
           </p>
@@ -842,7 +850,7 @@ code {
           <h2>8. 크기와 저장</h2>
           <p class="sub">
             <b>너비</b> 트위터에는 430~600 정도가 보기 좋아요<br>
-            <b>선명도</b> 1~3. 2 추천. 3은 또렷하지만 파일이 커집니다<br>
+            <b>선명도</b> 2배 추천. 3배는 또렷하지만 파일이 커집니다<br>
             <b>그림으로 저장</b> PNG 파일로 내려받기<br>
             <b>그림 복사</b> 저장 없이 바로 <b>붙여넣기</b> 가능 (크롬·엣지)
           </p>
@@ -1051,6 +1059,25 @@ code {
         </select>
       </div>
 
+      <div class="opt">
+        <label>칠하기</label>
+        <select id="fill">
+          <option value="all">바탕 전체</option>
+          <option value="frame">테두리만</option>
+        </select>
+      </div>
+
+      <div class="opt" data-frame hidden>
+        <label>테두리 두께</label>
+        <input type="range" id="frameW" min="6" max="60" step="2" value="18">
+        <span class="val" id="frameWVal">18px</span>
+      </div>
+
+      <div class="opt opt--pair" data-frame hidden>
+        <label>안쪽 색</label>
+        <input type="color" id="innerC" value="#ffffff">
+      </div>
+
       <div class="opt opt--pair">
         <label>바탕색</label>
         <input type="color" id="pat1" value="#ffffff">
@@ -1076,16 +1103,13 @@ code {
 
       <div class="opt opt--pair">
         <label>너비</label>
-        <select id="width">
-          <option value="360">360</option>
-          <option value="390">390</option>
-          <option value="430" selected>430</option>
-          <option value="480">480</option>
-          <option value="600">600</option>
-          <option value="800">800</option>
-        </select>
+        <input type="number" id="width" value="430" min="300" max="900" step="10">
         <label class="w-auto">선명도</label>
-        <input type="number" id="scale" value="2" min="1" max="3" step="1">
+        <select id="scale">
+          <option value="1">1배</option>
+          <option value="2" selected>2배</option>
+          <option value="3">3배</option>
+        </select>
       </div>
 
         </div>
@@ -1149,6 +1173,7 @@ code {
   var srcEl = $('src'), titleEl = $('title'), footEl = $('foot');
   var castEl = $('cast'), castAddEl = $('castAdd'), castLoadEl = $('castLoad');
   var narrOnEl = $('narrOn');
+  var fillEl = $('fill'), frameWEl = $('frameW'), frameWValEl = $('frameWVal'), innerCEl = $('innerC');
   var fontEl = $('font'), fontTitleEl = $('fontTitle');
   var fontWhoEl = $('fontWho'), fontFootEl = $('fontFoot');
   var sizeEl = $('size'), sizeValEl = $('sizeVal');
@@ -1320,6 +1345,7 @@ code {
     alphaEl.value = 100; alphaValEl.textContent = '100%';
     bubbleOnEl.checked = t.bubble; showWhoEl.checked = t.who;
     patternEl.value = t.pattern; pat1El.value = t.pat1; pat2El.value = t.pat2;
+    innerCEl.value = t.pat1;
     widthEl.value = String(t.width);
 
     var pal = t.pal || PAL;
@@ -1425,6 +1451,16 @@ code {
       (bubbleOn ? '' : ' sheet--plain') + (showWhoEl.checked ? '' : ' sheet--nowho');
 
     s.width = (parseInt(widthEl.value, 10) || 430) + 'px';
+
+    // 테두리만 칠하기면 글이 안쪽 판 안에 들어오도록 여백을 늘림
+    var frame = fillEl.value === 'frame' ? (parseInt(frameWEl.value, 10) || 0) : 0;
+    s.padding = '';
+    if (frame) {
+      var cs = getComputedStyle(sheet);
+      s.padding = ['Top', 'Right', 'Bottom', 'Left'].map(function (k) {
+        return (parseFloat(cs['padding' + k]) + frame) + 'px';
+      }).join(' ');
+    }
     s.fontFamily = fontEl.value;
     s.fontSize = sizeEl.value + 'px';
     s.lineHeight = lhEl.value;
@@ -1517,6 +1553,9 @@ code {
         ((parseInt(veilEl.value, 10) || 0) / 100) +
         ';background:' + pat1El.value + '"></div>';
     }
+    if (frame) {
+      back += '<div class="sheet__inner" style="top:' + frame + 'px;right:' + frame + 'px;bottom:' + frame + 'px;left:' + frame + 'px;background:' + innerCEl.value + '"></div>';
+    }
 
     sheet.innerHTML = back + '<div class="sheet__in">' + inner + '</div>';
     saveEl.disabled = false;
@@ -1538,11 +1577,19 @@ code {
   slider(alphaEl, alphaValEl, '%');
   slider(veilEl, veilValEl, '%');
   slider(narrFadeEl, narrFadeValEl, '%');
+  slider(frameWEl, frameWValEl, 'px');
+
+  function frameRows() {
+    [].forEach.call(document.querySelectorAll('[data-frame]'), function (el) {
+      el.hidden = fillEl.value !== 'frame';
+    });
+  }
+  fillEl.addEventListener('change', function () { frameRows(); live(); });
 
   [fontEl, fontTitleEl, fontWhoEl, fontFootEl, weightEl,
    cLineEl, cNarrEl, cTitleEl, cFootEl, cHlEl,
    patternEl, pat1El, pat2El,
-   widthEl, bubbleOnEl, showWhoEl, narrOnEl].forEach(function (el) {
+   widthEl, bubbleOnEl, showWhoEl, narrOnEl, innerCEl].forEach(function (el) {
     el.addEventListener('input', live);
     el.addEventListener('change', live);
   });
@@ -1665,7 +1712,7 @@ code {
       return Promise.reject();
     }
     return html2canvas(sheet, {
-      scale: Math.min(3, Math.max(1, Number(scaleEl.value) || 2)),
+      scale: Number(scaleEl.value) || 2,
       backgroundColor: null,
       useCORS: true,
       logging: false
