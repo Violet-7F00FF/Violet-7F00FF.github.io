@@ -132,10 +132,11 @@ textarea {
 }
 
 .opt {
+  --lab: 62px;              /* 이름표 칸 너비 (가장 긴 '그림 흐리기' 기준) */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 8px 10px;
   padding: 9px 0;
   border-bottom: 2px dotted var(--grape-l);
   font-size: 13.5px;
@@ -148,10 +149,18 @@ textarea {
   font-size: 10px;
   color: var(--sub);
   flex: none;
-  width: 84px;
+  width: var(--lab);
+  line-height: 1.3;
 }
 
-.opt label.w-auto { width: auto; }
+/* 한 줄에 두 개 있을 때 뒤쪽 이름표는 살짝 띄우기 */
+.opt label.w-auto { width: auto; margin-left: 12px; }
+
+/* 이름표 바로 뒤 고르기 상자는 남은 칸을 채움 */
+.opt > label:first-child + select { flex: 1; min-width: 0; }
+
+/* 설명 글귀는 입력칸 아래줄, 입력칸과 같은 선에 맞춤 */
+.opt .hint--under { flex-basis: 100%; padding-left: calc(var(--lab) + 10px); margin-top: -2px; }
 .opt input[type="text"] { flex: 1; min-width: 130px; }
 .opt input[type="number"] { width: 84px; }
 .opt input[type="range"] { flex: 1; min-width: 120px; accent-color: var(--pink); }
@@ -359,6 +368,7 @@ textarea {
 .pat--grad-d { background: linear-gradient(135deg, var(--pat1), var(--pat2)); }
 .pat--grad-r { background: radial-gradient(circle at 50% 30%, var(--pat1), var(--pat2)); }
 .pat--solid { background: var(--pat1); }
+.pat--lines { background-color: var(--pat1); background-repeat: repeat; }
 
 .sheet__veil {
   position: absolute;
@@ -399,7 +409,7 @@ textarea {
   font-size: 0.78em;
   font-weight: 600;
   color: var(--who-color, inherit);
-  opacity: 0.75;
+  opacity: 0.9;
   margin-bottom: 4px;
 }
 
@@ -413,11 +423,11 @@ textarea {
   word-break: break-word;
 }
 
-.msg--ai .msg__bubble { background: var(--bubble-ai, #fff); }
+.msg__bubble { background: var(--bub, #fff); }
 
 .msg--me { text-align: right; }
 .msg--me .msg__who { text-align: right; }
-.msg--me .msg__bubble { background: var(--bubble-me, #ffd6ea); text-align: left; }
+.msg--me .msg__bubble { text-align: left; }
 
 /* 지문 — 흐린 기울임 */
 .narr {
@@ -574,6 +584,173 @@ code {
 .done__big { font-family: var(--pixel); font-size: 15px; margin: 0 0 10px; }
 .done__txt { font-size: 13.5px; color: var(--sub); margin: 0 0 16px; line-height: 1.8; }
 .done__txt b { color: var(--ink); }
+
+/* ---------- 두 개씩 놓는 줄 (뒤쪽 이름표·칸이 위아래로 맞음) ---------- */
+.opt--pair {
+  display: grid;
+  grid-template-columns: var(--lab) minmax(0,1fr) 40px minmax(0,1fr);
+  column-gap: 10px;
+  row-gap: 6px;
+}
+.opt--pair > * { justify-self: start; }
+.opt--pair label, .opt--pair label.w-auto { width: auto; margin-left: 0; }
+.opt--pair select, .opt--pair input[type="number"] { justify-self: stretch; width: auto; min-width: 0; }
+.opt--pair .hint--under { grid-column: 1 / -1; }
+
+/* ---------- 템플릿 고르기 ---------- */
+.tpl-group { font-family: var(--mini); font-size: 10px; color: var(--sub); margin: 2px 0 6px; }
+.tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 10px; }
+.tpl-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 8px;
+  font-family: var(--body); font-size: 12.5px; text-align: left;
+  color: var(--ink); background: #fff; cursor: pointer;
+  border: 3px solid var(--outline);
+  box-shadow: 2px 2px 0 rgba(43,30,82,0.22);
+}
+.tpl-btn i {
+  flex: none; width: 20px; height: 20px;
+  border: 2px solid var(--outline);
+  background: var(--sw);
+}
+.tpl-btn:hover { background: var(--yellow-l); }
+.tpl-btn.is-on { background: var(--yellow); }
+.tpl-btn:active { transform: translate(2px,2px); box-shadow: none; }
+
+/* ---------- 등장인물 ---------- */
+.cast__head, .cast__row {
+  display: grid;
+  grid-template-columns: 38px minmax(0,1fr) 38px 38px 26px;
+  gap: 6px;
+  align-items: center;
+}
+.cast__head { font-family: var(--mini); font-size: 9px; color: var(--sub); margin-bottom: 5px; }
+.cast__head span { text-align: center; }
+.cast__head span:nth-child(2) { text-align: left; }
+.cast__row { padding: 5px 0; }
+.cast__tag { font-family: var(--mini); font-size: 10px; color: var(--sub); }
+.cast__row[data-me="1"] .cast__tag { color: var(--pink); }
+.cast__name {
+  width: 100%; min-width: 0;
+  font-family: var(--body); font-size: 13px; padding: 6px 8px;
+  color: var(--ink); background: #fff; border: 2px solid var(--outline);
+}
+.cast__row input[type="color"] {
+  width: 38px; height: 32px; padding: 2px; cursor: pointer;
+  background: #fff; border: 2px solid var(--outline);
+}
+.cast__del {
+  width: 26px; height: 26px; padding: 0; cursor: pointer;
+  font-size: 12px; line-height: 1; color: var(--ink);
+  background: #fff; border: 2px solid var(--outline);
+}
+.cast__del:hover { background: var(--pink-l); }
+.cast__row[data-me="1"] .cast__del { visibility: hidden; }
+
+/* ================= 발췌 템플릿 ================= */
+
+.msg__av { display: none; }
+.msg__col { display: block; }
+.msg__av.is-empty { visibility: hidden; }
+.sheet--nowho .msg__av { display: none !important; }
+.sheet:not(.tpl-dot) { border: 0; }
+
+/* 카톡 풍 */
+.tpl-kakao .sheet__head {
+  margin: -20px -18px 14px; padding: 13px 18px 12px;
+  border-bottom: 0; background: rgba(0,0,0,0.05);
+}
+.tpl-kakao .sheet__title { font-size: 1.08em; }
+.tpl-kakao .sheet__note, .tpl-x .sheet__note, .tpl-insta .sheet__note { display: none; }
+.tpl-kakao .msg { margin-bottom: 6px; }
+.tpl-kakao .msg.g-first { margin-top: 12px; }
+.tpl-kakao .msg--ai { display: flex; gap: 8px; align-items: flex-start; }
+.tpl-kakao .msg__av {
+  display: grid; place-items: center; flex: none;
+  width: 38px; height: 38px; border-radius: 15px;
+  background: var(--who-color); color: #fff; font-weight: 700; font-size: 0.95em;
+}
+.tpl-kakao .msg:not(.g-first) .msg__av { visibility: hidden; }
+.tpl-kakao .msg__col { flex: 1; min-width: 0; }
+.tpl-kakao .msg__who { opacity: 1; font-weight: 500; font-size: 0.8em; margin-bottom: 4px; }
+.tpl-kakao .msg__bubble {
+  border: 0; box-shadow: none; border-radius: 14px;
+  padding: 8px 11px; max-width: 78%;
+}
+.tpl-kakao .msg--ai.g-first .msg__bubble { border-top-left-radius: 4px; }
+.tpl-kakao .msg--me.g-first .msg__bubble { border-top-right-radius: 4px; }
+
+/* X DM 풍 */
+.tpl-x .sheet__head {
+  margin: -20px -18px 16px; padding: 14px 18px;
+  border-bottom: 1px solid #eff3f4;
+}
+.tpl-x .sheet__title { font-size: 1.12em; font-weight: 800; }
+.tpl-x .msg { margin-bottom: 4px; }
+.tpl-x .msg.g-first { margin-top: 12px; }
+.tpl-x .msg__who { opacity: 1; font-weight: 600; font-size: 0.74em; margin: 0 6px 4px; }
+.tpl-x .msg__bubble {
+  border: 0; box-shadow: none; border-radius: 22px;
+  padding: 10px 15px; max-width: 80%;
+}
+.tpl-x .msg--ai.g-last .msg__bubble { border-bottom-left-radius: 5px; }
+.tpl-x .msg--me.g-last .msg__bubble { border-bottom-right-radius: 5px; }
+
+/* 인스타 DM 풍 */
+.tpl-insta .sheet__head {
+  margin: -20px -18px 16px; padding: 13px 18px;
+  text-align: center; border-bottom: 1px solid #efefef;
+}
+.tpl-insta .sheet__title { font-size: 1.02em; }
+.tpl-insta .msg { margin-bottom: 3px; }
+.tpl-insta .msg.g-first { margin-top: 12px; }
+.tpl-insta .msg--ai { display: flex; gap: 8px; align-items: flex-end; }
+.tpl-insta .msg__av {
+  display: grid; place-items: center; flex: none;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--who-color); color: #fff; font-weight: 700; font-size: 0.72em;
+}
+.tpl-insta .msg:not(.g-last) .msg__av { visibility: hidden; }
+.tpl-insta .msg__col { flex: 1; min-width: 0; }
+.tpl-insta .msg__who { opacity: 1; font-size: 0.72em; margin: 0 12px 3px; }
+.tpl-insta .msg__bubble {
+  border: 0; box-shadow: none; border-radius: 22px;
+  padding: 9px 14px; max-width: 76%;
+}
+
+/* 책 한 쪽 */
+.tpl-book { padding: 40px 36px 30px; }
+.tpl-book::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 26px; z-index: 3;
+  background: linear-gradient(90deg, rgba(90,70,40,0.16), rgba(90,70,40,0));
+}
+.tpl-book .sheet__head { border-bottom: 0; text-align: center; margin-bottom: 24px; }
+.tpl-book .sheet__title { font-size: 1.05em; letter-spacing: 0.12em; }
+.tpl-book .sheet__note { display: none; }
+.tpl-book.sheet--plain .msg { margin-bottom: 0.25em; }
+.tpl-book .narr { font-style: normal; }
+.tpl-book .narr, .tpl-book .line { text-indent: 1em; margin-bottom: 0.25em; }
+.tpl-book .sheet__foot { border-top: 0; text-align: center; font-size: 0.72em; letter-spacing: 0.1em; margin-top: 26px; }
+
+/* 편지지 — 모든 줄 높이를 공책 줄 간격(--rule)에 맞춤 */
+.tpl-letter { padding: 30px 28px 26px; }
+.tpl-letter .sheet__head { border-bottom: 0; margin: 0; padding: 0; }
+.tpl-letter .sheet__title { line-height: calc(var(--rule) * 2); font-size: 1.15em; }
+.tpl-letter .sheet__note { display: none; }
+.tpl-letter .narr { font-style: normal; }
+.tpl-letter .narr, .tpl-letter .line { margin: 0; }
+.tpl-letter .msg, .tpl-letter.sheet--plain .msg { margin: 0; }
+.tpl-letter .msg__who { opacity: 1; font-size: 0.85em; line-height: var(--rule); margin: 0; }
+.tpl-letter .sheet__foot { border-top: 0; margin: 0; padding: 0; line-height: calc(var(--rule) * 2); }
+
+/* 채팅 앱 풍에서는 내 이름을 안 보임 */
+.tpl-kakao .msg--me .msg__who, .tpl-x .msg--me .msg__who, .tpl-insta .msg--me .msg__who { display: none; }
+
+/* 새벽 */
+.tpl-night { padding: 30px 26px 26px; }
+.tpl-night .sheet__head, .tpl-night .sheet__foot { border-color: rgba(255,255,255,0.18); }
+.tpl-night .sheet__title { letter-spacing: 0.04em; }
+.tpl-night .msg__who { opacity: 1; }
 </style>
 </head>
 <body>
@@ -611,14 +788,23 @@ code {
             이미 감싼 글자를 다시 고르고 버튼을 누르면 <b>풀립니다.</b>
           </p>
 
-          <h2>2. 글</h2>
+          <h2>2. 템플릿</h2>
           <p class="sub">
-            <b>제목</b> 맨 위에 굵게. 비우면 제목 줄이 사라집니다<br>
-            <b>내 이름</b> 이 이름과 같으면 <b>오른쪽 말풍선</b>이 됩니다<br>
-            <b>아래 글귀</b> 오른쪽 아래에 작게. 출처를 적어두면 퍼질 때 남아요
+            <b>채팅</b> 도트 기본 · 카톡 풍 · X DM 풍 · 인스타 DM 풍<br>
+            <b>소설</b> 책 한 쪽 · 편지지 · 새벽<br>
+            고르면 글꼴·색·바탕이 한 번에 바뀌고, 그다음 하나씩 고칠 수 있어요.
           </p>
 
-          <h2>3. 글꼴</h2>
+          <h2>3. 글과 등장인물</h2>
+          <p class="sub">
+            <b>제목</b> 맨 위에 굵게. 비우면 제목 줄이 사라집니다<br>
+            <b>아래 글귀</b> 아래에 작게. 출처를 적어두면 퍼질 때 남아요<br>
+            <b>등장인물</b> 맨 위 '나' 칸의 이름으로 적은 말은 <b>오른쪽 말풍선</b>이 됩니다.
+            사람마다 <b>이름색·말풍선 색</b>을 따로 정하고, <b>+ 상대 추가</b>로 인원을 늘려요.<br>
+            <b>대화에서 불러오기</b> 대화에 나온 이름을 알아서 채워줍니다
+          </p>
+
+          <h2>4. 글꼴</h2>
           <p class="sub">
             본문 · 제목 · 이름 · 아래 글귀를 <b>각각 다르게</b> 고를 수 있어요.
             "본문과 같게"를 고르면 본문을 따라갑니다.<br>
@@ -630,37 +816,38 @@ code {
             <b>줄 간격</b> 명조 글꼴에는 2.0 언저리가 잘 어울려요
           </p>
 
-          <h2>4. 글씨 색</h2>
+          <h2>5. 글씨 색</h2>
           <p class="sub">
-            대사 · 지문 · 제목 · 이름 · 아래 글귀 · 형광펜 색을 따로 정합니다.<br>
+            대사 · 지문 · 제목 · 아래 글귀 · 형광펜 색을 따로 정합니다. 이름색은 등장인물에서.<br>
+            말풍선이 어두운 색이면 그 안의 글씨는 알아서 하얗게 바뀌어요.<br>
             <b>지문 흐리기</b> 를 올리면 지문이 연해져서 대사가 더 도드라져요.
           </p>
 
-          <h2>5. 말풍선</h2>
+          <h2>6. 말풍선</h2>
           <p class="sub">
-            <b>색</b> 내 것과 상대 것을 따로 고릅니다<br>
             <b>진하기</b> 낮추면 반투명해져 <b>배경이 비쳐 보여요</b><br>
             <b>말풍선 끄기</b> 소설처럼 줄글로 나옵니다<br>
-            <b>이름 표시</b> 끄면 대사만 남아요
+            <b>이름</b> 끄면 이름(과 프로필)이 사라져요<br>
+            <b>지문</b> 끄면 지문이 빠지고 대사만 남아요
           </p>
 
-          <h2>6. 바탕</h2>
+          <h2>7. 바탕</h2>
           <p class="sub">
-            <b>종류</b> 단색 · 그라데이션 3종 · 물방울 · 격자 · 사선 · 체크<br>
+            <b>종류</b> 단색 · 그라데이션 3종 · 물방울 · 격자 · 사선 · 체크 · 줄 공책<br>
             <b>바탕색 / 무늬색</b> 두 색을 직접 고릅니다. 단색은 앞쪽 색만 씁니다<br>
             <b>배경 그림</b> 캐릭터 일러스트를 깔면 분위기가 살아납니다<br>
             <b>그림 흐리기</b> <b>70% 정도</b>가 글씨 읽기 좋아요
           </p>
 
-          <h2>7. 크기와 저장</h2>
+          <h2>8. 크기와 저장</h2>
           <p class="sub">
             <b>너비</b> 트위터에는 430~600 정도가 보기 좋아요<br>
-            <b>선명도</b> 2배 추천. 3배는 또렷하지만 파일이 커집니다<br>
+            <b>선명도</b> 1~3. 2 추천. 3은 또렷하지만 파일이 커집니다<br>
             <b>그림으로 저장</b> PNG 파일로 내려받기<br>
             <b>그림 복사</b> 저장 없이 바로 <b>붙여넣기</b> 가능 (크롬·엣지)
           </p>
 
-          <h2>8. 이럴 땐</h2>
+          <h2>9. 이럴 땐</h2>
           <p class="sub">
             <b>글씨가 안 보여요</b> → 그림 흐리기를 올리거나 말풍선 진하기를 100%로<br>
             <b>그림이 너무 길어요</b> → 대화를 나눠 여러 장으로<br>
@@ -684,6 +871,22 @@ code {
       <div class="win win--tall">
         <div class="bar">설정</div>
         <div class="body">
+      <h2>템플릿</h2>
+      <p class="tpl-group">채팅</p>
+      <div class="tpl-grid">
+        <button type="button" class="tpl-btn is-on" data-tpl="dot"><i style="--sw:#ffd6ea"></i>도트 기본</button>
+        <button type="button" class="tpl-btn" data-tpl="kakao"><i style="--sw:linear-gradient(135deg,#b2c7da 50%,#fee500 50%)"></i>카톡 풍</button>
+        <button type="button" class="tpl-btn" data-tpl="x"><i style="--sw:linear-gradient(135deg,#eff3f4 50%,#1d9bf0 50%)"></i>X DM 풍</button>
+        <button type="button" class="tpl-btn" data-tpl="insta"><i style="--sw:linear-gradient(135deg,#efefef 50%,#7b4dff 50%)"></i>인스타 DM 풍</button>
+      </div>
+      <p class="tpl-group">소설</p>
+      <div class="tpl-grid">
+        <button type="button" class="tpl-btn" data-tpl="book"><i style="--sw:#fbf7ee"></i>책 한 쪽</button>
+        <button type="button" class="tpl-btn" data-tpl="letter"><i style="--sw:repeating-linear-gradient(180deg,#fffdf7 0 4px,#dcd4f0 4px 5px)"></i>편지지</button>
+        <button type="button" class="tpl-btn" data-tpl="night"><i style="--sw:#1b1826"></i>새벽</button>
+      </div>
+      <p class="note" style="margin:0">고르면 아래 설정이 그 느낌으로 바뀌어요. 그다음 마음대로 고치면 돼요.</p>
+
       <h2>글</h2>
 
       <div class="opt">
@@ -692,15 +895,18 @@ code {
       </div>
 
       <div class="opt">
-        <label>내 이름</label>
-        <input type="text" id="me" placeholder="쿠키">
-        <span class="hint">이 이름이면 오른쪽 말풍선</span>
-      </div>
-
-      <div class="opt">
         <label>아래 글귀</label>
         <input type="text" id="foot" placeholder="출처: 쿠키 몬스터의 집">
       </div>
+
+      <h2>등장인물</h2>
+      <div class="cast__head"><span></span><span>이름</span><span>이름색</span><span>말풍선</span><span></span></div>
+      <div id="cast"></div>
+      <div class="row" style="margin-top:8px">
+        <button type="button" class="btn btn--sm" id="castAdd">+ 상대 추가</button>
+        <button type="button" class="btn btn--sm" id="castLoad">대화에서 불러오기</button>
+      </div>
+      <p class="note">'나' 이름으로 적은 말은 오른쪽 말풍선이 돼요.</p>
 
       <h2>글꼴</h2>
 
@@ -782,11 +988,23 @@ code {
 
       <h2>글씨 색</h2>
 
-      <div class="opt">
+      <div class="opt opt--pair">
         <label>대사</label>
         <input type="color" id="cLine" value="#2b1e52">
         <label class="w-auto">지문</label>
         <input type="color" id="cNarr" value="#2b1e52">
+      </div>
+
+      <div class="opt opt--pair">
+        <label>제목</label>
+        <input type="color" id="cTitle" value="#2b1e52">
+        <label class="w-auto">형광펜</label>
+        <input type="color" id="cHl" value="#fff5c2">
+      </div>
+
+      <div class="opt opt--pair">
+        <label>아래 글귀</label>
+        <input type="color" id="cFoot" value="#7565a8">
       </div>
 
       <div class="opt">
@@ -795,28 +1013,7 @@ code {
         <span class="val" id="narrFadeVal">62%</span>
       </div>
 
-      <div class="opt">
-        <label>제목</label>
-        <input type="color" id="cTitle" value="#2b1e52">
-        <label class="w-auto">이름</label>
-        <input type="color" id="cWho" value="#7565a8">
-      </div>
-
-      <div class="opt">
-        <label>아래 글귀</label>
-        <input type="color" id="cFoot" value="#7565a8">
-        <label class="w-auto">형광펜</label>
-        <input type="color" id="cHl" value="#fff5c2">
-      </div>
-
       <h2>말풍선</h2>
-
-      <div class="opt">
-        <label>내 말풍선</label>
-        <input type="color" id="colorMe" value="#ffd6ea">
-        <label class="w-auto">상대</label>
-        <input type="color" id="colorAi" value="#ffffff">
-      </div>
 
       <div class="opt">
         <label>진하기</label>
@@ -824,12 +1021,17 @@ code {
         <span class="val" id="alphaVal">100%</span>
       </div>
 
-      <div class="opt">
+      <div class="opt opt--pair">
         <label>말풍선</label>
         <input type="checkbox" id="bubbleOn" checked>
-        <label class="w-auto">이름 표시</label>
+        <label class="w-auto">이름</label>
         <input type="checkbox" id="showWho" checked>
-        <span class="hint">끄면 소설처럼 줄글로</span>
+      </div>
+
+      <div class="opt opt--pair">
+        <label>지문</label>
+        <input type="checkbox" id="narrOn" checked>
+        <span class="hint hint--under">말풍선을 끄면 소설처럼 줄글로, 지문을 끄면 대사만 남아요</span>
       </div>
 
       <h2>바탕</h2>
@@ -845,10 +1047,11 @@ code {
           <option value="grid">격자 무늬</option>
           <option value="check">체크 무늬</option>
           <option value="stripe">줄무늬</option>
+          <option value="lines">줄 공책</option>
         </select>
       </div>
 
-      <div class="opt">
+      <div class="opt opt--pair">
         <label>바탕색</label>
         <input type="color" id="pat1" value="#ffffff">
         <label class="w-auto">무늬색</label>
@@ -871,17 +1074,19 @@ code {
 
       <h2>크기</h2>
 
-      <div class="opt">
+      <div class="opt opt--pair">
         <label>너비</label>
-        <input type="number" id="width" value="430" min="300" max="900" step="10">
-        <label class="w-auto">선명도</label>
-        <select id="scale">
-          <option value="1">1배</option>
-          <option value="2" selected>2배</option>
-          <option value="3">3배</option>
+        <select id="width">
+          <option value="360">360</option>
+          <option value="390">390</option>
+          <option value="430" selected>430</option>
+          <option value="480">480</option>
+          <option value="600">600</option>
+          <option value="800">800</option>
         </select>
+        <label class="w-auto">선명도</label>
+        <input type="number" id="scale" value="2" min="1" max="3" step="1">
       </div>
-
 
         </div>
       </div>
@@ -941,15 +1146,16 @@ code {
 
   var $ = function (id) { return document.getElementById(id); };
 
-  var srcEl = $('src'), titleEl = $('title'), meEl = $('me'), footEl = $('foot');
+  var srcEl = $('src'), titleEl = $('title'), footEl = $('foot');
+  var castEl = $('cast'), castAddEl = $('castAdd'), castLoadEl = $('castLoad');
+  var narrOnEl = $('narrOn');
   var fontEl = $('font'), fontTitleEl = $('fontTitle');
   var fontWhoEl = $('fontWho'), fontFootEl = $('fontFoot');
   var sizeEl = $('size'), sizeValEl = $('sizeVal');
   var lhEl = $('lh'), lhValEl = $('lhVal'), weightEl = $('weight');
   var cLineEl = $('cLine'), cNarrEl = $('cNarr'), cTitleEl = $('cTitle');
-  var cWhoEl = $('cWho'), cFootEl = $('cFoot'), cHlEl = $('cHl');
+  var cFootEl = $('cFoot'), cHlEl = $('cHl');
   var narrFadeEl = $('narrFade'), narrFadeValEl = $('narrFadeVal');
-  var colorMeEl = $('colorMe'), colorAiEl = $('colorAi');
   var alphaEl = $('alpha'), alphaValEl = $('alphaVal');
   var bubbleOnEl = $('bubbleOn'), showWhoEl = $('showWho');
   var patternEl = $('pattern'), pat1El = $('pat1'), pat2El = $('pat2');
@@ -1010,7 +1216,7 @@ code {
   }
 
   /* ---------- 지문 / 대사 나누기 ---------- */
-  function formatBody(text) {
+  function formatBody(text, narrOn) {
     var out = '';
 
     String(text).split('\n').forEach(function (para) {
@@ -1036,11 +1242,13 @@ code {
       });
 
       buf.forEach(function (p) {
+        if (p.t === 'narr' && !narrOn) return;
         out += '<span class="' + p.t + '">' + decorate(p.v) + '</span>';
       });
     });
 
-    return out || '<span class="line">' + decorate(text) + '</span>';
+    if (out || !narrOn) return out;
+    return '<span class="line">' + decorate(text) + '</span>';
   }
 
   /* ---------- 대화 나누기 ---------- */
@@ -1060,27 +1268,171 @@ code {
     return out;
   }
 
+  /* ---------- 템플릿 ---------- */
+  var F_PRE = "'Pretendard Variable',Pretendard,sans-serif";
+  var F_BATANG = "'Gowun Batang',serif";
+  var F_MYEONG = "'Nanum Myeongjo',serif";
+  var F_PEN = "'Nanum Pen Script',cursive";
+
+  var PAL = ['#d6428a', '#4f63d8', '#23967a', '#8d5ae8', '#d9701a', '#c23b5a', '#2f86b8', '#7565a8'];
+  var PAL_LIGHT = ['#ff9ccb', '#a9b6ff', '#86e3c6', '#c9a8ff', '#ffc07a', '#ff9aa8', '#8fd3ff', '#d8cff5'];
+
+  var TPL = {
+    dot:    { font: F_PRE, size: 13.5, lh: 1.8, weight: 600, line: '#2b1e52', narr: '#2b1e52', fade: 62,
+              title: '#2b1e52', foot: '#7565a8', hl: '#fff5c2', bubble: true, who: true,
+              pattern: 'solid', pat1: '#ffffff', pat2: '#e6dbff', width: 430, me: '#ffd6ea', ai: '#ffffff' },
+    kakao:  { font: F_PRE, size: 13.5, lh: 1.6, weight: 400, line: '#191919', narr: '#191919', fade: 55,
+              title: '#191919', foot: '#556677', hl: '#fff3a0', bubble: true, who: true,
+              pattern: 'solid', pat1: '#b2c7da', pat2: '#9bb3c9', width: 390, me: '#fee500', ai: '#ffffff' },
+    x:      { font: F_PRE, size: 14, lh: 1.55, weight: 400, line: '#0f1419', narr: '#0f1419', fade: 55,
+              title: '#0f1419', foot: '#536471', hl: '#fff3a0', bubble: true, who: true,
+              pattern: 'solid', pat1: '#ffffff', pat2: '#eff3f4', width: 430, me: '#1d9bf0', ai: '#eff3f4' },
+    insta:  { font: F_PRE, size: 14, lh: 1.55, weight: 400, line: '#000000', narr: '#000000', fade: 55,
+              title: '#000000', foot: '#737373', hl: '#fff3a0', bubble: true, who: true,
+              pattern: 'solid', pat1: '#ffffff', pat2: '#efefef', width: 390, me: '#7b4dff', ai: '#efefef' },
+    book:   { font: F_BATANG, size: 14, lh: 2.0, weight: 400, line: '#2a2622', narr: '#2a2622', fade: 80,
+              title: '#2a2622', foot: '#8a8275', hl: '#f6e7a8', bubble: false, who: false,
+              pattern: 'solid', pat1: '#fbf7ee', pat2: '#efe6d2', width: 480, me: '#ffd6ea', ai: '#ffffff' },
+    letter: { font: F_PEN, size: 20, lh: 1.6, weight: 400, line: '#3b3350', narr: '#3b3350', fade: 75,
+              title: '#3b3350', foot: '#8b82a8', hl: '#ffe3ef', bubble: false, who: true,
+              pattern: 'lines', pat1: '#fffdf7', pat2: '#dcd4f0', width: 430, me: '#ffd6ea', ai: '#ffffff' },
+    night:  { font: F_MYEONG, size: 14, lh: 2.0, weight: 600, line: '#f3eeff', narr: '#cfc4f2', fade: 75,
+              title: '#ffffff', foot: '#a99fd0', hl: '#5a4796', bubble: false, who: true,
+              pattern: 'solid', pat1: '#1b1826', pat2: '#2b2640', width: 430, me: '#ffd6ea', ai: '#ffffff',
+              pal: PAL_LIGHT }
+  };
+
+  var tpl = 'dot';
+
+  function applyTemplate(name) {
+    var t = TPL[name];
+    if (!t) return;
+    tpl = name;
+
+    fontEl.value = t.font;
+    fontTitleEl.value = ''; fontWhoEl.value = ''; fontFootEl.value = '';
+    sizeEl.value = t.size; sizeValEl.textContent = t.size + 'px';
+    lhEl.value = t.lh; lhValEl.textContent = t.lh;
+    weightEl.value = t.weight;
+    cLineEl.value = t.line; cNarrEl.value = t.narr;
+    narrFadeEl.value = t.fade; narrFadeValEl.textContent = t.fade + '%';
+    cTitleEl.value = t.title; cFootEl.value = t.foot; cHlEl.value = t.hl;
+    alphaEl.value = 100; alphaValEl.textContent = '100%';
+    bubbleOnEl.checked = t.bubble; showWhoEl.checked = t.who;
+    patternEl.value = t.pattern; pat1El.value = t.pat1; pat2El.value = t.pat2;
+    widthEl.value = String(t.width);
+
+    var pal = t.pal || PAL;
+    castRows().forEach(function (r, i) {
+      r.querySelector('.cast__who').value = pal[i % pal.length];
+      r.querySelector('.cast__bub').value = r.dataset.me === '1' ? t.me : t.ai;
+    });
+
+    [].forEach.call(document.querySelectorAll('.tpl-btn'), function (b) {
+      b.classList.toggle('is-on', b.dataset.tpl === name);
+    });
+  }
+
+  /* ---------- 등장인물 ---------- */
+  function castRows() { return [].slice.call(castEl.querySelectorAll('.cast__row')); }
+
+  function renumber() {
+    castRows().forEach(function (r, i) {
+      r.querySelector('.cast__tag').textContent = r.dataset.me === '1' ? '나' : '상대' + i;
+    });
+  }
+
+  function addRow(name, isMe) {
+    var rows = castRows();
+    if (rows.length >= 13) { msg('상대는 12명까지 넣을 수 있어요.', '#c2317c'); return null; }
+    var t = TPL[tpl], pal = t.pal || PAL;
+    var r = document.createElement('div');
+    r.className = 'cast__row';
+    r.dataset.me = isMe ? '1' : '0';
+    r.innerHTML =
+      '<span class="cast__tag"></span>' +
+      '<input type="text" class="cast__name"' + (isMe ? ' id="me"' : '') +
+        ' placeholder="' + (isMe ? '내 캐릭터' : '상대 캐릭터') + '">' +
+      '<input type="color" class="cast__who" title="이름색" value="' + pal[rows.length % pal.length] + '">' +
+      '<input type="color" class="cast__bub" title="말풍선 색" value="' + (isMe ? t.me : t.ai) + '">' +
+      '<button type="button" class="cast__del" title="빼기">✕</button>';
+    r.querySelector('.cast__name').value = name || '';
+    castEl.appendChild(r);
+    renumber();
+    return r;
+  }
+
+  castEl.addEventListener('input', function (e) {
+    if (e.target.classList.contains('cast__name')) liveSoon(); else live();
+  });
+  castEl.addEventListener('change', live);
+  castEl.addEventListener('click', function (e) {
+    var d = e.target.closest('.cast__del');
+    if (!d) return;
+    d.closest('.cast__row').remove();
+    renumber();
+    live();
+  });
+
+  castAddEl.addEventListener('click', function () {
+    var r = addRow('', false);
+    if (r) r.querySelector('.cast__name').focus();
+  });
+
+  function loadCast() {
+    var rows = castRows();
+    var have = {};
+    rows.forEach(function (r) {
+      var n = r.querySelector('.cast__name').value.trim();
+      if (n) have[n] = 1;
+    });
+    var added = 0;
+    parse(srcEl.value).forEach(function (m) {
+      if (!m.who || have[m.who]) return;
+      have[m.who] = 1;
+      var empty = castRows().filter(function (r) {
+        return r.dataset.me !== '1' && !r.querySelector('.cast__name').value.trim();
+      })[0];
+      if (empty) empty.querySelector('.cast__name').value = m.who;
+      else if (!addRow(m.who, false)) return;
+      added++;
+    });
+    return added;
+  }
+
+  castLoadEl.addEventListener('click', function () {
+    var n = loadCast();
+    msg(n ? n + '명을 불러왔어요.' : '새로 불러올 이름이 없어요.');
+    live();
+  });
+
+  function lum(hex) {
+    var m = String(hex).replace('#', '');
+    var c = [0, 2, 4].map(function (i) { return parseInt(m.slice(i, i + 2), 16) / 255; });
+    return 0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2];
+  }
+
   /* ---------- 그리기 ---------- */
   function render() {
     var list = parse(srcEl.value);
     if (!list.length) { msg('대화를 넣어주세요.', '#c2317c'); return; }
 
-    var me = meEl.value.trim();
     var alpha = (parseInt(alphaEl.value, 10) || 0) / 100;
+    var bubbleOn = bubbleOnEl.checked, narrOn = narrOnEl.checked;
     var s = sheet.style;
+
+    sheet.className = 'sheet tpl-' + tpl +
+      (bubbleOn ? '' : ' sheet--plain') + (showWhoEl.checked ? '' : ' sheet--nowho');
 
     s.width = (parseInt(widthEl.value, 10) || 430) + 'px';
     s.fontFamily = fontEl.value;
     s.fontSize = sizeEl.value + 'px';
     s.lineHeight = lhEl.value;
 
-    s.setProperty('--bubble-me', rgba(colorMeEl.value, alpha));
-    s.setProperty('--bubble-ai', rgba(colorAiEl.value, alpha));
     s.setProperty('--line-color', cLineEl.value);
     s.setProperty('--narr-color', cNarrEl.value);
     s.setProperty('--narr-fade', (parseInt(narrFadeEl.value, 10) || 62) / 100);
     s.setProperty('--title-color', cTitleEl.value);
-    s.setProperty('--who-color', cWhoEl.value);
     s.setProperty('--foot-color', cFootEl.value);
     s.setProperty('--hl-color', cHlEl.value);
     s.setProperty('--line-weight', weightEl.value);
@@ -1088,24 +1440,60 @@ code {
     s.setProperty('--who-font', fontWhoEl.value || fontEl.value);
     s.setProperty('--pat1', pat1El.value);
     s.setProperty('--pat2', pat2El.value);
+    var rule = Math.round(parseFloat(sizeEl.value) * parseFloat(lhEl.value) * 100) / 100;
+    s.setProperty('--rule', rule + 'px');
 
-    sheet.classList.toggle('sheet--plain', !bubbleOnEl.checked);
+    // 등장인물 표
+    var cast = {}, order = 0, me = '';
+    castRows().forEach(function (r) {
+      var n = r.querySelector('.cast__name').value.trim();
+      if (!n || cast[n]) return;
+      cast[n] = {
+        me: r.dataset.me === '1',
+        who: r.querySelector('.cast__who').value,
+        bub: r.querySelector('.cast__bub').value
+      };
+      if (cast[n].me) me = n;
+      order++;
+    });
+    var pal = TPL[tpl].pal || PAL;
+    function person(name) {
+      if (!cast[name]) cast[name] = { me: false, who: pal[order++ % pal.length], bub: TPL[tpl].ai };
+      return cast[name];
+    }
+
+    // 지문을 꺼서 비는 말은 뺌
+    var items = [];
+    list.forEach(function (m) {
+      var body = formatBody(m.text, narrOn);
+      if (body) items.push({ who: m.who, body: body });
+    });
+    if (!items.length) { msg('보일 대사가 없어요. 지문을 켜 보세요.', '#c2317c'); return; }
 
     var inner = '';
     var title = titleEl.value.trim();
     if (title) {
       inner += '<div class="sheet__head"><p class="sheet__title">' + esc(title) + '</p>' +
-        '<p class="sheet__note">' + list.length + ' messages</p></div>';
+        '<p class="sheet__note">' + items.length + ' messages</p></div>';
     }
 
-    var lastWho = '';
-    list.forEach(function (m) {
-      var mine = me && m.who === me;
-      var who = showWhoEl.checked && m.who && m.who !== lastWho;
-      inner += '<div class="msg ' + (mine ? 'msg--me' : 'msg--ai') + '">' +
-        (who ? '<span class="msg__who">' + esc(m.who) + '</span>' : '') +
-        '<span class="msg__bubble">' + formatBody(m.text) + '</span></div>';
-      lastWho = m.who;
+    items.forEach(function (m, i) {
+      var p = person(m.who);
+      var mine = !!(me && m.who === me);
+      var gFirst = !items[i - 1] || items[i - 1].who !== m.who;
+      var gLast = !items[i + 1] || items[i + 1].who !== m.who;
+      var showName = showWhoEl.checked && m.who && gFirst;
+
+      var st = '--who-color:' + p.who + ';--bub:' + rgba(p.bub, alpha);
+      if (bubbleOn && alpha >= 0.5 && lum(p.bub) < 0.5) st += ';--line-color:#fff;--narr-color:#fff';
+
+      var initial = m.who ? Array.from(m.who)[0] : '';
+      inner += '<div class="msg ' + (mine ? 'msg--me' : 'msg--ai') +
+        (gFirst ? ' g-first' : '') + (gLast ? ' g-last' : '') + '" style="' + st + '">' +
+        (mine ? '' : '<span class="msg__av' + (initial ? '' : ' is-empty') + '">' + esc(initial) + '</span>') +
+        '<div class="msg__col">' +
+        (showName ? '<span class="msg__who">' + esc(m.who) + '</span>' : '') +
+        '<span class="msg__bubble">' + m.body + '</span></div></div>';
     });
 
     var foot = footEl.value.trim();
@@ -1115,7 +1503,14 @@ code {
     }
 
     // 바탕: 무늬 → 그림 → 가림막 순서
-    var back = '<div class="sheet__pat pat--' + patternEl.value + '"></div>';
+    var patStyle = '';
+    if (patternEl.value === 'lines') {
+      var top = parseFloat(getComputedStyle(sheet).paddingTop) || 20;
+      patStyle = ' style="background-image:linear-gradient(180deg,transparent ' + (rule - 1.5) + 'px,' +
+        pat2El.value + ' ' + (rule - 1.5) + 'px,' + pat2El.value + ' ' + rule + 'px);' +
+        'background-size:100% ' + rule + 'px;background-position:0 ' + (top % rule) + 'px"';
+    }
+    var back = '<div class="sheet__pat pat--' + patternEl.value + '"' + patStyle + '></div>';
     if (bgData) {
       back += '<div class="sheet__bg" style="background-image:url(' + bgData + ')"></div>' +
         '<div class="sheet__veil" style="opacity:' +
@@ -1126,7 +1521,7 @@ code {
     sheet.innerHTML = back + '<div class="sheet__in">' + inner + '</div>';
     saveEl.disabled = false;
     copyEl.disabled = false;
-    msg('말풍선 ' + list.length + '개를 만들었어요.');
+    msg('말 ' + items.length + '개를 그렸어요.');
   }
 
   /* ---------- 설정 반응 ---------- */
@@ -1145,9 +1540,9 @@ code {
   slider(narrFadeEl, narrFadeValEl, '%');
 
   [fontEl, fontTitleEl, fontWhoEl, fontFootEl, weightEl,
-   cLineEl, cNarrEl, cTitleEl, cWhoEl, cFootEl, cHlEl,
-   colorMeEl, colorAiEl, patternEl, pat1El, pat2El,
-   widthEl, bubbleOnEl, showWhoEl].forEach(function (el) {
+   cLineEl, cNarrEl, cTitleEl, cFootEl, cHlEl,
+   patternEl, pat1El, pat2El,
+   widthEl, bubbleOnEl, showWhoEl, narrOnEl].forEach(function (el) {
     el.addEventListener('input', live);
     el.addEventListener('change', live);
   });
@@ -1164,9 +1559,20 @@ code {
   }
 
   srcEl.addEventListener('input', liveSoon);
-  [titleEl, meEl, footEl].forEach(function (el) {
+  [titleEl, footEl].forEach(function (el) {
     el.addEventListener('input', liveSoon);
   });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.tpl-btn');
+    if (!b) return;
+    applyTemplate(b.dataset.tpl);
+    if (srcEl.value.trim()) render();
+  });
+
+  // 처음 등장인물: 나 + 상대 한 명
+  addRow('', true);
+  addRow('', false);
 
   /* ---------- 배경 그림 ---------- */
   bgPickEl.addEventListener('click', function () { bgFileEl.click(); });
@@ -1198,8 +1604,11 @@ code {
       '초코: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"\n' +
       '쿠키: "그냥... **보고 싶어서.**"\n' +
       '*창밖에는 비가 내리고 있었다*\n' +
-      '초코: *잠시 말을 고르다가 웃었다* "그런 말은 ==반칙==이잖아."';
+      '초코: *잠시 말을 고르다가 웃었다* "그런 말은 ==반칙==이잖아."\n' +
+      '마카롱: *문을 벌컥 열며* "둘이 또 뭐 해?"';
+    var meEl = $('me');
     if (!meEl.value.trim()) meEl.value = '쿠키';
+    loadCast();
     if (!titleEl.value.trim()) titleEl.value = '비 오는 날';
     if (!footEl.value.trim()) footEl.value = '출처: 쿠키 몬스터의 집';
     render();
@@ -1256,7 +1665,7 @@ code {
       return Promise.reject();
     }
     return html2canvas(sheet, {
-      scale: Number(scaleEl.value) || 2,
+      scale: Math.min(3, Math.max(1, Number(scaleEl.value) || 2)),
       backgroundColor: null,
       useCORS: true,
       logging: false
