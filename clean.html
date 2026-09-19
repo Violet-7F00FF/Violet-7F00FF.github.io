@@ -740,11 +740,10 @@ document.addEventListener('keydown', function (e) {
           var ext = fmt === 'image/png' ? 'png' : (fmt === 'image/jpeg' ? 'jpg' : 'webp');
           var name;
           if (document.getElementById('optRename').checked) {
-            var pre = (document.getElementById('prefix').value || 'img')
-              .replace(/[^a-zA-Z0-9_-]/g, '') || 'img';
+            var pre = safeName(document.getElementById('prefix').value) || 'img';
             name = pre + '-' + String(index + 1).padStart(3, '0') + '.' + ext;
           } else {
-            name = file.name.replace(/\.[^.]+$/, '') .replace(/[^a-zA-Z0-9_-]/g, '-') + '.' + ext;
+            name = (safeName(file.name.replace(/\.[^.]+$/, '')) || 'img') + '.' + ext;
           }
           resolve({
             name: name,
@@ -756,6 +755,16 @@ document.addEventListener('keydown', function (e) {
         }, fmt, q);
       });
     });
+  }
+
+  // 파일 이름에 못 쓰는 기호만 빼고 한글·일본어·띄어쓰기 등은 그대로 둠
+  function safeName(v) {
+    return String(v || '')
+      .normalize('NFC')                         // 맥에서 자모가 풀리는 것 방지
+      .replace(/[\\/:*?"<>|\u0000-\u001f]/g, '-')
+      .replace(/\s+/g, ' ')
+      .replace(/^[\s.]+|[\s.]+$/g, '')
+      .slice(0, 80);
   }
 
   function kb(n) {
@@ -775,9 +784,10 @@ document.addEventListener('keydown', function (e) {
 
       var info = document.createElement('div');
       info.className = 'item__info';
-      info.innerHTML = '<p class="item__name">' + r.name + '</p>' +
+      info.innerHTML = '<p class="item__name"></p>' +
         '<p class="item__meta">' + r.w + '×' + r.h + ' · ' +
         kb(r.before) + ' → ' + kb(r.after) + '</p>';
+      info.querySelector('.item__name').textContent = r.name;
       li.appendChild(info);
 
       var b = document.createElement('button');
