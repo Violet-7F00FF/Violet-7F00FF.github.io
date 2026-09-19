@@ -385,6 +385,7 @@ textarea {
       <div class="row">
         <button type="button" class="btn" id="preview">미리보기</button>
         <button type="button" class="btn btn--go" id="save" disabled>그림으로 저장</button>
+        <button type="button" class="btn" id="clearCode">코드 지우기</button>
       </div>
 
       <h2>미리보기</h2>
@@ -640,6 +641,19 @@ textarea {
   }
 
   previewEl.addEventListener('click', render);
+
+  // 코드 한 번에 지우기 (Ctrl+Z 로 되돌릴 수 있게 지움)
+  $('clearCode').addEventListener('click', function () {
+    if (!codeEl.value) { codeEl.focus(); return; }
+    codeEl.focus();
+    codeEl.select();
+    var ok = false;
+    try { ok = document.execCommand('delete'); } catch (e) {}
+    if (!ok || codeEl.value) codeEl.value = '';
+    clearTimeout(timer);
+    render();
+    msg('코드를 지웠어요. 실수였다면 Ctrl+Z로 되돌릴 수 있어요.');
+  });
   codeEl.addEventListener('input', function () { renderSoon(); });
   widthEl.addEventListener('input', function () { renderSoon(250); });
   padEl.addEventListener('input', function () {
