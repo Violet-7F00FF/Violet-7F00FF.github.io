@@ -56,13 +56,14 @@ body {
 }
 
 @media (max-width: 900px) {
-  .cols { grid-template-columns: 1fr; }
+  .cols { grid-template-columns: minmax(0, 1fr); }
 }
+.cols > * { min-width: 0; }   /* 좁은 화면에서 옆으로 넘치지 않게 */
 
 .col--right { position: sticky; top: 20px; }
 
 @media (max-width: 900px) {
-  .col--right { position: static; }
+  .col--right { position: static; order: -1; }  /* 휴대폰: 작성·미리보기가 먼저 */
 }
 
 .win--tall .body { max-height: 74vh; overflow-y: auto; }
@@ -415,7 +416,9 @@ textarea {
 
 .msg__bubble {
   color: inherit;
-  display: inline-block;
+  /* inline-block 이면 그림 저장 때 대사 글자가 빠지는 문제가 있어서 block + fit-content */
+  display: block;
+  width: fit-content;
   max-width: 90%;
   padding: 11px 13px;
   border: 3px solid var(--outline);
@@ -427,7 +430,7 @@ textarea {
 
 .msg--me { text-align: right; }
 .msg--me .msg__who { text-align: right; }
-.msg--me .msg__bubble { text-align: left; }
+.msg--me .msg__bubble { text-align: left; margin-left: auto; }
 
 /* 지문 — 흐린 기울임 */
 .narr {
@@ -468,6 +471,7 @@ textarea {
 }
 
 .sheet--plain .msg { margin-bottom: 18px; }
+.sheet--plain .msg__bubble, .tpl-discord .msg__bubble { width: auto; margin-left: 0 !important; }
 .sheet--plain .msg--me, .sheet--plain .msg--me .msg__who { text-align: left; }
 .sheet--plain .line { font-weight: 500; }
 
@@ -748,6 +752,19 @@ code {
 .tpl-night .sheet__title { letter-spacing: 0.04em; }
 .tpl-night .msg__who { opacity: 1; }
 
+/* ---------- 미리보기 맞춤 ---------- */
+.fit { width: max-content; min-width: 100%; }
+.tpl-btn { position: relative; }
+.tpl-btn .tpl-del {
+  position: absolute; top: -8px; right: -8px;
+  width: 20px; height: 20px; padding: 0; line-height: 1;
+  font-size: 11px; cursor: pointer; color: var(--ink);
+  background: #fff; border: 2px solid var(--outline);
+}
+.tpl-btn .tpl-del:hover { background: var(--pink-l); }
+.sheet--nowho.tpl-script .msg__col { display: block; }
+.tools__hint { line-height: 1.6; }
+
 /* ---------- 프로필 사진 칸 ---------- */
 .cast__av {
   width: 34px; height: 34px; padding: 0; cursor: pointer;
@@ -1027,7 +1044,12 @@ code {
         <button type="button" class="tpl-btn" data-tpl="script"><i style="--sw:linear-gradient(90deg,#fdfdfb 40%,#e3e1da 40% 45%,#fdfdfb 45%)"></i>대본</button>
         <button type="button" class="tpl-btn" data-tpl="night"><i style="--sw:#1b1826"></i>새벽</button>
       </div>
+      <p class="tpl-group" id="myGroup" hidden>내 템플릿</p>
+      <div class="tpl-grid" id="myGrid" hidden></div>
       <p class="note" style="margin:0">고르면 아래 설정이 그 느낌으로 바뀌어요.<br>그다음 마음대로 고치면 돼요.</p>
+      <div class="row" style="margin-top:10px">
+        <button type="button" class="btn btn--sm" id="mySave">+ 지금 설정을 내 템플릿으로</button>
+      </div>
 
       <h2>글</h2>
 
@@ -1258,6 +1280,15 @@ code {
         </select>
       </div>
 
+      <h2>저장된 설정</h2>
+      <p class="note" style="margin:0 0 10px">
+        적은 대화와 설정은 이 브라우저에 자동으로 저장돼요.<br>
+        배경 그림은 용량이 커서 저장하지 않아요.
+      </p>
+      <div class="row" style="margin-top:0">
+        <button type="button" class="btn btn--sm" id="resetAll">처음 상태로 되돌리기</button>
+      </div>
+
         </div>
       </div>
     </div>
@@ -1281,7 +1312,7 @@ code {
             <button type="button" class="tool" data-wrap="==" title="형광펜"><mark>H</mark></button>
             <button type="button" class="tool" data-wrap="*" title="지문"><i>지문</i></button>
             <button type="button" class="tool" data-wrap='"' title="대사">"대사"</button>
-            <span class="tools__hint">글자를 고르고 누르세요.</span>
+            <span class="tools__hint">글자를 고르고 누르세요.<br>Ctrl+B 굵게 · Ctrl+E 형광펜 · Ctrl+I 지문</span>
           </div>
 
           <div class="row">
@@ -1297,9 +1328,9 @@ code {
 
           <h2>미리보기</h2>
           <div class="stage">
-        <div class="sheet" id="sheet">
+        <div class="fit" id="fit"><div class="sheet tpl-dot" id="sheet">
           <p class="note" style="text-align:center;margin:20px 0">위에 대화를 적으면 여기에 바로 나와요.</p>
-        </div>
+        </div></div>
       </div>
           <p class="note" id="msg"></p>
         </div>
@@ -1546,12 +1577,16 @@ code {
 
     var pal = t.pal || PAL;
     castRows().forEach(function (r, i) {
-      r.querySelector('.cast__who').value = pal[i % pal.length];
-      r.querySelector('.cast__bub').value = r.dataset.me === '1' ? t.me : t.ai;
+      if (r.dataset.cw !== '1') r.querySelector('.cast__who').value = pal[i % pal.length];
+      if (r.dataset.cb !== '1') r.querySelector('.cast__bub').value = r.dataset.me === '1' ? t.me : t.ai;
     });
 
+    markTpl(name);
+  }
+
+  function markTpl(key) {
     [].forEach.call(document.querySelectorAll('.tpl-btn'), function (b) {
-      b.classList.toggle('is-on', b.dataset.tpl === name);
+      b.classList.toggle('is-on', (b.dataset.tpl || b.dataset.my) === key);
     });
   }
 
@@ -1586,6 +1621,10 @@ code {
   }
 
   castEl.addEventListener('input', function (e) {
+    var row = e.target.closest('.cast__row');
+    // 직접 고른 색은 템플릿을 바꿔도 유지
+    if (e.target.classList.contains('cast__who')) row.dataset.cw = '1';
+    if (e.target.classList.contains('cast__bub')) row.dataset.cb = '1';
     if (e.target.classList.contains('cast__name')) liveSoon(); else live();
   });
   castEl.addEventListener('change', live);
@@ -1697,7 +1736,9 @@ code {
       order++;
     });
     var pal = TPL[tpl].pal || PAL;
+    var unknown = [];
     function person(name) {
+      if (!cast[name] && name && unknown.indexOf(name) < 0) unknown.push(name);
       if (!cast[name]) cast[name] = { me: false, who: pal[order++ % pal.length], bub: TPL[tpl].ai };
       return cast[name];
     }
@@ -1767,17 +1808,42 @@ code {
     sheet.innerHTML = back + '<div class="sheet__in">' + inner + '</div>';
     saveEl.disabled = demo;
     copyEl.disabled = demo;
-    if (demo) msg('예시 대화로 보여주는 중이에요. 대화를 적으면 바로 바뀌어요.');
-    else msg('말 ' + items.length + '개를 그렸어요.');
+    saveSoon();
+    var fitK = fitPreview();
+    var note = fitK < 1 ? ' 미리보기는 화면에 맞게 줄였어요. 저장은 원래 크기로 돼요.' : '';
+    if (demo) { msg('예시 대화로 보여주는 중이에요. 대화를 적으면 바로 바뀌어요.' + note); return; }
+
+    var tips = '';
+    if (unknown.length) {
+      tips += ' 등장인물에 없는 이름이 ' + unknown.length + '개 있어요 (' + unknown.slice(0, 3).join(', ') +
+        (unknown.length > 3 ? ' …' : '') + '). [대화에서 불러오기]를 누르면 색을 정할 수 있어요.';
+    }
+    if (!me && bubbleOn && tpl !== 'discord') {
+      tips += " '나' 칸에 내 캐릭터 이름을 적으면 오른쪽 말풍선이 돼요.";
+    }
+    msg('말 ' + items.length + '개를 그렸어요.' + tips + note);
   }
+
+  /* ---------- 미리보기를 화면 너비에 맞춤 (저장할 땐 원래 크기) ---------- */
+  var fitEl = $('fit'), stageEl = document.querySelector('.stage');
+  function fitPreview() {
+    var w = parseInt(sheet.style.width, 10) || sheet.offsetWidth;
+    var room = stageEl.clientWidth - 34;
+    var k = Math.min(1, room / w);
+    fitEl.style.zoom = k < 1 ? String(k) : '';
+    return k;
+  }
+  window.addEventListener('resize', function () { if (sheet.style.width) fitPreview(); });
 
   /* ---------- 빈 상태 / 예시 ---------- */
   var EMPTY_HTML = sheet.innerHTML;
 
   function showEmpty() {
-    sheet.className = 'sheet';
+    sheet.className = 'sheet tpl-dot';
     sheet.removeAttribute('style');
+    fitEl.style.zoom = '';
     sheet.innerHTML = EMPTY_HTML;
+    saveSoon();
     saveEl.disabled = true;
     copyEl.disabled = true;
     msg('');
@@ -1830,17 +1896,17 @@ code {
 
   function paintAv() {
     if (!avRow) return;
-    var av = avRow._av, btn = avRow.querySelector('.cast__av');
-    if (av) {
-      avView.setAttribute('style', avStyle(av));
-      btn.setAttribute('style', avStyle(av));
-      btn.classList.add('has-img');
-    } else {
-      avView.removeAttribute('style');
-      btn.removeAttribute('style');
-      btn.classList.remove('has-img');
-    }
+    var av = avRow._av;
+    if (av) avView.setAttribute('style', avStyle(av));
+    else avView.removeAttribute('style');
+    paintBtn(avRow);
     live();
+  }
+
+  function paintBtn(row) {
+    var av = row._av, btn = row.querySelector('.cast__av');
+    if (av) { btn.setAttribute('style', avStyle(av)); btn.classList.add('has-img'); }
+    else { btn.removeAttribute('style'); btn.classList.remove('has-img'); }
   }
 
   function openAv(row) {
@@ -1973,14 +2039,194 @@ code {
   document.addEventListener('click', function (e) {
     var b = e.target.closest('.tpl-btn');
     if (!b) return;
-    applyTemplate(b.dataset.tpl);
+    var del = e.target.closest('.tpl-del');
+    if (del) {
+      if (confirm("'" + b.textContent.replace('✕', '').trim() + "' 템플릿을 지울까요?")) {
+        myList = myList.filter(function (m) { return m.id !== del.dataset.del; });
+        saveMy(); renderMy();
+      }
+      return;
+    }
+    if (b.dataset.my) applyMy(b.dataset.my);
+    else applyTemplate(b.dataset.tpl);
     demoOn = true;
     render();
   });
 
-  // 처음 등장인물: 나 + 상대 한 명
-  addRow('', true);
-  addRow('', false);
+  /* ---------- 자동 저장 (이 브라우저에만) ---------- */
+  var KEY = 'cm-chat-v1', MYKEY = 'cm-chat-my';
+  var CTRL = ['title', 'foot', 'font', 'fontTitle', 'fontWho', 'fontFoot', 'size', 'lh', 'weight',
+    'cLine', 'cNarr', 'cTitle', 'cHl', 'cFoot', 'narrFade', 'alpha', 'avSize',
+    'bubbleOn', 'showWho', 'narrOn', 'pattern', 'fill', 'frameW', 'innerC',
+    'pat1', 'pat2', 'bgZoom', 'veil', 'width', 'scale'];
+  var LOOK = CTRL.filter(function (id) { return id !== 'title' && id !== 'foot'; });
+  var loading = true, myKey = '';
+
+  function getCtrl(ids) {
+    var o = {};
+    ids.forEach(function (id) {
+      var el = $(id);
+      if (el) o[id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+    return o;
+  }
+
+  function setCtrl(o) {
+    Object.keys(o || {}).forEach(function (id) {
+      var el = $(id);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = !!o[id]; else el.value = o[id];
+    });
+    sizeValEl.textContent = sizeEl.value + 'px';
+    lhValEl.textContent = lhEl.value;
+    alphaValEl.textContent = alphaEl.value + '%';
+    veilValEl.textContent = veilEl.value + '%';
+    narrFadeValEl.textContent = narrFadeEl.value + '%';
+    frameWValEl.textContent = frameWEl.value + 'px';
+    avSizeValEl.textContent = avSizeEl.value + '%';
+    bgZoomValEl.textContent = bgZoomEl.value + '%';
+    frameRows();
+  }
+
+  function getCast(withAv) {
+    return castRows().map(function (r) {
+      return {
+        me: r.dataset.me === '1',
+        name: r.querySelector('.cast__name').value,
+        who: r.querySelector('.cast__who').value,
+        bub: r.querySelector('.cast__bub').value,
+        cw: r.dataset.cw === '1', cb: r.dataset.cb === '1',
+        av: withAv ? (r._av || null) : null
+      };
+    });
+  }
+
+  function setCast(list) {
+    castEl.innerHTML = '';
+    list.forEach(function (c) {
+      var r = addRow(c.name, c.me);
+      if (!r) return;
+      r.querySelector('.cast__who').value = c.who;
+      r.querySelector('.cast__bub').value = c.bub;
+      if (c.cw) r.dataset.cw = '1';
+      if (c.cb) r.dataset.cb = '1';
+      r._av = c.av || null;
+      paintBtn(r);
+    });
+    if (!castEl.querySelector('[data-me="1"]')) {
+      var r0 = addRow('', true);
+      if (r0) castEl.insertBefore(r0, castEl.firstChild);
+    }
+    renumber();
+  }
+
+  var saveTimer = null;
+  function saveSoon() {
+    if (loading) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      var st = { tpl: tpl, my: myKey, ctrl: getCtrl(CTRL), cast: getCast(true), src: srcEl.value };
+      try { localStorage.setItem(KEY, JSON.stringify(st)); }
+      catch (e) {
+        // 용량이 넘치면 사진만 빼고 저장
+        try { st.cast = getCast(false); localStorage.setItem(KEY, JSON.stringify(st)); } catch (e2) {}
+      }
+    }, 400);
+  }
+
+  /* ---------- 내 템플릿 ---------- */
+  var myList = [];
+  try { myList = JSON.parse(localStorage.getItem(MYKEY) || '[]') || []; } catch (e) { myList = []; }
+
+  function saveMy() {
+    try { localStorage.setItem(MYKEY, JSON.stringify(myList)); }
+    catch (e) { msg('저장 공간이 모자라서 내 템플릿을 저장하지 못했어요.', '#c2317c'); }
+  }
+
+  function renderMy() {
+    var g = $('myGrid');
+    g.innerHTML = myList.map(function (m) {
+      return '<button type="button" class="tpl-btn" data-my="' + esc(m.id) + '">' +
+        '<i style="--sw:' + esc(m.ctrl.pat1 || '#fff') + '"></i>' + esc(m.name) +
+        '<span class="tpl-del" data-del="' + esc(m.id) + '" title="지우기">✕</span></button>';
+    }).join('');
+    g.hidden = $('myGroup').hidden = !myList.length;
+    markTpl(myKey || tpl);
+  }
+
+  function applyMy(id) {
+    var m = myList.filter(function (x) { return x.id === id; })[0];
+    if (!m) return;
+    tpl = TPL[m.tpl] ? m.tpl : 'dot';
+    setCtrl(m.ctrl);
+    castRows().forEach(function (r, i) {
+      var c = m.colors[i] || m.colors[m.colors.length - 1];
+      if (!c) return;
+      r.querySelector('.cast__who').value = c.who;
+      r.querySelector('.cast__bub').value = c.bub;
+    });
+    myKey = id;
+    markTpl(id);
+  }
+
+  $('mySave').addEventListener('click', function () {
+    if (myList.length >= 8) { msg('내 템플릿은 8개까지예요. 하나를 지우고 다시 해 주세요.', '#c2317c'); return; }
+    var name = prompt('템플릿 이름을 적어 주세요.', '내 템플릿 ' + (myList.length + 1));
+    if (name === null) return;
+    name = name.trim().slice(0, 14) || '내 템플릿 ' + (myList.length + 1);
+    var id = 'm' + Date.now();
+    myList.push({
+      id: id, name: name, tpl: tpl, ctrl: getCtrl(LOOK),
+      colors: getCast(false).map(function (c) { return { who: c.who, bub: c.bub }; })
+    });
+    saveMy();
+    myKey = id;
+    renderMy();
+    msg("'" + name + "' 템플릿을 저장했어요.");
+  });
+
+  $('resetAll').addEventListener('click', function () {
+    if (!confirm('적은 대화와 설정을 모두 지우고 처음 상태로 되돌릴까요?\n내 템플릿은 그대로 남아요.')) return;
+    loading = true;
+    clearTimeout(saveTimer);
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  });
+
+  // 템플릿 버튼을 누르면 기본 템플릿 표시로
+  var _applyTemplate = applyTemplate;
+  applyTemplate = function (name) { myKey = ''; _applyTemplate(name); };
+
+  /* ---------- 불러오기 ---------- */
+  (function load() {
+    var st = null;
+    try { st = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+    if (st && st.ctrl) {
+      tpl = TPL[st.tpl] ? st.tpl : 'dot';
+      myKey = st.my || '';
+      setCtrl(st.ctrl);
+      setCast(st.cast && st.cast.length ? st.cast : [{ me: true, name: '' }, { me: false, name: '' }]);
+      srcEl.value = st.src || '';
+    } else {
+      addRow('', true);
+      addRow('', false);
+    }
+    renderMy();
+    markTpl(myKey || tpl);
+    loading = false;
+    if (srcEl.value.trim()) render();
+  }());
+
+  /* ---------- 단축키 ---------- */
+  srcEl.addEventListener('keydown', function (e) {
+    if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+    var k = e.key.toLowerCase();
+    var wrap = k === 'b' ? '**' : k === 'e' ? '==' : k === 'i' ? '*' : '';
+    if (!wrap) return;
+    e.preventDefault();
+    var btn = document.querySelector('.tool[data-wrap="' + wrap + '"]');
+    if (btn) btn.click();
+  });
 
   /* ---------- 배경 그림 ---------- */
   bgPickEl.addEventListener('click', function () { bgFileEl.click(); });
@@ -2074,11 +2320,26 @@ code {
       msg('그림 만드는 기능을 불러오지 못했어요. 새로고침해 주세요.', '#c2317c');
       return Promise.reject();
     }
+    var zoom = fitEl.style.zoom;
+    fitEl.style.zoom = '';
+    var scale = Number(scaleEl.value) || 2;
+    var h = sheet.offsetHeight, w = sheet.offsetWidth;
+    var max = 16000 / Math.max(h, w);
+    var lowered = scale > max;
+    if (lowered) scale = Math.max(1, Math.floor(max * 10) / 10);
     return html2canvas(sheet, {
-      scale: Number(scaleEl.value) || 2,
+      scale: scale,
       backgroundColor: null,
       useCORS: true,
-      logging: false
+      logging: false,
+      windowWidth: document.documentElement.scrollWidth
+    }).then(function (c) {
+      fitEl.style.zoom = zoom;
+      c._lowered = lowered;
+      return c;
+    }, function (e) {
+      fitEl.style.zoom = zoom;
+      throw e;
     });
   }
 
@@ -2091,7 +2352,8 @@ code {
         if (!blob) { msg('그림을 만들지 못했어요.', '#c2317c'); saveEl.disabled = false; return; }
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'chat-' + Date.now() + '.png';
+        var nm = titleEl.value.trim().replace(/[\\/:*?"<>|]+/g, '').slice(0, 40);
+        a.download = (nm || 'chat') + '-' + Date.now().toString().slice(-5) + '.png';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -2101,6 +2363,7 @@ code {
         saveEl.disabled = false;
         showDone('발췌 완성!',
           canvas.width + '×' + canvas.height + ' 크기로 저장했어요.<br>' +
+          (canvas._lowered ? '대화가 길어서 선명도를 조금 낮췄어요.<br>' : '') +
           '<b>' + Math.round(blob.size / 1024) + 'KB</b>');
       }, 'image/png');
     }).catch(function () {
