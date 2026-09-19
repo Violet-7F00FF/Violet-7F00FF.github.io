@@ -233,7 +233,33 @@ textarea {
 .tool:hover { background: var(--yellow-l); }
 .tool:active { transform: translate(2px,2px); box-shadow: none; }
 .tool mark { background: var(--yellow); padding: 0 3px; }
-.tool i { font-style: italic; opacity: 0.7; font-size: 11.5px; }
+.tool__it { font-style: italic; font-family: Georgia, serif; font-weight: 700; }
+.tool__narr { font-style: italic; opacity: 0.6; font-size: 11.5px; }
+.tools--top { margin: 0 0 8px; }
+
+/* 입력칸 (쓰는 그대로 꾸밈이 보임) */
+.ed {
+  width: 100%;
+  min-height: 200px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 12px;
+  font-family: var(--body);
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--outline);
+  white-space: pre-wrap;
+  word-break: break-word;
+  outline: none;
+  resize: vertical;
+}
+.ed:focus { box-shadow: 0 0 0 3px var(--yellow); }
+.ed:empty::before { content: attr(data-ph); color: #b2a9cc; pointer-events: none; }
+.ed b, .ed strong { font-weight: 800; }
+.ed mark { background: #fff0a8; color: inherit; padding: 0 1px; }
+.ed .ed-narr { color: #8a7fb0; font-style: italic; }
 
 .tools__hint {
   font-family: var(--mini);
@@ -457,6 +483,8 @@ textarea {
 }
 
 .bold { font-weight: 800; }
+.it { font-style: italic; }
+.sheet--upright .narr { font-style: normal; }
 
 .narr:last-child, .line:last-child { margin-bottom: 0; }
 
@@ -1019,19 +1047,19 @@ code {
 
           <h2>1. 적는 법</h2>
           <p class="sub">
-            글자를 드래그하고 <b>입력칸 위의 버튼</b>을 누르면 알아서 감싸집니다.
-            직접 쳐도 됩니다.<br>
-            <code>*그는 고개를 돌렸다*</code> → 지문. 흐린 기울임으로 나옵니다.<br>
-            <code>"오늘은 무슨 일이야?"</code> → 대사. 진하고 또렷하게 나옵니다.<br>
-            <code>**보고 싶어서**</code> → 굵게 나옵니다.<br>
-            <code>==반칙==</code> → 형광펜이 칠해집니다.<br>
+            글자를 고르고 <b>입력칸 위의 버튼</b>을 누르면 입력칸에서 바로 꾸밈이 보이고, 미리보기에도 그대로 나와요.
+            한 번 더 누르면 풀려요.<br>
+            <b>B</b> 굵게 · <b><i>I</i></b> 기울임 · <b>H</b> 형광펜 · <b>지문</b> 흐린 글씨 · <b>"대사"</b> 따옴표로 감싸기<br>
+            여러 개를 겹쳐도 돼요. 굵은 대사, 형광펜 칠한 지문처럼요.<br>
+            <br>
             <code>초코: *웃으며* "안녕"</code> → 이름 + 지문 + 대사로 나뉩니다.<br>
+            AI 대화를 붙여넣으면 <code>*지문*</code> <code>**굵게**</code> <code>==형광펜==</code> 표시가 알아서 꾸밈으로 바뀌어요.
+            직접 쳐도 돼요.<br>
             <code>[오후 3:12] 초코: "안녕"</code> → 말풍선 옆에 시간이 붙어요.<br>
             <code>--- 9월 19일 토요일 ---</code> → 가운데에 날짜 줄이 생겨요.<br>
             <br>
             한 줄에 섞어 써도 지문과 대사가 <b>문단으로 나뉩니다.</b><br>
-            이름 없이 다음 줄을 적으면 <b>앞 말풍선에 이어 붙어요.</b><br>
-            이미 감싼 글자를 다시 고르고 버튼을 누르면 <b>풀립니다.</b>
+            이름 없이 다음 줄을 적으면 <b>앞 말풍선에 이어 붙어요.</b>
           </p>
 
           <h2>2. 템플릿</h2>
@@ -1273,6 +1301,12 @@ code {
       </div>
 
       <div class="opt">
+        <label>지문 기울이기</label>
+        <input type="checkbox" id="narrItalic" checked>
+        <span class="hint">끄면 지문이 똑바로 서요. 흐린 색은 그대로예요.</span>
+      </div>
+
+      <div class="opt">
         <label>지문 흐리기</label>
         <input type="range" id="narrFade" min="30" max="100" step="5" value="62">
         <span class="val" id="narrFadeVal">62%</span>
@@ -1435,23 +1469,24 @@ code {
       <div class="win">
         <div class="bar">작성 · 미리보기</div>
         <div class="body">
-          <h2>대화 붙여넣기</h2>
+          <h2>대화 쓰기</h2>
           <p class="sub">
-            <code>*지문*</code> 은 흐린 기울임, <code>"대사"</code> 는 또렷하게.
-            <code>**굵게**</code> · <code>==형광펜==</code> 도 됩니다.
+            글자를 골라 아래 버튼을 누르면 <b>입력칸에서 바로</b> 굵게·기울임·형광펜·지문이 적용돼요.<br>
+            AI 대화를 붙여넣으면 <code>*지문*</code> <code>**굵게**</code> <code>==형광펜==</code> 표시도 알아서 바뀌어요.
           </p>
 
-          <textarea id="src" placeholder='초코: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"
-쿠키: "그냥... **보고 싶어서.**"
-*창밖에는 비가 내리고 있었다*'></textarea>
-
-          <div class="tools">
-            <button type="button" class="tool" data-wrap="**" title="굵게"><b>B</b></button>
-            <button type="button" class="tool" data-wrap="==" title="형광펜"><mark>H</mark></button>
-            <button type="button" class="tool" data-wrap="*" title="지문"><i>지문</i></button>
-            <button type="button" class="tool" data-wrap='"' title="대사">"대사"</button>
-            <span class="tools__hint">글자를 고르고 누르세요.<br>Ctrl+B 굵게 · Ctrl+E 형광펜 · Ctrl+I 지문</span>
+          <div class="tools tools--top">
+            <button type="button" class="tool" data-cmd="bold" title="굵게 (Ctrl+B)"><b>B</b></button>
+            <button type="button" class="tool" data-cmd="italic" title="기울임 (Ctrl+I)"><i class="tool__it">I</i></button>
+            <button type="button" class="tool" data-cmd="hl" title="형광펜 (Ctrl+E)"><mark>H</mark></button>
+            <button type="button" class="tool" data-cmd="narr" title="지문"><span class="tool__narr">지문</span></button>
+            <button type="button" class="tool" data-cmd="quote" title="대사">"대사"</button>
+            <span class="tools__hint">한 번 더 누르면 풀려요.<br>Ctrl+B 굵게 · Ctrl+I 기울임 · Ctrl+E 형광펜</span>
           </div>
+
+          <div class="ed" id="ed" contenteditable="true" spellcheck="false"
+               data-ph='초코: 그는 천천히 고개를 돌렸다 "오늘은 무슨 일이야?"&#10;쿠키: "그냥... 보고 싶어서."'></div>
+          <textarea id="src" hidden></textarea>
 
           <div class="row">
             <button type="button" class="btn btn--sm" id="sample">예시 넣기</button>
@@ -1582,47 +1617,84 @@ code {
   }
 
   /* ---------- 꾸미기 기호 ---------- */
-  function decorate(s) {
-    return esc(s)
-      .replace(/==([^=]+)==/g, '<span class="hl">$1</span>')
-      .replace(/\*\*([^*]+)\*\*/g, '<span class="bold">$1</span>');
+  /* ---------- 꾸밈 표시 읽기 ----------
+     **굵게**  ==형광펜==  *지문*  기울임(입력칸 버튼)
+     서로 겹쳐도 되고(**"대사"**, ***굵은 지문***, **==둘 다==**),
+     짝이 없는 표시는 그냥 글자로 둡니다. */
+  var IT = '\uE000';   // 기울임 표시 (입력칸 안에서만 쓰는 보이지 않는 글자)
+  var MARK = { '**': 'b', '*': 'n', '==': 'h' };
+  MARK[IT] = 'i';
+
+  function scan(text) {
+    text = String(text || '');
+    var re = /\*\*|\*|==|\uE000/g, toks = [], m;
+    while ((m = re.exec(text)) !== null) toks.push({ at: m.index, k: MARK[m[0]], len: m[0].length });
+
+    // 종류별로 순서대로 짝을 지음. 마지막에 남는 하나는 글자로.
+    var cnt = {}, seen = {};
+    toks.forEach(function (t) { cnt[t.k] = (cnt[t.k] || 0) + 1; });
+    toks.forEach(function (t) {
+      seen[t.k] = (seen[t.k] || 0) + 1;
+      t.lit = cnt[t.k] % 2 === 1 && seen[t.k] === cnt[t.k];
+    });
+
+    var st = { b: false, i: false, h: false, n: false };
+    var lines = [[]], piece = null, pos = 0, ti = 0;
+
+    function push(str) {
+      if (!str) return;
+      var parts = str.split('\n');
+      parts.forEach(function (part, idx) {
+        if (idx > 0) { lines.push([]); piece = null; }
+        if (!part) return;
+        var line = lines[lines.length - 1];
+        if (!piece || piece.n !== st.n) { piece = { n: st.n, runs: [] }; line.push(piece); }
+        var last = piece.runs[piece.runs.length - 1];
+        if (last && last.b === st.b && last.i === st.i && last.h === st.h) last.s += part;
+        else piece.runs.push({ s: part, b: st.b, i: st.i, h: st.h });
+      });
+    }
+
+    while (ti < toks.length) {
+      var t = toks[ti++];
+      push(text.slice(pos, t.at));
+      if (t.lit) push(text.substr(t.at, t.len));
+      else { st[t.k] = !st[t.k]; if (t.k === 'n') piece = null; }
+      pos = t.at + t.len;
+    }
+    push(text.slice(pos));
+    return lines;
+  }
+
+  function runHtml(r) {
+    var h = esc(r.s);
+    if (r.h) h = '<span class="hl">' + h + '</span>';
+    if (r.i) h = '<span class="it">' + h + '</span>';
+    if (r.b) h = '<span class="bold">' + h + '</span>';
+    return h;
   }
 
   /* ---------- 지문 / 대사 나누기 ---------- */
   function formatBody(text, narrOn) {
     var out = '';
-
-    String(text).split('\n').forEach(function (para) {
-      var re = /(\*[^*]+\*)|([\u201C"][^\u201D"]*[\u201D"])/g;
-      var pieces = [];
-      var last = 0, m;
-
-      while ((m = re.exec(para)) !== null) {
-        if (m.index > last) pieces.push({ t: 'line', v: para.slice(last, m.index) });
-        if (m[1]) pieces.push({ t: 'narr', v: m[1].slice(1, -1) });
-        else pieces.push({ t: 'line', v: m[2] });
-        last = m.index + m[0].length;
-      }
-      if (last < para.length) pieces.push({ t: 'line', v: para.slice(last) });
-
-      var buf = [];
-      pieces.forEach(function (p) {
-        var v = p.v.replace(/^\s+|\s+$/g, '');
-        if (!v) return;
-        var prev = buf[buf.length - 1];
-        if (prev && prev.t === p.t) prev.v += ' ' + v;
-        else buf.push({ t: p.t, v: v });
-      });
-
-      buf.forEach(function (p) {
-        if (p.t === 'narr' && !narrOn) return;
-        out += '<span class="' + p.t + '">' + decorate(p.v) + '</span>';
+    scan(text).forEach(function (line) {
+      line.forEach(function (p) {
+        var runs = p.runs.map(function (r) { return { s: r.s, b: r.b, i: r.i, h: r.h }; });
+        // 앞뒤 빈칸 정리
+        while (runs.length && !runs[0].s.replace(/^\s+/, '')) runs.shift();
+        while (runs.length && !runs[runs.length - 1].s.replace(/\s+$/, '')) runs.pop();
+        if (!runs.length) return;
+        runs[0].s = runs[0].s.replace(/^\s+/, '');
+        runs[runs.length - 1].s = runs[runs.length - 1].s.replace(/\s+$/, '');
+        if (p.n && !narrOn) return;
+        out += '<span class="' + (p.n ? 'narr' : 'line') + '">' + runs.map(runHtml).join('') + '</span>';
       });
     });
-
-    if (out || !narrOn) return out;
-    return '<span class="line">' + decorate(text) + '</span>';
+    return out;
   }
+
+  // 대화 해석 전에 이름·시간 앞의 꾸밈 표시는 걷어냄 (예: **초코**: …)
+  function plain(s) { return String(s).replace(/\*\*|==|\uE000/g, ''); }
 
   /* ---------- 대화 나누기 ---------- */
   function parse(text) {
@@ -1640,8 +1712,8 @@ code {
       var t = line.match(/^\s*\[([^\]]{1,20})\]\s*/);
       if (t) { time = t[1].trim(); line = line.slice(t[0].length); }
 
-      var m = line.match(/^\s*([^:：*"\u201C]{1,20})\s*[:：]\s*([\s\S]*)$/);
-      if (m) { out.push({ who: m[1].trim(), text: m[2], time: time }); return; }
+      var m = line.match(/^\s*((?:\*\*|==|\uE000)?[^:：*"\u201C=\uE000]{1,20}(?:\*\*|==|\uE000)?)\s*[:：]\s*([\s\S]*)$/);
+      if (m) { out.push({ who: plain(m[1]).trim(), text: m[2], time: time }); return; }
 
       var prev = out[out.length - 1];
       if (prev && !prev.day) {
@@ -1840,7 +1912,7 @@ code {
     var bubbleOn = bubbleOnEl.checked, narrOn = narrOnEl.checked;
     var s = sheet.style;
 
-    sheet.className = 'sheet tpl-' + tpl +
+    sheet.className = 'sheet tpl-' + tpl + ($('narrItalic').checked ? '' : ' sheet--upright') +
       (bubbleOn ? '' : ' sheet--plain') + (showWhoEl.checked ? '' : ' sheet--nowho');
 
     s.width = (parseInt(widthEl.value, 10) || 430) + 'px';
@@ -2206,7 +2278,7 @@ code {
   [fontEl, fontTitleEl, fontWhoEl, fontFootEl, weightEl,
    cLineEl, cNarrEl, cTitleEl, cFootEl, cHlEl,
    patternEl, pat1El, pat2El,
-   widthEl, bubbleOnEl, showWhoEl, narrOnEl, innerCEl].forEach(function (el) {
+   widthEl, bubbleOnEl, showWhoEl, narrOnEl, innerCEl, $('narrItalic')].forEach(function (el) {
     el.addEventListener('input', live);
     el.addEventListener('change', live);
   });
@@ -2255,7 +2327,7 @@ code {
     'cLine', 'cNarr', 'cTitle', 'cHl', 'cFoot', 'narrFade', 'alpha', 'avSize',
     'bubbleOn', 'showWho', 'narrOn', 'pattern', 'fill', 'frameW', 'innerC',
     'pat1', 'pat2', 'bgZoom', 'veil', 'width', 'scale',
-    'timeMode', 'timeStart', 'timeStep', 'timeFmt'];
+    'timeMode', 'timeStart', 'timeStep', 'timeFmt', 'narrItalic'];
   var LOOK = CTRL.filter(function (id) { return id !== 'title' && id !== 'foot'; });
   var loading = true, myKey = '';
 
@@ -2404,7 +2476,7 @@ code {
       myKey = st.my || '';
       setCtrl(st.ctrl);
       setCast(st.cast && st.cast.length ? st.cast : [{ me: true, name: '' }, { me: false, name: '' }]);
-      srcEl.value = st.src || '';
+      setSrc(st.src || '');
     } else {
       addRow('', true);
       addRow('', false);
@@ -2414,17 +2486,6 @@ code {
     loading = false;
     if (srcEl.value.trim()) render();
   }());
-
-  /* ---------- 단축키 ---------- */
-  srcEl.addEventListener('keydown', function (e) {
-    if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
-    var k = e.key.toLowerCase();
-    var wrap = k === 'b' ? '**' : k === 'e' ? '==' : k === 'i' ? '*' : '';
-    if (!wrap) return;
-    e.preventDefault();
-    var btn = document.querySelector('.tool[data-wrap="' + wrap + '"]');
-    if (btn) btn.click();
-  });
 
   /* ---------- 배경 그림 ---------- */
   bgPickEl.addEventListener('click', function () { bgFileEl.click(); });
@@ -2452,12 +2513,12 @@ code {
 
   /* ---------- 예시 / 비우기 ---------- */
   sampleEl.addEventListener('click', function () {
-    srcEl.value =
+    setSrc(
       '초코: *그는 천천히 고개를 돌렸다* "오늘은 무슨 일이야?"\n' +
       '쿠키: "그냥... **보고 싶어서.**"\n' +
       '*창밖에는 비가 내리고 있었다*\n' +
       '초코: *잠시 말을 고르다가 웃었다* "그런 말은 ==반칙==이잖아."\n' +
-      '마카롱: *문을 벌컥 열며* "둘이 또 뭐 해?"';
+      '마카롱: *문을 벌컥 열며* "둘이 또 뭐 해?"');
     var meEl = $('me');
     if (!meEl.value.trim()) meEl.value = '쿠키';
     loadCast();
@@ -2467,49 +2528,233 @@ code {
   });
 
   clearSrcEl.addEventListener('click', function () {
-    srcEl.value = '';
+    setSrc('');
     demoOn = false;
     render();
-    srcEl.focus();
+    edEl.focus();
   });
 
-  /* ---------- 고른 글자 감싸기 ---------- */
-  document.addEventListener('click', function (e) {
-    var t = e.target.closest('.tool');
-    if (!t) return;
+  /* ---------- 입력칸: 쓰는 그대로 꾸밈이 보이는 칸 ----------
+     화면에는 꾸민 글자로 보이고, 안쪽(#src)에는 표시 글자로 저장해서
+     미리보기·자동 저장·대화 나누기는 예전과 똑같이 돌아감 */
+  var edEl = $('ed');
+  try { document.execCommand('defaultParagraphSeparator', false, 'div'); } catch (e) {}
+  try { document.execCommand('styleWithCSS', false, false); } catch (e) {}
 
-    var wrap = t.dataset.wrap;
-    var open = wrap;
-    var close = wrap;
-    if (wrap === '"') { open = '"'; close = '"'; }
+  // 표시 글자 → 입력칸 HTML
+  function toEditor(text) {
+    return scan(text).map(function (line) {
+      var h = line.map(function (p) {
+        var inner = p.runs.map(function (r) {
+          var x = esc(r.s);
+          if (r.h) x = '<mark>' + x + '</mark>';
+          if (r.i) x = '<i>' + x + '</i>';
+          if (r.b) x = '<b>' + x + '</b>';
+          return x;
+        }).join('');
+        return p.n ? '<span class="ed-narr">' + inner + '</span>' : inner;
+      }).join('');
+      return '<div>' + (h || '<br>') + '</div>';
+    }).join('');
+  }
 
-    var s = srcEl.selectionStart;
-    var en = srcEl.selectionEnd;
-    var v = srcEl.value;
-    var sel = v.slice(s, en);
+  // 입력칸 → 표시 글자
+  var BLOCK = { DIV: 1, P: 1, LI: 1, H1: 1, H2: 1, H3: 1, BLOCKQUOTE: 1 };
+  var SIGN = { b: '**', i: IT, h: '==', n: '*' };
+  var ORDER = ['n', 'b', 'i', 'h'];
 
-    if (!sel) {
-      // 고른 글자가 없으면 표시만 넣고 가운데로 커서
-      srcEl.value = v.slice(0, s) + open + close + v.slice(en);
-      srcEl.focus();
-      srcEl.setSelectionRange(s + open.length, s + open.length);
-      return;
+  function isOn(el, k, cur) {
+    var tag = el.tagName, cs = el.style;
+    if (k === 'b') {
+      if (tag === 'B' || tag === 'STRONG') return true;
+      var w = cs.fontWeight;
+      if (w === 'bold' || parseInt(w, 10) >= 600) return true;
+      if (w === 'normal' || (w && parseInt(w, 10) < 600)) return false;
+    }
+    if (k === 'i') {
+      if (tag === 'I' || tag === 'EM') return true;
+      if (cs.fontStyle === 'italic') return true;
+      if (cs.fontStyle === 'normal') return false;
+    }
+    if (k === 'h') {
+      if (tag === 'MARK') return true;
+      var bg = cs.backgroundColor;
+      if (bg && !/transparent|rgba\(0, 0, 0, 0\)|initial|inherit/.test(bg)) return true;
+      if (bg) return false;
+    }
+    if (k === 'n' && el.classList && el.classList.contains('ed-narr')) return true;
+    return cur;
+  }
+
+  function fromEditor(root) {
+    var out = '', cur = { b: false, i: false, h: false, n: false };
+
+    function setTo(want) {
+      // 닫을 것 먼저(안쪽부터), 그다음 열 것
+      ORDER.slice().reverse().forEach(function (k) {
+        if (cur[k] && !want[k]) { out += SIGN[k]; cur[k] = false; }
+      });
+      ORDER.forEach(function (k) {
+        if (!cur[k] && want[k]) { out += SIGN[k]; cur[k] = true; }
+      });
+    }
+    function newline() {
+      setTo({ b: false, i: false, h: false, n: false });
+      out += '\n';
     }
 
-    // 이미 감싸져 있으면 풀어줍니다
-    var before = v.slice(Math.max(0, s - open.length), s);
-    var after = v.slice(en, en + close.length);
-    if (before === open && after === close) {
-      srcEl.value = v.slice(0, s - open.length) + sel + v.slice(en + close.length);
-      srcEl.focus();
-      srcEl.setSelectionRange(s - open.length, en - open.length);
-    } else {
-      srcEl.value = v.slice(0, s) + open + sel + close + v.slice(en);
-      srcEl.focus();
-      srcEl.setSelectionRange(s + open.length, en + open.length);
-    }
+    (function walk(node, st, isLastInBlock) {
+      [].forEach.call(node.childNodes, function (ch, idx) {
+        var last = idx === node.childNodes.length - 1;
+        if (ch.nodeType === 3) {
+          var t = ch.nodeValue.replace(/\u00A0/g, ' ').replace(/\u200B/g, '');
+          if (!t) return;
+          var parts = t.split('\n');
+          parts.forEach(function (part, i) {
+            if (i > 0) newline();
+            if (part) { setTo(st); out += part; }
+          });
+          return;
+        }
+        if (ch.nodeType !== 1) return;
+        if (ch.tagName === 'BR') {
+          // 줄 끝의 마지막 BR 은 빈 줄 표시일 뿐
+          if (!(last && (BLOCK[node.tagName] || node === root))) newline();
+          else if (node === root && !last) newline();
+          return;
+        }
+        var nst = {};
+        ORDER.forEach(function (k) { nst[k] = isOn(ch, k, st[k]); });
+        if (BLOCK[ch.tagName]) {
+          if (out && out.slice(-1) !== '\n') newline();
+          walk(ch, nst, true);
+          if (!last && out.slice(-1) !== '\n') newline();
+        } else {
+          walk(ch, nst, false);
+        }
+      });
+    }(root, cur && { b: false, i: false, h: false, n: false }, true));
 
-    render();
+    setTo({ b: false, i: false, h: false, n: false });
+    return out.replace(/\n+$/, '');
+  }
+
+  function syncFromEditor() {
+    // 다 지우면 브라우저가 남기는 빈 줄 정리 (안내 문구가 다시 보이게)
+    if (!edEl.textContent.replace(/\u200B/g, '') && !edEl.querySelector('img')) edEl.innerHTML = '';
+    srcEl.value = fromEditor(edEl);
+    srcEl.dispatchEvent(new Event('input'));
+  }
+
+  function setSrc(v) {
+    srcEl.value = v || '';
+    $('ed').innerHTML = v ? toEditor(v) : '';   // 불러오기가 먼저 돌 수 있어 직접 찾음
+  }
+
+  edEl.addEventListener('input', syncFromEditor);
+
+  // 붙여넣기: 겉모양은 버리고 글자만. *지문* 같은 표시는 꾸밈으로 바꿔 넣음
+  edEl.addEventListener('paste', function (e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    if (text == null) return;
+    e.preventDefault();
+    text = text.replace(/\r\n?/g, '\n');
+    var html = toEditor(text).replace(/^<div>|<\/div>$/g, '').replace(/<\/div><div>/g, '<br>');
+    if (html === '<br>') html = '';
+    document.execCommand('insertHTML', false, html);
+  });
+
+  function closestIn(node, fn) {
+    while (node && node !== edEl) {
+      if (node.nodeType === 1 && fn(node)) return node;
+      node = node.parentNode;
+    }
+    return null;
+  }
+
+  function selInEditor() {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return null;
+    var r = sel.getRangeAt(0);
+    return edEl.contains(r.commonAncestorContainer) ? sel : null;
+  }
+
+  function doCmd(cmd) {
+    edEl.focus();
+    var sel = selInEditor();
+    if (!sel) return;
+    var range = sel.getRangeAt(0);
+
+    if (cmd === 'bold' || cmd === 'italic') {
+      document.execCommand(cmd, false, null);
+    } else if (cmd === 'hl') {
+      var on = closestIn(range.startContainer, function (el) { return isOn(el, 'h', false); });
+      if (on && range.collapsed) {
+        // 형광펜 안에 커서만 있으면 그 형광펜을 통째로 풂
+        range.selectNodeContents(on); sel.removeAllRanges(); sel.addRange(range);
+      }
+      document.execCommand('hiliteColor', false, on ? 'transparent' : '#fff0a8');
+    } else if (cmd === 'narr') {
+      var nar = closestIn(range.startContainer, function (el) { return el.classList.contains('ed-narr'); });
+      if (nar) {
+        // 지문 풀기: 지문 칸을 벗기고 속 글자는 그대로 둠
+        var par = nar.parentNode, first = nar.firstChild, lastN = nar.lastChild;
+        while (nar.firstChild) par.insertBefore(nar.firstChild, nar);
+        par.removeChild(nar);
+        if (first) {
+          var r2 = document.createRange();
+          r2.setStartBefore(first); r2.setEndAfter(lastN);
+          sel.removeAllRanges(); sel.addRange(r2);
+        }
+      } else if (range.collapsed) {
+        document.execCommand('insertHTML', false, '<span class="ed-narr">\u200B</span>');
+      } else {
+        var box = document.createElement('div');
+        box.appendChild(range.cloneContents());
+        document.execCommand('insertHTML', false, '<span class="ed-narr">' + box.innerHTML + '</span>');
+      }
+    } else if (cmd === 'quote') {
+      var Q = /["\u201C\u201D]/;
+      var sc = range.startContainer, so = range.startOffset, ec = range.endContainer, eo = range.endOffset;
+      var txt = sel.toString();
+      if (range.collapsed) {
+        document.execCommand('insertText', false, '""');
+        if (sel.modify) sel.modify('move', 'backward', 'character');
+      } else if (txt.length >= 2 && Q.test(txt[0]) && Q.test(txt[txt.length - 1]) &&
+                 sc.nodeType === 3 && ec.nodeType === 3 && Q.test(sc.nodeValue[so]) && Q.test(ec.nodeValue[eo - 1])) {
+        // 고른 글자가 따옴표로 감싸져 있으면 따옴표를 뺌
+        ec.deleteData(eo - 1, 1);
+        sc.deleteData(so, 1);
+      } else if (sc.nodeType === 3 && ec.nodeType === 3 && so > 0 && Q.test(sc.nodeValue[so - 1]) &&
+                 eo < ec.nodeValue.length && Q.test(ec.nodeValue[eo])) {
+        // 고른 글자 바로 바깥이 따옴표면 그 따옴표를 뺌
+        ec.deleteData(eo, 1);
+        sc.deleteData(so - 1, 1);
+      } else {
+        // 꾸밈은 그대로 두고 앞뒤에만 따옴표를 넣음
+        var endR = range.cloneRange(); endR.collapse(false);
+        endR.insertNode(document.createTextNode('"'));
+        var stR = range.cloneRange(); stR.collapse(true);
+        stR.insertNode(document.createTextNode('"'));
+      }
+      edEl.normalize();
+    }
+    syncFromEditor();
+  }
+
+  // 버튼을 눌러도 입력칸의 고른 글자가 풀리지 않게
+  [].forEach.call(document.querySelectorAll('.tool[data-cmd]'), function (b) {
+    b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    b.addEventListener('click', function () { doCmd(b.dataset.cmd); });
+  });
+
+  edEl.addEventListener('keydown', function (e) {
+    if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+    var k = e.key.toLowerCase();
+    var cmd = k === 'b' ? 'bold' : k === 'i' ? 'italic' : k === 'e' ? 'hl' : '';
+    if (!cmd) return;
+    e.preventDefault();
+    doCmd(cmd);
   });
 
   /* ---------- 그림 만들기 ---------- */
