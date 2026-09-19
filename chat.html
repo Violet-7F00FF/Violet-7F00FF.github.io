@@ -781,6 +781,7 @@ code {
 .tpl-night .msg__who { opacity: 1; }
 
 /* ---------- 시간 ---------- */
+.opt input[type="date"],
 .opt input[type="time"] {
   font-family: var(--body); font-size: 13px; padding: 5px 6px; min-width: 0;
   color: var(--ink); background: #fff; border: 2px solid var(--outline);
@@ -1056,7 +1057,7 @@ code {
             AI 대화를 붙여넣으면 <code>*지문*</code> <code>**굵게**</code> <code>==형광펜==</code> 표시가 알아서 꾸밈으로 바뀌어요.
             직접 쳐도 돼요.<br>
             <code>[오후 3:12] 초코: "안녕"</code> → 말풍선 옆에 시간이 붙어요.<br>
-            <code>--- 9월 19일 토요일 ---</code> → 가운데에 날짜 줄이 생겨요.<br>
+            <b>날짜</b> 버튼을 누르면 그 자리에 날짜 줄이 들어가요. 설정의 '시간과 날짜'에서 날짜와 형식을 고를 수 있어요.<br>
             <br>
             한 줄에 섞어 써도 지문과 대사가 <b>문단으로 나뉩니다.</b><br>
             이름 없이 다음 줄을 적으면 <b>앞 말풍선에 이어 붙어요.</b>
@@ -1107,7 +1108,8 @@ code {
             <b>이름</b> 끄면 이름과 프로필이 사라져요.<br>
             <b>지문</b> 끄면 지문이 빠지고 대사만 남아요.<br>
             <b>프로필 크기</b> 채팅 풍 템플릿의 프로필 동그라미 크기를 바꿔요.<br>
-            <b>시간</b> 직접 적은 시간만 쓰거나, 시작 시간과 간격을 정해 자동으로 채울 수 있어요.
+            <b>시간</b> 직접 적은 시간만 쓰거나, 시작 시간과 간격을 정해 자동으로 채울 수 있어요.<br>
+            <b>날짜</b> 맨 위에 날짜 줄을 넣어요. 날짜와 형식은 고를 수 있고, '오늘' 버튼으로 오늘 날짜가 들어가요.
             시간은 채팅 풍 템플릿에서 보이고, 소설 템플릿에서는 숨겨져요.
           </p>
 
@@ -1301,7 +1303,7 @@ code {
       </div>
 
       <div class="opt">
-        <label>지문 기울이기</label>
+        <label>지문 기울임</label>
         <input type="checkbox" id="narrItalic" checked>
         <span class="hint">끄면 지문이 똑바로 서요. 흐린 색은 그대로예요.</span>
       </div>
@@ -1339,7 +1341,7 @@ code {
         <span class="hint hint--under">말풍선을 끄면 소설처럼 줄글로, 지문을 끄면 대사만 남아요.</span>
       </div>
 
-      <h2>시간</h2>
+      <h2>시간과 날짜</h2>
 
       <div class="opt">
         <label>시간</label>
@@ -1370,10 +1372,34 @@ code {
         </select>
       </div>
 
+      <div class="opt">
+        <label>날짜</label>
+        <select id="dateMode">
+          <option value="off">안 넣기</option>
+          <option value="top" selected>맨 위에 넣기</option>
+        </select>
+      </div>
+
+      <div class="opt" data-date-on>
+        <label>날짜 고르기</label>
+        <input type="date" id="dateVal" style="flex:1;min-width:130px">
+        <button type="button" class="btn btn--sm" id="dateToday">오늘</button>
+      </div>
+
+      <div class="opt" data-date-on>
+        <label>날짜 형식</label>
+        <select id="dateFmt">
+          <option value="full">2026년 9월 19일 토요일</option>
+          <option value="md">9월 19일 토요일</option>
+          <option value="dot">2026. 9. 19. (토)</option>
+          <option value="en">Saturday, September 19, 2026</option>
+        </select>
+      </div>
+
       <p class="note" style="margin:0">
-        줄 앞에 <b>[오후 3:12]</b>처럼 적으면 그 시간이 붙어요.<br>
-        <b>--- 9월 19일 ---</b>처럼 적으면 날짜 줄이 생겨요.<br>
-        자동으로 채우기는 시작 시간부터 간격(분)만큼 늘려가요.
+        대화 중간에 날짜가 바뀌면 입력칸 위의 <b>날짜</b> 버튼을 눌러 그 자리에 날짜 줄을 넣어요.<br>
+        자동으로 채운 시간이 밤 12시를 넘기면 다음 날 날짜 줄이 알아서 생겨요.<br>
+        줄 앞에 <b>[오후 3:12]</b>처럼 적으면 그 시간이 붙어요.
       </p>
 
       <h2>바탕</h2>
@@ -1481,6 +1507,7 @@ code {
             <button type="button" class="tool" data-cmd="hl" title="형광펜 (Ctrl+E)"><mark>H</mark></button>
             <button type="button" class="tool" data-cmd="narr" title="지문"><span class="tool__narr">지문</span></button>
             <button type="button" class="tool" data-cmd="quote" title="대사">"대사"</button>
+            <button type="button" class="tool" data-cmd="date" title="이 자리에 날짜 줄 넣기">날짜</button>
             <span class="tools__hint">한 번 더 누르면 풀려요.<br>Ctrl+B 굵게 · Ctrl+I 기울임 · Ctrl+E 형광펜</span>
           </div>
 
@@ -1749,7 +1776,7 @@ code {
     insta:  { font: F_PRE, size: 14, lh: 1.55, weight: 400, line: '#000000', narr: '#000000', fade: 55,
               title: '#000000', foot: '#737373', hl: '#fff3a0', bubble: true, who: true,
               pattern: 'solid', pat1: '#ffffff', pat2: '#efefef', width: 390, me: '#7b4dff', ai: '#efefef' },
-    book:   { font: F_BATANG, size: 14, lh: 2.0, weight: 400, line: '#2a2622', narr: '#2a2622', fade: 80,
+    book:   { date: 'off', font: F_BATANG, size: 14, lh: 2.0, weight: 400, line: '#2a2622', narr: '#2a2622', fade: 80,
               title: '#2a2622', foot: '#8a8275', hl: '#f6e7a8', bubble: false, who: false,
               pattern: 'solid', pat1: '#fbf7ee', pat2: '#efe6d2', width: 480, me: '#ffd6ea', ai: '#ffffff' },
     line:   { font: F_PRE, size: 13.5, lh: 1.6, weight: 400, line: '#1e1e1e', narr: '#1e1e1e', fade: 55,
@@ -1762,18 +1789,18 @@ code {
               title: '#f2f3f5', foot: '#949ba4', hl: '#6b5a1c', bubble: true, who: true,
               pattern: 'solid', pat1: '#313338', pat2: '#2b2d31', width: 480, me: '#ffffff', ai: '#ffffff',
               pal: PAL_LIGHT },
-    web:    { font: F_PRE, size: 15, lh: 1.9, weight: 400, line: '#222222', narr: '#444444', fade: 85,
+    web:    { date: 'off', font: F_PRE, size: 15, lh: 1.9, weight: 400, line: '#222222', narr: '#444444', fade: 85,
               title: '#111111', foot: '#999999', hl: '#fff1a8', bubble: false, who: false,
               pattern: 'solid', pat1: '#ffffff', pat2: '#f3f3f3', width: 430, me: '#ffd6ea', ai: '#ffffff' },
-    letter: { font: F_HAHM, size: 14, lh: 2.0, weight: 400, line: '#4a3f35', narr: '#6b5d50', fade: 80,
+    letter: { date: 'off', font: F_HAHM, size: 14, lh: 2.0, weight: 400, line: '#4a3f35', narr: '#6b5d50', fade: 80,
               title: '#4a3f35', foot: '#8c7a66', hl: '#f3dfc1', bubble: false, who: true,
               pattern: 'solid', pat1: '#f6f0e4', pat2: '#ece2cf', width: 460, me: '#ffd6ea', ai: '#ffffff',
               pal: PAL_MUTED },
-    script: { font: F_DODUM, size: 14, lh: 1.8, weight: 400, line: '#1a1a1a', narr: '#555555', fade: 90,
+    script: { date: 'off', font: F_DODUM, size: 14, lh: 1.8, weight: 400, line: '#1a1a1a', narr: '#555555', fade: 90,
               title: '#111111', foot: '#888888', hl: '#ffef9e', bubble: false, who: true,
               pattern: 'solid', pat1: '#fdfdfb', pat2: '#eeeeea', width: 480, me: '#ffd6ea', ai: '#ffffff',
               pal: ['#1a1a1a'] },
-    night:  { font: F_MYEONG, size: 14, lh: 2.0, weight: 600, line: '#f3eeff', narr: '#cfc4f2', fade: 75,
+    night:  { date: 'off', font: F_MYEONG, size: 14, lh: 2.0, weight: 600, line: '#f3eeff', narr: '#cfc4f2', fade: 75,
               title: '#ffffff', foot: '#a99fd0', hl: '#5a4796', bubble: false, who: true,
               pattern: 'solid', pat1: '#1b1826', pat2: '#2b2640', width: 430, me: '#ffd6ea', ai: '#ffffff',
               pal: PAL_LIGHT }
@@ -1799,6 +1826,9 @@ code {
     patternEl.value = t.pattern; pat1El.value = t.pat1; pat2El.value = t.pat2;
     innerCEl.value = t.pat1;
     widthEl.value = String(t.width);
+    // 채팅 템플릿은 맨 위에 날짜, 소설 템플릿은 날짜 없이
+    $('dateMode').value = t.date || 'top';
+    dateRows();
 
     var pal = t.pal || PAL;
     castRows().forEach(function (r, i) {
@@ -1971,13 +2001,22 @@ code {
 
     // 지문을 꺼서 비는 말은 뺌
     var items = [];
-    var tMode = timeModeEl.value, auto = 0;
+    var tMode = timeModeEl.value, auto = 0, dayOn = dateModeEl.value !== 'off', lastDay = 0;
+    var hasDay = list.some(function (m) { return m.day; });
+    // 맨 위 날짜 (직접 적은 날짜 줄이 맨 앞에 있으면 그걸 씀)
+    if (dayOn && !(list[0] && list[0].day)) items.push({ day: dateText(0) });
     list.forEach(function (m) {
       if (m.day) { items.push({ day: m.day }); return; }
       var body = formatBody(m.text, narrOn);
       if (!body) return;
       var time = tMode === 'off' ? '' : m.time || '';
-      if (tMode === 'auto' && !time) time = autoTime(auto);
+      if (tMode === 'auto' && !time) {
+        // 자동 시간이 밤 12시를 넘기면 다음 날 날짜 줄
+        var dn = autoDay(auto);
+        if (dayOn && dn > lastDay && !hasDay) items.push({ day: dateText(dn) });
+        lastDay = Math.max(lastDay, dn);
+        time = autoTime(auto);
+      }
       auto++;
       items.push({ who: m.who, body: body, time: time });
     });
@@ -2080,6 +2119,48 @@ code {
   window.addEventListener('resize', function () { if (sheet.style.width) fitPreview(); });
 
   /* ---------- 자동 시간 ---------- */
+  // 자동 시간이 몇 번째 날에 있는지 (밤 12시를 넘기면 1, 2 …)
+  function autoDay(n) {
+    var st = (timeStartEl.value || '15:00').split(':');
+    var mins = (parseInt(st[0], 10) || 0) * 60 + (parseInt(st[1], 10) || 0) +
+      n * Math.max(0, parseInt(timeStepEl.value, 10) || 0);
+    return Math.floor(mins / 1440);
+  }
+
+  var DAYS = ['일', '월', '화', '수', '목', '금', '토'];
+  var DAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'];
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+
+  function dateText(plus) {
+    var v = (dateValEl.value || todayStr()).split('-');
+    var d = new Date(+v[0], +v[1] - 1, +v[2] + (plus || 0));
+    var y = d.getFullYear(), mo = d.getMonth() + 1, da = d.getDate(), w = d.getDay();
+    var f = dateFmtEl.value;
+    if (f === 'md') return mo + '월 ' + da + '일 ' + DAYS[w] + '요일';
+    if (f === 'dot') return y + '. ' + mo + '. ' + da + '. (' + DAYS[w] + ')';
+    if (f === 'en') return DAYS_EN[w] + ', ' + MONTHS_EN[mo - 1] + ' ' + da + ', ' + y;
+    return y + '년 ' + mo + '월 ' + da + '일 ' + DAYS[w] + '요일';
+  }
+
+  function dateRows() {
+    var on = dateModeEl.value !== 'off';
+    [].forEach.call(document.querySelectorAll('[data-date-on]'), function (el) { el.hidden = !on; });
+  }
+  var dateModeEl = $('dateMode'), dateValEl = $('dateVal'), dateFmtEl = $('dateFmt');
+  if (!dateValEl.value) dateValEl.value = todayStr();
+  dateModeEl.addEventListener('change', function () { dateRows(); live(); });
+  [dateValEl, dateFmtEl].forEach(function (el) {
+    el.addEventListener('input', live);
+    el.addEventListener('change', live);
+  });
+  $('dateToday').addEventListener('click', function () { dateValEl.value = todayStr(); live(); });
+
   function autoTime(n) {
     var st = (timeStartEl.value || '15:00').split(':');
     var mins = (parseInt(st[0], 10) || 0) * 60 + (parseInt(st[1], 10) || 0) +
@@ -2327,7 +2408,7 @@ code {
     'cLine', 'cNarr', 'cTitle', 'cHl', 'cFoot', 'narrFade', 'alpha', 'avSize',
     'bubbleOn', 'showWho', 'narrOn', 'pattern', 'fill', 'frameW', 'innerC',
     'pat1', 'pat2', 'bgZoom', 'veil', 'width', 'scale',
-    'timeMode', 'timeStart', 'timeStep', 'timeFmt', 'narrItalic'];
+    'timeMode', 'timeStart', 'timeStep', 'timeFmt', 'narrItalic', 'dateMode', 'dateVal', 'dateFmt'];
   var LOOK = CTRL.filter(function (id) { return id !== 'title' && id !== 'foot'; });
   var loading = true, myKey = '';
 
@@ -2356,6 +2437,7 @@ code {
     bgZoomValEl.textContent = bgZoomEl.value + '%';
     frameRows();
     timeRows();
+    dateRows();
   }
 
   function getCast(withAv) {
@@ -2713,6 +2795,13 @@ code {
         box.appendChild(range.cloneContents());
         document.execCommand('insertHTML', false, '<span class="ed-narr">' + box.innerHTML + '</span>');
       }
+    } else if (cmd === 'date') {
+      // 지금 줄 다음에 날짜 줄을 넣음
+      // 날짜가 바뀔 때 누르는 버튼이라, 이미 있는 날짜 줄 수만큼 하루씩 뒤로
+      var had = (srcEl.value.match(/^\s*-{2,}.+-{2,}\s*$/gm) || []).length;
+      var dt = '--- ' + dateText(had + (dateModeEl.value !== 'off' ? 1 : 0)) + ' ---';
+      var blank = !edEl.textContent.trim();
+      document.execCommand('insertText', false, (blank ? '' : '\n') + dt + '\n');
     } else if (cmd === 'quote') {
       var Q = /["\u201C\u201D]/;
       var sc = range.startContainer, so = range.startOffset, ec = range.endContainer, eo = range.endOffset;
