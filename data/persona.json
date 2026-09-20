@@ -405,10 +405,32 @@
           "realname": "네레이드",
           "quote": "하하, 인생이라는 바다 위를 모험하자구나!",
           "spec": "#해적_선장 #가이드 #불속성 #S급",
-          "spec_color": "mint",
+          "spec_color": "rose",
           "look": "girl, 0.3::aged up::, smug, golden hair, curtained hair, folded ponytail, coral eyes, tsurime, large breasts, red hair tie,",
           "outfit": "dark red pirate coat on shoulders, white dress shirt, brown harness, brown corset, holster, white pants, brown leather boots, holding huge anchor,",
           "prompt": "girl, 0.3::aged up::, smug, holding huge anchor, golden hair, curtained hair, folded ponytail, coral eyes, tsurime, large breasts, red hair tie, dark red pirate coat on shoulders, white dress shirt, brown harness, brown corset, holster, white pants, brown leather boots, holding huge anchor,"
+        },
+        {
+          "name": "시르투르",
+          "tags": "#온화한 #성스러운 #상냥한 #자애로운",
+          "images": [
+            {
+              "image": "/media/시르투르1.webp",
+              "caption": ""
+            },
+            {
+              "image": "/media/시르투르2.webp",
+              "caption": ""
+            }
+          ],
+          "note": "",
+          "realname": "양이서",
+          "quote": "전부 제게 맡기세요, 걱정하실 거... 하나도 없어요.",
+          "spec": "#성녀 #가이드 #풀속성 #S급",
+          "spec_color": "cream",
+          "look": "girl, curvy, light smile, white cream hair, wavy hair, long hair, messy hair, choppy bangs, pale brown eyes, gentle eyes, horizontal pupils, huge breasts,",
+          "outfit": "white short simple cape, gold shoulder board, white dress shirt, pale brown bow, waist pleated white skirt, tights, pale brown high heels,",
+          "prompt": "girl, curvy, light smile, white cream hair, wavy hair, long hair, messy hair, choppy bangs, pale brown eyes, gentle eyes, horizontal pupils, huge breasts, white short simple cape, gold shoulder board, white dress shirt, pale brown bow, waist pleated white skirt, tights, pale brown high heels,"
         }
       ]
     }
