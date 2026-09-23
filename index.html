@@ -262,7 +262,7 @@ svg { shape-rendering: crispEdges; }
   top: 20px;
   left: 16px;
   z-index: 6;
-  width: 86px;
+  width: calc(var(--ico-size, 44px) + 42px);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -289,7 +289,7 @@ a.dockbtn { text-decoration: none; }
   border: 2px dotted transparent;
   color: #fff;
   font-family: var(--mini);
-  font-size: 10px;
+  font-size: var(--ico-font, 10px);
   letter-spacing: 0.05em;
   text-shadow: 1px 1px 0 var(--outline), -1px 1px 0 var(--outline),
                1px -1px 0 var(--outline), -1px -1px 0 var(--outline);
@@ -297,8 +297,8 @@ a.dockbtn { text-decoration: none; }
 
 .dockbtn .ico {
   display: block;
-  width: 44px;
-  height: 44px;
+  width: var(--ico-size, 44px);
+  height: var(--ico-size, 44px);
   filter: drop-shadow(2px 3px 0 rgba(43,30,82,0.35));
 }
 
@@ -915,7 +915,7 @@ details[open] { padding-bottom: 12px; }
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 4px;
-  margin: 0 0 -3px 6px;
+  margin: 0 0 -2px 6px;
   padding: 0;
 }
 
@@ -940,6 +940,16 @@ details[open] { padding-bottom: 12px; }
 }
 
 .tab:hover { background: var(--yellow-l); }
+/* 고른 탭 바로 아래의 종이 테두리를 흰 띠로 지워 이어 보이게.
+   탭 옆선은 테두리(3px) 안으로 2px만 들어가서, 반올림이 1px 달라져도
+   가로선 밖으로 삐져나오지 않음 */
+.tab.on::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 3px;
+  background: #fff;
+}
 
 /* 선택된 탭은 조금 더 높고, 종이 위로 올라와 테두리를 덮어 이어집니다 */
 .tab.on {
@@ -2915,28 +2925,114 @@ var SUPABASE_KEY = window.SUPABASE_KEY || '';
     }
   });
 
-  /* ---------- 좁은 화면에서는 두 줄을 하나로 합칩니다 ---------- */
+  /* ---------- 아이콘 줄 맞추기 ----------
+     화면이 짧으면 아이콘을 조금 줄이고, 그래도 넘치면 다음 줄 맨 위로 넘깁니다.
+     좁은 화면(휴대폰)에서는 예전처럼 두 줄을 하나로 합칩니다. */
 
   (function () {
     var main = document.querySelector('.dock:not(.dock--side)');
     var side = document.querySelector('.dock--side');
     if (!main || !side) return;
 
-    var moved = [];
+    var slice = function (x) { return Array.prototype.slice.call(x); };
+    var mainItems = slice(main.children);
+    var sideItems = slice(side.children);
+    var extras = [];                 // 모자랄 때 만드는 세 번째 이후 줄
+    var SIZES = [44, 40, 36];   // 이보다 더 줄이지 않고, 넘치면 다음 줄로
+    var GAP = 8, COLGAP = 6, LEFT = 16, TOP = 20;
+
+    function setSize(px) {
+      desk.style.setProperty('--ico-size', px + 'px');
+      desk.style.setProperty('--ico-font', (px <= 32 ? 9 : 10) + 'px');
+    }
+
+    function column(n) {             // n = 2 이면 세 번째 줄
+      while (extras.length < n) {
+        var nav = document.createElement('nav');
+        nav.className = 'dock dock--side';
+        nav.setAttribute('aria-label', '바로가기 ' + (extras.length + 3));
+        desk.appendChild(nav);
+        extras.push(nav);
+      }
+      return extras[n - 1];
+    }
 
     function place() {
+      // 일단 처음 모습으로 되돌림
+      mainItems.forEach(function (el) { main.appendChild(el); });
+      sideItems.forEach(function (el) { side.appendChild(el); });
+      extras.forEach(function (n) { n.remove(); });
+      extras = [];
+      side.style.left = '';
+
       if (isMobile()) {
-        if (moved.length) return;
-        moved = Array.prototype.slice.call(side.children);
-        moved.forEach(function (el) { main.appendChild(el); });
-      } else if (moved.length) {
-        moved.forEach(function (el) { side.appendChild(el); });
-        moved = [];
+        desk.style.removeProperty('--ico-size');
+        desk.style.removeProperty('--ico-font');
+        sideItems.forEach(function (el) { main.appendChild(el); });
+        return;
+      }
+
+      var task = document.querySelector('.taskbar');
+      var H = desk.clientHeight - TOP - (task ? task.offsetHeight : 56) - 16;
+      var all = mainItems.concat(sideItems);
+      var cap = all.length, fits = false;
+
+      // 1) 먼저 아이콘을 조금씩 줄여서 지금 줄 수 그대로 들어가는지 봄
+      for (var i = 0; i < SIZES.length; i++) {
+        setSize(SIZES[i]);
+        var bh = all[0].offsetHeight || 70;
+        cap = Math.max(1, Math.floor((H + GAP) / (bh + GAP)));
+        if (cap >= mainItems.length && cap >= sideItems.length) { fits = true; break; }
+      }
+      // 2) 그래도 안 되면 가장 작은 크기로 두고, 넘치는 아이콘을 다음 줄로 넘김
+      if (fits) cap = mainItems.length;
+
+      // 넘치는 것부터 다음 줄 맨 위로
+      function arrange(per) {
+        extras.forEach(function (n) { n.remove(); });
+        extras = [];
+        var cols = [mainItems.slice(0, per)];
+        var rest = mainItems.slice(per).concat(sideItems);
+        while (rest.length) {
+          cols.push(rest.slice(0, per));
+          rest = rest.slice(per);
+        }
+        var w = main.offsetWidth;
+        cols.forEach(function (list, idx) {
+          var box = idx === 0 ? main : idx === 1 ? side : column(idx - 1);
+          list.forEach(function (el) { box.appendChild(el); });
+          if (idx >= 1) {
+            box.style.left = (LEFT + (w + COLGAP) * idx) + 'px';
+            box.style.top = TOP + 'px';
+          }
+        });
+        if (cols.length < 2) { side.style.left = ''; }
+      }
+
+      function lowest() {
+        var y = 0;
+        [main, side].concat(extras).forEach(function (n) {
+          if (n.children.length) y = Math.max(y, n.getBoundingClientRect().bottom);
+        });
+        return y;
+      }
+
+      // 실제로 재보고 작업표시줄을 넘으면 한 칸씩 줄임
+      var limit = task ? task.getBoundingClientRect().top - 6 : desk.clientHeight;
+      for (var g = 0; g < 8; g++) {
+        arrange(cap);
+        if (lowest() <= limit) break;
+        cap = Math.max(1, cap - 1);
+        if (cap === 1) { arrange(cap); break; }
       }
     }
 
+    var t = null;
+    function soon() { clearTimeout(t); t = setTimeout(place, 120); }
+
     place();
-    window.addEventListener('resize', place);
+    window.addEventListener('resize', soon);
+    window.addEventListener('orientationchange', soon);
   }());
 
   /* ---------- 열려 있던 창 기억하기 ----------
