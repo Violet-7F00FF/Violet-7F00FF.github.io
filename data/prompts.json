@@ -446,9 +446,30 @@
     {
       "type": "code",
       "tag": "ooc",
-      "heading": "🎀💕「필살 러블리 큐티 파티!」 - 너무 귀여워, 정말 귀여워!!",
+      "heading": "🎀💕필살 러블리 큐티 파티! - 너무 귀여워, 정말 귀여워!!",
       "filename": "ooc",
       "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 롤플레잉을 시작한다. npc가 가장 좋아하는 pc의 애교 3종은 무엇인가? pc의 필살 애교 3종을 묘사하여 npc의 감정, 생각, 행동 등을 자세하고 상세하게 4000자 이상 작성한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "🤍너무나도 작고 소중한 너 - 사람이 이렇게 순수해도 돼?",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉 중단, 새로운 시점에서 에피소드를 진행한다. 어느 날, 문득 npc는 pc의 순수하고 아이 같은 모습을 보게 된다. 그 모습을 묘사하고, npc가 느낄 때의 pc의 순수하고 아이 같은 면은 또 어떤 모습들이 있는지 3가지를 선정하여 npc의 생각, 행동, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "💤오늘의 데이트는.. 늦잠?! - 일어나 빨리!",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 롤플레잉을 시작한다. 며칠간 바쁜 나날을 보낸 npc와 pc. 끝이 나지 않을 것 같은 바쁜 날들이 지나가고, 겨우 하루를 쉴 수 있게 되었다. 그리고 오늘이 그날이다. npc와 pc는 오늘 하루를 같이 보내기로 한 일정이 있었기에 pc를 깨우려 하지만, pc가 너무나도 피곤했던 나머지 전혀 일어나지 않고 평소와는 달리 잠투정을 부리는 상황이다. npc는 이 일정을 아주 기다린 상황. npc는 과연 어떻게 행동하는지 npc의 감정, 생각, 행동 등을 자세하고 상세하게 4000자 이상 작성한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "💧의젓한 모습과 어리광 - 언제 와.. 보고 싶어.",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 에피소드를 시작한다. 모종의 이유로 npc는 며칠 간 출장을 떠난다. 그리고 pc의 곁으로 돌아오자, 출장 가 있는 동안 연락할 때 아무렇지 않던 모습을 보이던 pc가 낑낑거리며 npc에게 어리광을 피운다. npc는 pc를 어떻게 달래주는지 npc의 행동, 생각, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
     },
     {
       "type": "promptcard",
@@ -1124,6 +1145,120 @@
         },
         {
           "image": "/media/알파_163.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🍰슈가 가든",
+      "filename": "프롬프트",
+      "code": "upper body, centered composition, symmetrical composition, character focus, heart hand pose, cute fashion, pastel outfit, puff sleeves, ruffled collar, ribbon bow, frilled details, heart-shaped accessories, cute hair accessories, (색상1) and (색상2) colors, pastel colors, cream white, soft colors, limited color palette, cute color palette, thick clean outlines, bold outlines, flat colors, simple shading, glossy highlights, cute illustration, kawaii aesthetic, playful composition, soft texture, subtle grain, grid background, decorative border, strawberry decorations, bule berries, yellow fruits, fruit slices, flowers, bows, ribbons, hearts, stars, sparkles, candy, cute ornaments, fruit motifs, dense decorations, colorful border, layered decorations, foreground fruit, overlapping fruit, fruit around character, decorations overlapping character,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_343.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🍔다이너 달링",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\ndynamic low angle, dynamic perspective, dynamic skating pose, one leg extended, one leg lifted, leaning forward, dynamic movement, flowing skirt, holding a serving tray, presenting food, playful pose, energetic pose,\n\n💜여캐\nretro diner waitress uniform, roller skate fashion, vintage varsity jacket, white sleeves, striped cuffs, striped collar, cropped varsity jacket, fitted top, white ruffled apron, red flared mini skirt, layered ruffled hem, thigh-high socks, retro roller skates, red visor cap, cute retro accessories, teal and red and cream colors, retro color palette, high contrast, bright colors,\n\n💛남캐\nretro diner uniform, roller skate fashion, vintage varsity jacket, teal and red color blocking, white sleeves, striped cuffs, striped collar, oversized varsity jacket, fitted shirt, white ruffled apron, red high-waisted pants, striped socks, retro roller skates, red visor cap, cute retro accessories, teal and red and cream colors, retro color palette, high contrast, bright colors,\n\n💿공통 배경 프롬\nretro illustration, vintage print, halftone dots, bold outlines, printed texture, soft grain, subtle noise, warm lighting, glossy highlights, playful atmosphere, retro diner, 1950s diner, vintage American diner, checkerboard floor, red and teal interior, chrome furniture, red booths, diner counter, jukebox, neon signs, retro tables and chairs, milkshake counter, burger posters, retro advertisements, jukebox, vinyl records, milkshakes, burgers, french fries, soda fountain, ketchup bottle, straws, menu boards, retro food packaging,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_347.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_164.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🎉큐티 럭키 드로우",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\nfull body,  high angle, character inside machine, inside a giant capsule machine, sitting inside the transparent capsule, behind glass, enclosed in a clear sphere, ribbon-bound wrists, ribbon-bound ankles, ribbon wrapped around torso, large ribbon bow, long ribbon tails,\n\n💜여캐\ncute Y2K fashion, fitted tank top, cropped top, striped skirt, layered mini skirt, knee-high socks, platform shoes, cute accessories, charm bracelets, hair clips, (색상1) and (색상2) and (색상3) colors, pastel colors, candy colors,colorful, playful color palette,\n\n💛남캐\ncute Y2K fashion, retro toy fashion, oversized pastel jacket, fitted top, utility straps,\nhigh-waisted cargo shorts, striped socks, chunky sneakers, colorful plastic accessories, glossy fabric, (색상1) and (색상2) and (색상3) colors, pastel colors, candy colors,colorful, \nplayful color palette,\n\n💿공통 배경 프롬\nsoft glow, glossy plastic, subtle bloom, dreamy glow, soft shadows, retro capsule machine, vintage gacha machine, giant gachapon machine, red vending machine base, coin slot, toy machine controls, rounded plastic casing, glossy machine, plush toys, stuffed animals, cute plushies, teddy bears, bunny plushies, animal dolls, colorful toy cars, candy, oversized plush toys, toys surrounding character, toys piled around character, pastel color background",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_351.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_168.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "⚓️세일러메이드 체키",
+      "filename": "프롬프트",
+      "code": "high angle, close-up, upper body, portrait composition, character focus, cute pose, playful pose, head tilt, hand near face, looking at viewer, gentle smile, maid headdress, sailor maid outfit, oversized sailor collar, white sailor trim, large ribbon bow, fitted bodice, sleeves, white ruffled cuffs, frilled white apron, flared skirt, layered ruffles, lace trim, (의상 색상1) and (의상 색상2) maid dress, pastel colors, iridescent accents, limited color palette, cute color palette, soft glow, glossy highlights, subtle bloom, soft focus, gentle light, delicate highlights, sparkles, decorated photocard, ornate photocard frame, oversized ribbon bow, cascading ribbons, ribbon loops, long ribbon tails, lace border, scalloped lace, pearl garland, pearl beads, heart charms, star charms, bow charms, gem charms, dangling ornaments, cute stickers, pastel charms, translucent decorations, white card background, (프레임 색상) frame, (꾸밈 색상) accents, pastel scrapbook background, layered paper, patterned paper, pastel grid pattern, faint decorative illustrations, bows, hearts, stars, flowers, ribbons, perfume bottles, letters, envelopes, candy, cakes, gift boxes, faded illustration panels, paper cutouts, sticker sheets, doodles, handwritten notes, cute graphic motifs, (배경 색상1) and (배경 색상2) background accents, soft pastel shapes, layered collage",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_354.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "📱ℓσνє.exe",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\nupper body, close-up, selfie angle, high angle, face focus, selfie pose, holding smartphone near face, phone held toward camera, smartphone screen visible, looking at phone camera, hand near cheek, cheek touch, taking a selfie, selfie camera, front-facing camera, playful pose, cute expression, slightly puckered lips,\n\n💜여캐\nY2K fashion, casual Y2K outfit, sleeveless top, cropped vest, layered top, cute accessories, colorful hair accessories,\n\n💛남캐\nY2K fashion, casual Y2K outfit, oversized t-shirt, cropped vest, layered top, baggy pants, chain accessories, colorful bracelets, retro headphones, cute hair accessories,\n\n💿공통 배경 프롬\npastel colors, soft colors, candy colors, low contrast, cute color palette, soft glow, glossy highlights, subtle bloom, soft focus, pastel light, tiny sparkles, cute doodles, retro computer interface, Y2K web design, early 2000s internet aesthetic, personal homepage, social media interface, pixel UI, pastel window frame, rounded UI panels, grid background, decorative borders, status bar, chat bubbles, speech bubbles, pop-up windows, cute icons, hearts, stars, sparkles, stickers, pixel decorations, username bar, window buttons, pixel font, pixel text, tiny UI text, username, online status, decorative text",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_359.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_171.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "✈️빛나는 꿈의 궤적",
+      "filename": "프롬프트",
+      "code": "💿공통 프롬\nfull body, dynamic angle, dynamic pose, carefree pose, playful pose, looking upward, flying paper airplanes, paper airplanes passing by, flying paper planes, paper airplanes background,\n\n💜여캐\nsummer casual outfit, lightweight summer clothes, short-sleeve blouse, loose shirt, high-waisted shorts, ribbon, sneakers, cute accessories,\n\n💛남캐\nsummer casual outfit, lightweight summer clothes, oversized short-sleeve shirt, open collar, rolled-up sleeves, relaxed shorts, canvas sneakers, simple wristwatch, casual accessories,\n\n💿공통 배경 프롬\n(색상1) and (색상2) colors, pastel colors, vivid colors, candy colors, bright colors, high saturation, colorful palette, soft glow, dreamy glow, bright sunlight, sparkling light, light rays, bloom, soft haze, motion lines, flying particles, colorful reflections, subtle lens flare, surreal summer sky, fluffy pastel clouds, colorful clouds, dreamy sky, floating geometric shapes, colorful paper fragments, floating flowers, floating petals, giant candy-like flowers, abstract landscape, multiple paper airplanes, paper airplane trails, scattered paper planes",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_366.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_178.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💗러브 버스트!",
+      "filename": "프롬프트",
+      "code": "dynamic low angle, dramatic perspective, dynamic composition, flying pose, dynamic pose, energetic pose, flowing hair, flowing clothes, cute contemporary fashion, pop fashion, cropped cardigan, fitted camisole, pleated mini skirt, ribbon details, heart-shaped accessories, frilled leg warmers, platform sneakers, colorful hair clips, glossy accessories, (색상1) and (색상2) colors, pastel colors, candy colors, vibrant colors, soft color palette, heart clouds bursting around, overlapping heart clouds, heart-shaped clouds, fluffy heart clouds, heart-shaped smoke, heart-shaped vapor, bursting heart clouds, exploding heart clouds, giant heart clouds, swirling heart clouds, heart-shaped cloud trails, puffy cloud shapes, layered cloud bursts, sparkles, stars, floating hearts, glowing particles, soft glow, bloom, dreamy haze, surreal pastel sky, dreamy sky, fluffy clouds, colorful clouds, floating cloud formations, pastel atmosphere",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_367.webp",
           "caption": ""
         }
       ]
