@@ -488,6 +488,10 @@ p { margin: 0 0 12px; }
         <button type="button" class="btn" id="saveAll" disabled>전부 저장</button>
         <button type="button" class="btn" id="clear" disabled>비우기</button>
       </div>
+      <p class="hint" style="margin:8px 0 0">
+        세탁 설정은 이 브라우저에 저장돼서 다음에 와도 그대로예요.
+        <button type="button" class="btn btn--sm" id="optReset" style="margin-left:6px">기본값으로</button>
+      </p>
     </div>
   </div>
 
@@ -1311,6 +1315,54 @@ document.addEventListener('keydown', function (e) {
     });
   }
 
+}());
+
+/* ---------- 설정 기억하기 (이 브라우저에만) ----------
+   세탁 설정과 저장소 이름을 기억합니다. GitHub 토큰은 안전을 위해 저장하지 않아요. */
+(function () {
+  var KEY = 'cm-clean-opts';
+  var IDS = ['optAlpha', 'optNoise', 'optResize', 'maxSide', 'fmt', 'quality',
+             'optRename', 'prefix', 'repoOwner', 'repoName'];
+  var els = IDS.map(function (id) { return document.getElementById(id); })
+               .filter(function (el) { return el; });
+
+  // 처음 값(기본값)을 기억해 둠
+  var defaults = {};
+  els.forEach(function (el) { defaults[el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+
+  function set(o) {
+    els.forEach(function (el) {
+      if (!(el.id in o)) return;
+      if (el.type === 'checkbox') el.checked = !!o[el.id]; else el.value = o[el.id];
+      // 다른 코드가 바뀐 값에 반응하도록 알려줌
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
+
+  function save() {
+    var o = {};
+    els.forEach(function (el) { o[el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {}
+  }
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) set(saved);
+  } catch (e) {}
+
+  els.forEach(function (el) {
+    el.addEventListener('change', save);
+    el.addEventListener('input', save);
+  });
+
+  var reset = document.getElementById('optReset');
+  if (reset) reset.addEventListener('click', function () {
+    var keep = { repoOwner: 1, repoName: 1 };     // 저장소 이름은 그대로 둠
+    var o = {};
+    Object.keys(defaults).forEach(function (k) { if (!keep[k]) o[k] = defaults[k]; });
+    set(o);
+    save();
+  });
 }());
 </script>
 </body>
