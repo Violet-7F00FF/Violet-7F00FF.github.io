@@ -2,7 +2,7 @@
   "top_label": "",
   "top_note": "",
   "intro_heading": "Notion",
-  "intro": "♡ 저는 주로 젬이오(Gemini 2.5 Pro)를 사용하여 출력하였습니다.\n♡ NPC랑 PC를 뒤바꾸는 것 정도의 수정은 괜찮습니다. 다들 재밌게 놀아요~!!~!~~!!\n\n✕ 안 뽑힌다고 제게 화내지 마십시오..\n✕ 캐해 제대로 반영 안된다고 제게 화내지 마십씨오..\n✕ 자작 발언, 2차 공유(공유는 홈페이지 링크로 부탁드려요!)",
+  "intro": "♡ 저는 주로 젬이오(Gemini 2.5 Pro)를 사용하여 ooc를 출력하였습니다.\n♡ NPC랑 PC를 뒤바꾸는 것 정도의 수정은 괜찮습니다. 다들 재밌게 놀아요~!!~!~~!!\n\n✕ 안 뽑힌다고 제게 화내지 마십시오..\n✕ 캐해 제대로 반영 안된다고 제게 화내지 마십씨오..\n✕ 자작 발언, 2차 공유(공유는 홈페이지 링크로 부탁드려요!)",
   "blocks": [
     {
       "type": "label",
@@ -470,6 +470,34 @@
       "heading": "💧의젓한 모습과 어리광 - 언제 와.. 보고 싶어.",
       "filename": "ooc",
       "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 에피소드를 시작한다. 모종의 이유로 npc는 며칠 간 출장을 떠난다. 그리고 pc의 곁으로 돌아오자, 출장 가 있는 동안 연락할 때 아무렇지 않던 모습을 보이던 pc가 낑낑거리며 npc에게 어리광을 피운다. npc는 pc를 어떻게 달래주는지 npc의 행동, 생각, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "🥀갈대 같은 너의 마음",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 에피소드를 시작한다. 오늘따라 잔뜩 토라진 pc. 그 이유는 무엇일까? npc는 온종일 pc를 어르고 달래 이유를 알아내지만 사실 아주 사소한 일이었던 것이다. 그러나 pc에게는 절대 사소하지 않았던 모양이다. 이 모습을 본 npc의 행동, 생각, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "🎀✨너에게 세상에서 제일 눈부시길 바라는 나야",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 에피소드를 시작한다. 어느 날 혼자 끙끙거리며, 거울 앞에서 옷을 고르는 pc. 그러나 오늘은 특별한 외출은 없다. npc는 누구에게 잘 보고 싶은 것인가 하는 생각이 들어 조금 질투가 난다. pc가 치장을 다 하고 나오며 어때 보이냐고 묻자, 결국 npc는 누구에게 잘 보이려고 그렇게 꾸미냐고 묻는데, pc는 당연하다는 듯 npc에게 세상에서 제일 예뻐보이는 여자(pc가 여성일 때)/멋져보이는 남자(pc가 남성일 때)가 되고 싶다고 한다. npc는 어떻게 반응하는지 감정, 생각, 행동 등을 자세하고 상세하게 4000자 이상 작성한다. 대사와 지문은 문단으로 분리하고, 지문이 길어지지 않도록 문단으로 적절히 나눈다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "💢자립해!!! 자립하라고!!!!!!!!!!!!! - 어머님, 배가 고파졌습니다.",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉 중단, 새로운 시점에서 에피소드를 진행한다. 어느 날, pc의 숙소에 문제가 생긴 상황. 그 탓에 npc의 집에서 머물게 되었는데, pc가 예상 외로 너무 편하게 지낸다. 그 모습이 얼마나 편하게 지내는 건지 감도 안 올 정도다. 숙소에 생긴 문제가 해결되었음에도 npc의 집에서 밥을 먹고, TV를 보고, 심지어 침대까지 뺏어서 잔다. 결국 npc는 자립하라고 소리를 치는데, pc가 하는 말은 배가 고프다는 말이다. 결국 npc는 다시 한 번 자립하라고 소리치지만, pc는 또다시 배가 고프다고 말을 한다. 반복되는 이 상황을 코믹하게 묘사하며 npc는 어떻게 반응하는지 생각, 행동, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "👗👖우당탕탕 수선집 소동!",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉을 중단하고, 롤플레잉을 시작한다. 어느 날 우당탕탕 방을 뛰어다니는 pc. 자신이 제일 좋아하는 원피스(또는 바지)가 사라졌다며 울상이다. 그 옷은 조금 길어 수선을 맡겨둔 상태고, pc도 그걸 알고 있다. npc는 pc를 달래지만, pc는 그걸 입고 npc와 데이트를 하고 싶다며 고집을 부린다. npc는 어떻게 반응하는지 행동, 생각, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
     },
     {
       "type": "promptcard",
@@ -1259,6 +1287,98 @@
       "images": [
         {
           "image": "/media/베타_367.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🦷어디 한 번 볼까~?",
+      "filename": "프롬프트",
+      "code": "close-up, face focus, eye-level angle, low angle, surprised expression, slightly embarrassed expression, curious expression, mouth focus, parted lips, visible teeth, visible canine tooth, another person's hand, hand reaching toward face, fingers pulling lower lip down, lower lip pulled down, exposing canine, one hand holding lower lip, inspecting mouth, close distance, soft lighting, subtle blush, glossy lips, soft highlights,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_373.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_180.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🥃ᑢᕼᗩᖇᖶᖇᘿᑘSᘿ",
+      "filename": "프롬프트",
+      "code": "full body, three-quarter view, standing, holding a paintbrush, paintbrush in hand, paint-stained hands, standing beside an easel, art studio scene, modern casual fashion, oversized shirt, simple t-shirt, rolled-up sleeves, casual trousers, sneakers, artist apron, canvas work apron, paint-stained apron, paint stains on clothes, vivid (색상1) and bright (색상2) colors, harsh color contrast, primary colors, saturated colors, muted brown accents, flat colors, contrasting color blocks, bold outlines, thick lineart, flat shading, cel shading, rough texture, paint splatters, dripping paint, messy brush strokes, graphic shapes, sharp shadows, surreal atmosphere, unsettling mood, retro animation aesthetic, slightly distorted perspective, messy art studio, easel, large canvas, abstract painting, red paint splatters on canvas, paint-stained canvas, sculpture bust, artist mannequin, wooden stool, work table, paint brushes, paint tubes, open paint jars, paint buckets, sunflowers in a vase, art supplies scattered around the studio, green wall panels, checkerboard wall pattern, 1.5::(색상1) colors spotlight::",
+      "desc": "![](/media/%EB%B2%A0%ED%83%80_376.webp)",
+      "images": []
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🔫BANG",
+      "filename": "프롬프트",
+      "code": "dynamic low angle, cowboy shot, side view, multiple arms surrounding, multiple hands holding guns, handguns pointed at character, guns aimed, hands reaching, overlapping arms, guns in foreground, threatening atmosphere, white short-sleeved shirt, open collar, loose shirt, black undershirt, stark color contrast, limited color palette, muted brown accents, rough sketch, messy lineart, scratchy lineart, expressive linework, thick black outlines, rough hatching, crosshatching, strong shadows, flat colors, cel shading, gritty texture, distorted perspective, high contrast, raw illustration, graphic novel aesthetic, vivid (색상1) background, black graphic shapes, multiple handguns, dark silhouettes, aggressive composition,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_383.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🥀pǝɹ : ǝɥʇuısqɐ",
+      "filename": "프롬프트",
+      "code": "upper body, three-quarter view, standing, holding  flower, slightly tilted head, white button-up shirt, slightly oversized shirt, loose collar, open collar, rolled-up sleeves, loosened black tie, black trousers, paint-stained clothing, stark color contrast, pale skin, limited color palette, high saturation, pouring paint from above, paint pouring onto head, paint dripping from hair, paint running down face and neck, paint streaming over shoulders, paint dripping from clothes, paint splashes, paint droplets, wet hair, rough sketch, messy lineart, scratchy lineart, expressive linework, thick black outlines, rough hatching, crosshatching, flat colors, cel shading, harsh shadows, gritty texture, raw illustration, graphic novel aesthetic, vivid (색상) paint splashes, thick dripping paint, glossy wet paint, paint smears, splattered paint, brushstroke marks, irregular paint streaks, vivid (색상2) background, black graphic shapes,scattered flower petals, floating paint droplets, abstract brushstrokes,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_385.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🐍Ƭɦօɾղʂ",
+      "filename": "프롬프트",
+      "code": "high angle, cowboy shot, tilted composition, reclining, head tilted back, half-closed eyes, parted lips, multiple disembodied hands, several hands grabbing character, hands gripping chin,hand gripping shirt collar, hands clutching clothing, hands gripping shoulders, fingers clutching fabric, overlapping hands, hands surrounding character, black suit jacket, gold buttons, white dress shirt, wrinkled shirt, loosened collar, black necktie, rumpled clothing, muted colors, desaturated colors, limited color palette, stark color contrast, earthy tones, blood on cheek, rough sketch, scratchy lineart, expressive linework, thick black outlines, rough hatching, crosshatching, gritty texture, vintage manga aesthetic, printed illustration, film grain, halftone texture, harsh shadows, flat shading, dramatic lighting, dense gray foliage, overlapping leaves, tangled branches, intertwined snakes, (색상1) scaled snakes, snake scales, dark botanical background, scattered leaves, organic shapes filling background, (색상2) spotlight,",
+      "desc": "![](/media/%EC%95%8C%ED%8C%8C_181.webp)",
+      "images": []
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🫟B!g bΛNG",
+      "filename": "프롬프트",
+      "code": "upper body, head tilted back, chin raised, eyes half-closed, (색상1) suit jacket, (색상1) dress shirt, (색상2) necktie, deep (색상2) accents, high saturation, stark color contrast, flat colors, bold black lineart, rough sketch, scratchy lineart, expressive linework, rough brush strokes, paint splatters, ink splashes, screenprint aesthetic, pop art, graphic illustration, flat shading, harsh shadows, gritty print texture, high contrast, bright (색상1) background, (색상2) paint splashes, explosive (색상2) paint splatter, radiating paint streaks, paint splashing behind character, diagonal brush strokes, scattered droplets, abstract graphic shapes",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/huhyxyobyaayelf.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🌫️씬",
+      "filename": "프롬프트",
+      "code": "upper body, hand raised near face, elegant hand pose, holding a long cigarette holder, cigarette holder near lips, fingers framing face, smoke swirling around, foreground smoke, overlapping smoke, ornate gothic fashion, high collar jacket, fitted jacket, frog buttons, embroidered details, gold accessories, round tinted sunglasses, dangling earrings, multiple rings, ornate jewelry, (색상1) and (색상2) and (색상3) and (색상4) colors, vivid colors, high saturation, limited color palette, stark color contrast, flat colors, thick swirling smoke, curling smoke trails, billowing two vivid colors smoke, smoke ribbons, flowing smoke, smoke obscuring part of face, bold black outlines, rough lineart, expressive linework, flat shading, cel shading, sharp shadows, graphic illustration, (색상5) background, abstract smoke shapes, large smoke clouds, swirling shapes, organic flowing shapes, abstract graphic composition, smoke filling edges of frame, smoke extending beyond frame",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/hulhg4nbaaarirq.webp",
           "caption": ""
         }
       ]
