@@ -478,6 +478,54 @@
       "desc": "",
       "name": "쿠키팟",
       "meta": "쿠키팟 블랙 레트로 · 🖤📟"
+    },
+    {
+      "type": "widget",
+      "image": "/media/htsgvdyacaa2j47.webp",
+      "link": "https://caveduck.io/ko/widgets/share/70f7a5d5-e72c-4d2b-abff-3ff52415ac9f",
+      "desc": "",
+      "name": "밥버스",
+      "meta": "밥버스(이변청 : 메스머) - 나의 세계를 향한 · 📷"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블_봄.webp",
+      "link": "https://caveduck.io/ko/widgets/share/8a509029-ea2f-426c-98ae-18112441414e",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🌸"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블_여름.webp",
+      "link": "https://caveduck.io/ko/widgets/share/fd547198-85bb-430e-aed4-22c19b6f2b5c",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🏖️"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블_가을.webp",
+      "link": "https://caveduck.io/ko/widgets/share/e454ad2b-6b29-4a97-b3de-19ce559785d0",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🍁"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블_겨울.webp",
+      "link": "https://caveduck.io/ko/widgets/share/bada0005-6853-4267-8bc1-ced11c61f143",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🌌"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블_레트로.webp",
+      "link": "https://caveduck.io/ko/widgets/share/0f0a7c85-1e26-416e-a2cb-6088b2402fcf",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🌅"
     }
   ]
 }
