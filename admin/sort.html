@@ -346,13 +346,14 @@ input[type="password"], select {
         '<span class="item__grip">⋮⋮</span>' +
         '<span class="item__no">' + (i + 1) + '</span>' +
         '<span class="item__txt">' +
-        (lab.kind ? '<span class="item__kind">' + lab.kind + '</span>' : '') +
+        (lab.kind ? '<span class="item__kind"></span>' : '') +
         '<span class="item__name"></span></span>' +
         '<span class="item__btns">' +
         '<button type="button" data-up="' + i + '">▲</button>' +
         '<button type="button" data-down="' + i + '">▼</button>' +
         '</span>';
       li.querySelector('.item__name').textContent = lab.name;
+      if (lab.kind) li.querySelector('.item__kind').textContent = lab.kind;
       listEl.appendChild(li);
     });
   }
