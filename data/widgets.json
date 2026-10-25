@@ -526,6 +526,46 @@
       "desc": "",
       "name": "턴테이블",
       "meta": "턴테이블 · 🌅"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블_연꽃.webp",
+      "link": "https://caveduck.io/ko/widgets/share/f727ea54-0e40-4796-a722-078a53d14c95",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🪷"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블-해파리.webp",
+      "link": "https://caveduck.io/ko/widgets/share/d073913c-af09-4bd3-a002-15f0d64abdad",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🪼"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블-보름.webp",
+      "link": "https://caveduck.io/ko/widgets/share/e6390ce8-1e14-4f38-99eb-53f6e5b37a8c",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · 🌕"
+    },
+    {
+      "type": "widget",
+      "image": "/media/턴테이블-눈꽃.webp",
+      "link": "https://caveduck.io/ko/widgets/share/ef8a0c93-f559-4880-a791-ebf1fb1ed72c",
+      "desc": "",
+      "name": "턴테이블",
+      "meta": "턴테이블 · ❄️"
+    },
+    {
+      "type": "widget",
+      "image": "/media/스크린샷-2026-10-20-202016.webp",
+      "link": "https://caveduck.io/ko/widgets/share/ab094933-d4b8-48d4-911e-4e9445aa7d6a",
+      "desc": "",
+      "name": "레코드",
+      "meta": "레코드판 · 💽"
     }
   ]
 }
