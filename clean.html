@@ -562,6 +562,12 @@ p { margin: 0 0 12px; }
 </div>
 
 <script>
+/* 파일 이름을 화면에 넣을 때 글자로만 (이름에 < > 가 있어도 안전하게) */
+function escName(v) {
+  return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 /* 완료 알림 창 */
 function showDone(title, lines) {
   var old = document.querySelector('.done');
@@ -1010,7 +1016,7 @@ document.addEventListener('keydown', function (e) {
       li.className = 'pick' + (fresh ? '' : ' pick--done');
       li.innerHTML =
         '<input type="checkbox" data-i="' + i + '"' + (fresh ? ' checked' : '') + '>' +
-        '<span class="pick__name">' + f.name + '</span>' +
+        '<span class="pick__name">' + escName(f.name) + '</span>' +
         '<span class="pick__tag' + (fresh ? '' : ' pick__tag--done') + '">' +
         (fresh ? '새 그림' : '세탁됨') + '</span>';
       pickList.appendChild(li);
@@ -1136,18 +1142,18 @@ document.addEventListener('keydown', function (e) {
               if (res.j && res.j.content && res.j.content.sha) {
                 washedMap[f.name] = res.j.content.sha;
               }
-              line.innerHTML = '✔ ' + f.name;
+              line.innerHTML = '✔ ' + escName(f.name);
               line.style.color = '#14705a';
             } else {
               failCount += 1;
-              line.innerHTML = '✕ ' + f.name + ' — ' +
-                (res.j && res.j.message ? res.j.message : res.status);
+              line.innerHTML = '✕ ' + escName(f.name) + ' — ' +
+                escName(res.j && res.j.message ? res.j.message : res.status);
               line.style.color = '#c2317c';
             }
           })
           .catch(function () {
             failCount += 1;
-            line.innerHTML = '✕ ' + f.name + ' — 처리 실패';
+            line.innerHTML = '✕ ' + escName(f.name) + ' — 처리 실패';
             line.style.color = '#c2317c';
           });
       });
@@ -1258,8 +1264,8 @@ document.addEventListener('keydown', function (e) {
     var body = document.createElement('div');
     body.className = 'chk__body';
     body.innerHTML =
-      '<span class="chk__name" title="' + file.name.replace(/"/g, '&quot;') + '">' +
-      file.name + '</span>' +
+      '<span class="chk__name" title="' + escName(file.name) + '">' +
+      escName(file.name) + '</span>' +
       '<span class="chk__verdict">' + (r.clean ? '✔ 깨끗해요' : '✕ 남아있어요') + '</span>' +
       '<span class="chk__line chk__line--' + (r.noText ? 'ok' : 'bad') + '">' +
       (r.noText ? '· 파일 정보 없음' : '· 파일 정보 남음') + '</span>' +
