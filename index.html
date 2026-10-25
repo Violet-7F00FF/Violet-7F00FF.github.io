@@ -3111,6 +3111,22 @@ function loadJSON(path) {
     .catch(function () { return null; });
 }
 
+/* 글자를 HTML 에 넣을 때 글자로만 들어가게 (<, >, 따옴표 처리) */
+function txt(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/* CSS url('...') 안에 넣는 주소: 따옴표·괄호·역슬래시를 주소 표기로 바꿔 밖으로 못 새게 */
+function cssUrl(u) {
+  u = String(u == null ? '' : u).trim();
+  if (/^[a-z][a-z0-9+.-]*:/i.test(u) && !/^(https?:|data:image\/)/i.test(u)) return '';
+  return u.replace(/[\\'"()\s<>]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0');
+  });
+}
+
 /* 마크다운 → HTML. marked 가 없으면 최소한의 처리만 합니다 */
 function toHTML(md) {
   if (!md) return '';
@@ -3195,9 +3211,9 @@ function toHTML(md) {
       b.type = 'button';
       b.className = 'postbtn';
       b.innerHTML =
-        '<span class="postbtn__date">' + (p.date || '') + '</span>' +
-        '<span class="postbtn__title">' + (p.title || '(제목 없음)') + '</span>' +
-        (p.tag ? '<span class="postbtn__tag">' + p.tag + '</span>' : '');
+        '<span class="postbtn__date">' + txt(p.date || '') + '</span>' +
+        '<span class="postbtn__title">' + txt(p.title || '(제목 없음)') + '</span>' +
+        (p.tag ? '<span class="postbtn__tag">' + txt(p.tag) + '</span>' : '');
       b.addEventListener('click', function () { showPost(i); });
       li.appendChild(b);
       listEl.appendChild(li);
@@ -3577,7 +3593,7 @@ function toHTML(md) {
       var b = document.createElement('button');
       b.type = 'button';
       b.innerHTML = '<span class="plist__no">' + String(i + 1).padStart(2, '0') +
-        '</span>' + (t.title || '(제목 없음)');
+        '</span>' + txt(t.title || '(제목 없음)');
       b.addEventListener('click', function () { load(i, true); });
       li.appendChild(b);
       listEl.appendChild(li);
@@ -3855,7 +3871,7 @@ function toHTML(md) {
             var inner = '';
             if (it.image) {
               inner += '<span class="banner__pic" style="background-image:url(\'' +
-                esc(it.image) + '\')"></span>';
+                cssUrl(it.image) + '\')"></span>';
             }
             if (name || desc) {
               inner += '<span class="banner__bar' + (it.image ? '' : ' banner__bar--solid') + '">' +
