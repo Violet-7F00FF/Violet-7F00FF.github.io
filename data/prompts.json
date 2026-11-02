@@ -1382,6 +1382,66 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🐰코튼 버니",
+      "filename": "프롬프트",
+      "code": "full body, three-quarter view, slightly high angle, sitting pose, hugging a fluffy rabbit, surrounded by rabbits, Chinese-inspired fashion, oversized rabbit ears headpiece, floral hair ornaments, high-collar blouse, puff sleeves, detached sleeves, Chinese knot buttons, ribbon bows, cloud embroidery, voluminous puffed skirt, layered ruffles, scalloped hem, fluffy fabric, tassel ornaments, leg warmers, platform shoes, (색상1) and (색상2) colors, soft pastel colors, candy colors, limited color palette, low contrast, soft glow, bloom, glossy highlights, soft shading, fluffy texture, pastel sparkles, floating hearts, tiny stars, pastel fantasy room, pastel checkerboard floor, fluffy white rabbits, tiny rabbits sitting, pastel clouds, pastel flowers, decorative ribbons, bows, heart ornaments",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_392.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💢엄마, 안녕히 계세요. 불효자는 갑니다.",
+      "filename": "프롬프트",
+      "code": "1.5::chibi, chibi only, only chibi::, sitting, inside a canvas tote bag, hands gripping bag edge, nestled inside bag, cute pose, pouty expression, shirt, overalls, pastel colors, soft colors, cute color palette, warm neutral colors, soft shadows, clean lineart, rounded shapes, soft texture, adorable atmosphere, plain background,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_394.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💿Look at me!",
+      "filename": "프롬프트",
+      "code": "extreme close-up, 2::single eye, eye focus, partial face, eye inside the CD::, 1.5::CD center hole replacing pupil::, iris surrounding circular cutout, concentric disc grooves, transparent CD jewel case, scratched plastic, reflective surface, retro digital aesthetic, solid (색상) rectangular backing card, uniform (색상) margins surrounding CD,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_419.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🪟Miss you",
+      "filename": "프롬프트",
+      "code": "extreme close-up, 2::headshot, head and neck only::, vivid colors, high saturation, contrasting colors, warm skin tones, vintage editorial poster, retro print design, painted illustration, rough brushwork, screenprint texture, grainy texture, subtle halftone, graphic design, dense floral arrangement, hydrangeas, wildflowers, green leaves, flowers framing face, horizontal floral border, irregular torn paper edges, jagged paper opening, floral collage, torn paper collage, (색상) background, vertical poster layout, large negative space",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_420.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/안티테제8.webp",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
