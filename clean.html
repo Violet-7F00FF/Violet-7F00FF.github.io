@@ -485,10 +485,13 @@ p { margin: 0 0 12px; }
 
       <div class="row">
         <button type="button" class="btn btn--go" id="go" disabled>세탁하기</button>
-        <button type="button" class="btn" id="saveAll" disabled>전부 저장</button>
+        <button type="button" class="btn" id="saveAll" disabled>하나씩 모두 저장</button>
+        <button type="button" class="btn" id="saveZip" disabled>ZIP으로 저장</button>
         <button type="button" class="btn" id="clear" disabled>비우기</button>
       </div>
       <p class="hint" style="margin:8px 0 0">
+        <b>하나씩 모두 저장</b>은 그림마다 파일로 내려받아요. 처음 한 번 브라우저가 "여러 파일 다운로드"를 물으면 허용을 눌러주세요.<br>
+        <b>ZIP으로 저장</b>은 전부 압축 파일 하나로 받아요. 풀면 폴더 하나에 모두 들어 있어요.<br>
         세탁 설정은 이 브라우저에 저장돼서 다음에 와도 그대로예요.
         <button type="button" class="btn btn--sm" id="optReset" style="margin-left:6px">기본값으로</button>
       </p>
@@ -603,6 +606,7 @@ document.addEventListener('keydown', function (e) {
   var fileEl = document.getElementById('file');
   var goEl = document.getElementById('go');
   var saveAllEl = document.getElementById('saveAll');
+  var saveZipEl = document.getElementById('saveZip');
   var clearEl = document.getElementById('clear');
   var listEl = document.getElementById('list');
   var resultWin = document.getElementById('resultWin');
@@ -811,6 +815,7 @@ document.addEventListener('keydown', function (e) {
     });
     resultWin.hidden = !done.length;
     saveAllEl.disabled = !done.length;
+    saveZipEl.disabled = !done.length;
     clearEl.disabled = !done.length;
   }
 
@@ -850,9 +855,117 @@ document.addEventListener('keydown', function (e) {
     });
   });
 
+  /* 같은 이름이 여러 개면 "이름 (2).webp" 처럼 바꿔줌 */
+  function uniqueNames(list) {
+    var seen = {};
+    return list.map(function (r) {
+      var name = r.name, m = name.match(/^(.*?)(\.[^.]+)?$/), base = m[1], ext = m[2] || '', n = 1;
+      while (seen[name.toLowerCase()]) { n += 1; name = base + ' (' + n + ')' + ext; }
+      seen[name.toLowerCase()] = 1;
+      return { name: name, blob: r.blob };
+    });
+  }
+
+  function wait(ms) { return new Promise(function (ok) { setTimeout(ok, ms); }); }
+
   saveAllEl.addEventListener('click', function () {
-    done.forEach(function (r, i) {
-      setTimeout(function () { save(r); }, i * 350);
+    if (!done.length) return;
+    var files = uniqueNames(done), i = 0, label = saveAllEl.textContent;
+    saveAllEl.disabled = true;
+    (function next() {
+      if (i >= files.length) {
+        saveAllEl.disabled = false;
+        saveAllEl.textContent = label;
+        showDone('저장 끝!', '<b>' + files.length + '장</b>을 하나씩 내려받았어요.<br>' +
+          '빠진 게 있으면 브라우저 위쪽에서 <b>여러 파일 다운로드 허용</b>을 눌러주세요.');
+        return;
+      }
+      saveAllEl.textContent = '저장 중 ' + (i + 1) + '/' + files.length;
+      save(files[i]);
+      i += 1;
+      wait(450).then(next);   // 너무 빨리 받으면 브라우저가 막아서 조금씩 쉼
+    }());
+  });
+
+  /* ---------- ZIP 만들기 (외부 도구 없이, 그림은 이미 압축돼 있어 그대로 담음) ---------- */
+  var CRC_T = (function () {
+    var t = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+      t[n] = c >>> 0;
+    }
+    return t;
+  }());
+  function crc32(u8) {
+    var c = 0xFFFFFFFF;
+    for (var i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  function makeZip(files) {           // files: [{ name, data: Uint8Array }]
+    var enc = new TextEncoder(), parts = [], central = [], offset = 0;
+    var d = new Date();
+    var dosTime = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+    var dosDate = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+
+    files.forEach(function (f) {
+      var name = enc.encode(f.name), crc = crc32(f.data), size = f.data.length;
+      var h = new DataView(new ArrayBuffer(30));
+      h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true);
+      h.setUint16(6, 0x0800, true);      // 이름이 UTF-8 (한글 이름이 안 깨지게)
+      h.setUint16(8, 0, true);           // 압축 안 함 (그대로 담기)
+      h.setUint16(10, dosTime, true); h.setUint16(12, dosDate, true);
+      h.setUint32(14, crc, true); h.setUint32(18, size, true); h.setUint32(22, size, true);
+      h.setUint16(26, name.length, true); h.setUint16(28, 0, true);
+      parts.push(new Uint8Array(h.buffer), name, f.data);
+
+      var c = new DataView(new ArrayBuffer(46));
+      c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true);
+      c.setUint16(8, 0x0800, true); c.setUint16(10, 0, true);
+      c.setUint16(12, dosTime, true); c.setUint16(14, dosDate, true);
+      c.setUint32(16, crc, true); c.setUint32(20, size, true); c.setUint32(24, size, true);
+      c.setUint16(28, name.length, true); c.setUint16(30, 0, true); c.setUint16(32, 0, true);
+      c.setUint16(34, 0, true); c.setUint16(36, 0, true); c.setUint32(38, 0, true);
+      c.setUint32(42, offset, true);
+      central.push(new Uint8Array(c.buffer), name);
+      offset += 30 + name.length + size;
+    });
+
+    var cSize = central.reduce(function (a, b) { return a + b.length; }, 0);
+    var e = new DataView(new ArrayBuffer(22));
+    e.setUint32(0, 0x06054b50, true);
+    e.setUint16(8, files.length, true); e.setUint16(10, files.length, true);
+    e.setUint32(12, cSize, true); e.setUint32(16, offset, true);
+    return new Blob(parts.concat(central, [new Uint8Array(e.buffer)]), { type: 'application/zip' });
+  }
+
+  function zipName() {
+    var d = new Date(), z = function (n) { return (n < 10 ? '0' : '') + n; };
+    var pre = document.getElementById('optRename').checked
+      ? (safeName(document.getElementById('prefix').value) || 'img') : '세탁';
+    return pre + '-' + d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) +
+      '-' + z(d.getHours()) + z(d.getMinutes()) + '.zip';
+  }
+
+  saveZipEl.addEventListener('click', function () {
+    if (!done.length) return;
+    var label = saveZipEl.textContent;
+    saveZipEl.disabled = true;
+    saveZipEl.textContent = '묶는 중...';
+    var files = uniqueNames(done);
+    Promise.all(files.map(function (f) {
+      return f.blob.arrayBuffer().then(function (buf) { return { name: f.name, data: new Uint8Array(buf) }; });
+    })).then(function (list) {
+      var zip = makeZip(list), name = zipName();
+      save({ name: name, blob: zip });
+      showDone('압축 끝!', '<b>' + list.length + '장</b>을 <b>' + escName(name) + '</b> 하나로 묶었어요.<br>' +
+        '압축을 풀면 폴더 하나에 모두 들어 있어요.');
+    }).catch(function () {
+      alert('압축 파일을 만들지 못했어요. 하나씩 저장을 써 주세요.');
+    }).then(function () {
+      saveZipEl.disabled = false;
+      saveZipEl.textContent = label;
     });
   });
 
@@ -863,6 +976,7 @@ document.addEventListener('keydown', function (e) {
     listEl.innerHTML = '';
     resultWin.hidden = true;
     saveAllEl.disabled = true;
+    saveZipEl.disabled = true;
     clearEl.disabled = true;
     goEl.disabled = true;
     drop.querySelector('b').textContent = '여기에 그림을 끌어다 놓으세요';
