@@ -500,6 +500,20 @@
       "code": "ooc: 이전 롤플레잉을 중단하고, 롤플레잉을 시작한다. 어느 날 우당탕탕 방을 뛰어다니는 pc. 자신이 제일 좋아하는 원피스(또는 바지)가 사라졌다며 울상이다. 그 옷은 조금 길어 수선을 맡겨둔 상태고, pc도 그걸 알고 있다. npc는 pc를 달래지만, pc는 그걸 입고 npc와 데이트를 하고 싶다며 고집을 부린다. npc는 어떻게 반응하는지 행동, 생각, 감정 등을 자세하고 상세하게 4000자 이상 서술한다."
     },
     {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "🕶️✨너를 바라보는 시선",
+      "filename": "ooc",
+      "code": "ooc: 이전 롤플레잉을 중단하고, 새로운 시점에서 에피소드를 진행한다. npc의 pc 인지 필터를 확인한다. pc는 (특징 서술: ex. 키 167cm 성인 여성이며, 미친 살쾡이라는 별명이 있다.) 그러나 npc는 pc를 어떻게 인식하고 있는가? (ex. 있는 그대로 인식함, 실제보다 극도로 귀엽게 보임 등) 이른바 인지 필터란 상대를 바라보는 일종의 콩깍지와 같은 것으로, npc가 pc를 어떻게 인식하고 있는지 npc의 시점에서 4000자 이상 서술한다."
+    },
+    {
+      "type": "code",
+      "tag": "ooc",
+      "heading": "📊연애 온도 진단 보고서",
+      "filename": "ooc",
+      "code": "💜pc와 npc, 두 사람의 각각 연애 온도를 진단해주는 보고서를 만드는 ooc입니다.\n\n💿ooc 사용방법\nStep 1. 사이트를 통해 ooc를 복사한 후, AI 채팅에 보낸다.\nStep 2. 전달받은 답변을 답변 칸에 넣어 확인한다.\n\n🔗https://violet-7f00ff.github.io/Cookie-B-A-ooc1/"
+    },
+    {
       "type": "promptcard",
       "tag": "프롬프트",
       "heading": "🍦일단 어린이 손에 아이스크림부터 쥐어주죠 → 녹앗는데요??",
@@ -1439,6 +1453,38 @@
         },
         {
           "image": "/media/안티테제8.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "💘개최악누나는 동생을 향해 사랑을 한다.",
+      "filename": "프롬프트",
+      "code": "2 people, couple, asymmetric composition, diagonal split panel layout, pink and red and pastel colors, romantic comic aesthetic, comic impact marks, halftone texture, decorative panel borders,\n\ndiagonal left panel: A, close-up, large portrait, dominant composition, heart hands, blushing, affectionate expression, 2::hearts shooting out::, 1.5::hearts flying toward right::, heart burst background, scattered hearts, pink glow,\n\ndiagonal right panel: B, smaller upper body figure, disgusted expression, annoyed expression, sighing, leaning away, crossed arms, recoiling, hearts bouncing off, rejected hearts, gloomy background,\nmuted colors,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/εγώ2.webp",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "promptcard",
+      "tag": "프롬프트",
+      "heading": "🍫🍭해피 ㅃHㅃH로 데이!",
+      "filename": "프롬프트",
+      "code": "upper body, resting chin on both hands, (색상1) plaid jacket, white blouse, ribbon bow, frilled collar, soft glow, glossy highlights, paper grain, halftone texture, pocky sticks, biscuit sticks, striped wrappers, floating pocky sticks, heart ornaments, ribbon bows, gingham pattern, large heart-shaped frame, decorative borders, flowing (색상2) ribbons, vintage confectionery advertisement, Pocky-themed poster, (색상3) background,",
+      "desc": "",
+      "images": [
+        {
+          "image": "/media/베타_426.webp",
+          "caption": ""
+        },
+        {
+          "image": "/media/알파_194.webp",
           "caption": ""
         }
       ]
